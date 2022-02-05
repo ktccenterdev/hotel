@@ -1,0 +1,205 @@
+<div class="br-mainpanel">
+
+	<div class="br-pagetitle">
+		<i class="icon fa fa-reply"></i>
+		<div>
+			<h4>GESTION DES SORTIS EN STOCK</h4>
+			<p style="color:blue;" class="mg-b-0">----</p>
+		</div>
+	</div><!-- d-flex -->
+	<div class="br-pagebody">
+		<div class="br-section-wrapper">
+		<h6 class="br-section-label">sorti du stock</h6>
+			
+			<div x-data="{ ajouter : false }">
+				<div class="d-flex justify-content-end" style="padding:10px;">
+					{# <button onclick="show()" class="btn btn-primary" style="width: 12%;"><i class="fas fa-plus"></i> Ajouter</button> #}
+					<button class="btn btn-primary" ><a href="{{path('index-Rsortis')}}" style="padding: 0px !important; color:white;" class=" nav-link ajax-link" data-toggle="ajax" data-target="monContent"><i class="fa fa-plus" aria-hidden="true"></i>Ajouter</a></button>
+					<button class="btn btn-secondary" style="margin-left:5px;"><a style="color:white;" href="{{path('print-sorti-stock')}}" target="_blank"><i class="fa fa-print"></i> Imprimer</a></button>
+				</div>
+				<div id="divError" style="display:none" class="alert alert-danger alert-dismissible fade show" role="alert">
+					<strong>Erreur:</strong>
+					<span class="messageError"></span>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="formelement" x-show="ajouter" style="padding:10px;">
+					<div class="row d-flex justify-content-center">
+						<div class="col-lg-12 col-xlg-12 col-md-12">
+							<div class="row mg-t-80">
+								<div class="col">
+									<form id="form-send" class="js-form-send {{app.user.hasAccess('fournisseur-add')}}" action="{{path('fournisseur-add')}}"
+										data-toggle="ajax" data-target="monContent" method="POST">
+										<div class="form-layout form-layout-4">
+											<h6 class="br-section-label">Effectuez une sortie</h6>
+											<div class="row">
+												<div class="col-lg-4 col-xlg-4 col-md-8">
+													<label class="col-sm-12 form-control-label">Produit: <span class="tx-danger">*</span></label>
+													<div class="col-sm-12 mg-t-12 mg-sm-t-0">
+														<select class="form-control" name="produit">
+															<option>Choisisez le produit</option>
+															{% for produit in produits %}
+																<option value="{{produit.id}}">{{produit.nom}}</option>
+															{% endfor %}
+														</select>
+                                                    </div>
+												</div>
+												<div class="col-lg-2 col-xlg-2 col-md-4">
+													<label class="col-sm-12 form-control-label">Quantité: <span class="tx-danger">*</span></label>
+													<div class="col-sm-12 mg-t-10 mg-sm-t-0">
+														<input type="number" class="form-control" name="quantite" min="1" value="">
+													</div>
+												</div>
+												<div class="col-lg-6 col-xlg-6 col-md-12">
+													<div class="table-wrapper responsiveelement">
+														<table class="datatable table display responsive nowrap">
+															<thead>
+															<tr>	        
+																<th class="wd-15p">ID</th>
+																<th class="wd-40p">Produit</th>
+																<th class="wd-20p">Quantité</th>
+																<th class="wd-25p">Retirer</th>
+																<th class="wd-25p">Action</th>
+															</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td>1</td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td>
+																		<button class="btn btn-pink active"><i class="fa fa-trash" aria-hidden="true"></i></button>	
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+													</div><!-- table-wrapper -->
+												</div>
+											</div><!-- row --><br>
+											<div class="row">
+												<div class="col-lg-4 col-xlg-4 col-md-12">
+													<a onclick="" style="margin-top: 30px; color:white;" class="btn btn-primary">
+														<div class="ht-40 justify-content-between">
+															<span class="pd-x-15">Ajouter</span>
+															<span class="icon wd-40"><i id="" class="fas fa-plus"></i></span>
+														</div>
+													</a>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-12 col-xlg-12 col-md-12">
+													<label class="col-sm-12 form-control-label">Commentaire<span class="tx-danger">*</span></label>
+													<div class="col-sm-12 mg-t-12 mg-sm-t-0">
+														<textarea rows="3" class="form-control mg-t-20" name="description" placeholder="Description"></textarea>
+													</div>
+												</div>
+											</div><!-- row -->
+
+
+											<div class="form-layout-footer mg-t-30" align="right">
+												<button type="submit" class="btn btn-info">Valider</button>
+												<button class="btn btn-secondary" onclick="hide()">Annuler</button>
+											</div><!-- form-layout-footer -->
+										</div><!-- form-layout -->
+									</form>
+								</div><!-- col-6 -->
+							</div><!-- row -->
+						</div>
+					</div>
+				</div>
+				<div> 
+					<div class="table-wrapper responsiveelement">
+						<table class="datatable table display nowrap">
+							<thead>
+							<tr>	
+							
+								<th class="wd-15p">ID</th>
+								<th class="wd-25p">Produit</th>
+								<th class="wd-25p">Quantité</th>
+								<th class="wd-15p">Départ</th>
+								<th class="wd-15p">Destination</th>
+								<th class="wd-15p">Type</th>
+								<th class="wd-25p">ACTION</th>
+							</tr>
+							
+							</thead>
+							<tbody>
+								{% if ( app.user.isadmin) %}
+									{% for sortir in sortirs %}     
+										<tr>
+											<td>{{loop.index}}</td>
+											<td>{{sortir.produit.nom}}</td>
+											<td>{{sortir.qt}}</td>
+											<td>{{ sortir.sortistock.magdepart.nom}}</td>
+											{% if (sortir.sortistock.magdest == null) %}
+												<td>{{ sortir.sortistock.responsable.nom}}</td>
+											{% else %}
+												<td>{{ sortir.sortistock.magdest.nom}}</td>
+											{% endif %}
+											<td>{{ sortir.sortistock.type}}</td>
+											<td>			
+												<button class="btn btn-teal active" ><a href="" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
+												<button class="btn btn-teal active" ><a href="" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
+												<form style="display: contents;" data-toggle="ajax" data-target="monContent" class="js-form-send {{app.user.hasAccess('')}}" action="" method="DELETE">
+													<button class="btn btn-pink active"><i class="fa fa-trash" aria-hidden="true"></i></button>	
+												</form>
+											</td>
+										</tr>
+									{% endfor %}
+								{% else %}					
+									{% for sortir in sortirs %}
+										{% if (sortir.sortistock.magdepart.antene.id == app.user.antene.id) %}      
+											<tr>
+												<td>{{loop.index}}</td>
+												<td>{{sortir.produit.nom}}</td>
+												<td>{{sortir.qt}}</td>
+												<td>{{ sortir.sortistock.magdepart.nom}}</td>
+												{% if (sortir.sortistock.magdest == null) %}
+													<td>{{ sortir.sortistock.responsable.nom}}</td>
+												{% else %}
+													<td>{{ sortir.sortistock.magdest.nom}}</td>
+												{% endif %}
+												<td>{{ sortir.sortistock.type}}</td>
+												<td>				
+													<button class="btn btn-teal active" ><a href="" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
+													<button class="btn btn-teal active" ><a href="" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
+													<form style="display: contents;" data-toggle="ajax" data-target="monContent" class="js-form-send {{app.user.hasAccess('')}}" action="" method="DELETE">
+														<button class="btn btn-pink active"><i class="fa fa-trash" aria-hidden="true"></i></button>	
+													</form>
+												</td>
+											</tr>
+										{% endif %}
+									{% endfor %}
+								{% endif %}
+						
+							</tbody>
+						</table>
+					</div><!-- table-wrapper -->
+				</div><!-- br-section-wrapper -->
+	</div><!-- br-pagebody -->
+</div><!-- br-mainpanel -->
+
+
+
+
+
+
+<script>
+	document.title = "Sorties en stock";
+</script>
+
+    
+<script>
+      $(".formelement").hide();
+    
+    </script>
+    <script>
+      function show() {
+        $(".formelement").show();
+      }
+      function hide() {
+        $(".formelement").hide();
+      }
+    </script>
+    <script src="{{asset('js/hotelktc.js')}}"></script>
+  

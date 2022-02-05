@@ -1,0 +1,177 @@
+
+
+   
+
+
+ <style>
+		#saveForm{
+    display: none;
+    color:#ff0000;
+        }
+p{
+    display:none;
+    }
+div{
+    cursor:pointer;
+    }
+     
+	</style>
+
+
+
+<div class="br-mainpanel">
+
+      <div class="br-pagetitle">
+        <i class="fas fa-signal"></i>
+        <div>
+          <h4>Parametres</h4>
+          <p style="color:blue;" class="mg-b-0">----</p>
+        </div>
+      </div><!-- d-flex -->
+
+
+
+
+
+
+
+<form>
+<div class="br-pagebody">
+        <div class="br-section-wrapper">
+          <h6 class="br-section-label" align="center">PARAMETRES DU SYSTEME</h6>
+          
+								<div class="d-flex justify-content-end" style="padding:10px;">
+
+							 	</div>
+
+        <div class=""  style="padding:10px;">
+
+          <div class="form-layout form-layout-1">
+            <div class="row mg-b-25">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label">Nom: <span class="tx-danger">*</span></label>
+                  <input class="form-control" id="nom" type="text"   placeholder="nom" disabled>
+                </div>
+              </div><!-- col-4 -->
+             
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label">Description: <span class="tx-danger">*</span></label>
+                  <input class="form-control" id="des" type="text"   placeholder="description" disabled>
+                </div>
+              </div><!-- col-4 -->
+               <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label">site: <span class="tx-danger">*</span></label>
+                  <input class="form-control"  type="text"   placeholder="site" disabled>
+                </div>
+              </div><!-- col-4 -->
+              
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label">Email: <span class="tx-danger">*</span></label>
+                  <input class="form-control"  type="email"  placeholder="email" disabled>
+                </div>
+              </div><!-- col-4 -->
+             
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label">Boite Postal: <span class="tx-danger">*</span></label>
+                  <input class="form-control" type="text"   placeholder="Boite Postal"  disabled>
+                </div>
+                 </div>
+                 <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label">pourcentageReservation : <span class="tx-danger">*</span></label>
+                  <input class="form-control"  type="text"   placeholder="preservation" disabled>
+                </div>
+              </div><!-- col-4 -->
+
+              <div class="col-lg-6">
+                <div class="form-group">
+                	<label class="col-sm-4 form-control-label">profil: <span class="tx-danger">*</span></label>
+                          	<input type="file"  id="file-1"
+																	class="inputfile" data-caption="files selected" accept=".png, jpg,jpeg" disabled>
+																<label for="file-1" class="if-outline if-outline-info">
+																	<i class="icon ion-ios-upload-outline tx-24"></i>
+																	<span>Changer le logo</span>
+                                  </label>
+                </div>
+              </div><!-- col-4 -->
+             
+            </div><!-- row -->
+            <br>
+             <div class="form-layout-footer mg-t-30">
+							                                     
+					
+            	   <div id="saveForm">Valider</div>
+
+                  <div id="editForm">Modifier</div>
+
+               
+              </div><!-- form-layout-footer -->
+          </div><!-- form-layout -->
+</form>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+
+$("#editForm").click(function(){
+
+    $("p").show(0);
+
+    $("#saveForm").show(0);
+
+    $("form input").prop('disabled', false);
+
+    $(this).hide(0);
+
+});
+
+$("#saveForm").click(function(){
+
+    $("p").hide(0);
+
+    $("#editForm").show(0);
+
+    $("form input").prop('disabled', true);
+
+    $(this).hide(0);
+
+});
+
+</script>
+          
+
+
+ 
+    <script>
+        $('.datatable').DataTable({
+        responsive: true,
+        language: {
+            searchPlaceholder: 'Recherche...',
+            sSearch: '',
+            lengthMenu: '_MENU_ items/page',
+        }
+        });
+    </script>
+    <script>
+    $(document).ready(function () {
+        $(".formelement").hide();
+        
+    });
+    </script>
+    <script>
+      function show() {
+        $(".formelement").show();
+      }
+      function hide() {
+        $(".formelement").hide();
+      }
+    </script>
+    		
+

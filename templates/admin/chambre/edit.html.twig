@@ -1,0 +1,148 @@
+
+<div class="br-pagetitle">
+    <i class="icon ion-ios-home-outline"></i>
+    <div>
+    <h4>Modifier les Informations de la chambre</h4>
+    </div>
+</div>
+	<a href="{{path('index-chambre')}}" id="btn-nouveau"  data-toggle="ajax" data-target="monContent"><i class="fa fa-arrow-left {{app.user.hasAccess('index-chambre')}}">Liste</i></a>
+    <form id="form-send"  action="{{path('edit-rchambre')}}" class="js-form-sendavecfile sauvegardededonne  float-left " method="POST" data-toggle="ajax" data-target="monContent" enctype="multipart/form-data">
+        <div class="br-pagebody">
+            <div class="row row-sm">
+                <div class="col-sm-3 col-xl-4">
+                    <div class="card bd-0">
+                        <div style="color:white;" class="card-header bg-primary">
+                            PHOTO DE LA CHAMBRE: {{chambre.numero}}
+                            
+                        </div><!-- card-header -->
+                        <div class="card-body bd bd-t-0 rounded-bottom">
+                            <div id="carousel1" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner" role="listbox">
+                                        <div class="carousel-item active">
+                                            <img style="height: 200px;" src="photo/Chambre/{{chambre.photo1}}" ></img>
+                                        </div>
+                                        <div class="carousel-item ">
+                                            <img style="height: 200px;" src="photo/Chambre/{{chambre.photo2}}" ></img>
+                                        </div>
+                                        <div class="carousel-item ">
+                                            <img style="height: 200px;" src="photo/Chambre/{{chambre.photo3}}" ></img>
+                                        </div>
+                                        <div class="carousel-item ">
+                                            <img style="height: 200px;" src="photo/Chambre/{{chambre.photo4}}" ></img>
+                                        </div>
+                                    <a style="color: red; background: #ded6d6; width: 40px;" class="carousel-control-prev" href="#carousel1" role="button" data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a style="color: red; background: #ded6d6; width: 40px;" class="carousel-control-next" href="#carousel1" role="button" data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div><!-- card-body -->
+                        <div "col-sm-3 col-xl-4">
+                        <h4>choisissez les photos a remplacer </h4>
+                            <input type="file" name="file1"  accept=".png, jpg,jpeg">
+                            <input type="file" name="file2"  accept=".png, jpg,jpeg">
+                            <input type="file" name="file3"  accept=".png, jpg,jpeg">
+                            <input type="file" name="file4"  accept=".png, jpg,jpeg">
+                        </div>
+                    </div><!-- card -->
+                </div>
+                
+                <div class="col-sm-6 col-xl-8">
+                    <div class="row row-sm">
+                        <div class="col-sm-12 col-xl-12">
+                            <div class="card bd-0">
+                                <div  style="color:white;" class="card-header bg-primary">
+                                    INFORMATION SUR LA CHAMBRE : {{chambre.numero}}
+                                </div><!-- card-header -->
+                                    <div class="card-body">
+                                        <div class="row row-xs">
+                                            <div class="col-lg-3">
+                                                <label for="">Type de chambre: 
+                                                </label>
+                                                <input class="form-control" id="id" type="hidden"  name="id"  value="{{chambre.id}}">
+                                                <input type="text" id="nom" class="form-control modif" name="nom" value="{{chambre.type.nom}}" disabled>
+                                               
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <label for="">Entene:
+                                                </label>
+                                                <input type="text" id="prenom" name="prenom" class="form-control modif" value=" {{chambre.entene.nom}}" disabled>
+                                            </div>
+                                        {# </div>
+
+                                        <div class="row row-xs  mg-t-20"> #}
+                                            <div class="col-lg-3">
+                                                <label for="">Numero: 
+                                                </label>
+                                                <input type="text" id="telephone1" class="form-control modif" name="numero" value="{{chambre.numero}}" >
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <label for="">Surface: 
+                                                </label>
+                                                <input type="text" id="telephone1" class="form-control modif" name="surface" value="{{chambre.surface}}" >
+
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="row row-xs  mg-t-20">
+                                            <div class="col-lg-3">
+                                                <label for="">Nombres d'enfant: 
+                                                </label>
+                                                <input type="text" id="telephone2" name="nbenafant" class="form-control modif" value="{{chambre.nbenafant}}" >
+                                            </div>
+                                        {# </div>
+
+                                        <div class="row row-xs  mg-t-20"> #}
+                                            <div class="col-lg-3">
+                                                <label for="">Nombres d'adultes: 
+                                                </label>
+                                                <input type="text" id="datenaiss" class="form-control modif datepicker" name="nbaldulte" value="{{chambre.nbaldulte}}"  style="height: 40px;" >
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <label for="">Nombres de lits: 
+                                                </label>
+                                                <input type="text" id="lieunaiss" name="nblit" class="form-control modif" value="{{chambre.nblit}}" >
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <label for="">Entene: 
+                                                </label>
+                                                {# <input type="text" id="lieunaiss" name="nblit" class="form-control modif" value="" > #}
+                                                <select class="form-control" name="entene_id" required>
+                                                    {# <option label="--choisir--">Choisit une Antenne</option> #}
+                                                    <option value="" disabled selected>Choisit une Antenne</option>
+                                                        {% for entene in entenes %}
+                                                        <option value="{{entene.id}}">{{entene.nom}}</option>
+                                                        {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <label for="">Descriptions: 
+                                                </label>
+                                                <textarea type="text" id="lieunaiss" name="description" class="form-control modif" value="" >{{chambre.description}}</textarea>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                            </div><!-- card --><br>
+                        </div>
+                        <div class="col-sm-12 col-xl-12">
+                            <button type="submit" class="btn btn-primary">Modifier</button>
+                            
+                        </div>
+                    </div>
+                    
+
+                </div>
+            </div>
+
+                
+        </div>
+    </form>
+
+ </div>
+  

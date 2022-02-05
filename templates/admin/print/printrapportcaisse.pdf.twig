@@ -1,0 +1,17 @@
+{% extends 'admin/print/baseprint.pdf.twig' %}
+
+{% block reportbody %}
+<h2 class="titre">ANTENE {{antene.nom}}</h2>
+<br>
+<h3>ARRETE CONTRADICTOIRE DE CAISE DU  {{ 'now' | date('d-m-Y') }}</h3>
+
+<h3>
+Etabli par le service comptable en accord avec les opérations réalisées ; 
+approuvé par les  chefs d'antennes et les chefs d'hébergement pour authentifier et rendra sincère la situation des caisse 
+</h3><br>
+
+<h2>SIESTES =   {{totalsieste}}   FCFA</h2>
+<h2>NUITEES =   {{totalnuite}}    FCFA</h2>
+<h2>TOTAL =   {{totalnuite + totalsieste}}    FCFA</h2>
+
+{% endblock %}

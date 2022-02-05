@@ -1,0 +1,144 @@
+<div class="br-mainpanel">
+
+        <div class="br-pagetitle">
+          <i class="icon ionicons ion-android-cart"></i>
+          <div>
+            <h4>Magasin</h4>
+            <p style="color:blue;" class="mg-b-0">----</p>
+          </div>
+        </div><!-- d-flex -->
+
+
+<div class="br-pagebody">
+        <div class="br-section-wrapper">
+          <h6 class="br-section-label">Liste des Magasins</h6>
+          	 
+             <div    x-data="{ ajouter : false }">
+                <div class="d-flex justify-content-end" style="padding:10px;">
+                    <button onclick="show()" class="btn btn-primary" style="width: 12%;"><i class="fas fa-plus"></i> Ajouter</button>
+                    <button class="btn btn-secondary" style="margin-left:5px;"><a style="color:white;" href="{{path('print-magasin')}}" target="_blank"><i class="fa fa-print"></i> Imprimer</a></button>
+				</div>
+                <div class="formelement" x-show="ajouter" style="padding:10px;">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-lg-12 col-xlg-12 col-md-12">
+                            <div class="row mg-t-80">
+                                <div class="col">
+                                    <form id="form-send" class="js-form-sendavecfile sauvegardededonne" 
+                                    action="{{path('magasin-add')}}" method="POST" data-toggle="ajax" data-target="monContent">        
+                                        <div class="form-layout form-layout-4">
+                                            <h6 class="br-section-label">Ajouter un Magasin</h6>
+                                            <div class="row">
+                                                <div class="col-lg-4 col-xlg-4 col-md-12">
+                                                    <label class="col-sm-12 form-control-label">Nom: <span class="tx-danger">*</span></label>
+                                                    <div class="col-sm-12 mg-t-10 mg-sm-t-0">
+                                                        <input type="text" class="form-control" placeholder="Nom du magasin" name="nom">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-xlg-4 col-md-12">
+                                                    <label class="col-sm-12 form-control-label">Type: <span class="tx-danger">*</span></label>
+                                                    <div class="col-sm-12 mg-t-12 mg-sm-t-0">
+                                                    <select class="form-control" name="type">
+                                                        <option>Choisis un type</option>
+                                                        {% set types = ["Général", "Interne"] %}
+                                                        {% for type in types %}
+                                                            <option value="{{type}}">{{type}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-xlg-4 col-md-12">
+                                                    <label class="col-sm-12 form-control-label">Antenne: <span class="tx-danger">*</span></label>
+                                                    <div class="col-sm-12 mg-t-12 mg-sm-t-0">
+                                                        <select class="form-control" name="entene_id">
+                                                            <option>Choisit une Antenne</option>
+                                                            {% for entene in entene %}
+                                                                <option value="{{entene.id}}">{{entene.nom}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div><!-- row --><br>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-xlg-12 col-md-12">
+                                                    <label class="col-sm-12 form-control-label">Description: <span class="tx-danger">*</span></label>
+                                                    <div class="col-sm-12 mg-t-10 mg-sm-t-0">
+                                                        <textarea rows="3" class="form-control mg-t-20" name="description" placeholder="Description"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div><!-- row -->
+                                            <div class="form-layout-footer mg-t-30">
+                                                <button type="submit" class="btn btn-info">Valider</button>
+                                                <button class="btn btn-secondary" onclick="hide()">Annuler</button>
+                                            </div><!-- form-layout-footer -->
+                                        </div><!-- form-layout -->
+                                    </form>
+                                </div><!-- col-6 -->
+                            </div><!-- row -->
+                        </div>
+                    </div>
+                </div>
+            <div> 
+         
+            <div class="table-wrapper responsiveelement">
+                  <table class="datatable table display responsive nowrap">
+                    <thead>
+                      <tr>	        
+                        <th class="wd-3p">ID</th>
+                        <th class="wd-15p">Nom</th>
+                        <th class="wd-10p">Antenne</th>
+                        <th class="wd-10p">Type</th>
+                        <th class="wd-25p">Description</th>
+                        <th class="wd-25p">ACTION</th>
+                      </tr>
+                    </thead>
+                    <tbody>  
+                    {% for magasin in magasins %}
+                      <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ magasin.nom }}</td>
+                        <td>{{ magasin.antene.nom }}</td>
+                        <td>{{ magasin.type }}</td>
+                        <td>{{ magasin.description |slice(0, 50) ~ '...' }}</td>
+                        <td>
+                            <button class="btn btn-teal active" ><a data-toggle="ajax" data-target="monContent" href="#" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
+                            <button class="btn btn-teal active" ><a data-toggle="ajax" data-target="monContent" href="#" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
+                            {% if magasin.defaut == false %}
+                                <button class="btn btn-pink active"><a data-toggle="ajax" data-target="monContent" href="#" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-trash" aria-hidden="true" ></i></a></button> 
+                            {% endif %}
+                            
+                            {% if magasin.type=="Général" %}
+                                <button class="btn btn-warning active" ><a data-toggle="ajax" data-target="monContent" href="{{path('rupturedestock', {idmag: magasin.id,departforsortie: magasin.id,magdepart: null,magdest: null})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-battery-half" aria-hidden="true"></i></a></button>
+                            {% else %}
+                                <button class="btn btn-warning active" ><a data-toggle="ajax" data-target="monContent" href="{{path('rupturedestock', {idmag: magasin.id,departforsortie: magasin.id,magdepart: 1,magdest: magasin.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-battery-half" aria-hidden="true"></i></a></button>
+                            {% endif %}
+                                               
+                                    
+                        </td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div><!-- table-wrapper -->
+        </div><!-- br-section-wrapper -->
+      </div><!-- br-pagebody -->
+    </div><!-- br-mainpanel -->
+
+
+
+<script>
+$(".formelement").hide();
+$(document).ready(function () {
+	
+	
+});
+</script>
+<script>
+	function show() {
+	$(".formelement").show();
+	}
+	function hide() {
+	$(".formelement").hide();
+	}
+</script>
+    
+<script src="{{asset('js/hotelktc.js')}}"></script>

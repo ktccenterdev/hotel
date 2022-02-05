@@ -1,0 +1,25 @@
+{% extends 'admin/print/baseprint.pdf.twig' %}
+
+{% block reportbody %}
+<h2 class="titre">LISTE DES CHAMBRES</h2>
+<table style="width: 100%;" class="table"  border="1" cellspacing="1" cellpadding="4">
+    <tr class="table-header">
+        <th width="5%">#</th>
+        <th width="25%">Type</th>
+        <th width="20%">Numéro</th>
+        <th width="25%">Surface</th>
+        <th width="15%">Nbre lits</th>
+    </tr>
+    <tbody>
+        {% for item in chambres %}
+         <tr style="background-color: {{loop.index % 2 == 0 ? '' : '#f0f4f5'}}">
+            <td align="center">{{ loop.index }}</td>
+            <td>{{ item.type.nom}}</td>
+            <td>{{ item.numero}}</td>
+            <td>{{item.surface}}</td>
+            <td>{{item.nblit}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

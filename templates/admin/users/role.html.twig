@@ -1,0 +1,103 @@
+    <div class="br-pagetitle">
+      <i class="icon ionicons ion-android-checkmark-circle"></i>
+      <div>
+        <h4>Roles</h4>
+        <p style="color:blue;" class="mg-b-0">----</p>
+      </div>
+    </div><!-- d-flex -->
+
+<div class="br-section-wrapper">
+  <div class="container">
+  <div class="row">
+    <div class="col-sm"><h6 class="br-section-label">Liste des Roles</h6>
+      <div    x-data="{ ajouter : false }">
+        <div class="d-flex justify-content-end" style="padding:10px;">
+          <button onclick="show()"  class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter</button>
+        </div>
+        <div class="formelement" x-show="ajouter" style="padding:10px;">
+          <div class="row d-flex justify-content-center">
+            <div class="col-lg-7 col-xlg-8 col-md-12">
+              <div class="row mg-t-80">
+                <div class="col">
+                  <form id="form-send" class="js-form-send" action="{{path('role-add')}}" method="POST"
+                    data-toggle="ajax" data-target="monContent">
+                    <div class="form-layout form-layout-4">
+                      <h6 class="br-section-label">Ajouter un Role</h6>
+                      <div class="row">
+                        <label class="col-sm-4 form-control-label">Nom: <span class="tx-danger">*</span></label>
+                        <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                          <input type="text" class="form-control" placeholder="Nom du role" name="nom">
+                        </div>
+                      </div><!-- row -->
+                      <br>
+                      <div class="row">
+                        <label class="col-sm-4 form-control-label">Description: <span class="tx-danger">*</span></label>
+                        <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                          <input type="text" class="form-control" placeholder="Nom du role" name="description">
+                        </div>
+                      </div><!-- row -->
+
+                      <div class="form-layout-footer mg-t-30">
+                        <button type="submit" id="btn-save-nouveau" class="btn btn-primary mg-r-5">Valider</button>
+                        <button type="button" class="btn btn-secondary" onclick="hide()">Annuler</button>
+                      </div><!-- form-layout-footer -->
+                    </div><!-- form-layout -->
+                  </form>
+                </div><!-- col-6 -->
+              </div><!-- row -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+  </div>
+</div>
+<div class="table-wrapper responsiveelement">
+  <table class="datatable table display nowrap">
+    <thead>
+      <tr>
+        <th class="wd-5p">#</th>
+        <th class="wd-15p">Nom</th>
+        <th class="wd-30p">Description</th>
+		<th class="wd-10p">Total utilisateur</th>
+        <th class="wd-5p">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for role in roles %}
+                <tr>
+                  <td>{{loop.index}}</td>
+                  <td>{{role.nom}}</td>
+                  <td>{{role.description}}</td>
+				  <td>{{role.users|length }}</td>
+                  <td>
+                      <button class="btn btn-teal active" ><a href="{{path('index-droit',{'id': role.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
+                      {#<button class="btn btn-primary active"><i class="far fa-edit"></i></button>
+                      <button class="btn btn-pink active"><i class="fa fa-trash" aria-hidden="true"></i></button>#}
+                  </td>
+                </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+</div><!-- table-wrapper -->
+</div><!-- br-section-wrapper -->
+      
+
+ <script>
+    $(document).ready(function () {
+        $(".formelement").hide();
+        
+    });
+    </script>
+    <script>
+      function show() {
+        $(".formelement").show();
+      }
+      function hide() {
+        $(".formelement").hide();
+      }
+    </script>		
+
+

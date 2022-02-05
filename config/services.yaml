@@ -1,0 +1,37 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+    typechambre: '%kernel.project_dir%/public/photo/typechambre'
+    Chambre: '%kernel.project_dir%/public/photo/Chambre'
+    Entene: '%kernel.project_dir%/public/photo/Entene'
+    Employes: '%kernel.project_dir%/public/photo/Employes'
+    Produits: '%kernel.project_dir%/public/photo/Produits'
+    Clients: '%kernel.project_dir%/public/photo/Clients'
+    Logo: '%kernel.project_dir%/public/photo/Logo'
+    app.locales: [en, fr]
+    
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    Qipsius\TCPDFBundle\Controller\TCPDFController: '@qipsius.tcpdf'
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+    published_message.listener:
+        class: App\EventListener\PublishedMessageExceptionListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones

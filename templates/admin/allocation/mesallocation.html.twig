@@ -1,0 +1,259 @@
+<div class="br-mainpanel">
+
+        <div class="br-pagetitle">
+          <i class="icon ionicons ion-android-list"></i>
+          <div>
+            <h4>liste de mesallocation</h4>
+            <p style="color:blue;" class="mg-b-0">----</p>
+          </div>
+        </div><!-- d-flex -->
+
+
+	<div class="br-pagebody">
+       {#  <div class="br-section-wrapper" style="padding:5px;">
+        <h6 class="br-section-label">liste des allocations</h6> #}
+
+		<div class="card pd-30 bd-0 mg-t-20">
+			<div class="d-lg-flex justify-content-lg-between align-items-lg-center">
+				<div class="mg-b-20 mg-lg-b-0">
+					<h4 class="tx-normal tx-roboto tx-inverse mg-b-5">Filtres</h4>
+				</div>
+			</div><!-- row -->
+        </div><!-- card -->
+
+        {#<div class="col-lg-4 col-md-12">
+            <div class="white-box analytics-info">
+                <h3 class="box-title">Chambress</h3>
+                <div class="text-muted">
+                    <select class="js-example-basic-single select" id="select" name="chambre" onchange="filter(this.value)" >
+                        <option label="--chambre--"></option>
+							{% set newArray = [] %}
+							{% for allocation in allocations %}
+								{% if allocation.chambre.type.nom not in newArray %}
+									<option value="{{allocation.chambre.type.nom}}">{{allocation.chambre.type.nom}}</option>
+									{% set newArray = newArray|merge([allocation.chambre.type.nom,null ]) %}
+								{% endif %}
+							{% endfor %}
+                    </select>
+                    <label for="chambre occuper">
+                    <input type="text" value="">
+                </div>
+            </div>
+        </div>#}
+		<div class="row">
+			<div class="col-lg-3 col-md-12">
+				<div class="card widget-12 shadow-base">
+					<div class="card-header" style="background-color:#39CCCC;">
+						<div class="card-title">Chambre</div>
+					</div><!-- card-header -->
+					<div class="card-body">
+						<select class="form-control select2-show-search rapport-filte mg-r-20" id="select" name="chambre" onchange="filter(this.value)">
+								<option value="" disabled selected>Filtrer via chambre</option>
+								<option value=""></option>
+								{% set newArray = [] %}
+								{% for allocation in allocations %}
+									{% if allocation.chambre.numero not in newArray %}
+										<option value="{{allocation.chambre.numero}}">{{allocation.chambre.numero}}</option>
+										{% set newArray = newArray|merge([allocation.chambre.numero,null ]) %}
+									{% endif %}
+								{% endfor %}
+						</select>
+					</div><!-- card-body -->
+				</div><!-- card -->
+			</div>
+			<div class="col-lg-3 col-md-12">
+				<div class="card widget-12 shadow-base">
+					<div class="card-header" style="background-color:#7FDBFF;">
+						<div class="card-title">Client</div>
+					</div><!-- card-header -->
+					<div class="card-body">
+						
+						<select class="form-control select2-show-search rapport-filte mg-r-20" id="select" name="plage" onchange="filter(this.value)">
+							<option value="" disabled selected>Filtrer via client</option>
+							<option value=""></option>
+								{% set newArray = [] %}
+								{% for allocation in allocations %}
+									{% if allocation.occupant.username not in newArray %}
+										<option value="{{ allocation.occupant.username }}">{{allocation.occupant.username}}</option>
+										{% set newArray = newArray|merge([allocation.occupant.username,null ]) %}
+									{% endif %}
+								{% endfor %}
+						</select>
+					</div><!-- card-body -->
+				</div><!-- card -->
+			</div>
+			<div class="col-lg-3 col-md-12">
+				<div class="card widget-12 shadow-base">
+					<div class="card-header" style="background-color:#3D9970;">
+						<div class="card-title">Typê de Chambre</div>
+					</div><!-- card-header -->
+					<div class="card-body">
+						<select class="form-control select2-show-search rapport-filte mg-r-20" id="select" name="chambre" onchange="filter(this.value)">
+							<option value="" disabled selected>Filtrer via Type Chambre</option>
+							<option value=""></option>
+							{% set newArray = [] %}
+							{% for allocation in allocations %}
+								{% if allocation.chambre.type.nom not in newArray %}
+									<option value="{{allocation.chambre.type.nom}}">{{allocation.chambre.type.nom}}</option>
+									{% set newArray = newArray|merge([allocation.chambre.type.nom,null ]) %}
+								{% endif %}
+								{% endfor %}
+						</select>
+					</div><!-- card-body -->
+				</div><!-- card -->
+			</div>
+			<div class="col-lg-3 col-md-12">
+				<div class="card widget-12 shadow-base">
+					<div class="card-header" style="background-color:Fuchsia;">
+						<div class="card-title">Date</div>
+					</div><!-- card-header -->
+					<div class="card-body">
+						<select class="form-control select2-show-search rapport-filte mg-r-20" id="select" name="plage" onchange="filter(this.value)">
+							<option value="" disabled selected>Filtrer via Date</option>
+							<option value=""></option>
+							{% set newArray = [] %}
+							{% for allocation in allocations %}
+								{% if allocation.datefin|date('d/m/Y') not in newArray %}
+									<option value="{{allocation.datefin|date('d/m/Y')}}">{{allocation.datefin|date('d/m/Y')}}</option>
+									{% set newArray = newArray|merge([allocation.datefin|date('d/m/Y'),null ]) %}
+								{% endif %}
+							{% endfor %}
+						</select>
+					</div><!-- card-body -->
+				</div><!-- card -->
+			</div>
+        </div>
+        	
+             <div    x-data="{ ajouter : false }">
+                <div class="d-flex justify-content-end" style="padding:10px;">
+                   {#  <form method="get" action="{{path('index-allocation')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent"> #}
+                    <a href="{{path('index-allocation')}}" class="btn btn-primary ajax-link {{app.user.hasAccess('index-allocation')}}"  data-toggle="ajax" data-target="monContent" style="width: 12%;"> <i class="fas fa-plus"></i> Ajouter </a>
+                   {#  </form> #}
+                   {#<button  class="btn btn-success" style="width: 12%;" onclick="PrintFunction()"> <i class="fas fa-print"></i> Imprimer </button>#}
+                  <button class="btn btn-secondary {{app.user.hasAccess('print-allocation')}}" style="margin-left:5px;"><a style="color:white;" href="{{path('print-allocation')}}" target="_blank"><i class="fa fa-print"></i> Imprimer</a></button>
+                </div>
+
+            </div>
+
+           
+              <div class="table-wrapper responsiveelement">
+                  <table class="datatable table display nowrap">
+                
+                    <thead>
+                   
+                      <tr>	        
+                        <th class="wd-5p">ID</th>
+						<th class="wd-10p">Chambre</th>
+						<th class="wd-10p">Type de Chambre</th>
+                        <th class="wd-15p">Noms et prénom</th>
+                        <th class="wd-10p">Prix</th>
+						<th class="wd-20p">Date de debut</th>
+                        <th class="wd-20p">Date de fin</th>
+                        {#<th class="wd-20p">ACTION</th>#}
+                      </tr>
+                      
+                    </thead>
+                    <tbody>
+                     {% for allocation in allocations %}
+                      <tr>
+                        <td>{{loop.index}}</td>
+						<td>{{allocation.chambre.numero}}</td>
+						<td>{{allocation.chambre.type.nom}}</td>
+                        <td>{{allocation.occupant.username}} {{allocation.occupant.prenom}}</td>
+                        <td>{{allocation.montant}}</td>
+						<td>{{allocation.datedebut|date('d/m/Y H:i:s')}}</td>
+                        <td>{{allocation.datefin|date('d/m/Y H:i:s')}}</td>
+                        {#<td>
+                                  
+                             
+                            <button class="btn btn-info active" ><a href="" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
+                              
+                             
+                            <button class="btn btn-teal active" ><a href="" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
+                             
+                            <button class="btn btn-pink active"><a href="" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-trash" aria-hidden="true" ></i></a></button>
+                            <button class="btn btn-success  active {{app.user.hasAccess('printrecuallocation')}}"><a href="/printrecuallocation?id={{allocation.id}}"  style="padding: 0px !important; color:white;" class="nav-link" target="_blank" ><i class="fas fa-print" aria-hidden="true" ></i></a></button> 
+                                            
+                                    
+                        </td>#}
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+              </div><!-- table-wrapper -->
+        </div><!-- br-section-wrapper -->
+      </div><!-- br-pagebody -->
+    </div><!-- br-mainpanel -->
+
+{# startfiltre #}
+
+<script>
+
+{# function cocher(a) {
+    
+    searchText = a.toLowerCase();
+    //console.log(searchText);
+
+    $.each($("#table tbody tr"), function() {
+        if($(this).text().toLowerCase().indexOf(searchText) === -1)
+            $(this).hide();
+            
+        else
+            $(this).show();                
+    });
+    
+}
+ #}
+function filter(n) {
+    
+    searchText = n.toLowerCase();
+    console.log(searchText);
+
+    $.each($(".datatable tbody tr"), function() {
+        if($(this).text().toLowerCase().indexOf(searchText) === -1)
+            $(this).hide();
+            
+        else
+            $(this).show();                
+    });
+    
+}
+</script>
+
+<script>
+
+	//Ajax filter client
+	function filterclient(client_id) {
+		console.log(client_id)
+		/*searchText = n.toLowerCase();
+		console.log(searchText);
+	
+		$.each($(".datatable tbody tr"), function() {
+			if($(this).text().toLowerCase().indexOf(searchText) === -1)
+				$(this).hide();
+				
+			else
+				$(this).show();                
+		});*/
+		
+	}
+	</script>
+{# endfiltre #}
+
+
+    <script>
+    $(document).ready(function () {
+        $(".formelement").hide();
+        
+    });
+    </script>
+    <script>
+      function show() {
+        $(".formelement").show();
+      }
+      function hide() {
+        $(".formelement").hide();
+      }
+    </script>
+
+	

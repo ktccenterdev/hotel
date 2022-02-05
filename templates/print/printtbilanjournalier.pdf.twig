@@ -1,0 +1,41 @@
+{% extends 'admin/print/baseprint.pdf.twig' %}
+
+{% block reportbody %}
+<h2 class="titre">BILAN  GENERALE DE LA JOURNEE DU  {{ 'now' | date('d-m-Y') }}</h2>
+<table class="table"  border="1" cellspacing="1" cellpadding="4">
+    <tr>	        
+        <th class="wd-15p">ID</th>
+        <th class="wd-15p">Antene</th>
+        <th class="wd-15p">Total allocation</th>
+        <th class="wd-25p">Recette (FCFA)</th>
+    </tr>
+    <tbody>
+
+        {% set totalallocation = 0 %}
+        {% set totalrecette = 0 %}
+        {% for item in bilanjournalier %}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{item.antene.nom}}</td>
+                <td>{{item.totalallocation}}</td>
+                <td>
+                    <b style="color:green;">{{item.recette}}</b>
+                </td>
+                {% set totalrecette = totalrecette + item.recette %}
+                {% set totalallocation = totalallocation + item.totalallocation %}
+            </tr>
+            
+        {% endfor %}
+        <tr>
+            <td style="color:green;">TOTAL</td>
+            <td></td>
+            <td style="color:red;">
+                <b>{{totalallocation}}</b>
+            </td>
+            <td style="color:red;">
+                <b>{{totalrecette}}</b>
+            </td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

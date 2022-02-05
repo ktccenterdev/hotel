@@ -1,0 +1,98 @@
+<html lang="en">
+     <head>
+        <!-- Required meta tags -->
+        <meta http-equiv="Content-Type" content=\"text/html; charset=UTF-8\">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Twitter -->
+        <meta name="twitter:site" content="@themepixels">
+        <meta name="twitter:creator" content="@themepixels">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Bracket Plus">
+        <meta name="twitter:description" content="Logiciel de gestion des boutiques cana+.">
+        <meta name="twitter:image" content="http://themepixels.me/bracketplus/img/bracketplus-social.png">
+
+        <!-- Facebook -->
+        <meta property="og:url" content="http://themepixels.me/bracketplus">
+        <meta property="og:title" content="Bracket Plus">
+        <meta property="og:description" content="Logiciel de gestion des boutiques cana+.">
+
+        <meta property="og:image" content="http://themepixels.me/bracketplus/img/bracketplus-social.png">
+        <meta property="og:image:secure_url" content="http://themepixels.me/bracketplus/img/bracketplus-social.png">
+        <meta property="og:image:type" content="image/png">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="600">
+
+        <!-- Meta -->
+        <meta name="description" content="Hotel management software.">
+        <meta name="author" content="KTC-Center">
+
+        <title>KTC HOTEL MANAGEMENT</title>
+
+        {% include "css.html.twig" %}
+    </head>
+    <body class="collapsed-menu with-subleft ">
+        <div class="ajax-loader"></div>
+
+        <!-- ########## START: LEFT PANEL ########## -->
+        <!-- br-sideleft -->
+        {% include "leftbar.html.twig" %}
+
+        <!-- br-header -->
+        {% include "headerbar.html.twig" %}
+            <!-- start subleft-->
+            <!-- End subleft-->
+        <!-- ########## START: MAIN PANEL ########## -->        
+        
+        <div id="js-main-content">
+            <div class="br-mainpanel">
+                <div class="br-pagebody">
+                    <div id="divError" style="display:none" class=" mg-t-20 alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Erreur: </strong>
+                        <span class="messageError"></span>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div  id="monContent">
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+                {% include "footer.html.twig" %}
+            </div>
+            <!-- MODAL GRID -->
+            <div id="modaldemo6" class="modal fade">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content bd-0 bg-transparent rounded overflow-hidden">
+                        <div class="modal-body pd-0">
+                        <div class="row no-gutters">  
+                            <div class="col-lg-12 bg-white">
+                            <div class="pd-30">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                                <div class="pd-x-30 pd-y-10">
+                                    <form id="form-send" class="js-form-send" action="{{path('changepassword')}}" method="POST">
+                                    <h3 class="tx-inverse  mg-b-5">CHANGER VOTRE MOT DE PASSE!</h3>
+                                    <br>
+                                    <div class="form-group">
+                                        <input type="password" name="ancienpassword" class="form-control pd-y-12" placeholder="Ancien mot de passe" Required>
+                                    </div><!-- form-group -->
+                                    <div class="form-group mg-b-20">
+                                        <input type="password" name="newpassword" class="form-control pd-y-12" placeholder="Nouveau mot de passe" Required>
+                                    </div><!-- form-group -->
+
+                                    <button type="submit" class="btn btn-primary pd-y-12 btn-block">VALIDER</button>
+                                    </form>
+                                </div>
+                            </div><!-- pd-20 -->
+                            </div><!-- col-6 -->
+                        </div><!-- row -->
+                        </div><!-- modal-body -->
+                    </div><!-- modal-content -->
+                </div><!-- modal-dialog -->
+            </div>       
+        </div>
+    {% include "js.html.twig" %}
+    </body>
+</html>

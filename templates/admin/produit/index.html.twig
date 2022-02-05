@@ -1,0 +1,124 @@
+<div class="br-pagetitle">
+    <i class="icon ionicons ion-android-cart"></i>
+    <div>
+        <h4>PRODUITS</h4>
+        <p style="color:blue;" class="mg-b-0">----</p>
+    </div>
+</div><!-- d-flex -->
+
+<div class="br-section-wrapper">
+    <h6 class="br-section-label">Liste des produits</h6>        
+        <div    x-data="{ ajouter : false }">
+        <div class="d-flex justify-content-end" style="padding:10px;">
+            <button onclick="showNouveau()" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Ajouter</button>
+            <a class="btn btn-secondary mg-l-10" href="{{path('print-produit')}}" target="_blank"><i class="fa fa-print"></i> Imprimer</a>
+        </div>
+        <div class="formelement" id="nouveau" x-show="ajouter" style="padding:10px; display:none;">
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-12 col-xlg-12 col-md-12">
+                    <div class="row mg-t-80">
+                        <div class="col">
+                            <form id="form-send" class="js-form-sendavecfile sauvegardededonne" enctype="multipart/form-data"
+                                action="{{path('produit-add')}}" method="POST" data-toggle="ajax" data-target="monContent">        
+                                <div class="form-layout form-layout-4">
+                                    <h6 class="br-section-label">Ajouter un produit</h6>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-xlg-4 col-md-12">
+                                            <label class="col-sm-12 form-control-label">Nom: <span class="tx-danger">*</span></label>
+                                            <div class="col-sm-12 mg-t-10 mg-sm-t-0">
+                                                <input type="text" class="form-control" placeholder="Nom du produit" name="nom" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-xlg-4 col-md-12">
+                                            <label class="col-sm-12 form-control-label">Type: <span class="tx-danger">*</span></label>
+                                            <div class="col-sm-12 mg-t-12 mg-sm-t-0">
+                                                <input type="text" class="form-control" name="type" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-xlg-4 col-md-12">
+                                            <label class="col-sm-12 form-control-label">Quantité seuil: <span class="tx-danger">*</span></label>
+                                            <div class="col-sm-12 mg-t-10 mg-sm-t-0">
+                                                <input type="number" class="form-control" name="qtseuil" min="1" required>
+                                            </div>
+                                        </div>
+                                    </div><!-- row --><br>
+                                    <div class="row">
+                                        <div class="col-lg-8 col-xlg-8 col-md-12">
+                                            <label class="col-sm-12 form-control-label">Description: <span class="tx-danger">*</span></label>
+                                            <div class="col-sm-12 mg-t-10 mg-sm-t-0">
+                                                <textarea rows="3" class="form-control mg-t-20" name="description" placeholder="Description"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-xlg-4 col-md-12">
+                                            <label class="col-sm-4 form-control-label">PHOTO: <span class="tx-danger">*</span></label>
+                                                <input type="file" name="photo" id="file-1"
+                                                    class="inputfile" data-caption="files selected" accept=".png, .jpg,.jpeg">
+                                                <label for="file-1" class="if-outline if-outline-info">
+                                                    <i class="icon ion-ios-upload-outline tx-24"></i>
+                                                    <span>Choisisez la photo du produit</span>
+                                            </label>
+                                        </div>
+                                    </div><!-- row -->
+                                    <div class="row row-xs mg-t-30">
+										<div class="col-sm-8 mg-l-auto">
+											<div class="form-layout-footer">
+												<button type="button" class="btn btn-default" onclick="showNouveau()">Annuler</button>
+												<button type="submit" id="btn-save-nouveau" class="btn btn-primary mg-r-5">Enrégistrer</button>
+											</div>
+											<!-- form-layout-footer -->
+										</div>
+									</div>
+                                </div><!-- form-layout -->
+                            </form>
+                        </div><!-- col-6 -->
+                    </div><!-- row -->
+                </div>
+            </div>
+        </div>
+    <div> 
+    
+    <div class="table-wrapper responsiveelement">
+            <table class="datatable table display responsive">
+            <thead>
+                <tr>	        
+                <th class="wd-3p">ID</th>
+                <th class="wd-15p">Nom</th>
+                <th class="wd-10p">Quantité seuil</th>
+                <th class="wd-10p">Type</th>
+                <th class="wd-25p">Description</th>
+                <th class="wd-10p">Photo</th>
+                <th class="wd-25p text-center">ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for produit in produits |reverse %}
+                <tr>
+                <td>{{loop.index}}</td>
+                <td>{{produit.nom}}</td>
+                <td>{{produit.qtseuil}}</td>
+                <td>{{produit.type}}</td>
+                <td>{{produit.description |slice(0, 50) ~ '...'}}</td>
+                <td><img src="{{asset('photo/Produits/'~ produit.photo)}}" class="wd-32"> </td>
+                <td class="dropdown text-center">
+                        <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right pd-10">
+                            <nav class="nav nav-style-1 flex-column text-center">	
+                                <a href="{{ path('detail-produit',{id: produit.id}) }}" class="btn btn-link ajax-link"  data-toggle="ajax" data-target="monContent" >Détails</a>
+                                <a href="{{ path('editer-produit',{id: produit.id}) }}" class="btn btn-link ajax-link"  data-toggle="ajax" data-target="monContent" >Editer</a>
+                                <form  class="js-form-send confirm-delete" action="{{path('delete-produit')}}" method="DELETE"
+                                    data-toggle="ajax" data-target="monContent" data-message="Voulez-vous supprimer ce produit?">
+                                    <input type="hidden" name="id" value="{{produit.id}}">
+                                    <button class="btn btn-link" type="submit">Supprimer</button>	
+                                </form>
+                                </nav>
+                        </div><!-- dropdown-menu -->
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div><!-- table-wrapper -->
+</div><!-- br-section-wrapper -->
+
+
+

@@ -1,0 +1,62 @@
+{% extends 'admin/print/baseprint.pdf.twig' %}
+
+{% block reportbody %}
+<h2 class="titre">LISTE DES RESERVATIONS EXTERNE</h2>
+{# <table class="table"  border="1" cellspacing="1" cellpadding="4">
+    <tr class="table-header">
+        <th width="5%">#</th>
+        <th width="20%">Client</th>
+        <th width="20%">Chambre</th>
+        <th width="30%">Type de chambre</th>
+        <th width="25%">Date de sortie</th>
+    </tr>
+    <tbody>
+        {% for item in allocation %}
+         <tr style="background-color: {{loop.index % 2 == 0 ? '' : '#f0f4f5'}}">
+            <td align="center">{{ loop.index }}</td>
+            <td>{{ item.occupant.nom}} </td>
+            <td>{{ item.chambre.numero}} </td>
+            <td>{{item.chambre.type.nom}} </td>
+            <td>{{item.datefin |date('d/m/Y') }} </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table> #}
+
+
+                <table style="width: 100%;" class="table"  border="1" cellspacing="1" cellpadding="4" align="center">
+					<thead>
+						<tr class="table-header">
+							<th width="14.3%">#</th>
+							<th class="20%">Nom du client</th>
+							<th class="20%">Date d'arrivé</th>
+							<th class="20%">Date de départ</th>
+							<th class="20%">Type de chambre</th>
+							<th class="20%">Quantité</th>
+							<th class="20%">Etat</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						{% for reservation in reservations %}
+						<tr>
+                            
+							<td>{{ loop.index }}</td>
+							<td>{{ reservation.client.nom }}</td>
+							<td>{{ reservation.datedariver | date('d/m/Y') }} à {{ reservation.heuredariver | date('H:i:s')}}</td>
+							<td>{{ reservation.datedepart | date('d/m/Y') }} à {{ reservation.heuredepart | date('H:i:s')}}</td>
+							<td>{{ reservation.typechambre.nom }}</td>
+							<td>{{ reservation.quantite}}</td>
+							<td
+								{% if reservation.etat == "Non traiter" %}
+									class="wd-15p" style="color:red;">{{ reservation.etat}}
+								{% elseif reservation.etat == "Traiter" %}
+									class="wd-15p" style="color:green;">{{ reservation.etat}}
+								{% endif %}
+							</td>
+                              
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+{% endblock %}

@@ -1,0 +1,87 @@
+<div class="br-mainpanel">
+
+      <div class="br-pagetitle">
+        <i class="icon ion-man"></i>
+        <div>
+          <h4>Log</h4>
+          <p style="color:blue;" class="mg-b-0">----</p>
+        </div>
+      </div><!-- d-flex -->
+
+      <div class="br-pagebody">
+        <div class="br-section-wrapper">
+          <div class="container">
+            <div id="divError" style="display:none" class="alert alert-danger alert-dismissible fade show" role="alert">
+              <strong>Erreur:
+              </strong>
+              <span class="messageError"></span>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+					<div class="row">
+						<div class="col-sm"><h6 class="br-section-label">Liste des Logs</h6>
+						</div>
+						
+						
+					</div>
+				</div>
+          
+          <div class="table-wrapper responsiveelement">
+            <table class="datatable table display nowrap">
+              <thead>
+                <tr>
+                  <th class="wd-5p">#</th>
+                  <th class="wd-10p">Operation</th>
+                  <th class="wd-15p">Operateur</th>
+                  <th class="wd-40p">Description</th>
+                  <th class="wd-20p">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for log in logs %}
+                  <tr>
+                    <td>{{loop.index}}</td>
+                    <td>{{log.action}}</td>
+                    <td>{{log.operateur.username}}</td>
+                    <td>{{log.description}}</td>
+                    <td>{{log.createat|date('Y-m-d H:i:s')}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div><!-- table-wrapper -->
+        </div><!-- br-section-wrapper -->
+      </div><!-- br-pagebody -->
+    </div><!-- br-mainpanel -->
+
+
+
+    <script>
+        $('.datatable').DataTable({
+        responsive: true,
+        language: {
+            searchPlaceholder: 'Recherche...',
+            sSearch: '',
+            lengthMenu: '_MENU_ items/page',
+        }
+        });
+    </script>
+    <script>
+    $(document).ready(function () {
+        $(".formelement").hide();
+        
+    });
+    </script>
+    <script>
+      function show() {
+        $(".formelement").show();
+      }
+      function hide() {
+        $(".formelement").hide();
+      }
+    </script>
+		
+
+

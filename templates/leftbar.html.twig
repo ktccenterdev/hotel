@@ -1,0 +1,139 @@
+<div class="br-logo">
+    <img  src="photo/Logo/e.jpeg"   height="50px" width="150" alt="dropdown image" class="img-responsive">
+</div>
+        <div class="br-sideleft sideleft-scrollbar" style="z-index: 1000;">
+            <label class="sidebar-label pd-x-10 mg-t-20 op-3">Navigation</label>
+            <ul class="br-sideleft-menu">
+                <li class="br-menu-item">
+                <a href="{{path('dashboard')}}" class="br-menu-link active">
+                    <i class="menu-item-icon icon ion-ios-home-outline tx-24"></i>
+                    <span class="menu-item-label">Dashboard</span>
+                </a><!-- br-menu-link -->
+                </li><!-- br-menu-item -->
+            {% if "client-index" in app.session.get('userdroit') %}
+                {# <li class="br-menu-item">
+                    <a href="#" class="br-menu-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">
+                        <i class="tx-24 fa fa-user"></i>
+                        <span class="menu-item-label">Gestion des clients</span>
+                    </a><!-- br-menu-link -->
+                </li><!-- br-menu-item --> #}
+                {% endif %}
+                <li class="br-menu-item {{app.user.hasAccess('index-employe')}}">
+                    <a href="#"  class="br-menu-link with-sub nav-link">
+                        <i class="menu-item-icon ionicons ion-ios-bookmarks-outline tx-24"></i>
+                        <span class="menu-item-label">Administration</span>
+                    </a><!-- br-menu-link -->
+                    <ul class="br-menu-sub">
+                        <li class="sub-item {{app.user.hasAccess('index-module')}}"><a href="{{path('index-module')}}"   class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Modules</a></li>
+                        <li class="sub-item {{app.user.hasAccess('index-role')}}"><a href="{{path('index-role')}}"    class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Roles</a></li>
+                        <li class="sub-item {{app.user.hasAccess('entene')}}"><a href="{{path('entene')}}"  class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Antennes</a></li>
+                        <li class="sub-item {{app.user.hasAccess('utilisateur-index')}}"><a href="{{path('utilisateur-index')}}"    class="sub-link ajax-link"  data-toggle="ajax" data-target="monContent">Utilisateurs</a></li>
+                        <li class="sub-item {{app.user.hasAccess('index-employe')}}"><a href="{{path('index-employe')}}"    class="sub-link ajax-link"  data-toggle="ajax" data-target="monContent">Gestion des employés</a></li>
+                        <li class="sub-item {{app.user.hasAccess('log-index')}}"><a href="{{path('log-index')}}"   class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Logs</a></li>
+                    </ul>
+                </li>
+                <li class="br-menu-item {{app.user.hasAccess('index-client')}}">
+                    <a href="{{path('index-client')}}" class="sub-link nav-link ajax-link br-menu-link" data-toggle="ajax" data-target="monContent">
+                    <i class="menu-item-icon icon ionicons ion-happy tx-24"  data-toggle="ajax" data-target="monContent"></i>                
+                                    <span class="menu-item-label">Gestion des clients</span>
+                    </a><!-- br-menu-link -->
+                </li>
+                <li class="br-menu-item">
+                </li>
+                <li class="br-menu-item {{app.user.hasAccess('index-chambre')}}">
+                    <a href="#" class="br-menu-link with-sub">
+                        <i class="menu-item-icon ionicons ion-speedometer tx-24"></i>
+                        <span class="menu-item-label">Gestion des Chambres</span>
+                    </a><!-- br-menu-link -->
+                    <ul class="br-menu-sub">
+                        {#{% if "index-chambre" in app.session.get('userdroit') %}#}
+                        <li class="sub-item {{app.user.hasAccess('index-chambre')}}"><a href=" {{path('index-chambre')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Chambres</a></li>
+                        {#{% endif %}#}
+                        <li class="sub-item {{app.user.hasAccess('index-type')}}"><a href="{{path('index-type')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Types de chambres</a></li>
+                       
+                        {#{% if "index-type" in app.session.get('userdroit') %}#}
+                        <li class="sub-item {{app.user.hasAccess('index-allocation')}}"><a href="{{path('index-allocation')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Hébergements</a></li>
+                        {#{% endif %}
+                        {% if "index-type" in app.session.get('userdroit') %}#}
+                        <li class="sub-item {{app.user.hasAccess('liste-allocation')}}"><a href="{{path('liste-allocation')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">liste des Hébergements</a></li>
+						<li class="sub-item {{app.user.hasAccess('liste-allocation')}}"><a href="{{path('leave-allocation')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Hébergements journaliers</a></li>
+
+                        <li class="sub-item {{app.user.hasAccess('liste-allocation')}}"><a href="{{path('mes-allocation')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Mes Hébergements</a></li>
+                        {#{% endif %}
+                        {% if "index-tarif" in app.session.get('userdroit') %}#}
+                        <li class="sub-item {{app.user.hasAccess('index-tarif')}}"><a href="{{path('index-tarif')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Tarifs</a></li>
+                        {#{% endif %}#}
+                        <li class="sub-item {{app.user.hasAccess('index-allocation')}}"><a href="{{path('dashboard-allocation')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Dashboard Allocation</a></li>
+                        
+                    </ul>
+                </li><!-- br-menu-item -->
+                <li class="br-menu-item {{app.user.hasAccess('index-reservation')}}">
+                    <a href="#" class="br-menu-link with-sub">
+                        <i class="menu-item-icon icon ion-ios-home-outline tx-24"></i>
+                        <span class="menu-item-label">Reservations</span>
+                    </a><!-- br-menu-link -->
+                    <ul class="br-menu-sub">                
+                        <li class="sub-item {{app.user.hasAccess('index-reservation')}}"><a href="{{path('index-reservation')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Reservations internes</a></li>
+                        <li class="sub-item {{app.user.hasAccess('list-reservation')}}"><a href="{{path('list-reservation')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Reservations Externes</a></li>
+                    </ul>
+                </li>
+                {# <li class="br-menu-item {{app.user.hasAccess('mon-bilanjournalier')}}">
+                    <a href="{{path('mon-bilanjournalier')}}"  data-toggle="ajax" data-target="monContent" class="br-menu-link with-sub">
+                        <i class="menu-item-icon ionicons ion-stats-bars tx-24"></i>
+                        <span class="menu-item-label">Mon bilan</span>
+                    </a>
+                    <ul class="br-menu-sub">
+                    <li class="sub-item {{app.user.hasAccess('mon-bilanjournalier')}}"><a href=" {{path('mon-bilanjournalier')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Mon bilan </a></li>
+                    <li class="sub-item {{app.user.hasAccess('bilanjournalier')}}"><a href=" {{path('bilanjournalier')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Bilan Général </a></li>
+                    </ul>
+                </li> #}
+                <li class="br-menu-item {{app.user.hasAccess('index-magasin')}}">
+                    <a href="#" class="br-menu-link with-sub">
+                        <i class="menu-item-icon fas fa-hourglass-half tx-24"></i>
+                        <span class="menu-item-label">Gestion de Stocks</span>
+                    </a>
+                    <ul class="br-menu-sub">
+                        <li class="sub-item">
+                        </li>
+                        <li class="sub-item {{app.user.hasAccess('index-magasin')}}"><a href="{{path('index-magasin')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Magasins </a></li>
+                        <li class="sub-item {{app.user.hasAccess('index-entree')}}"><a href="{{path('index-entree')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Entrées en stock </a></li>
+                        <li class="sub-item {{app.user.hasAccess('index-sortis')}}"><a href="{{path('index-sortis')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Sorties en stock </a></li>
+                        <li class="sub-item {{app.user.hasAccess('listeentrestockgenerale')}}"><a href="{{path('listeentrestockgenerale')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Liste des entrées</a></li>
+                        <li class="sub-item {{app.user.hasAccess('index-fournisseur')}}"><a href="{{path('index-fournisseur')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Fournisseurs </a></li>
+                        <li class="sub-item {{app.user.hasAccess('index-produit')}}"><a href="{{path('index-produit')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Produits </a></li>
+                        <li class="sub-item {{app.user.hasAccess('listapprovisionement')}}"><a href="{{path('listapprovisionement')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Approvisionements </a></li>
+                        <li class="sub-item {{app.user.hasAccess('mesapprovisionement')}}"><a href="{{path('mesapprovisionement')}}" class="sub-link nav-link ajax-link" data-toggle="ajax" data-target="monContent">Mes approvisionements </a></li>
+                    </ul>
+                </li>
+                <!-- Gestion des finances-->
+                <li class="br-menu-item {{app.user.hasAccess('compte-index')}}">
+                    <a href="#" class="br-menu-link with-sub">
+                        <i class="menu-item-icon ionicons ion-ios-calculator tx-24"></i>
+                        <span class="menu-item-label">Finances</span>
+                    </a><!-- br-menu-link -->
+                    <ul class="br-menu-sub">                       
+                            <li class="sub-item {{app.user.hasAccess('compte-index')}}"><a href="{{path('compte-index')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Comptes</a></li>                        
+                            <li class="sub-item {{app.user.hasAccess('sortie-financiere-index')}}"><a href="{{path('sortie-financiere-index')}}" class="sub-link nav-link ajax-links" data-toggle="ajax" data-target="monContent">Sorties financières</a></li>
+                            <li class="sub-item {{app.user.hasAccess('journal-index')}}"><a href="{{path('journal-index')}}" class="sub-link nav-link ajax-links" data-toggle="ajax" data-target="monContent">Journal comptable</a></li>
+                            <li class="sub-item {{app.user.hasAccess('mon-bilanjournalier')}}"><a href=" {{path('mon-bilanjournalier')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Mon bilan </a></li>
+                            <li class="sub-item {{app.user.hasAccess('bilanjournalier')}}"><a href=" {{path('bilanjournalier')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Bilan Général </a></li>            
+                    </ul>
+                </li>
+                <!-- Fin gestion des finances -->
+                {% if "index-parametre" in app.session.get('userdroit') %}
+                    <li class="br-menu-item">
+                        <a href="{{path('param-vue')}}" class="sub-link nav-link ajax-link br-menu-link {{app.user.hasAccess('param-vue')}}" data-toggle="ajax" data-target="monContent">
+                            <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>                
+                            <span class="menu-item-label">Paramètres</span>
+                        </a><!-- br-menu-link -->
+                    </li><!-- br-menu-item -->
+                {% endif %}
+                <li class="br-menu-item">
+                    <a href="{{path('modulecle-add')}}" class="sub-link nav-link ajax-link br-menu-link {{app.user.hasAccess('modulecle-add')}}" data-toggle="ajax" data-target="monContent">
+                    <i class="menu-item-icon icon ionicons ion-code tx-24"></i>                
+                        <span class="menu-item-label">FOR DEVELLOPER</span>
+                    </a><!-- br-menu-link -->
+                </li><!-- br-menu-item -->
+            </ul><!-- br-sideleft-menu -->
+            <br>
+        </div>

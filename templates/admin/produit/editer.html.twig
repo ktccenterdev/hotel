@@ -1,0 +1,60 @@
+<div class="br-pagetitle">
+    <i class="icon ionicons ion-android-cart"></i>
+    <div>
+        <h4>Produits</h4>
+        <p style="color:blue;" class="mg-b-0">----</p>
+    </div>
+</div><!-- d-flex -->
+
+<div class="br-section-wrapper">
+    <h6 class="br-section-label">Modification du produit</h6>
+    <form id="form-send" class="js-form-sendavecfile sauvegardededonne" action="{{path('produit-edit')}}" method="POST" data-toggle="ajax" data-target="monContent">
+        <div class="form-layout form-layout-2">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <h6 class="br-section-label">Nom: </h6>
+                        <input class="form-control" type="text" name="nom" value="{{produit.nom}}"> 
+                        <input class="form-control" type="text" name="id" value="{{produit.id}}" style="display:none;">
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-md-4 mg-t--1 mg-md-t-0">
+                    <div class="form-group mg-md-l--1">
+                        <h6 class="br-section-label">Type: </h6>
+                        <input class="form-control" type="text" name="type" value="{{produit.type}}">
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-md-4 mg-t--1 mg-md-t-0">
+                    <div class="form-group mg-md-l--1">
+                        <h6 class="br-section-label">Quantité seuil:</h6>
+                        <input class="form-control" type="text" name="qtseuil" value="{{produit.qtseuil}}">
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-md-8">
+                    <div class="form-group bd-t-0-force">
+                        <h6 class="br-section-label">Description : </h6>
+                        <textarea rows="10" class="form-control mg-t-20" name="description"> {{produit.description}} </textarea>
+                    </div>
+                </div><!-- col-8 -->
+                <div class="col-md-4">
+                    <div class="form-group mg-md-l--1 bd-t-0-force">
+                        <img src="{{asset('photo/Produits/'~ produit.photo)}}" width="250" class="wd-33">
+                        
+                        <label class="col-sm-8 form-control-label">Modifier la PHOTO:</label>
+                            <input type="file" name="photo" id="file-1"
+                                class="inputfile" data-caption="files selected" accept=".png, jpg,jpeg">
+                            <label for="file-1" class="if-outline if-outline-info">
+                                <i class="icon ion-ios-upload-outline tx-24"></i>
+                                <span>Choisisez la photo du produit</span>
+                        </label>
+                    </div>
+                </div><!-- col-4 -->
+            </div><!-- row -->
+            <div class="form-layout-footer bd pd-20 bd-t-0">
+                <a href="{{path('index-produit')}}" data-toggle="ajax" data-target="monContent" class="ajax-link btn btn-info" style="color:white;"><i class="fa fa-arrow-left"></i> Liste</a> 
+                <button type="submit" class="btn btn-success " style="color:white;">Valider</button>
+            </div><!-- form-group -->
+        </div><!-- form-layout -->
+    </form>
+</div><!-- br-section-wrapper -->
+

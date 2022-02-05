@@ -1,0 +1,115 @@
+<div class="br-pagetitle">
+  <i class="icon icon ionicons ion-android-calendar"></i>
+  <div>
+    <h3 class="text-uppercase">Journal Comptable</h3>          
+  </div>
+</div><!-- d-flex -->
+<div class="br-section-wrapper">
+	<h6><strong> 
+      Journal financier du <u>{{jour | date('d-m-Y')}}</u> 
+      {% if antenne %}
+        pour l'antenne <u>{{antenne.nom}}</u>
+      {% endif %}      
+    </strong></h6>
+  <br>
+  <div class="d-md-flex mg-b-5">
+    <!-- Le calendrier -->
+    <form id="form-filtre" class="form-inline" method="GET">
+      <div id="slWrapper" class="parsley-select wd-xs-700 mg-l-20 mg-t-15 form-inline">
+          <label>choisir une date: </label>
+          <input class="form-control mg-l-20 mg-r-20" type="date" id="jour" name="jour" placeholder="jj/mm/aaaa">
+ 
+        <select class="form-control select2-show-search rapport-filte mg-r-20" id="antenne" name="antenne" data-placeholder="Sélectionner une antenne">
+            <option value="" disabled selected>Sélectionner une antenne</option>
+            {% for item in antennes %}
+            <option value="{{ item.id }}">
+                {{item.nom}}
+            </option>
+            {% endfor %}
+        </select> 
+        <button class="btn btn-success" type="submit">Filtrer</button>          
+      </div>
+    </form>
+    <div id="slWrapper" class="parsley-select wd-xs-300 mg-l-20  mg-t-15"> 
+    {% if antenne %}
+      <a  class="btn btn-dark float-right" target="_blank" href="{{path('print-journal', {'antenne':antenne.id, 'jour':jour | date('d-m-Y')})}}"><i class="fa fa-print"></i>  Imprimer</a>
+    {% else %}
+      <a  class="btn btn-dark float-right" target="_blank" href="{{path('print-journal', {'jour':jour | date('d-m-Y')})}}"><i class="fa fa-print"></i>  Imprimer</a>
+    {% endif %}
+    </div>
+  </div>
+	<div class="table-wrapper mg-t-40">
+		<table class="mytable" border="1" width="100%" cellspacing="2px">
+      <tr class="bg-info text-white text-bold text-center">
+          <th>DATE</th>
+          <th colspan="3">CREDIT</th>
+          <th colspan="3">DEBIT</th>
+      </tr>
+      <tr style="font-size: 1em; font-weight: bold; font-style:normal">
+          <td rowspan="{{donnees | length + 1 }}">{{jour | date('d-m-Y')}}</td>
+          <td>Code</td>
+          <td>Libelle</td>
+          <td>Montant</td>
+          <td>Code</td>
+          <td>Libelle</td>
+          <td>Montant</td>
+      </tr>
+      <tboby>
+      {% set total1 = 0 %}
+      {% set total2 = 0 %}
+        {% for item in donnees %}
+          {% set total1 = total1 + item.montant1 %}
+          {% set total2 = total2 + item.montant2 %}
+          <tr>
+            <td>{{item.code1}}</td>
+            <td>{{item.intitule1}}</td>
+            <td>{{item.montant1}}</td>
+            <td>{{item.code2}}</td>
+            <td>{{item.intitule2}}</td>
+            <td>{{item.montant2}}</td>
+          </tr>
+        {% endfor %}
+      <tr class="ligneTotal">
+          <td colspan="3">Total Crédit</td>
+          <td>{{total1}}</td>
+           <td colspan="2">Total Débit</td>
+          <td>{{total2}}</td>
+      </tr>                              
+  </tboby>
+   </table>
+  </div>
+</div>
+  <style>
+      .ligneTotal td{
+          color:darkblue;
+          font-weight: bold;                
+      }
+      .ligne2 td{   
+          font-size: 0.8;
+      }
+      .mytable{
+          color: black;
+      }
+      td{
+          font-style: italic;
+      }
+      th{
+          text-align: center;
+          font-size: 1.2em;
+      }
+      .ligne1{
+          font-weight: bold;
+      }
+  </style>
+  <script>
+    $("#form-filtre").on('submit', function(e){
+      e.preventDefault();
+        var jour = $("#jour").val();    
+        var antenne = $("#antenne").val();    
+        var url = "/journal?jour="+jour+"&antenne="+antenne;        ;
+        var effect = guessEffect(this, "#monContent");
+        ajaxLink(url, "monContent", "html", effect);        
+    })
+
+</script>
+   

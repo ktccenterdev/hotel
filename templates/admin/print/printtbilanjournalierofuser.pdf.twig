@@ -1,0 +1,52 @@
+{% extends 'admin/print/baseprint.pdf.twig' %}
+
+{% block reportbody %}
+<h2 class="titre">Bilan fffgénérale de la journée du {{ date | date('d-m-Y') }} de l'antene  {{antene.nom}}</h2>
+<br>
+
+
+<table  style="width: 100%;" class="table"  border="1" cellspacing="1" cellpadding="4">
+    <tr>	        
+        <th class="wd-5p">ID</th>
+        <th class="wd-15p">Client</th>
+        <th class="wd-5p">Chambre</th>
+        <th class="wd-30p">Type de Chambre</th>
+        <th class="wd-15p">Arriver</th>
+        <th class="wd-15p">Depart</th>
+        <th class="wd-10p">Operateur</th>
+        <th class="wd-20p">Montant (FCFA)</th>
+    </tr>
+    <tbody>
+        {% set totalrevenu = 0 %}
+        {% set totalallocation = 0 %}
+        {% for allocation in allocations %}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{allocation.occupant.username}}</td>
+                <td>{{allocation.chambre.numero}}</td>
+                <td>{{allocation.chambre.type.nom}}</td>
+                <td>{{allocation.datedebut|date('d/m/Y H:i:s')}}</td>
+                <td>{{allocation.datefin|date('d/m/Y H:i:s')}}</td>
+                <td><b>{{allocation.operateur.username}}</b></td>
+                <td>  
+                    <b>{{allocation.montant}}</b>   
+                    {% set totalrevenu = totalrevenu + allocation.montant %}   
+                    {% set totalallocation = totalallocation + 1 %}      
+                </td>
+            </tr>
+            <tr>
+                <td>TOTAL</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{totalrevenu}}</td>
+            </tr>
+            
+        {% endfor %}
+    </tbody>
+</table>
+<p>Pour la journee du {{ date | date('d-m-Y') }} l'utilisateur {{user.username}} a realiser {{totalallocation}} allocations pour une recette de {{totalrevenu}} FCFA</p>
+{% endblock %}

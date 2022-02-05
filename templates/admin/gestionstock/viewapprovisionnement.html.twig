@@ -1,0 +1,89 @@
+<div class="br-mainpanel">
+
+    <div class="br-pagetitle">
+        <a href="{{path('listapprovisionement')}}" class="{{app.user.hasAccess('listapprovisionement')}}" id="btn-nouveau"  data-toggle="ajax" data-target="monContent"><i class="fa fa-arrow-left"></i></a>
+        <div>
+            <h4>Retour à la liste</h4>
+            <p style="color:blue;" class="mg-b-0">----</p>
+        </div>
+    </div>
+
+    <!-- d-flex -->
+    <div class="br-pagebody">
+        <div class="br-section-wrapper">
+            <h6 class="br-section-label">Demande effectuée le <span style="color:blue;">{{ demande.datedemande|date("d/m/Y") }}</span> Pour le Magasin <span style="color:blue;">{{ demande.magasin.nom}} </span></h6>
+            
+            <div x-data="{ ajouter : false }">
+                <div class="d-flex justify-content-end" style="padding:10px;">
+                    {% if demande.etat == 0 %}
+                        <button class="btn btn-info" style="margin-left:5px;">
+                            <a style="color:white;" class="nav-link ajax-link" href="{{path('index-traiter', {id:demande.id})}}" data-toggle="ajax" data-target="monContent">
+                                <i class="fa fa-check"></i> Traiter
+                            </a>
+                        </button>
+                    {% endif %}
+                    <button class="btn btn-primary" style="margin-left:5px;">
+                        <a style="color:white;" href="{{path('print-fournisseur')}}" target="_blank">
+                            <i class="fa fa-print"></i> Impprimer
+                        </a>
+                    </button>
+                </div>
+                <div id="divError" style="display:none" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Erreur:</strong>
+                    <span class="messageError"></span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div>
+                    <div class="table-wrapper responsiveelement">
+                        <table class="datatable table display nowrap">
+                            <thead>
+                                <tr>
+                                    <th class="wd-5p">ID</th>
+                                    <th class="wd-25p">Produit</th>
+                                    <th class="wd-5p">Quantite</th>
+									<th class="wd-55p">Description</th>
+									<th class="wd-30p">Photo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for demandeitem in demande.demandeitems %}
+                                    <tr>
+                                        <td>{{ loop.index}}</td>
+                                        <td>{{ demandeitem.produit.nom }}</td>
+                                        <td>{{ demandeitem.quantite }}</td>
+										<td>{{ demandeitem.produit.description }}</td>
+										<td><img src="{{asset('photo/Produits/'~demandeitem.produit.photo)}}" class="wd-32"></td>
+                                        {#<td>
+                                            <button class="btn btn-teal active"><a href="" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
+                                            <button class="btn btn-teal active"><a href="" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
+                                            <form style="display: contents;" class="js-form-send" action="" method="DELETE">
+                                                <button class="btn btn-pink active"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                            </form>
+                                        </td>#}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- table-wrapper -->
+                </div>
+                <!-- br-section-wrapper -->
+            </div>
+            <!-- br-pagebody -->
+        </div>
+    </div>
+</div><!-- br-mainpanel -->
+
+<script>
+    $(".formelement").hide();
+</script>
+<script>
+    function show() {
+        $(".formelement").show();
+    }
+
+    function hide() {
+        $(".formelement").hide();
+    }
+</script>
+<script src="{{asset('js/hotelktc.js')}}"></script>

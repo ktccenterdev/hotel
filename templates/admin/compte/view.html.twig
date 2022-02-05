@@ -1,0 +1,159 @@
+
+{% block content %}
+<div class="br-mainpanel">
+  <div class="br-pagetitle">
+    <i class="fas fa-calulator"></i>
+    <div>
+      <h4><a href="{{path('compte-index')}}" class="ajax-link {{app.user.hasAccess('compte-index')}}"  data-toggle="ajax" data-target="monContent">COMPTES</a>/DETAILS</h4>
+      <p style="color:blue;" class="mg-b-0">----</p>
+    </div>
+  </div>
+    <div class="br-pagebody">
+        <div class="br-section-wrapper">
+          	<div class="container">
+				<div class="row">
+					<div class="col-sm">
+						<h6 class="br-section-label">Détails sur le compte <u>{{compte.intitule}}</u></h6>
+
+
+						{% if "createtype" in app.session.get('userdroit') %}
+							<button onclick="makeEditable()" id="btn-makeEditable" class="btn btn-success float-right mg-t--7"><i class="fa fa-edit"></i>  Modifier</button>
+							<!--Formulaire d'edition-->
+							<div class="formelement" id="nouveau" x-show="ajouter" style="padding:10px;">
+								<div class="row d-flex justify-content-center">
+									<div class="col-lg-12 col-xlg-12 col-md-12">
+										<div class="row mg-t-40">
+											<div class="col">
+												<form id="form-send" class="js-form-send" action="{{ path('compte-update') }}" method="PUT"
+												data-toggle="ajax" data-target="monContent">
+													<input type="hidden" name="id" id="id" value="{{compte.id}}">
+													<input type="hidden" name="niveau" id="id" value="{{compte.niveau}}">
+													<div class="form-layout form-layout-4">
+														<h6 class="br-section-label" id="titre-nouveau" style="display: none;"> Modification du compte</h6>
+														<div class="row">
+															<label class="col-sm-4 form-control-label">Intitulé: <span class="tx-danger">*</span></label>
+															<div class="col-sm-8 mg-t-10 mg-sm-t-0">
+																<input type="text" class="form-control" id="intitule" name="intitule" value="{{compte.intitule}}" required disabled>
+															</div>
+														</div><!-- row --><br>
+                                                        <div class="row">
+															<label class="col-sm-4 form-control-label">Code: <span class="tx-danger">*</span></label>
+															<div class="col-sm-8 mg-t-10 mg-sm-t-0">
+																<input type="text" class="form-control" id="code" name="code" value="{{compte.code}}" required disabled>
+															</div>
+														</div><!-- row --><br>
+                                                        <div class="row">
+															<label class="col-sm-4 form-control-label">Type: <span class="tx-danger">*</span></label>
+															<div class="col-sm-8 mg-t-10 mg-sm-t-0">
+																<select class="form-control" id="type" name="type" required disabled>
+                                                                    <option value="CREDIT" {{compte.type=="CREDIT" ? "selected"}}>CREDIT</option>
+                                                                    <option value="DEBIT" {{compte.type=="DEBIT" ? "selected"}}>DEBIT</option>
+                                                                </select> 
+															</div>
+														</div><!-- row --><br>
+                                                        <div class="row">
+															<label class="col-sm-4 form-control-label">Compte parent: </label>
+															<div class="col-sm-8 mg-t-10 mg-sm-t-0">
+																<select class="form-control" id="parent" name="parent" disabled disabled>
+																	<option value="">Sélectionner un compte parent</option>
+																    {% for liste in comptes %}
+																		{% if compte.id != liste.id %}
+																		<option value="{{liste.id}}" {{compte.parent == liste.id ? "selected"}}>{{liste.intitule}}</option>
+																		{% endif %}
+                                                                    {% endfor %}
+                                                                </select> 
+															</div>
+														</div><!-- row --><br>
+														<div class="row row-xs mg-t-30" id="btn-footer" style="display: none;">
+															<div class="col-sm-8 mg-l-auto">
+																<div class="form-layout-footer">
+																	<button type="button" class="btn btn-default" onclick="makeEditable()">Annuler</button>
+																	<button type="submit" id="btn-save-nouveau" class="btn btn-primary mg-r-5">Enrégistrer</button>
+																</div>
+																<!-- form-layout-footer -->
+															</div>
+														</div>
+													</div>
+												<form>
+											</div><!-- col-6 -->
+										</div><!-- row -->
+									</div>
+								</div>
+							</div>
+							{% if compte.type == "CREDIT" %}
+								<!--Entrées  -->
+								<hr>
+								<div class="row col-lg-12 mg-t-20">
+									<h6 class="br-section-label">Historique des credits sur le compte.</h6>
+									<table class="table table-bordered responsive">
+										<tr>
+											<th>#</th>
+											<th>Date</th>
+											<th>Opérateur</th>
+											<th>Antenne</th>
+											<th>Montant</th>
+										</tr>
+										{% set totalentree = 0 %}
+										{% for allocation in compte.allocations %}
+										{% set totalentree =  allocation.montant + totalentree %}
+											<tr>
+												<td>{{loop.index}}</td>
+												<td>{{allocation.createat | date('d-m-Y')}}</td>
+												<td>{{allocation.operateur.username}}</td>
+												<td>{{allocation.operateur.antene.nom}}</td>
+												<td>{{allocation.montant}}</td>
+											</tr>
+										{% endfor %}	
+										<tfoot>
+											<tr>
+												<td colspan="4" class="text-center">Total</td>
+												<td class="text-bold">{{totalentree}} FCFA</th>
+											</tr>
+										</tfoot>								
+									</table>
+								</div>
+							{% else %}
+								<!--Les sorties  -->
+								<hr>
+								<div class="row col-lg-12 mg-t-20">
+									<h6 class="br-section-label">Historique des débits sur le compte</h6>
+									<table class="table table-bordered responsive">
+										<tr>
+											<th>#</th>
+											<th>Date</th>
+											<th>Motif</th>
+											<th>Opérateur</th>
+											<th>Antenne</th>
+											<th>Montant</th>
+										</tr>
+										{% set totalsortie = 0 %}
+										{% for sortie in compte.sortieFinancieres %}
+										{% set totalsortie =  sortie.montant + totalsortie %}
+											<tr>
+												<td>{{loop.index}}</td>
+												<td>{{sortie.createdAt | date('d-m-Y')}}</td>
+												<td><a href="{{path('sortie-financiere-show', {'id':sortie.id})}}" class="ajax-link {{app.user.hasAccess('sortie-financiere-show')}}"  data-toggle="ajax" data-target="monContent">{{sortie.motif}}</a></td>
+												<td>{{sortie.operateur.username}}</td>
+												<td>{{sortie.operateur.antene.nom}}</td>
+												<td>{{sortie.montant}}</td>
+											</tr>
+										{% endfor %}	
+										<tfoot>
+											<tr>
+												<td colspan="5" class="text-center">Total</td>
+												<td class="text-bold">{{totalsortie}} FCFA</th>
+											</tr>
+										</tfoot>								
+									</table>
+								</div>
+							{% endif %}
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div><!-- br-section-wrapper -->
+	</div><!-- br-pagebody -->
+</div>
+	
+	
+{% endblock %}

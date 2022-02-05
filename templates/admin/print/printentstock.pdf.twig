@@ -1,0 +1,23 @@
+{% extends 'admin/print/baseprint.pdf.twig' %}
+
+{% block reportbody %}
+<h2 class="titre">LISTE DES ENTREES EN STOCK</h2>
+<table style="width: 100%;" class="table"  border="1" cellspacing="1" cellpadding="4">
+    <tr class="table-header">
+        <th width="10%">ID</th>
+        <th width="20%">Reponssable</th>
+        <th width="25%">Commentaire</th>
+        <th width="25%">Date</th>
+    </tr>
+    <tbody>
+        {% for item in entrestocks %}
+         <tr style="background-color: {{loop.index % 2 == 0 ? '' : '#f0f4f5'}}">
+            <td align="center">{{ loop.index }}</td>
+            <td>{{item.user.username}}</td>
+            <td>{{item.commentaire}}</td>
+            <td>{{item.date|date('Y-m-d H:i:s')}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

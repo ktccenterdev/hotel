@@ -1,0 +1,381 @@
+{% extends 'intro/basefront.html.twig' %}
+{% block stylesheets %}
+  <style>
+    .inlineimage {
+        max-width: 470px;
+        margin-right: 8px;
+        margin-left: 10px
+    }
+
+    .images {
+        display: inline-block;
+        max-width: 98%;
+        height: auto;
+        width: 22%;
+        margin: 1%;
+        left: 20px;
+        text-align: center
+    }
+  </style>
+
+<style>
+body {
+    border: 1px solid transparent;
+    color: 	#808080;
+    font: 15px Calibri,Arial,sans-serif;
+}
+#page {
+    margin: 42px auto 60px;
+    width: 246px;
+}
+#page label,span{
+padding-left:10px;
+ float:left;
+}
+#page [type="radio"] {
+float: left;
+    margin-left: 28px;
+    margin-top: -1px;
+}
+#page span{
+float: left;
+ margin-top: -3px;
+}
+
+#page input {
+clear :right;
+margin: 4px;
+float:right;
+}
+#page select {
+clear: right;
+    float: right;
+    margin: 9px 5px 18px;
+    width: 143px;
+}
+#page fieldset{
+width :340px;
+}
+
+#page [type="checkbox"] {
+float: left;
+ margin: 11px;
+}
+</style>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+  <div class="br-mainpanel"  style="color=red;">
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="color:black; background-color:;background-image: url(back.jpg);">
+      <div class="row">
+        <div id="page">
+          <form action="{{path('add-reservationfr')}}" method="post" id="myform" class="myform">
+           {#  {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %} #}
+            <div>
+              {# <div class="form-layout form-layout-1" style="color:black; background-color:;background-image: url(back.jpg);"> #}
+                <div class="row">
+                  <h2  align="center" style="color: blue;">RESERVER VOTRE CHAMBRE</h2>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                            <label class="form-control-label" style="color: blue;" for="titre">Title: <span class="tx-danger">*</span></label>
+                            <select class="form-control" name="titre" id="titre" required>
+                                <option label="--staut--"></option>
+                                <option value="Mr.">Mr.</option>
+                                <option value="Mrs.">Mrs.</option>
+                                <option value="Dr.">Dr.</option>
+                                <option value="Miss.">Miss.</option>
+                                <option value="Prov">Prov</option>
+                                <option value="Rev">Rev</option>
+                            </select>  
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                          <label class="form-control-label" style="color: blue;" for="nom">Nom: <span class="tx-danger">*</span></label>
+                          <input class="form-control"  type="text" name="nom"  placeholder="Nom" id="nom" >
+                        </div>
+                      </div><!-- col-4 -->
+                      <div class="col-lg-4">
+                        <div class="form-group">
+                          <label class="form-control-label" style="color: blue;" for="prenom">Prenom: <span class="tx-danger">*</span></label>
+                          <input class="form-control"  type="text" name="prenom"  placeholder="Prenom" id="prenom">
+                        </div>
+                      </div><!-- col-4 -->
+                  </div>
+                  <div class="row">
+
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                          <label class="form-control-label" style="color: blue;" for="phone">Telephone: <span class="tx-danger">*</span></label>
+                          <input class="form-control" type="text" name="phone"  placeholder="phone" id="phone">
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label" style="color: blue;" for="datedariver">Date d'arrivée: <span class="tx-danger">*</span></label>
+                          <input class="form-control" type="date" name="datedariver"  placeholder="Date d'arrivée" id="datedariver">
+                      </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label" style="color: blue;" for="datedepart">Date de départ: <span class="tx-danger">*</span></label>
+                            <input class="form-control" type="date" name="datedepart"  placeholder="datedepart" id="datedepart">
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label" style="color: blue;" for="heuredariver">Heure d'arrivée: <span class="tx-danger">*</span></label>
+                        <input class="form-control" type="time" name="heuredariver"  placeholder="Heure d'arrivée" id="heuredariver">
+                      </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label" style="color: blue;" for="heuredepart">Heure de départ: <span class="tx-danger">*</span></label>
+                        <input class="form-control" type="time" name="heuredepart	"  placeholder="Heure datedepart" id="heuredepart">
+                      </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label" style="color: blue;" for="typebed">Type de Chambres: <span class="tx-danger">*</span></label>
+                        {# <select name="typebed" class="form-control typedechambre select2" data-placeholder="Choose one" id="typebed">
+                            <option value="0">Sélectionner le type</option>
+                            {% for chambre in typchambres %}
+                                <option value="{{chambre.id}}">{{chambre.nom}}</option>
+                            {% endfor %}
+                        </select> #}{# chambre.type.nom #}
+                        <select name="typebed" class="form-control typedechambre select2" data-placeholder="Choose one" id="typebed">
+                            <option value="0">Sélectionner le type</option>
+                            <option value="{{ chambreses.type.id }}">{{ chambreses.type.nom}}</option>
+                         
+                        </select>
+
+                       {# <input class="form-control" id="id" type="text"  name="id"  value="{{chambress.id}}"> #}
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                          <label class="form-control-label" style="color: blue;" for="sejourclient">Durée : <span class="tx-danger">*</span></label>
+                          <select name="sejourclient" class="form-control tarifdeschambres select2" id="sejourclient" data-placeholder="Choose one" style="width: 75%">
+                                <option value="0">Durée du sejour</option>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                          <label class="form-control-label" style="color: blue;" for="quantiter">Quantité <span class="tx-danger">*</span></label>
+                          <input value="1" id="quantiter"  class="form-control" type="number" name="qte" >
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                          <label class="form-control-label" style="color: blue;" for="nbenafant">Nombres d'enfants: <span class="tx-danger">*</span></label>
+                          <input class="form-control" type="number" name="nbenafant" placeholder="Nombres d'enfants" id="nbenafant">
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4">
+                          <div class="form-group"> 
+                            <label class="form-control-label" style="color: blue;" for="nbenafant">Nombres d'adultes: <span class="tx-danger">*</span></label>
+                            <input class="form-control" type="number" name="nbaldulte"  placeholder="Nombres d'adultes" id="nbaldulte">
+                          </div>
+                    </div>
+                    <div class="col-lg-4">
+                          <div class="form-group">
+                            <label class="form-control-label" style="color: blue;" for="nbenafant">Nombres de lits: <span class="tx-danger">*</span></label>
+                            <input class="form-control" type="number" name="nblit"  placeholder="Nombres de lits" id="nblit">
+                          </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                      <h4>Bientot disponible</h4>
+                        <img style="height: 30px;" class="img-responsive images" src="{{asset('paiement/om.png')}}">
+                        <img style="height: 30px;" class="img-responsive images" src="{{asset('paiement/momo.jpg')}}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4">
+                    <input class="form-control" id="id" type="hidden"  name="id"  value="{{entenes.id}}">
+
+                    </div>
+                    <div class="col-lg-4">
+                      {# <button style="width: 100%; margin-top: 20px; margin-bottom: 20px; background-color: blue;" type="submit"  class="btn btn-success btn-lg"><b>Enrégistrer</b></button> #}
+                    </div>
+                    <div class="col-lg-4">
+                      <button style="width: 100%; margin-top: 20px; margin-bottom: 20px; background-color: ;" type="submit"  class="btn btn-success btn-lg"><b>Résumer</b></button>
+                    </div>
+                    <div class="col-lg-4">
+                      {# <input type="submit" value="submit"> #}
+                    </div>
+                  </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+	$('#myform').previewForm();
+});
+</script>
+<script src="{{asset('previewForm/previewForm.js')}}"></script>
+<link rel="stylesheet" type="text/css" href="{{asset('previewForm/previewForm.css')}}" />
+
+
+
+            <script>
+    
+        $('#vefificationstatic').show();
+        $('#vefificationenable').hide();
+        $("#contentaftervalide").hide();
+        $(".formelement").hide();
+
+
+        $( ".typedechambre" ).change(function() {
+            $('.tarifdeschambres').find('option').remove();
+                $.ajax({
+                    url: "/getalltarif?id="+$(this).children("option:selected").val(),
+                    type: 'GET',
+                }).done(function(data){
+
+                    console.log(data.length);  
+                    i=0;
+                    while(i<data.length){
+                        $('.tarifdeschambres').append('<option value="'+data[i].id+'" >'+data[i].nom+'('+data[i].duree+'heure - '+data[i].prix+'FCFA )'+'</option>');
+                        i++;
+                    }  
+                        
+                }).fail(function(error){
+                    console.log("no ok");
+                });
+        });
+
+   
+</script>
+<script>
+    function checkdisponibilteofroom() {
+        $('#vefificationstatic').hide();
+        $('#vefificationenable').show();
+        $("#contentaftervalide").hide();
+        var typechambre=$('.typedechambre').children("option:selected").val();
+        //alert($('.typedechambre').children("option:selected").val());
+        //alert($('.tarifdeschambres').children("option:selected").val());
+        $('.chambres').find('option').remove();
+        
+        //alert($('#timeat').val());
+        $.ajax({
+            url: "/getallchambrelibre",
+            type: 'POST',
+            dataType: 'json',
+            data:{"datearrivee": $('#timeat').val(),"typechambre": typechambre,"duree":$('.tarifdeschambres').children("option:selected").val(),
+            "quantite":$('#quantiter').val()}
+        }).done(function(data){ 
+                    $('#vefificationstatic').show();
+                    $('#vefificationenable').hide();
+                    if(data.length==0){
+                        
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: "pas de chambre disponible",
+                                showConfirmButton: false,
+                                timer: 2000
+                            })
+                       
+                    }else{
+                        $("#contentaftervalide").show();
+                        i=0;
+                        while(i<data.length){
+                            $('.chambres').append('<option value="'+data[i].id+'" >'+data[i].numero+'</option>');
+                            i++;
+                        } 
+                    }
+                     
+                
+        }).fail(function(error){
+            $('#vefificationstatic').show();
+            $('#vefificationenable').hide();
+        });
+    }
+</script>
+<script>
+$(".js-form-sendallocation").on('submit', function(e) {
+    e.preventDefault();
+    //////
+    var idForm = $(this).attr('id');
+    var element = $("#" + idForm + " #btn-save-nouveau");
+    var element2 = $("#" + idForm + " #btn-save-nouveau");
+    element.html('Chargement... <span class="fa fa-spinner fa-pulse"></span>');
+    element.attr("disabled", "true");
+    //////
+    var dataform = $(this).serialize();
+    $.ajax({
+            url: "/allocationadd",
+            type: 'POST',
+            dataType: 'json',
+            data:dataform
+        }).done(function(data){ 
+            $("#contentaftervalide").hide();
+            console.log(idForm);
+            console.log(element);
+            element2.html('VALIDER');
+            element2.attr("disabled", "false");
+            if(data.success){
+                    Swal.fire({
+                    title: 'enregistrement terminer',
+                    text: "Voulez vous imprimer la facture ?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Imprimer'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                      window.open("/printrecuallocation?id="+data.id, '_blank');  
+                    }
+                    })
+            }else{
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: "problème d'enregistrer !",
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+            }
+             console.log(data);        
+                
+        }).fail(function(error){
+            console.log("no ok");
+        });
+}) 
+</script>
+
+{#  #}
+    
+{% endblock %}

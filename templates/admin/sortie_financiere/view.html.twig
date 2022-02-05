@@ -1,0 +1,139 @@
+
+{% block content %}
+<div class="br-mainpanel">
+  <div class="br-pagetitle">
+    <i class="fas fa-calulator"></i>
+    <div>
+      <h4><a href="{{path('sortie-financiere-index')}}" class="ajax-link"  data-toggle="ajax" data-target="monContent">SORTIES FINANCIERES</a>/ DETAILS</h4>
+      <p style="color:blue;" class="mg-b-0">----</p>
+    </div>
+  </div>
+    <div class="br-pagebody">
+        <div class="br-section-wrapper">
+          	<div class="container">
+				<div class="row">
+					<div class="col-sm">
+						<h6 class="br-section-label">
+							{% set type = sortie.beneficiaire.type %}
+							<a class="{{app.user.hasAccess('sortie-financiere-type')}}" href="{{path('sortie-financiere-type', {'type':type})}}" data-toggle="ajax" data-target="monContent" title="précédent">
+								<i class="fa fa-arrow-left"></i>
+							</a> 
+							Détails sur la sortie financière <u>{{sortie.code}}</u>
+							</h6>
+
+						{# {% if "createtype" in app.session.get('userdroit') %} #}
+						{% if 1 %}
+							<button onclick="makeEditable()" id="btn-makeEditable" class="btn btn-success float-right mg-t--7"><i class="fa fa-edit"></i>  Modifier</button>
+							<a  class="btn btn-dark float-right mg-t--7 mg-r-10 {{app.user.hasAccess('sortie-financiere-print-one')}}" target="_blank" href="{{path('sortie-financiere-print-one', {'id':sortie.id, 'type':sortie.beneficiaire.type}) }}"><i class="fa fa-print"></i>  Imprimer</a>
+							<!--Formulaire d'edition-->
+							<div class="formelement" id="nouveau" x-show="ajouter" style="padding:10px;">
+								<div class="row d-flex justify-content-center">
+									<div class="col-lg-12 col-xlg-12 col-md-12">
+										<div class="row mg-t-40">
+											<div class="col">
+												<form id="form-send" class="js-form-send" action="{{ path('sortie-financiere-update') }}" method="PUT"
+												data-toggle="ajax" data-target="monContent">
+													<input type="hidden" name="id" id="id" value="{{sortie.id}}">
+													<div class="form-layout form-layout-4">
+														<h6 class="br-section-label" id="titre-nouveau" style="display: none;"> Modification de la sortie financière</h6>
+														<div class="row">
+															<label class="col-sm-4 form-control-label">Motif: <span class="tx-danger">*</span></label>
+															<div class="col-sm-8 mg-t-10 mg-sm-t-0">
+																<input type="text" class="form-control" id="motif" name="motif" value="{{sortie.motif}}" required disabled>
+															</div>
+														</div><!-- row --><br>
+                                                        <div class="row">
+															<label class="col-sm-4 form-control-label">Montant: <span class="tx-danger">*</span></label>
+															<div class="col-sm-8 mg-t-10 mg-sm-t-0">
+																<input type="number" class="form-control" id="montant" name="montant" value="{{sortie.montant}}" required disabled>
+															</div>
+														</div><!-- row --><br>
+                                                        <div class="row">
+															<label class="col-sm-4 form-control-label">Compte: <span class="tx-danger">*</span></label>
+															<div class="col-sm-8 mg-t-10 mg-sm-t-0">
+																<select class="form-control" id="compte" name="compte"  disabled>
+																    {% for compte in comptes %}
+																		<option value="{{compte.id}}" {{compte.id == sortie.compte.id ? "selected"}}>{{compte.intitule}} : {{compte.code}}</option>
+                                                                    {% endfor %}
+                                                                </select> 
+															</div>
+														</div><br>
+														<div class="row">
+															<label class="col-sm-4 form-control-label">Bénéficiaire: <span class="tx-danger">*</span></label>
+															<div class="col-sm-8 mg-t-10 mg-sm-t-0">
+																{% if sortie.beneficiaire.type == "autre" %}
+																	<select class="form-control" id="beneficiaireID" name="beneficiaireID"  disabled>
+																		{% for user in users %}
+																			<option value="{{user.id}}" {{sortie.beneficiaire.autre.id == user.id ? "selected"}}>{{user.nom}} {{user.prenom}}</option>
+																		{% endfor %}
+																	</select> 
+																{% else %}
+																	<select class="form-control" id="beneficiaireID" name="beneficiaireID"  disabled>
+																		{% for fournisseur in fournisseurs %}
+																			<option value="{{fournisseur.id}}" {{sortie.beneficiaire.fournisseur.id == fournisseur.id ? "selected"}}>{{fournisseur.nom}}</option>
+																		{% endfor %}
+																	</select>
+																{% endif %}
+																
+															</div>
+														</div><br>
+                                                        <div class="row">
+															<label class="col-sm-4 form-control-label">Commentaire: </label>
+															<div class="col-sm-8 mg-t-10 mg-sm-t-0">																
+                                                                <textarea class="form-control" type="text" name="commentaire" rows="6" cols="100" placeholder="Commentaire" disabled></textarea>
+															</div>
+														</div><br>     
+														<div class="row row-xs mg-t-30" id="btn-footer" style="display: none;">
+															<div class="col-sm-8 mg-l-auto">
+																<div class="form-layout-footer">
+																	<button type="button" class="btn btn-default" onclick="makeEditable()">Annuler</button>
+																	<button type="submit" id="btn-save-nouveau" class="btn btn-primary mg-r-5">Enrégistrer</button>
+																</div>
+																<!-- form-layout-footer -->
+															</div>
+														</div>
+													</div>
+												<form>
+											</div><!-- col-6 -->
+										</div><!-- row -->
+									</div>
+								</div>
+							</div>
+							<!--détails-->
+							<hr>
+							<div class="row col-lg-12 mg-t-20">
+								<div class="col-lg-6">
+									<table class="table table-bordered responsive">
+										<tr>
+											<td>Code</td>
+											<th>{{sortie.code}}</th>
+										</tr>
+										<tr>
+											<td>Opérateur</td>
+											<th>{{sortie.operateur.username}}</th>
+										</tr>
+									</table>
+								</div>
+								<div class="col-lg-6">
+									<table class="table table-bordered responsive">
+										<tr>
+											<td>Date</td>
+											<th>{{sortie.createdAt | date("d-m-Y")}}</th>
+										</tr>
+										<tr>
+											<td>Antenne</td>
+											<th>{{sortie.operateur.antene.nom}}</th>
+										</tr>
+									</table>
+								</div>								
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div><!-- br-section-wrapper -->
+	</div><!-- br-pagebody -->
+</div>
+	
+	
+{% endblock %}

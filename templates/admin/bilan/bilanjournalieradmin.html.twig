@@ -1,0 +1,158 @@
+<div class="br-pagetitle">
+  <i class="icon icon ionicons ion-android-calendar"></i>
+  <div>
+    <h4 class="tx-uppercase">Bilan des entrées financières</h4>    
+  </div>
+</div><!-- d-flex -->
+<div class="br-section-wrapper">
+	<div class="d-flex justify-content-end" style="padding:10px;">
+		<button onclick="showFiltre()" id="btn-show-filter" class="btn btn-purple mg-r-10"><i class="fa fa-search"></i>  Filtrer</button>
+		<a class="btn btn-dark mg-r-10 " href="{{path('bilanjournalier', 
+    {'today': 'now' | date('Y/m/d')})}}" data-toggle="ajax" data-target="monContent"><i class="fa fa-calendar"></i>  Aujourd'hui</a>
+    <button class="btn btn-secondary mg-r-10"><a style="color:white;" href="{{path('printbilanjournaliergenerale', 
+      {'today': today, 'debut' : debut, 'fin' : fin} )}}" target="_blank"><i class="fa fa-print"></i> Imprimer</a></button>
+	</div>
+
+	<!--Formulaire pour filtrer les resultats-->
+	<div class="card bd-purple mg-t-10 mg-b-10" id="filter" style="display: none">
+		<div class="card-header bg-purple tx-white">
+		  Filter les entrées financières
+		</div>
+		<div class="card-body form-layout form-layout-5">
+      <form id="js-form-filter"  class="js-form-filter {{app.user.hasAccess('bilanjournalier')}}" method="GET">
+        <div class="row col-lg-12">
+          <!-- date début -->
+          <div class="col-lg-4">
+            Date de début: 
+            <input type="date" name="debut" id="debut" class="form-control">
+          </div>
+          <!-- date début -->
+          <div class="col-lg-4">
+          Date de fin: 
+            <input type="date" name="fin" id="fin" class="form-control">
+          </div>
+          <div class="col-lg-4 mg-t-20">              
+            <button type="submit" id="btn-show-filter" class="btn btn-purple mg-r-20">
+            <i class="fa fa-search"></i> Rechercher
+            </button>   
+            <button class="btn btn-secondary" onclick="showFiltre()" type="button">Annuler</button>
+          </div>
+        </div>
+      </form>
+		</div>
+	</div> 
+	<!-- Fin du formulaire des filtres-->
+
+  <!-- Affichage du bilan-->
+  <div class="card bd-primary mg-t-10 mg-b-10">
+		<div class="card-header bg-primary tx-white">
+		  {% if debut and fin %}
+        <h5 class="">Bilan des entrées financières du <u>{{debut | date('d/m/Y')}}</u> au <u>{{fin | date('d/m/Y')}}</u></h5>
+      {% elseif today %}
+        <h5 class="">Bilan des entrées financières du <u>{{today | date('d/m/Y')}}</u></h5>
+      {% else %}
+        <h5>Bilan général des entrées financières</h5>
+      {% endif %}
+		</div>
+    <div class="card-body form-layout form-layout-5">
+      <!-- Accordion-->
+      <div id="accordion2" class="accordion accordion-head-colored accordion-primary" role="tablist" aria-multiselectable="true">
+          <div class="card">            
+          {% for antenne in antennes %}
+              <div class="card-header" role="tab" id="headingThree2{{loop.index}}">
+                <h4 class="mg-b-0">
+                  <a class="collapsed transition" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree2{{loop.index}}" aria-expanded="false" aria-controls="collapseThree2">
+                    ANTENNE DE {{antenne.nom}}    
+                    <i class="fa fa-chevron-down"></i>               
+                    <i class="tx-16 text-secondary stats">( {{totaux[antenne.id] | craue_currency('XAF', 'fr-FR')}}) </i> 
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseThree2{{antenne.id}}" class="collapse" role="tabpanel" aria-labelledby="headingThree2">
+                <div class="card-block pd-20">
+                  <!-- data-->
+                  <div class="container py-1">              
+                    <div class="p-2 bg-white rounded shadow mb-5">
+                      <div class="table-wrapper">
+                        <table class="datatable table display responsive nowrap">
+                          <thead>
+                            <tr>
+                              <th class="wd-5p">#</th>
+                              <th class="wd-20p">OPERATEURS</th>
+                              <th class="wd-15p">SIESTES</th>
+                              <th class="wd-15p">NUITEES</th>
+                              <th class="wd-20p">TOTAL</th>
+                              <th class="wd-10p"></th>
+                            </tr>
+                          </thead>
+                          <tbody>                    
+                            {% set totalSieste = 0 %}    
+                            {% set totalNuitee = 0 %}    
+                            {% for entree in bilans[antenne.id] %}     
+                              {% set totalSieste = totalSieste + entree.sieste %}  
+                              {% set totalNuitee = totalNuitee + entree.nuitee %}    
+                              <tr>
+                                  <td>{{ loop.index }}</td>
+                                  <td>{{entree.operateur.nom}} {{entree.operateur.prenom}}</td>
+                                  <td>{{ entree.sieste | craue_currency('XAF', 'fr-FR') }}</td>
+                                  <td>{{ entree.nuitee | craue_currency('XAF', 'fr-FR')}}</td>
+                                  <td>{{ (entree.nuitee  + entree.sieste) | craue_currency('XAF', 'fr-FR')}}</td>
+                                  <td>
+                                    <a href="{{path('bilancurrentday-ofantene', {'today':today, 'debut':debut, 'fin':fin, 'iduser':entree.operateur.id, 'idantenne':antenne.id, 'retour':'bilanjournalier'})}}" class="btn btn-info" data-toggle="ajax" data-target="monContent">
+                                      <i class="fa fa-eye"></i> Détails
+                                    </a>
+                                  </td>
+                                </tr>
+                            {% endfor %}                           
+                          </tbody>
+                          <tfoot>
+                            <tr class="bg-black-8 tx-white tx-22">
+                              <td colspan="2" class="text-center">TOTAL</td>
+                              <td>{{totalSieste | craue_currency('XAF', 'fr-FR')}}</td>
+                              <td>{{totalNuitee | craue_currency('XAF', 'fr-FR')}}</td>
+                              <td>{{ (totalNuitee + totalSieste) | craue_currency('XAF', 'fr-FR')}}</td>
+                              <td></td>
+                            </tr>
+                          </tfoot>
+                        </table>
+                      </div>
+                    </div>
+                  </div>              
+                  <!-- Data-->
+                </div>
+              </div>
+            {% endfor %}
+          </div>    
+      </div>
+      <!-- accordion -->
+  </div>
+  <!-- Fin affichage du bilan-->
+</div>
+
+
+  <script>
+    function showFiltre() {
+              var v = document.getElementById("filter");
+              if (v.style.display === "none") {
+                  v.style.display = "block";
+              } else {
+                  $('form')[0].reset();
+                  v.style.display = "none";
+              }
+          }
+  
+        $('#js-form-filter').on('submit', function(e){
+          e.preventDefault();
+          loaderIn();
+          var debut = $("#debut").val();    
+          var fin = $("#fin").val();    
+          if(debut && fin && debut <= fin){
+            var url = "/bilanjournalier?debut="+debut+"&fin="+fin;
+            var effect = guessEffect(this, "#monContent");
+            ajaxLink(url, "monContent", "html", effect); 
+          }else{
+            sweetNotificationbad("dates invalides", "debut: "+debut+", fin: "+fin);
+          }
+          loaderOut();
+        })
+  </script>

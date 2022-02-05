@@ -1,0 +1,190 @@
+<div class="br-mainpanel">
+    <div class="br-pagetitle">
+        <a href="{{path('listapprovisionement')}}" class="{{app.user.hasAccess('listapprovisionement')}} " id="btn-nouveau"  data-toggle="ajax" data-target="monContent"><i class="fa fa-arrow-left"></i></a>
+        <div>
+            <h4>DEMANDER UN APPROVISIONNEMENT</h4>
+            <p style="color: blue;" class="mg-b-0">----</p>
+        </div>
+    </div>
+    
+    <!-- d-flex -->
+    <div class="br-pagebody">
+        <div class="br-section-wrapper">
+            <h6 class="br-section-label">Liste des Approvisionnements</h6>
+
+            <div x-data="{ ajouter : false }">
+                <div id="divError" style="display: none;" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Erreur:</strong>
+                    <span class="messageError"></span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-12 col-xlg-12 col-md-12">
+                        <div class="row mg-t-80">
+                            <div class="col">
+                                <form id="form-send" class="js-form-send" {{app.user.hasAccess('add-approvisionement')}}
+                                action="{{path('add-approvisionement')}}" method="POST"
+                                data-toggle="ajax" data-target="monContent">
+                                    <div class="form-layout form-layout-4">
+                                        <h6 class="br-section-label">Effectuez une demande d'approvisionement</h6>
+                                        
+                                        <!-- row -->
+                                        <br />
+										<div class="row" style="background: #ced4da;">
+											<div class="col-lg-4 col-xlg-4 col-md-4">
+											 	<label class="col-sm-12 form-control-label">Produit: <span class="tx-danger">*</span></label>
+												<select id="selectproduit" class="form-control" name="produit[]">
+													<option>Choisisez le produit</option>
+													{% for produit in produits %}
+														<option value="{{produit.id}}">{{produit.nom}}</option>
+													{% endfor %}
+												</select><br>
+												<label class="col-sm-12 form-control-label">Quantite: <span class="tx-danger">*</span></label>
+												<input id="qtproduct" type="number" class="form-control" placeholder="quantite" name="quantite[]"><br>
+
+												<span  class="btn btn-info add_to_cart">Ajouter</span>
+												<br>
+												<br>
+											</div>
+											<div class="col-lg-8 col-xlg-8 col-md-8">
+												<div class="table-responsive" id="order_table">
+													<table class="table table-bordered table-striped" id="dynamictabl">
+														<tr>  
+                                                            <th width="5%">ID</th>
+															<th width="40%">Produit</th>  
+															<th width="15%">Quantite</th> 
+															<th width="10%">Action</th>  
+														</tr>
+														
+													</table>
+												</div>
+											</div>
+										</div>
+                                        <div class="row">
+                                            <div class="col-lg-12 col-xlg-12 col-md-12">
+                                                <label class="col-sm-12 form-control-label">Commentaire<span class="tx-danger">*</span></label>
+                                                <div class="col-sm-12 mg-t-12 mg-sm-t-0">
+                                                    <textarea rows="3" class="form-control mg-t-20" name="description" id="description" placeholder="Description"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- row -->
+
+                                        <div class="form-layout-footer mg-t-30" align="right">
+                                            <button type="submit" class="btn btn-info">Valider</button>
+                                        </div>
+                                        <!-- form-layout-footer -->
+                                    </div>
+                                    <!-- form-layout -->
+                                </form>
+                            </div>
+                            <!-- col-6 -->
+                        </div>
+                        <!-- row -->
+                    </div>
+                </div>
+            </div>
+            <!-- br-pagebody -->
+        </div>
+        <!-- br-mainpanel -->
+    </div>
+</div>
+
+<script>
+	$('.datatable').DataTable({
+	responsive: false,
+	language: {
+		searchPlaceholder: 'Recherche...',
+		sSearch: '',
+		lengthMenu: '_MENU_ items/page',
+	}
+	});
+</script>
+<script>
+    $(".formelement").hide();
+    $(document).ready(function () {
+        
+        
+    });
+</script>
+<script>
+	function show() {
+	$(".formelement").show();
+	}
+	function hide() {
+	$(".formelement").hide();
+	}
+</script>
+
+<script>
+	$(document).on('click', '.add_to_cart', function(){
+		$(".errorform").hide();
+		//alert("ajouter produit");
+		var produit=$('#selectproduit option:selected').text();
+        
+		var produit_id=$('#selectproduit').val();
+		var quantite=$('#qtproduct').val();
+		var count = $('#dynamictabl tr').length;
+
+        console.log(produit_id);
+        var markup ='<tr><td>' +count+ '</td><td>'+ produit+ '<input type="hidden" name="produit[]" value="'+produit_id+'"></td><td>'+ quantite+ '<input type="hidden" name="quantite[]" value="'+ quantite +'"></td><td><button class="remove btn btn-pink active"><i class="fa fa-trash" aria-hidden="true"></i></button></td></tr>';
+		if(produit!="" && quantite !=""){
+			$("table tbody").append(markup);
+		}else{
+			$(".errorform").show();
+			//alert("Choissez un produit et y associer une quantité");
+		}
+	});
+
+	$(document).on('click','.remove',function(){
+        $(this).parent().parent().remove();
+        $('#dynamictabl tbody tr').each(function(i){            
+            //$($(this).find('td')[0]).html(i+1);
+            $($(this).find('td')[0]).html(i);           
+        });
+	});
+</script>
+<script>
+    $(document).on('click', '.saveentrestock', function(){
+        //alert("merci beaucoup a tous ");
+        console.log(produits);
+        /////////////////////////////////
+             $.ajax({
+                url: "/entrestockadd",
+                type: 'POST',
+                dataType: 'json',
+                data:{"produits":produits,"comment": $( "#description" ).val(),"fournisseur":$( "#fournisseur" ).val() }
+            }).done(function(responsse){ 
+                console.log(responsse);        
+                if(responsse.success){
+                    Swal.fire({
+                    title: 'enregistrement terminer',
+                    text: "Voulez vous imprimer la facture ?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Imprimer'
+                    }).then((result) => {
+                    
+                    })
+                }else{
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "problème d'enregistrer !",
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                }        
+                    
+            }).fail(function(error){
+                
+            });
+        ////////////////////////////////
+    });
+    {# function removeelment(indice,tab) {
+        
+    } #}
+</script>

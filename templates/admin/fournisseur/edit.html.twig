@@ -1,0 +1,68 @@
+
+<div class="br-pagetitle">
+    <i class="icon ionicons ion-android-walk"></i>
+    <div>
+        <h4>Modifier Les Informations du fournisseur</h4>
+    </div>
+</div><!-- d-flex -->
+<div class="container">
+    <div class="row row-sm">
+        <div class="col-12">
+            <div class="card bd-primary">
+                <div class="card-header bg-primary tx-white">
+                    <a class="{{app.user.hasAccess('index-fournisseur')}}" href="{{path('index-fournisseur')}}" style="color:Moccasin" data-toggle="ajax" data-target="monContent"><i class="fa fa-arrow-left"></i></a>
+                    Informations  du  fournisseur <span style="color:Moccasin"><b> </b></span>
+                </div>
+                <!-- card-header -->
+                <div class="card-body">
+                    <form id="form-send" class="js-form-send {{app.user.hasAccess('editfournisseur')}}" action="{{ path('editfournisseur') }}" method="PUT"
+                        data-toggle="ajax" data-target="monContent">
+                        <div class="row row-xs">
+                            <div class="col-lg-4">
+                                <label for=""><b>Nom</b></label>
+                                <input id="id" type="hidden"  name="id"  value="{{fournis.id}}">
+                                <input type="text" id="nom" class="form-control modif" name="nom" value="{{fournis.nom}}" required>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for=""><b>Ville</b></label>
+                                <input type="text" id="prenom" name="ville" class="form-control modif" value="{{fournis.ville}}" >
+                            </div>
+                            <div class="col-lg-4">
+                                <label for=""><b>Localisation</b></label>
+                                <input type="text" id="prenom" name="localisation" class="form-control modif" value="{{fournis.localisation}}" >
+                            </div>
+                        </div>
+
+                        <div class="row row-xs  mg-t-20">
+                            <div class="col-lg-4">
+                                <label for=""><b>Telephone1</b></label>
+                                <input type="text" id="telephone1" class="form-control modif" name="tel1" value="{{fournis.tel1}}" >
+                            </div>
+                            <div class="col-lg-4">
+                                <label for=""><b>Telephone2</b></label>
+                                <input type="text" id="telephone1" class="form-control modif" name="tel2" value="{{fournis.tel2}}" >
+
+                                </label>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for=""><b>Email</b></label>
+                                <input type="text" id="telephone1" class="form-control modif" name="email" value="{{fournis.email}}" >
+
+                                </label>
+                            </div>
+                        </div>                        
+                        <div class="row row-xs  mg-t-20">
+                            <button type="submit" class="btn btn-primary">Modifier</button>
+                        </div>
+                    </form>   
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>
+
+
+		
+
+
+

@@ -1,0 +1,122 @@
+
+<br>
+    <div class="br-mainpanel">
+    
+        {# <div class="br-pagetitle">
+            <i class="icon ion-man"></i>
+            <div>
+            <h4>Newsletters</h4>
+            <p style="color:blue;" class="mg-b-0">----</p>
+            </div>
+        </div><!-- d-flex --> #}
+         
+            <div class="br-pagebody">
+                <div class="br-section-wrapper" style="padding-top: 1px;">
+                    <h6 class="br-section-label" style="margin-top: 10px;" align="center">
+                    Envoyer des Newsletters
+                    </h6>
+                    <div class="row row-sm">
+                        <div class="col-sm-12 col-xl-12">
+                            <div class="col-md mg-t-20 mg-md-t-0">
+                                <div class="card bd-0">
+                                    
+                                    <div class="card-body color-gray-lighter bd bd-t-0 rounded-bottom">
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="popular2">
+                                            <div class="row row-sm">
+                                                
+                                                <div class="col-sm-6 col-xl-6">
+                                                    <div class="bg-info rounded overflow-hidden">
+                                                    <div class="pd-x-20 pd-t-20 d-flex align-items-center">
+                                                        <i class="ion ion-earth tx-60 lh-0 tx-white op-7"></i>
+                                                        <div class="mg-l-20">
+                                                        <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Today's Visits</p>
+                                                        <p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">1,975,224</p>
+                                                        <a href="{{path('client-newsletter')}}" class="ajax-link"  data-toggle="ajax" data-target="monContent">
+                                                        <span class="tx-11 tx-roboto tx-white-8">CLIENTS</span><br>
+                                                         </a>
+                                                        <h4 style="color:white;"></h4>
+                                                        </div>
+                                                    </div>
+                                                    <div id="ch1" class="ht-50 tr-y-1"></div>
+                                                    </div>
+                                                </div><!-- col-3 -->
+                                               
+                                                
+                                                <div class="col-sm-6 col-xl-6 mg-t-20 mg-sm-t-0">
+                                                    <div class="bg-purple rounded overflow-hidden">
+                                                    <div class="pd-x-20 pd-t-20 d-flex align-items-center">
+                                                        <i class="ion ion-bag tx-60 lh-0 tx-white op-7"></i>
+                                                        <div class="mg-l-20">
+                                                        <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Today Sales</p>
+                                                        <p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">$329,291</p>
+                                                        <a href="{{path('employe-newsletter')}}" class="ajax-link"  data-toggle="ajax" data-target="monContent">
+                                                        <span class="tx-11 tx-roboto tx-white-8">EMPLOYES</span><br>
+                                                        </a>
+                                                        <h4 style="color:white;"></h4>
+                                                        </div>
+                                                    </div>
+                                                    <div id="ch3" class="ht-50 tr-y-1"></div>
+                                                    </div>
+                                                </div>
+                                                <!-- col-3 -->
+                                                {# <div class="col-sm-6 col-xl-3 mg-t-20 mg-xl-t-0">
+                                                    <div class="bg-teal rounded overflow-hidden">
+                                                    <div class="pd-x-20 pd-t-20 d-flex align-items-center">
+                                                        <i class="ion ion-monitor tx-60 lh-0 tx-white op-7"></i>
+                                                        <div class="mg-l-20">
+                                                        <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">% Unique Visits</p>
+                                                        <p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">54.45%</p>
+                                                        <span class="tx-11 tx-roboto tx-white-8">RECETTE JOURNALIÈRE</span><br>
+                                                        <h4 style="color:white;"></h4>
+                                                        </div>
+                                                    </div>
+                                                    <div id="ch2" class="ht-50 tr-y-1"></div>
+                                                    </div>
+                                                </div><!-- col-3 --> #}
+                                                {# <div class="col-sm-6 col-xl-3 mg-t-20 mg-xl-t-0">
+                                                    <div class="bg-primary rounded overflow-hidden">
+                                                    <div class="pd-x-20 pd-t-20 d-flex align-items-center">
+                                                        <i class="ion ion-clock tx-60 lh-0 tx-white op-7"></i>
+                                                        <div class="mg-l-20">
+                                                        <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Bounce Rate</p>
+                                                        <p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">32.16%</p>
+                                                        <span class="tx-11 tx-roboto tx-white-8">RECETTE MENSUELLE</span><br>
+                                                        <h4 style="color:white;"></h4>
+                                                        </div>
+                                                    </div>
+                                                    <div id="ch4" class="ht-50 tr-y-1"></div>
+                                                    </div>
+                                                </div><!-- col-3 --> #}
+                                            </div><!-- row -->
+                                                                            
+                                        </div><!-- tab-content -->
+                                    </div><!-- card-body -->
+                                </div><!-- card -->
+                            </div><!-- col -->
+                        </div>
+		            </div>
+
+                </div><!-- tab-content -->
+            </div><!-- card-body -->
+    </div><!-- card -->
+       
+                                                                                
+						                               
+                                   
+                                
+                    
+<script>
+    $('.datatable').DataTable({
+    responsive: false,
+    language: {
+        searchPlaceholder: 'Recherche...',
+        sSearch: '',
+        lengthMenu: '_MENU_ items/page',
+    }
+    });
+</script>
+
+
+
+

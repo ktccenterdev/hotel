@@ -1,0 +1,93 @@
+
+<div class="br-pagetitle">
+  <i class="icon ion-man"></i>
+  <div>
+
+    <p style="color:blue;" class="mg-b-0">----</p>
+  </div>
+</div><!-- d-flex -->
+
+<div class="br-section-wrapper">
+  <div class="container">
+      <form id="form-send" class="js-form-send" action="{{path('addfordev-add')}}" method="POST"
+      data-toggle="ajax" data-toggle="monContent">
+        <div class="form-layout form-layout-4">
+          <h6 class="br-section-label">Ajouter un module-cle</h6>
+          <div class="row">
+            <label class="col-sm-4 form-control-label">module: <span class="tx-danger">*</span></label>
+            <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+              <select name="module" class="form-control select2" data-placeholder="Choose one" style="width: 75%">
+                {% for module in modules %}
+                  <option value="{{module.id}}">{{module.nom}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div><!-- row --><br>
+
+          <div class="row">
+            <label class="col-sm-4 form-control-label">is default: <span class="tx-danger">*</span></label>
+            <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+              <select name="isdefault" class="form-control select2" data-placeholder="Choose one" style="width: 75%">
+                
+                  <option value=1>Oui</option>
+                  <option value=0>Non</option>
+                
+              </select>
+            </div>
+          </div><!-- row -->
+          <br>
+          <div class="row">
+            <label class="col-sm-4 form-control-label">non action: <span class="tx-danger">*</span></label>
+            <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+              <input type="text" class="form-control" placeholder="Nom du module" name="nom">
+            </div>
+          </div><!-- row --><br>
+
+          <div class="row">
+            <label class="col-sm-4 form-control-label">description: <span class="tx-danger">*</span></label>
+            <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+              <input type="text" class="form-control" placeholder="Nom du module" name="description">
+            </div>
+          </div><!-- row --><br>
+
+          <div class="row">
+            <label class="col-sm-4 form-control-label">cle: <span class="tx-danger">*</span></label>
+            <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+              <input type="text" class="form-control" placeholder="Nom du module" name="cle">
+            </div>
+          </div><!-- row --><br>
+
+          <div class="row row-xs mg-t-30">
+            <div class="col-sm-8 mg-l-auto">
+              <div class="form-layout-footer">
+                <button type="submit" class="btn btn-info">Valider</button>
+                <button class="btn btn-secondary" onclick="hide()">Annuler</button>
+              </div>
+            </div>
+          </div><!-- form-layout-footer -->
+        </div><!-- form-layout -->
+      </form>
+  </div>
+<div>
+
+      
+
+    <script>
+    $(document).ready(function () {
+        $(".formelement").hide();
+        
+    });
+    </script>
+    <script>
+      function show() {
+        $(".formelement").show();
+      }
+      function hide() {
+        $(".formelement").hide();
+      }
+    </script>
+
+
+		
+
+

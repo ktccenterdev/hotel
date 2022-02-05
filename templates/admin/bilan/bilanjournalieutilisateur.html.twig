@@ -1,0 +1,78 @@
+<div class="br-mainpanel" style="position: relative;">
+      <div class="br-pageheader">
+        <nav class="breadcrumb pd-0 mg-0 tx-12">
+          <a class="breadcrumb-item" href="index.html">Bracket</a>
+          <a class="breadcrumb-item" href="">Cards &amp; Widgets</a>
+          <span class="breadcrumb-item active">Dashboard</span>
+        </nav>
+      </div><!-- br-pageheader -->
+      <div class="br-pagetitle">
+        <i class="icon icon ionicons ion-android-calendar"></i>
+        <div>
+          <h4>Bilan Journalier</h4>
+          
+        </div>
+      </div><!-- d-flex -->
+
+      <div class="br-pagebody pd-x-20 pd-sm-x-30">
+
+        <div class="row row-sm">
+          <div class="col-sm-12 col-xl-12">
+              <div class="card bd-0">
+                <div style="color:white;" class="card-header bg-primary">
+                  <h5> Mon bilan général de la journée du {{ date | date('d-m-Y') }}</h5>
+                </div><!-- card-header -->
+                  <div class="card-body bd bd-t-0 rounded-bottom">
+                  <span>
+                   <button class="btn btn-success" style="margin-left:5px; float: right;"><a style="color:white;" href="/printmonbilanjournalierofuser" target="_blank"><i class="fa fa-print"></i> Imprimer</a></button>
+                  </span>
+                    <div class="table-wrapper responsiveelement">
+                        <table class="datatable table display nowrap">
+                          <thead>
+                            <tr>	        
+                              <th class="wd-5p">ID</th>
+                              <th class="wd-15p">Client</th>
+                              <th class="wd-5p">Chambre</th>
+                              <th class="wd-20p">Type de Chambre</th>
+                              <th class="wd-15p">Arriver</th>
+                              <th class="wd-15p">Depart</th>
+                              <th class="wd-10p">Operateur</th>
+                              <th class="wd-35p">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          {% for allocation in allocations %}
+                            <tr>
+                              <td>{{loop.index}}</td>
+                              <td>{{allocation.occupant.username}}</td>
+                              <td>{{allocation.chambre.numero}}</td>
+                              <td>{{allocation.chambre.type.nom}}</td>
+                              <td>{{allocation.datedebut|date('d/m/Y H:i:s')}}</td>
+                              <td>{{allocation.datefin|date('d/m/Y H:i:s')}}</td>
+                               <td><b>{{allocation.operateur.username}}</b></td>
+                              <td>
+                                        
+                                  
+                                  <button class="btn btn-teal active" ><a href="" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
+                                  <button class="btn btn-success  active"><a href="/printrecuallocation?id={{allocation.id}}"  style="padding: 0px !important; color:white;" class="nav-link" target="_blank" ><i class="fas fa-print" aria-hidden="true" ></i></a></button> 
+                                                  
+                                          
+                              </td>
+                            </tr>
+                          {% endfor %}
+                          </tbody>
+                        </table>
+                    </div><!-- table-wrapper -->
+
+                    
+                </div><!-- card-body -->
+              </div><!-- card -->
+          </div>
+        </div>
+      </div>
+      <div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 100000px; height: 100000px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%">
+
+      </div>
+    </div>
+
+   

@@ -1,0 +1,163 @@
+  <div class="br-pagetitle">
+    <i class="icon ionicons ion-settings"></i>
+    <div>
+      <h4>Parametres</h4>
+      <p style="color:blue;" class="mg-b-0">----</p>
+    </div>
+  </div>
+
+  <div class="br-section-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+          <h6 class="br-section-label">Paramètres enrégistrés</h6>
+        </div>
+      </div>
+      {% if param %}
+        <form id="form-send" action="{{path('parameter-edit')}}" method="POST" enctype = "multipart/form-data"
+              data-toggle="ajax" data-target="monContent" confirm-action="Voulez-vous enrégistrer ces paramètres? ">
+          <input type="hidden" name="id" value="{{param.id}}">
+          <div class="row">
+            <div class="col-lg-6">
+              <label class="form-control-label">Nom: <span class="tx-danger">*</span></label>
+              <div class="form-group">
+                <input class="form-control" id="nom" type="text"  name="nom"  value="{{param.nom}}" required="required" disabled>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label class="form-control-label">Description: <span class="tx-danger">*</span></label>                  
+                <input class="form-control" id="nom" type="text"  name="description"  value="{{param.description}}" required="required" disabled>                
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label class="form-control-label">site: <span class="tx-danger">*</span></label>
+                <input class="form-control" id="nom" type="text"  name="site" value="{{param.site}}" disabled>
+              </div>
+            </div>                    
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label class="form-control-label">Email: <span class="tx-danger">*</span></label>
+                <input class="form-control" id="nom" type="email"  name="email"  value="{{param.email}}" disabled>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label class="form-control-label">bp: <span class="tx-danger">*</span></label>
+                <input class="form-control" id="nom" type="text"  name="bp" value="{{param.bp}}" disabled>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                  <label class="form-control-label">Pourcentage Reservation: 
+                    <span class="tx-danger">*</span>
+                  </label>
+                  <input class="form-control" disabled id="nom" type="text" name="pourcentagereservation"	value="{{param.pourcentagereservation}}">
+              </div>
+            </div>
+          </div>
+          
+          {#<div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label class="form-control-label">SMS USER: 
+                  <span class="tx-danger">*</span>
+                </label>
+                <input class="form-control" disabled id="nom" type="text" name="pourcentagereservation"	value="@@@">                  
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label class="form-control-label">SMS KEY: 
+                  <span class="tx-danger">*</span>
+                </label>
+                <input class="form-control" disabled id="nom" type="text" name="pourcentagereservation"	value="@@@">
+              </div>
+            </div>
+          </div>#}
+          
+			<div class="row">
+				<div class="col-lg-6">
+				<div class="form-group">
+					<label class="form-control-label">Compte d'hébergement: 
+					<span class="tx-danger">*</span>
+					</label>
+					<select class="form-control" id="compte" name="compteHebergement" disabled required>
+						<option disabled selected>Choisir un compte </option>
+						{% for compte in compteCredits %}
+							<option value="{{compte.id}}" {{compte.id == param.getCompteHebergement.id ? "selected"}}>{{compte.intitule}} : {{compte.code}}</option>
+						{% endfor %}
+					</select> 
+				</div>
+				</div>
+				<div class="col-lg-6">
+				<div class="form-group">
+					<label class="form-control-label">Compte règelement fournisseur: 
+					<span class="tx-danger">*</span>
+					</label>
+					<select class="form-control" id="compte" name="compteFournisseur" disabled required>
+						<option disabled selected>Choisir un compte </option>
+						{% for compte in compteDebits %}
+							<option value="{{compte.id}}" {{compte.id == param.getCompteFournisseur.id ? "selected"}}>{{compte.intitule}} : {{compte.code}}</option>
+						{% endfor %}
+					</select> 
+				</div>
+				</div>
+			</div>			
+
+			<div class="row">
+				<div class="col-lg-6">
+                    <div class="form-group">
+                      <div class="col-lg-3 mg-t-5 mg-sm-t-0">
+                        <label class="col-sm-4 form-control-label">PHOTO1: <span class="tx-danger">*</span></label>
+                          <input type="file" name="file1" id="file-1"
+                                    class="inputfile" data-caption="files selected" accept=".png, .jpg, .jpeg">
+                            <label for="file-1" class="if-outline if-outline-info">
+                              <i class="icon ion-ios-upload-outline tx-24"></i>
+                                <span>Choisisez la Première photo</span>
+                            </label>
+                      </div><!-- col-8 -->
+                    </div>
+                  </div><!-- col-4 -->
+				  <div class="col-lg-6">
+                    <div class="form-group">
+                    	<span >
+					  		<img  src="{{asset('photo/Logo/'~ param.logo)}}" height="150px" width="300px" alt="Logo actuel" 
+							class="img-responsive">
+						</span>
+                    </div>
+                  </div><!-- col-4 -->
+			</div>
+          {% if "parameter-edit" in app.session.get('userdroit') %}
+            <div class="row row-xs mg-t-30" id="btn-footer">
+              <div class="col-sm-7 mg-l-auto">
+                <div class="form-layout-footer">
+                  <button type="submit" class="btn btn-primary" id="btn-submit" style="display: none;">Valider</button>
+                  <button type="button" class="btn btn-secondary"  id="btn-form-editable" >Editer</button>															
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        </form>
+      {% endif %}
+    </div>
+  </div>
+
+<script>
+
+  $("#btn-form-editable").click(function(e){
+    e.preventDefault();
+    $("form#form-send :input").each(function(){
+        $(this).attr("disabled", false);
+    });
+      $(this).hide(0);
+      $("#btn-submit").show(0);
+  });
+</script>

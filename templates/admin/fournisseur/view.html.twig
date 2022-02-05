@@ -1,0 +1,101 @@
+<div class="br-pagetitle">
+    <i class="icon ionicons ion-android-walk"></i>
+    <div>
+        <h4>FOURNISSEURS</h4>
+    </div>
+</div><!-- d-flex -->
+<div class="container">
+    <div class="row row-sm">    
+        <div class="col-12">
+            <div class="card bd-primary">
+                <div class="card-header bg-primary tx-white">
+                    <a class="{{app.user.hasAccess('index-fournisseur')}}" href="{{path('index-fournisseur')}}" style="color:Moccasin" data-toggle="ajax" data-target="monContent"><i class="fa fa-arrow-left"></i></a>
+                    Informations  du  fournisseur <span style="color:Moccasin"><b> </b></span>
+                </div>
+                <!-- card-header -->
+                <div class="card-body">
+                    <div class="row row-xs">
+                        <div class="col-lg-4">
+                            <label for=""><b>Nom</b></label>
+                            <input type="text" id="nom" class="form-control modif" name="Nom" value="{{fournis.nom}}" disabled>
+                        </div>
+                        <div class="col-lg-4">
+                            <label for=""><b>Ville</b></label>
+                            <input type="text" id="prenom" name="prenom" class="form-control modif" value="{{fournis.ville}}" disabled>
+                        </div>
+                            <div class="col-lg-4">
+                            <label for=""><b>Localisation</b></label>
+                            <input type="text" id="prenom" name="prenom" class="form-control modif" value="{{fournis.localisation}}" disabled>
+                        </div>
+                    </div>
+
+                    <div class="row row-xs  mg-t-20">
+                        <div class="col-lg-4">
+                            <label for=""><b>Telephone1</b></label>
+                            <input type="text" id="telephone1" class="form-control modif" name="telephone1" value="{{fournis.tel1}}" disabled>
+                        </div>
+                        <div class="col-lg-4">
+                            <label for=""><b>Telephone2</b></label>
+                            <input type="text" id="telephone1" class="form-control modif" name="telephone1" value="{{fournis.tel2}}" disabled>
+
+                            </label>
+                        </div>
+                        <div class="col-lg-4">
+                            <label for=""><b>Email</b></label>
+                            <input type="text" id="telephone1" class="form-control modif" name="telephone1" value="{{fournis.email}}" disabled>
+
+                            </label>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>
+
+            <!-- end br-mainpanel -->
+   
+
+
+		
+
+
+
+
+
+
+<script type="text/javascript">
+  function openCity(evt, cityName) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+
+<script>
+	$('.datatable').DataTable({
+	responsive: true,
+	language: {
+		searchPlaceholder: 'Recherche...',
+		sSearch: '',
+		lengthMenu: '_MENU_ items/page',
+	}
+	});
+</script>
+

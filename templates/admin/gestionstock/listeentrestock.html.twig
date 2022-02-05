@@ -1,0 +1,77 @@
+<div class="br-mainpanel">
+
+        <div class="br-pagetitle">
+          <i class="icon fa fa-shopping-basket"></i>
+          <div>
+            <h4>ENTREE EN STOCKS</h4>
+            <p style="color:blue;" class="mg-b-0">----</p>
+          </div>
+        </div><!-- d-flex -->
+
+
+<div class="br-pagebody">
+        <div class="br-section-wrapper">
+          <h6 class="br-section-label">Liste des entrées en stocks</h6>
+          	 
+             <div    x-data="{ ajouter : false }">
+                <div class="d-flex justify-content-end" style="padding:10px;">
+                    <button onclick="show()" class="btn btn-primary" style="width: 12%;"><i class="fas fa-plus"></i> Ajouter</button>
+                    <button class="btn btn-secondary" style="margin-left:5px;"><a style="color:white;" href="{{path('print-entre-stock')}}" target="_blank"><i class="fa fa-print"></i> Imprimer</a></button>
+                </div>
+            <div> 
+         
+              <div class="table-wrapper responsiveelement">
+                  <table class="datatable table display nowrap">
+                    <thead>
+                      <tr>	        
+                        <th class="wd-15p">ID</th>
+                        <th class="wd-15p">Reponssable</th>
+                        <th class="wd-15p">Commentaire</th>
+                        <th class="wd-15p">Date</th>
+                        <th class="wd-25p">ACTION</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for entree in entrestocks %}
+                        <tr>
+                            <td>{{loop.index}}</td>
+                            <td>{{entree.user.username}}</td>
+                            <td>{{entree.commentaire}}</td>
+                            <td>{{entree.date|date('Y-m-d H:i:s')}}</td>
+                            <td>
+                                <button class="btn btn-teal active" ><a href="{{path('detailentreestock', {id: entree.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
+                                <button class="btn btn-teal active" ><a href="{{path('editfour', {id: entree.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
+                            </td>
+                            
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+              </div><!-- table-wrapper -->
+        </div><!-- br-section-wrapper -->
+      </div><!-- br-pagebody -->
+    </div><!-- br-mainpanel -->
+
+<script>
+  document.title = "Liste des entrés en stock";
+</script>
+ 
+<script>
+$(".formelement").hide();
+$(document).ready(function () {
+	
+	
+});
+</script>
+<script>
+	function show() {
+	$(".formelement").show();
+	}
+	function hide() {
+	$(".formelement").hide();
+	}
+</script>
+    
+    
+
+

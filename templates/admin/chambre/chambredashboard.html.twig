@@ -1,0 +1,296 @@
+<style>
+  .optional{
+    background: #8def7c;
+      color: white;
+  }
+</style>
+<style>
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color:#696969;
+  size: 100px;
+  color: #ccc;
+}
+
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 10px 25px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid black;
+  border-top: none;
+}
+
+.h5{
+	color:white;
+}
+
+
+.tabcontent {
+  animation: fadeEffect 1s; /* Fading effect takes 1 second */
+}
+
+/* Go from zero to full opacity */
+@keyframes fadeEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+.btn-group .btn:hover {
+	cursor: pointer;
+}
+
+</style>
+<div class="br-pagetitle">
+    <i class="icon ion-man"></i>
+    <div>
+    <h4>Chambre</h4>
+    <p style="color:blue;" class="mg-b-0">----</p>
+    </div>
+</div><!-- d-flex -->
+	<a href="{{path('index-chambre')}}" class=" {{app.user.hasAccess('index-chambre')}}" id="btn-nouveau"  data-toggle="ajax" data-target="monContent"><i class="fa fa-arrow-left float-left {{app.user.hasAccess('index-chambre')}}">Liste</i></a>
+    <br>
+<div class="br-section-wrapper">
+
+
+    <h6 class="br-section-label">
+    Ajouter une Chambre
+    </h6>
+
+
+    <form id="form-send" class="js-form-sendavecfile sauvegardededonne {{app.user.hasAccess('chambre-add')}}" action="{{path('chambre-add')}}" method="POST" data-toggle="ajax" data-target="monContent" enctype="multipart/form-data">        
+            <div class="form-layout form-layout-1">
+            <div class="row mg-b-25">
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="form-control-label">Type de chambre: <span class="tx-danger">*</span></label>
+                        <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fas fa-crown tx-16 lh-0 op-6"></i>
+                            </div>
+                        </div><!-- input-group-prepend -->
+                                        <select class="form-control" name="type_id">
+                                                    <option>Choisit un type de chambre</option>
+                                                    {% for type in types %}
+                                                    <option value="{{type.id}}">{{type.nom}}</option>
+                                                    {% endfor %}
+                                            </select>
+                        
+                        </div>
+                    </div>
+                </div>
+                        {#  </div><!-- col-4 --> #}
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="form-control-label">Antenne: <span class="tx-danger">*</span></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fas fa-signal tx-16 lh-0 op-6"></i>
+                            </div>
+                            </div><!-- input-group-prepend -->
+                                <select class="form-control" name="entene_id">
+                                            <option>Choisit une Antenne</option>
+                                                {% for entene in entene %}
+                                                <option value="{{entene.id}}">{{entene.nom}}</option>
+                                                {% endfor %}
+                                </select>
+                        </div>
+                    </div>
+                </div><!-- col-4 -->
+
+                <div class="col-lg-3">
+                    <div class="form-group">
+                    <label class="form-control-label">Numero: <span class="tx-danger">*</span></label>
+                    <input class="form-control" type="text" name="numero"  placeholder="numero">
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-3">
+                    <div class="form-group">
+                    <label class="form-control-label">Surface: <span class="tx-danger">*</span></label>
+                    <input class="form-control" type="number" name="surface"  placeholder="surface en m²">
+                    </div>
+                </div><!-- col-4 -->
+                
+                <div class="col-lg-4">
+                    <div class="form-group">
+                    <label class="form-control-label">Nombres d'enfants: <span class="tx-danger">*</span></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fas fa-child tx-16 lh-0 op-6"></i>
+                            </div>
+                            </div><!-- input-group-prepend -->
+                            <input class="form-control" type="number" name="nbenafant" placeholder="Nombres d'enfants">
+                        </div>
+                    </div>
+                </div><!-- col-4 -->
+
+                <div class="col-lg-4">
+                    <div class="form-group">
+                    <label class="form-control-label">Nombres d'adultes: <span class="tx-danger">*</span></label>
+                        <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                            <i class="fas fa-male tx-16 lh-0 op-6"></i>
+                            </div>
+                        </div><!-- input-group-prepend -->
+                        <input class="form-control" type="number" name="nbaldulte"  placeholder="Nombres d'adultes">
+                        </div>
+                    </div>
+                </div><!-- col-4 -->
+
+                <div class="col-lg-4">
+                    <div class="form-group">
+                    <label class="form-control-label">Nombres de lits: <span class="tx-danger">*</span></label>
+                        <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                            <i class="fas fa-bed tx-16 lh-0 op-6"></i>
+                            </div>
+                        </div><!-- input-group-prepend -->
+                        <input class="form-control" type="number" name="nblit"  placeholder="Nombres de lits">
+                        </div>
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-12">
+                    <div class="form-group">
+                    <label class="form-control-label">Description: <span class="tx-danger">*</span></label>
+                    <textarea class="form-control" type="text" name="description" rows="6" cols="100" placeholder="Description"></textarea>
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-6">
+                    <div class="form-group">
+                    <div class="col-lg-3 mg-t-5 mg-sm-t-0">
+                        <label class="col-sm-4 form-control-label">PHOTO1: <span class="tx-danger">*</span></label>
+                        <input type="file" name="file1" id="file-1"
+                                    class="inputfile" data-caption="files selected" accept=".png, .jpg,.jpeg">
+                            <label for="file-1" class="if-outline if-outline-info">
+                            <i class="icon ion-ios-upload-outline tx-24"></i>
+                                <span>Choisisez la Première photo</span>
+                            </label>
+                    </div><!-- col-8 -->
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-6">
+                    <div class="form-group">
+                    <div class="col-lg-3 mg-t-5 mg-sm-t-0">
+                        <label class="col-sm-4 form-control-label">PHOTO2: <span class="tx-danger">*</span></label>
+                        <input type="file" name="file2" id="file-2"
+                                    class="inputfile" data-caption="files selected" accept=".png, .jpg,.jpeg">
+                            <label for="file-2" class="if-outline if-outline-info">
+                            <i class="icon ion-ios-upload-outline tx-24"></i>
+                            <span>Choisisez la deuxième photo</span>
+                            </label>
+                    </div><!-- col-8 -->
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-6">
+                    <div class="form-group">
+                    <div class="col-lg-3 mg-t-5 mg-sm-t-0">
+                        <label class="col-sm-4 form-control-label">PHOTO3: <span class="tx-danger">*</span></label>
+                        <input type="file" name="file3" id="file-3"
+                                    class="inputfile" data-caption="files selected" accept=".png, .jpg,.jpeg">
+                            <label for="file-3" class="if-outline if-outline-info">
+                            <i class="icon ion-ios-upload-outline tx-24"></i>
+                            <span>Choisisez la troisième photo</span>
+                            </label>
+                        </div><!-- col-8 -->
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-6">
+                    <div class="form-group">
+                    <div class="col-lg-3 mg-t-5 mg-sm-t-0">
+                        <label class="col-sm-4 form-control-label">PHOTO4: <span class="tx-danger">*</span></label>
+                        <input type="file" name="file4" id="file-4"
+                            class="inputfile" data-caption="files selected" accept=".png, .jpg,.jpeg">
+                        <label for="file-4" class="if-outline if-outline-info">
+                            <i class="icon ion-ios-upload-outline tx-24"></i>
+                            <span>Choisisez la Quatrième photo</span>
+                        </label>
+                    </div><!-- col-8 -->
+                    </div>
+                </div><!-- col-4 -->
+                    {#  </div><!-- row  #} 
+                <br>
+                <div class="form-layout-footer mg-t-30">
+                        <button type="submit" class="btn btn-info">Valider</button>
+                        <button class="btn btn-secondary" type="button" onclick="hide()">Annuler</button>
+                </div><!-- form-layout-footer -->
+            </div><!-- row mg-b-25 -->
+            </div><!-- form-layout -->
+    </form>
+</div><!-- form-layout -->        
+
+
+
+
+<script>
+    $('.datatable').DataTable({
+    responsive: false,
+    language: {
+        searchPlaceholder: 'Recherche...',
+        sSearch: '',
+        lengthMenu: '_MENU_ items/page',
+    }
+    });
+</script>
+<script>
+$(document).ready(function () {
+    $(".formelement").hide();
+    
+});
+</script>
+<script>
+    function show() {
+    $(".formelement").show();
+    }
+    function hide() {
+    $(".formelement").hide();
+    }
+</script>
+<script type="text/javascript">
+  function openCity(evt, cityName) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+

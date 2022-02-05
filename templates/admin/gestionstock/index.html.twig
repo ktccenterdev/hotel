@@ -1,0 +1,312 @@
+<style>
+#myshow1 {
+ 
+  display:none;
+  
+}
+#myshow2 {
+ 
+  display:none;
+  
+}
+</style>
+
+
+<div class="br-mainpanel">
+    <div class="br-pagetitle">
+        <i class="ionicons ion-android-arrow-back"></i>
+        <div>
+            <h4>GESTION DES SORTIS EN STOCK</h4>
+            <p style="color: blue;" class="mg-b-0">----</p>
+        </div>
+    </div>
+    <!-- d-flex -->
+    <div class="br-pagebody">
+        <div class="br-section-wrapper">
+            <h6 class="br-section-label">Liste des sortis en stock</h6>
+
+            <div x-data="{ ajouter : false }">
+                <div id="divError" style="display: none;" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Erreur:</strong>
+                    <span class="messageError"></span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-12 col-xlg-12 col-md-12">
+                        <div class="row mg-t-80">
+                            <div class="col">
+                                <form id="form-send" class="js-form-send {{app.user.hasAccess('add-sortitstock')}}"
+								 data-toggle="ajax" data-target="monContent"
+								 action="{{path('add-sortitstock')}}" method="POST">
+                                    <div class="form-layout form-layout-4">
+										<h6 class="br-section-label">Effectuez une sortie</h6>
+											<div class="row">
+											
+												<div class="col-lg-3 col-xlg-3 col-md-3">
+													
+													<label class="col-sm-12 form-control-label">Magasin Depart: <span class="tx-danger">*</span></label>
+													<select class="form-control" id="id" name="magdepart_id" >
+														<option label="--Choisisez le Magasin de la sortitstock--"></option>
+														
+														{% set newArray = [] %}
+														{% for magasin in magasins %}
+														{% if (magasin.antene.id == app.user.antene.id) %}
+														{% if magasin.nom not in newArray %}
+															<option value="{{magasin.id}}">{{magasin.nom}}</option>
+															{% set newArray = newArray|merge([magasin.nom,null ]) %}
+															{% endif %}
+														{% endif %}
+														{% endfor %}
+													</select>
+												</div>
+												<div class="col-lg-3 col-xlg-3 col-md-3">
+													
+													<label class="col-sm-12 form-control-label">Type de sortit : <span class="tx-danger">*</span></label>
+													<select class="form-control" onchange="checkAlert(event)" name="sortistock_id">
+														<option label="Choisisez le type de sortit"></option>
+														{# {% set newArray = [] %}
+														{% for sortirstock in sortirstocks %}
+															{% if sortirstock.type not in newArray %}
+																<option >{{sortirstock.type}}</option>
+															{% set newArray = newArray|merge([sortirstock.type,null ]) %}
+															{% endif %}
+														{% endfor %}	
+													 #}
+													 <option value="PERSONNE">PERSONNE</option>
+													 <option value="MAGASIN">MAGASIN</option>
+													</select>
+													
+													
+												</div>
+												<div class="col-lg-3 col-xlg-3 col-md-3">
+													
+													<label class="col-sm-12 form-control-label">Type de produit: <span class="tx-danger">*</span></label>
+													<input class="form-control" type="text" name="type"  placeholder="type  de produit" required>
+													
+												</div>
+												{#//
+												 <div class="col-lg-3 col-xlg-3 col-md-3">
+													
+													<label class="col-sm-12 form-control-label">Type de sortit : <span class="tx-danger">*</span></label>
+													<select class="form-control" onchange="checkAlert(event)">
+														<option label="Choisisez le type de sortit"></option>
+														{% set newArray = [] %}
+														{% for sortirstock in sortirstocks %}
+															{% if sortirstock.type not in newArray %}
+																<option >{{sortirstock.type}}</option>
+															{% set newArray = newArray|merge([sortirstock.type,null ]) %}
+															{% endif %}
+														{% endfor %}	
+													
+													</select>
+													
+													
+												</div> 
+												//#}
+												<div class="col-lg-3 col-xlg-3 col-md-3" id="myshow1">
+													<label class="col-sm-12 form-control-label" >Person: <span class="tx-danger">*</span></label>
+													<select class="form-control"  name="responsable_id" >
+														<option label="--Choisissez la personne--"></option>
+														{% set newArray = [] %}
+														{% for sortirstock in sortirstocks %}
+														{% if sortirstock.user.nom not in newArray %}
+															<option value="{{sortirstock.id}}">{{sortirstock.user.nom}}</option>
+															{% set newArray = newArray|merge([sortirstock.user.nom,null ]) %}
+															{% endif %}
+														{% endfor %}
+													</select>
+												</div>
+												<div class="col-lg-3 col-xlg-3 col-md-3" id="myshow2">
+													<label class="col-sm-12 form-control-label">Magasin Destination: <span class="tx-danger">*</span></label>
+													<select class="form-control"  name="magdest_id"  >
+														<option label="--Choisissez le Magasin de destination--"></option>
+														{% set newArray = [] %}
+														{% for magasin in magasins %}
+														{% if magasin.nom not in newArray %}
+															<option value="{{magasin.id}}">{{magasin.nom}}</option>
+															{% set newArray = newArray|merge([magasin.nom,null ]) %}
+															{% endif %}
+														{% endfor %}
+													</select>
+												</div>
+												{# <div class="col-lg-3 col-xlg-3 col-md-3">
+													
+													<label class="col-sm-12 form-control-label">Type: <span class="tx-danger">*</span></label>
+													
+													 <input class="form-control" type="text" name="type"  placeholder="type de stock" required>
+												</div> #}
+												{# <div class="col-lg-3 col-xlg-3 col-md-3">
+													
+													<label class="col-sm-12 form-control-label">Type de sortit : <span class="tx-danger">*</span></label>
+													<select class="form-control" id="sortistock_id" name="sortistock_id" >
+														<option label="Choisisez le type de sortir"></option>
+														{% for sortirstock in sortirstocks %}
+															<option value="{{sortirstock.id}}">{{sortirstock.type}}</option>
+														{% endfor %}
+													</select><br>
+													
+													 <input class="form-control" type="text" name="sortistock_id"  placeholder="type de stock" >
+												</div> #}
+												
+												
+												<div class="errorform col-lg-8 col-xlg-8 col-md-8">
+													<div class="alert alert-warning alert-solid" role="alert">
+														<button type="button" class="close" data-dismiss="alert" click="close()" aria-label="Close">
+															<span aria-hidden="true">&times;</span>
+														</button>
+														<div class="d-flex align-items-center justify-content-start">
+															<i class="icon ion-alert-circled alert-icon tx-32 mg-t-5 mg-xs-t-0"></i>
+															<span><strong>Warning!</strong> Choissez un produit et y associer une quantité.</span>
+														</div><!-- d-flex -->
+													</div><!-- alert -->
+												</div>
+											</div>
+                                        <!-- row -->
+                                        <br />
+										<div class="row" style="background: #ced4da;">
+											<div class="col-lg-4 col-xlg-4 col-md-4">
+											 	<label class="col-sm-12 form-control-label">Produit: <span class="tx-danger">*</span></label>
+												<select class="form-control" id="produit" name="produit[]" >
+													<option label="--Choisisez le produit--"></option>
+													{% for produit in produits %}
+														<option value="{{produit.id}}">{{produit.nom}}</option>
+													{% endfor %}
+												</select><br>
+												<label class="col-sm-12 form-control-label">Quantite: <span class="tx-danger">*</span></label>
+												
+												<input type="number" class="form-control" id="quantite" name="quantite[]"><br>
+
+												<span  class="btn btn-info add_to_cart">Ajouter</span>
+												<br>
+												<br>
+											</div>
+											<div class="col-lg-8 col-xlg-8 col-md-8">
+												<div class="table-responsive" id="order_table">
+													<table class="table table-hover table-striped" id="dynamictabl">
+														<tr>  
+															<th class="wd-15p">ID</th>
+															<th class="wd-45p">Produit</th>
+															<th class="wd-25p">Quantité</th>
+															<th class="wd-15p">Retirer</th> 
+														</tr>
+														
+													</table>
+												</div>
+											</div>
+										</div>
+                                        <div class="row">
+                                            <div class="col-lg-12 col-xlg-12 col-md-12">
+                                                <label class="col-sm-12 form-control-label">Commentaire<span class="tx-danger">*</span></label>
+                                                <div class="col-sm-12 mg-t-12 mg-sm-t-0">
+                                                    <textarea rows="3" class="form-control mg-t-20" name="commantaire" placeholder="Description"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- row -->
+
+                                        <div class="form-layout-footer mg-t-30" align="right">
+                                            <button type="submit" class="btn btn-info" >Valider</button>
+                                        </div>
+                                        <!-- form-layout-footer -->
+                                    </div>
+                                    <!-- form-layout -->
+                                </form>
+                            </div>
+                            <!-- col-6 -->
+                        </div>
+                        <!-- row -->
+                    </div>
+                </div>
+            </div>
+            <!-- br-pagebody -->
+        </div>
+        <!-- br-mainpanel -->
+    </div>
+</div>
+
+<script>
+	$('.datatable').DataTable({
+	responsive: false,
+	language: {
+		searchPlaceholder: 'Recherche...',
+		sSearch: '',
+		lengthMenu: '_MENU_ items/page',
+	}
+	});
+</script>
+<script>
+$(".formelement").hide();
+$(".errorform").hide();
+$(document).ready(function () {
+	 
+	
+});
+</script>
+<script>
+	function show() {
+	$(".formelement").show();
+	}
+	function hide() {
+	$(".formelement").hide();
+	}
+{# 
+	function close() {
+		$(".errorform").hide();
+	} #}
+	
+</script>
+
+<script>
+	$(document).on('click', '.add_to_cart', function(){
+		$(".errorform").hide();
+		//alert("ajouter produit");
+		var produit=$('#produit option:selected').text();
+		var produit_id=$('#produit').val();
+		var quantite=$('#quantite').val();
+		var count = $('#dynamictabl tr').length;
+
+        console.log(produit_id);
+        var markup ='<tr><td>' +count+ '</td><td>'+ produit+ '<input type="hidden" name="produit[]" value="'+produit_id+'"/></td><td>'+ quantite+ '<input type="hidden" name="quantite[]" value="'+ quantite +'"/></td><td><button class="remove btn btn-pink active"><i class="fa fa-trash" aria-hidden="true"></i></button></td></tr>';
+		if(produit!="" && quantite !=""){
+			$("table tbody").append(markup);
+		}else{
+			$(".errorform").show();
+			//alert("Choissez un produit et y associer une quantité");
+		}
+	});
+
+	$(document).on('click','.remove',function(){
+			$(this).parent().parent().remove();
+			$('#dynamictabl tbody tr').each(function(i){            
+			$($(this).find('td')[0]).html(i);          
+		});
+	});
+</script>
+
+
+{# hideshowtyoe sortit #}
+<script>
+function checkAlert(evt) {
+  var x = document.getElementById("myshow1");
+  var y = document.getElementById("myshow2");
+  if (evt.target.value === "PERSONNE") 
+  {
+    x.style.display = "block";
+   }else{
+	x.style.display = "none"; 
+   }
+
+   if (evt.target.value === "MAGASIN") 
+  {
+    y.style.display = "block";
+   }else{
+	y.style.display = "none"; 
+   }
+
+
+    
+}
+</script>
+
+<script src="{{asset('js/hotelktc.js')}}"></script>

@@ -1,0 +1,41 @@
+{% extends 'admin/print/baseprint.pdf.twig' %}
+
+{% block reportbody %}
+<h2 class="titre">LISTE DES RESERVATIONS INTERNE</h2>
+            
+                <table style="width: 100%;" class="table"  border="1" cellspacing="1" cellpadding="4" align="center">
+					<thead>
+						<tr class="table-header">
+							<th width="14.3%">#</th>
+							<th class="20%">Nom du client</th>
+							<th class="20%">Date d'arrivé</th>
+							<th class="20%">Date de départ</th>
+							<th class="20%">Type de chambre</th>
+							<th class="20%">Quantité</th>
+							<th class="20%">Etat</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						{% for reservation in reservations %}
+						<tr>
+							<td>{{ loop.index }}</td>
+							<td>{{ reservation.client.nom }}</td>
+							<td>{{ reservation.datedariver | date('d/m/Y') }} à {{ reservation.heuredariver | date('H:i:s')}}</td>
+							<td>{{ reservation.datedepart | date('d/m/Y') }} à {{ reservation.heuredepart | date('H:i:s')}}</td>
+							<td>{{ reservation.typechambre.nom }}</td>
+							<td>{{ reservation.quantite}}</td>
+							<td
+								{% if reservation.etat == "Non traiter" %}
+									class="wd-15p" style="color:red;">{{ reservation.etat}}
+								{% elseif reservation.etat == "Traiter" %}
+									class="wd-15p" style="color:green;">{{ reservation.etat}}
+								{% endif %}
+							</td>
+                              
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+        
+{% endblock %}

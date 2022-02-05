@@ -1,0 +1,25 @@
+{% extends 'admin/print/baseprint.pdf.twig' %}
+
+{% block reportbody %}
+<h2 class="titre">LISTE DES MAGASINS</h2>
+<table style="width: 100%;" class="table"  border="1" cellspacing="1" cellpadding="4">
+    <tr class="table-header">
+        <th width="5%">#</th>
+        <th class="wd-15p">Nom</th>
+        <th class="wd-10p">Antenne</th>
+        <th class="wd-10p">Type</th>
+        <th class="wd-25p">Description</th>
+    </tr>
+    <tbody>
+        {% for item in magasins %}
+         <tr style="background-color: {{loop.index % 2 == 0 ? '' : '#f0f4f5'}}">
+            <td align="center">{{ loop.index }}</td>
+            <td>{{ item.nom}} </td>
+            <td>{{ item.antene.nom}} </td>
+            <td>{{ item.type}} </td>
+            <td>{{item.description |slice(0, 50) ~ '...' }} </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

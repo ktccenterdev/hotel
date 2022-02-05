@@ -1,0 +1,663 @@
+{% extends 'intro/basefront.html.twig' %}
+
+
+ {% block content %}
+<!-- banner -->
+    <div id="home" class="w3ls-banner">
+        <!-- banner-text -->
+        <div class="slider">
+            <div class="callbacks_container">
+                <ul class="rslides callbacks callbacks1" id="slider4">
+                    <li>
+                        <div class="w3layouts-banner-top">
+
+                            <div class="container">
+                                <div class="agileits-banner-info">
+                                     <i><h4>RAPHIA</h4></i> 
+                                    <h3>{% trans %}NOUS SAVONS CE QUE VOUS AIMEZ{% endtrans %}{#  #}</h3>
+                                    <p>{% trans %}BIENVENUE DANS NOS HÔTELS{% endtrans %}{#  #}</p>
+                                    <div class="agileits_w3layouts_more menu__item">
+                                        <a href="#" class="menu__link" data-toggle="modal" data-target="#myModal">{% trans %}Decouvrir plus{% endtrans %}{#  #}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="w3layouts-banner-top w3layouts-banner-top1">
+                            <div class="container">
+                                <div class="agileits-banner-info">
+                                    <i><h4>RAPHIA</h4></i> 
+                                    <h3>{% trans %}RESTEZ AVEC DES AMIS ET DES FAMILLES{% endtrans %}{#  #}</h3>
+                                    <p>{% trans %}VENEZ PROFITER D'UN MOMENT PRÉCIEUX AVEC NOUS{% endtrans %}{#  #}</p>
+                                    <div class="agileits_w3layouts_more menu__item">
+                                        <a href="#" class="menu__link" data-toggle="modal" data-target="#myModal">{% trans %}Decouvrir plus{% endtrans %}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="w3layouts-banner-top w3layouts-banner-top2">
+                            <div class="container">
+                                <div class="agileits-banner-info">
+                                   <i><h4>RAPHIA</h4></i> 
+                                    <h3>{% trans %}ENVIE DE VACANCES LUXUEUSES ?{% endtrans %}{#  #}</h3>
+                                    <p>{% trans %}OBTENEZ UN LOGEMENT AUJOURD'HUI{% endtrans %}{#  #}</p>
+                                    <div class="agileits_w3layouts_more menu__item">
+                                        <a href="#" class="menu__link" data-toggle="modal" data-target="#myModal">{% trans %}Decouvrir plus{% endtrans %}{# Learn More #}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="clearfix"> </div>
+            <!--banner Slider starts Here-->
+        </div>
+        <div class="thim-click-to-bottom">
+            <a href="#about" class="scroll">
+                <i class="fa fa-long-arrow-down" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+    <!-- //banner -->
+    <!--//Header-->
+    <!-- //Modal1 -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+        <!-- Modal1 -->
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4>RA<span>PHIA</span></h4>
+                    <img src="images/1.jpg" alt=" " class="img-responsive">
+                    <h5>{% trans %}Nous savons ce que vous aimez{% endtrans %}{#  #}</h5>
+                    <p>{% trans %}Offrant à ses clients des vues uniques et enchanteresses depuis leurs chambres avec ses équipements exceptionnels,  l'Hotel le RAPHIA est l'un des meilleurs en son genre. Essayez notre menu gastronomique, nos services exceptionnels et notre personnel amical pendant que vous êtes ici.{% endtrans %}{#  #}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- //Modal1 -->
+    <div id="availability-agileits">
+        <div class="col-md-12 book-form-left-w3layouts">
+
+            <h2>{% trans %}RESERVATION DE CHAMBRE{% endtrans %}{#  #}</h2>
+
+        </div>
+
+        <div class="clearfix"> </div>
+    </div>
+    <!-- banner-bottom -->
+    <div class="banner-bottom">
+        <div class="container">
+            <div class="agileits_banner_bottom">
+                <h3><span>{% trans %}VIVEZ UN BON SÉJOUR, PROFITEZ D'OFFRES FANTASTIQUES{% endtrans %}{#  #}</span>{% trans %}RETROUVEZ NOTRE ACCUEIL CONVIVIAL{% endtrans %} {#  #}</h3>
+            </div>
+            <div class="w3ls_banner_bottom_grids">
+                <ul class="cbp-ig-grid">
+                    <li>
+                        <div class="w3_grid_effect">
+                            <span class="cbp-ig-icon w3_road"></span>
+                            <h4 class="cbp-ig-title">{% trans %}MASTER BEDROOMS{% endtrans %}{#  #}</h4>
+                            <span class="cbp-ig-category">NOM</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="w3_grid_effect">
+                            <span class="cbp-ig-icon w3_cube"></span>
+                            <h4 class="cbp-ig-title">{% trans %}BALCON VUE MER{% endtrans %}{#  #}</h4>
+                            <span class="cbp-ig-category">NOM</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="w3_grid_effect">
+                            <span class="cbp-ig-icon w3_users"></span>
+                            <h4 class="cbp-ig-title">{% trans %}CAFÉ{% endtrans %}{#  #}</h4>
+                            <span class="cbp-ig-category">NOM</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="w3_grid_effect">
+                            <span class="cbp-ig-icon w3_ticket"></span>
+                            <h4 class="cbp-ig-title">{% trans %}WIFI{% endtrans %}{#  #}</h4>
+                            <span class="cbp-ig-category">NOM</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- //banner-bottom -->
+    <!-- /about -->
+    <div class="about-wthree" id="about">
+        <div class="container">
+            <div class="ab-w3l-spa">
+                <h3 class="title-w3-agileits title-black-wthree">{% trans %}À Propos De  RAPHIA{% endtrans %}{#  #}</h3>
+                <p class="about-para-w3ls">{% trans %}LUXUEUSES ...{% endtrans %}{# Lorem Ipsum is simply dummy text of the printing and typesetting industry.Sed tempus vestibulum lacus blandit faucibus. Nunc imperdiet, diam nec rhoncus ullamcorper, nisl nulla suscipit ligula, at imperdiet urna #}</p>
+                <img src="images/about.jpg" class="img-responsive" alt="Hair Salon">
+                <div class="w3l-slider-img">
+                    <img src="images/a1.jpg" class="img-responsive" alt="Hair Salon">
+                </div>
+                <div class="w3ls-info-about">
+                    <h4>{% trans %}Vous Allez Adorer Toutes Les Commodités Que Nous Offrons!{% endtrans %}{#  #}</h4>
+                    <p>{% trans %}Soyez les bienvenues {% endtrans %}{# Lorem ipsum dolor sit amet, ut magna aliqua.  #}</p>
+                </div>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+    <!-- //about -->
+    <!--sevices-->
+    <div class="advantages">
+        <div class="container">
+            <div class="advantages-main">
+                <h3 class="title-w3-agileits">{% trans %}Nos Services{% endtrans %}{#  #}</h3>
+                <div class="advantage-bottom">
+                    <div class="col-md-6 advantage-grid left-w3ls wow bounceInLeft" data-wow-delay="0.3s">
+                        <div class="advantage-block ">
+                            <i class="fa fa-credit-card" aria-hidden="true"></i>
+                            <h4>{% trans %}Payer Avant!{% endtrans %}{#   #}</h4>
+                            <p>{% trans %}quelques mots{% endtrans %}{# Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates. #}</p>
+                            <p><i class="fa fa-check" aria-hidden="true"></i>{% trans %}Chambre décorée, climatisée{% endtrans %}{# #}</p>
+                            <p><i class="fa fa-check" aria-hidden="true"></i>{% trans %}Balcon privé{% endtrans %}{#  #}</p>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6 advantage-grid right-w3ls wow zoomIn" data-wow-delay="0.3s">
+                        <div class="advantage-block">
+                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                            <h4>{% trans %}Restaurant 24 Heure{% endtrans %}{# 24 Hour Restaurant #}</h4>
+                            <p>{% trans %}quelques mots{% endtrans %}{# Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates. #}</p>
+                            <p><i class="fa fa-check" aria-hidden="true"></i>{% trans %}Service en chambre 24h/24{% endtrans %}{#  #}</p>
+                            <p><i class="fa fa-check" aria-hidden="true"></i>{% trans %}Service de conciergerie 24h/24{% endtrans %}{#  #}</p>
+                        </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--//sevices-->
+   {#  <!-- team -->
+    <div class="team" id="team">
+        <div class="container">
+            <h3 class="title-w3-agileits title-black-wthree">Meet Our Team</h3>
+            <div id="horizontalTab">
+                <ul class="resp-tabs-list">
+                    <li>
+                        <img src="images/ph1.jpg" alt=" " class="img-responsive" />
+                    </li>
+                    <li>
+                        <img src="" alt=" " class="img-responsive" />
+                    </li>
+                    <li>
+                        <img src="" alt=" " class="img-responsive" />
+                    </li>
+                    <li>
+                        <img src="" alt=" " class="img-responsive" />
+                    </li>
+                </ul>
+                <div class="resp-tabs-container">
+                    <div class="tab1">
+                        <div class="col-md-6 team-img-w3-agile">
+                        </div>
+                        <div class="col-md-6 team-Info-agileits">
+                            <h4>Lucas Jimenez</h4>
+                            <span>Manager</span>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis.Lorem ipsum dolor .</p>
+                            <div class="social-bnr-agileits footer-icons-agileinfo">
+                                <ul class="social-icons3">
+                                    <li>
+                                        <a href="#" class="fa fa-facebook icon-border facebook"> </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="fa fa-twitter icon-border twitter"> </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="fa fa-google-plus icon-border googleplus"> </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="fa fa-rss icon-border rss"> </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="tab2">
+                        <div class="col-md-6 team-img-w3-agile">
+                        </div>
+                        <div class="col-md-6 team-Info-agileits">
+                            <h4>Sarah Connor</h4>
+                            <span>Receptionist</span>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis.Lorem ipsum dolor .</p>
+                            <div class="social-bnr-agileits footer-icons-agileinfo">
+                                <ul class="social-icons3">
+                                    <li>
+                                        <a href="#" class="fa fa-facebook icon-border facebook"> </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="fa fa-twitter icon-border twitter"> </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="fa fa-google-plus icon-border googleplus"> </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="fa fa-rss icon-border rss"> </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="tab3">
+                        <div class="col-md-6 team-img-w3-agile">
+                        </div>
+                        <div class="col-md-6 team-Info-agileits">
+                            <h4>Ivan Simpson</h4>
+                            <span>Manager</span>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis.Lorem ipsum dolor .</p>
+                            <div class="social-bnr-agileits footer-icons-agileinfo">
+                                <ul class="social-icons3">
+                                    <li>
+                                        <a href="#" class="fa fa-facebook icon-border facebook"> </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="fa fa-twitter icon-border twitter"> </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="fa fa-google-plus icon-border googleplus"> </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="fa fa-rss icon-border rss"> </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="tab4">
+                        <div class="col-md-6 team-img-w3-agile">
+                        </div>
+                        <div class="col-md-6 team-Info-agileits">
+                            <h4>Marc Gutierrez</h4>
+                            <span>Receptionist</span>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis.Lorem ipsum dolor .</p>
+                            <div class="social-bnr-agileits footer-icons-agileinfo">
+                                <ul class="social-icons3">
+                                    <li>
+                                        <a href="#" class="fa fa-facebook icon-border facebook"> </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="fa fa-twitter icon-border twitter"> </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="fa fa-google-plus icon-border googleplus"> </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="fa fa-rss icon-border rss"> </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- //team --> #}
+    <!-- Gallery -->
+    <section class="portfolio-w3ls" id="gallery">
+        <h3 class="title-w3-agileits title-black-wthree">{% trans %}Notre Galleries{% endtrans %}{#  #}</h3>
+        <div class="col-md-3 gallery-grid gallery1">
+            <a href="images/111.jpg" class="swipebox"><img src="images/111.jpg" class="img-responsive" alt="/">
+                <div class="textbox">
+                    <h4>NOM</h4>
+                    <p><i class="fa fa-picture-o" aria-hidden="true"></i></p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 gallery-grid gallery1">
+            <a href="images/222.jpg" class="swipebox"><img src="images/222.jpg" class="img-responsive" alt="/">
+                <div class="textbox">
+                    <h4>NOM</h4>
+                    <p><i class="fa fa-picture-o" aria-hidden="true"></i></p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 gallery-grid gallery1">
+            <a href="images/333.jpg" class="swipebox"><img src="images/333.jpg" class="img-responsive" alt="/">
+                <div class="textbox">
+                    <h4>NOM</h4>
+                    <p><i class="fa fa-picture-o" aria-hidden="true"></i></p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 gallery-grid gallery1">
+            <a href="images/g4.jpg" class="swipebox"><img src="images/g4.jpg" class="img-responsive" alt="/">
+                <div class="textbox">
+                    <h4>NOM</h4>
+                    <p><i class="fa fa-picture-o" aria-hidden="true"></i></p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 gallery-grid gallery1">
+            <a href="images/g5.jpg" class="swipebox"><img src="images/g5.jpg" class="img-responsive" alt="/">
+                <div class="textbox">
+                    <h4>NOM</h4>
+                    <p><i class="fa fa-picture-o" aria-hidden="true"></i></p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 gallery-grid gallery1">
+            <a href="images/g6.jpg" class="swipebox"><img src="images/g6.jpg" class="img-responsive" alt="/">
+                <div class="textbox">
+                    <h4>NOM</h4>
+                    <p><i class="fa fa-picture-o" aria-hidden="true"></i></p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 gallery-grid gallery1">
+            <a href="images/g6.jpg" class="swipebox"><img src="images/g7.jpg" class="img-responsive" alt="/">
+                <div class="textbox">
+                    <h4>NOM</h4>
+                    <p><i class="fa fa-picture-o" aria-hidden="true"></i></p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 gallery-grid gallery1">
+            <a href="images/g6.jpg" class="swipebox"><img src="images/g8.jpg" class="img-responsive" alt="/">
+                <div class="textbox">
+                    <h4>NOM</h4>
+                    <p><i class="fa fa-picture-o" aria-hidden="true"></i></p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 gallery-grid gallery1">
+            <a href="images/g8.jpg" class="swipebox"><img src="images/g8.jpg" class="img-responsive" alt="/">
+                <div class="textbox">
+                    <h4>NOM</h4>
+                    <p><i class="fa fa-picture-o" aria-hidden="true"></i></p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 gallery-grid gallery1">
+            <a href="images/g10.jpg" class="swipebox"><img src="images/g10.jpg" class="img-responsive" alt="/">
+                <div class="textbox">
+                    <h4>NOM</h4>
+                    <p><i class="fa fa-picture-o" aria-hidden="true"></i></p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 gallery-grid gallery1">
+            <a href="images/g4.jpg" class="swipebox"><img src="images/g4.jpg" class="img-responsive" alt="/">
+                <div class="textbox">
+                    <h4>NOM</h4>
+                    <p><i class="fa fa-picture-o" aria-hidden="true"></i></p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 gallery-grid gallery1">
+            <a href="images/g2.jpg" class="swipebox"><img src="images/g2.jpg" class="img-responsive" alt="/">
+                <div class="textbox">
+                    <h4>NOM</h4>
+                    <p><i class="fa fa-picture-o" aria-hidden="true"></i></p>
+                </div>
+            </a>
+        </div>
+        <div class="clearfix"> </div>
+    </section>
+    <!-- //gallery -->
+
+    <!-- agence & rates -->
+    <div class="plans-section" id="agence">
+        <div class="container">
+            <h3 class="title-w3-agileits title-black-wthree">{% trans %}Nos agences{% endtrans %}{#  #}</h3>
+            <div class="priceing-table-main">
+            {% for entene in entenes %}
+                <div class="col-md-6 price-grid" style="padding:20px;">
+                    <div class="price-block agile">
+                        <div class="price-gd-top">
+                            <img src="{{asset('photo/Entene/photo/'~ entene.photo)}}" class="img-responsive" />
+                            <h4>{{ entene.nom }} à {{ entene.localisation }}</h4>
+                        </div>
+                        <div class="price-gd-bottom">
+                            <div class="price-list">
+                                <ul>
+
+                                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+
+                                    </li>
+                                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+
+                                </ul>
+                            </div>
+                            <div class="price-selet">
+                                <h3><span>{% trans %}Visitez{% endtrans %} </span>{# Nos types de chambres. #}</h3>
+
+                                <a href="{{ path('myantenne', { 'id': entene.id }) }}" class="sub-link nav-link ajax-link br-menu-link">{% trans %}Detail et reservation{% endtrans %}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+    <!--// agence & rates -->
+    <!-- rooms & rates -->
+    {# <div class="plans-section" id="rooms">
+        <div class="container">
+            <h3 class="title-w3-agileits title-black-wthree">Rooms And Rates</h3>
+            <div class="priceing-table-main">
+                <div class="col-md-3 price-grid">
+                    <div class="price-block agile">
+                        <div class="price-gd-top">
+                            <img src="images/r1.jpg" alt=" " class="img-responsive" />
+                            <h4>Deluxe Room</h4>
+                        </div>
+                        <div class="price-gd-bottom">
+                            <div class="price-list">
+                                <ul>
+
+                                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+
+                                    </li>
+                                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+
+                                </ul>
+                            </div>
+                            <div class="price-selet">
+                                <h3><span>$</span>320</h3>
+
+                                <a href="{{path('extern-reservation')}}" class="sub-link nav-link ajax-link br-menu-link">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 price-grid ">
+                    <div class="price-block agile">
+                        <div class="price-gd-top">
+                            <img src="images/r2.jpg" alt=" " class="img-responsive" />
+                            <h4>Luxury Room</h4>
+                        </div>
+                        <div class="price-gd-bottom">
+                            <div class="price-list">
+                                <ul>
+                                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                                </ul>
+                            </div>
+                            <div class="price-selet">
+                                <h3><span>$</span>220</h3>
+                                <a href="{{path('extern-reservation')}}" class="sub-link nav-link ajax-link">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 price-grid lost">
+                    <div class="price-block agile">
+                        <div class="price-gd-top">
+                            <img src="images/r3.jpg" alt=" " class="img-responsive" />
+                            <h4>Guest House</h4>
+                        </div>
+                        <div class="price-gd-bottom">
+                            <div class="price-list">
+                                <ul>
+                                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                                </ul>
+                            </div>
+                            <div class="price-selet">
+                                <h3><span>$</span>180</h3>
+                                <a href="{{path('extern-reservation')}}" class="sub-link nav-link ajax-link">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 price-grid wthree lost">
+                    <div class="price-block agile">
+                        <div class="price-gd-top ">
+                            <img src="images/r4.jpg" alt=" " class="img-responsive" />
+                            <h4>Single Room</h4>
+                        </div>
+                        <div class="price-gd-bottom">
+                            <div class="price-list">
+                                <ul>
+                                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                                    <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                                </ul>
+                            </div>
+                            <div class="price-selet">
+                                <h3><span>$</span> 150</h3>
+                                <a href="{{path('extern-reservation')}}" class="sub-link nav-link ajax-link">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+    <!--// rooms & rates -->
+	#}
+    <!-- visitors -->
+    <div class="w3l-visitors-agile">
+        <div class="container">
+            <h3 class="title-w3-agileits title-black-wthree">{% trans %}Ce Que Les Autres Visiteurs Ont Vécu{% endtrans %}{#  #}</h3>
+        </div>
+        <div class="w3layouts_work_grids">
+            <section class="slider">
+                <div class="flexslider">
+                    <ul class="slides">
+                        <li>
+                            <div class="w3layouts_work_grid_left">
+                               {#  <img src="images/curry.jpg" alt=" " class="img-responsive" /> #}
+                                <div class="w3layouts_work_grid_left_pos">
+                                    <img src="images/curry.jpg" alt=" " class="img-responsive" />
+                                </div>
+                            </div>
+                            <div class="w3layouts_work_grid_right">
+                                <h4>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i> {% trans %}ÇA VAUT LE COUP DE REVENIR{% endtrans %}{#  #}
+                                </h4>
+                                <p>{% trans %}j'ai Aimer{% endtrans %}</p>
+                                <h5>Julia Rose</h5>
+                                <p>{% trans %}Allemagne{% endtrans %}</p>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </li>
+                        <li>
+                            <div class="w3layouts_work_grid_left">
+                                {# <img src="images/ibaka.jpg" alt=" " class="img-responsive" /> #}
+                                <div class="w3layouts_work_grid_left_pos">
+                                    <img src="images/ibaka.jpg" alt=" " class="img-responsive" />
+                                </div>
+                            </div>
+                            <div class="w3layouts_work_grid_right">
+                                <h4>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star-o" aria-hidden="true"></i> {% trans %}Assez Bien{% endtrans %}
+                                </h4>
+                                <p>{% trans %}Le personnel est tres reactif{% endtrans %}</p>
+                                <h5>Jahnatan Smith</h5>
+                                <p>{% trans %}Etats-unis{% endtrans %}{#  #}</p>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </li>
+                        <li>
+                            <div class="w3layouts_work_grid_left">
+                                {# <img src="images/curry.jpg" alt=" " class="img-responsive" /> #}
+                                <div class="w3layouts_work_grid_left_pos">
+                                    <img src="images/curry.jpg" alt=" " class="img-responsive" />
+                                </div>
+                            </div>
+                            <div class="w3layouts_work_grid_right">
+                                <h4>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star-o" aria-hidden="true"></i> {% trans %}Bien{% endtrans %}
+                                </h4>
+                                <p>{% trans %}Bien, le lit bien dresser{% endtrans %}</p>
+                                <h5>Rosalind Cloer</h5>
+                                <p>Italy</p>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </li>
+                        <li>
+                            <div class="w3layouts_work_grid_left">
+                                {# <img src="images/ibaka.jpg" alt=" " class="img-responsive" /> #}
+                                <div class="w3layouts_work_grid_left_pos">
+                                    <img src="images/ibaka.jpg" alt=" " class="img-responsive" />
+                                </div>
+                            </div>
+                            <div class="w3layouts_work_grid_right">
+                                <h4>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                    <i class="fa fa-star-o" aria-hidden="true"></i>{% trans %}je donne 3 etoiles{% endtrans %}
+                                </h4>
+                                <p>{% trans %}Je donne 3 etoiles parce que , certains hotes mimique les gens{% endtrans %}</p>
+                                <h5>Amie Bublitz</h5>
+                                <p>Doaula</p>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </div>
+    <!-- visitors -->
+{% endblock %}
+

@@ -1,0 +1,220 @@
+
+<style>
+    .tab {
+      overflow: hidden;
+      border: 1px solid #ccc;
+      background-color: #f1f1f1;
+      size: 100px;
+      color:black;
+    }
+    
+    
+    /* Style the buttons that are used to open the tab content */
+    .tab button {
+      background-color: inherit;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 25px 40px;
+      transition: 0.3s;
+    }
+    
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+      background-color: #ddd;
+    }
+    
+    /* Create an active/current tablink class */
+    .tab button.active {
+      background-color: #ccc;
+    }
+    
+    /* Style the tab content */
+    .tabcontent {
+      display: none;
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      border-top: none;
+    }
+    
+    
+    
+    .tabcontent {
+      animation: fadeEffect 1s; /* Fading effect takes 1 second */
+    }
+    
+    /* Go from zero to full opacity */
+    @keyframes fadeEffect {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+    
+    </style>
+    
+    
+    
+    <div class="br-mainpanel">
+    
+          <div class="br-pagetitle">
+            <i class="fas fa-signal"></i>
+            <div>
+              <h4>ANTENNE</h4>
+              <p style="color:blue;" class="mg-b-0">----</p>
+            </div>
+          </div><!-- d-flex -->
+    </form>
+    
+    
+        <center>
+    
+        <style>
+            .btn-group .btn:hover {
+                cursor: pointer;
+            }
+        </style>
+        
+            <div class="row row-sm mg-t-25 mg-l-5 mg-t-5">
+                <div class="col-3">
+                    <div class="card bd-primary">
+                        <div class="card-header bg-primary tx-white">
+                            photo de l'Antenne
+                        </div>
+                        <!-- card-header -->
+                        <div class="card-body tx-center">
+                           {#  <div id="image_preview" class="rounded-circle">
+                                <img src="" class="wd-100" alt="">
+                            </div> #}
+                            <div class="mg-t-20">
+                               <img src="{{asset('photo/Entene/'~ entene.logo)}}" 
+                                height="300px" width="250" alt="dropdown image" 
+                                class="img-responsive">
+                                
+                            </div>
+                        </div>
+                        
+                        
+    
+                        <!-- card-body -->
+                    </div>
+                    
+                    
+                    <!-- card -->
+    
+                
+                    <!-- card -->
+    
+                    <!-- card -->
+    
+                    
+                </div>
+                <!-- col-3 -->
+                <div class="col-9">
+                    <form id="form-send" action="{{path('editerantene')}}" class="js-form-sendavecfile sauvegardededonne {{app.user.hasAccess('editerantene')}}" method="POST" data-toggle="ajax" data-target="monContent" enctype="multipart/form-data">
+                        {#<input type="hidden" name="id" value="">
+                        <input type="hidden" name="code" value="">#}
+                        <div class="card bd-primary">
+                            <div class="card-header bg-primary tx-white">
+                                <a href="{{path('entene')}}" class=" text-white float-left" data-toggle="ajax" data-target="monContent"><i class="fa fa-arrow-left"></i></a>
+                                Informations  de l'antenne  {{ entene.nom }}
+                            </div>
+                            <!-- card-header -->
+
+                            <div class="card-body">
+                                <div class="row row-xs">
+                                    <div class="col-lg-4">
+                                        <label for="">Nom: 
+                                        </label>
+                                        <input type="text" id="nom" class="form-control modif" name="nom" value="{{ entene.nom }}">
+                                        <input type="text" id="id" class="form-control modif" name="id" value="{{ entene.id }}" style="display:none;">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label for="">localisation:
+                                        </label>
+                                        <input type="text" id="localisation" name="localisation" class="form-control modif" value=" {{ entene.localisation }}">
+                                    </div>
+                                
+                                    <div class="col-lg-4">
+                                        <label for="">Description: 
+                                        </label>
+                                                    <input type="text" id="description" class="form-control modif" name="description" value="{{ entene.description }}">
+                                       
+                                        </label>
+                                    </div>
+                                </div>
+    
+                                <div class="row row-xs  mg-t-20">
+                                    <div class="col-lg-3">
+                                        <label for="">Telephone: 
+                                        </label>
+                                        <input type="text" id="telephone2" name="tel" class="form-control modif" value="{{entene.tel}}">
+                                    </div>
+                                
+                                    <div class="col-lg-3">
+                                        <label for="">Email: 
+                                        </label>
+                                        <input type="text" id="email" name="email" class="form-control modif datepicker" name="datenaiss" value="{{ entene.email }}"  style="height: 40px;">
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label for="">Boite Postal: 
+                                        </label>
+                                        <input type="text" id="bp" name="bp" class="form-control modif" value="{{ entene.bp }}">
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label for="">site: 
+                                        </label>
+                                        <textarea type="text" id="site" name="site" class="form-control modif" value="{{ entene.site }}">{{ entene.site }}</textarea>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <h5>choisissez la photos a remplacer </h5>
+                            
+                                        <input type="file" name="logo"  accept=".png, jpg,jpeg">
+                                    </div>
+                                </div>
+                                <br>
+                                    <div class="form-layout-footer mg-t-30">
+                                        <button type="submit" id="btn-save-nouveau" class="btn btn-primary mg-r-5">Valider</button>
+                                                                              
+                                        {#<a type="button" href="{{path('entene')}}" class="btn btn-secondary sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Annuler</a>#}
+                                    </div><!-- form-layout-footer -->
+                            </div>
+                        </div>
+                    </form>
+                    <!-- col-9 -->
+                </div> 
+            </div>
+    
+        </div>
+        <!-- sh-pagebody -->
+    
+        <!-- card -->
+    
+    </center>
+    
+
+    
+    
+    
+    <script type="text/javascript">
+      function openCity(evt, cityName) {
+      // Declare all variables
+      var i, tabcontent, tablinks;
+    
+      // Get all elements with class="tabcontent" and hide them
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+    
+      // Get all elements with class="tablinks" and remove the class "active"
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+    
+      // Show the current tab, and add an "active" class to the button that opened the tab
+      document.getElementById(cityName).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
+    </script>
+    

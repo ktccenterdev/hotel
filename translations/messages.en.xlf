@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="0jg4sef" resname="Symfony is great">
+        <source>Symfony is great</source>
+        <target>__Symfony is great</target>
+      </trans-unit>
+      <trans-unit id="UzFhc1Y" resname="Accueil">
+        <source>Accueil</source>
+        <target>Home</target>
+      </trans-unit>
+      <trans-unit id="udq4kl0" resname="A-propos">
+        <source>A-propos</source>
+        <target>About</target>
+      </trans-unit>
+      <trans-unit id="NZXRYP2" resname="Galeries">
+        <source>Galeries</source>
+        <target>Galeries</target>
+      </trans-unit>
+      <trans-unit id="x9RNcvp" resname="Agences">
+        <source>Agences</source>
+        <target>Agences</target>
+      </trans-unit>
+      <trans-unit id="tFBkXev" resname="Contacts">
+        <source>Contacts</source>
+        <target>Contacts</target>
+      </trans-unit>
+      <trans-unit id="YdaVBBA" resname="Connexion">
+        <source>Connexion</source>
+        <target>Login</target>
+      </trans-unit>
+      <trans-unit id="77atzfg" resname="Inscrivez vous à notre Newsletter">
+        <source>Inscrivez vous à notre Newsletter</source>
+        <target>Sign Up For Our News Letters</target>
+      </trans-unit>
+      <trans-unit id="ZGfu5Cv" resname="Nom complet:">
+        <source>Nom complet:</source>
+        <target> Full Name:</target>
+      </trans-unit>
+      <trans-unit id="af0jCFq" resname="Numéro de téléphone:">
+        <source>Numéro de téléphone:</source>
+        <target>Phone Number:</target>
+      </trans-unit>
+      <trans-unit id="gY_1N8i" resname="Adresse e-mail:">
+        <source>Adresse e-mail:</source>
+        <target>Email Address:</target>
+      </trans-unit>
+      <trans-unit id="TuaHLBJ" resname="© 2021 KTC. Tous droits réservés | Développer par">
+        <source>© 2021 KTC. Tous droits réservés | Développer par</source>
+        <target>© 2021 KTC . All Rights Reserved | Develop by</target>
+      </trans-unit>
+      <trans-unit id="5bslf5S" resname="NOUS SAVONS CE QUE VOUS AIMEZ">
+        <source>NOUS SAVONS CE QUE VOUS AIMEZ</source>
+        <target>We know what you love</target>
+      </trans-unit>
+      <trans-unit id="MmfF7Dd" resname="BIENVENUE DANS NOS HÔTELS">
+        <source>BIENVENUE DANS NOS HÔTELS</source>
+        <target>Welcome to our hotels</target>
+      </trans-unit>
+      <trans-unit id="tHeoQZG" resname="Decouvrir plus">
+        <source>Decouvrir plus</source>
+        <target>Learn More</target>
+      </trans-unit>
+      <trans-unit id="PfRpiyn" resname="RESTEZ AVEC DES AMIS ET DES FAMILLES">
+        <source>RESTEZ AVEC DES AMIS ET DES FAMILLES</source>
+        <target>Stay with friends and families</target>
+      </trans-unit>
+      <trans-unit id="BpZLSXK" resname="VENEZ PROFITER D'UN MOMENT PRÉCIEUX AVEC NOUS">
+        <source>VENEZ PROFITER D'UN MOMENT PRÉCIEUX AVEC NOUS</source>
+        <target>Come an enjoy precious moment with us</target>
+      </trans-unit>
+      <trans-unit id="v87mUQz" resname="ENVIE DE VACANCES LUXUEUSES ?">
+        <source>ENVIE DE VACANCES LUXUEUSES ?</source>
+        <target>want luxurious vacation?</target>
+      </trans-unit>
+      <trans-unit id="L3r2.WA" resname="OBTENEZ UN LOGEMENT AUJOURD'HUI">
+        <source>OBTENEZ UN LOGEMENT AUJOURD'HUI</source>
+        <target>Get accommodation today</target>
+      </trans-unit>
+      <trans-unit id="Ez1WC3x" resname="Nous savons ce que vous aimez">
+        <source>Nous savons ce que vous aimez</source>
+        <target>We know what you love</target>
+      </trans-unit>
+      <trans-unit id="HSCfQ5A" resname="Offrant à ses clients des vues uniques et enchanteresses depuis leurs chambres avec ses équipements exceptionnels,  l'Hotel le RAPHIA est l'un des meilleurs en son genre. Essayez notre menu gastronomique, nos services exceptionnels et notre personnel amical pendant que vous êtes ici.">
+        <source>Offrant à ses clients des vues uniques et enchanteresses depuis leurs chambres avec ses équipements exceptionnels,  l'Hotel le RAPHIA est l'un des meilleurs en son genre. Essayez notre menu gastronomique, nos services exceptionnels et notre personnel amical pendant que vous êtes ici.</source>
+        <target>Providing guests unique and enchanting views from their rooms with its exceptional amenities, makes Star Hotel one of bests in its kind.Try our food menu, awesome services and friendly staff while you are here.</target>
+      </trans-unit>
+      <trans-unit id="bTgZI4z" resname="RESERVATION DE CHAMBRE">
+        <source>RESERVATION DE CHAMBRE</source>
+        <target>ROOM RESERVATION</target>
+      </trans-unit>
+      <trans-unit id="wyjG0OW" resname="VIVEZ UN BON SÉJOUR, PROFITEZ D'OFFRES FANTASTIQUES">
+        <source>VIVEZ UN BON SÉJOUR, PROFITEZ D'OFFRES FANTASTIQUES</source>
+        <target>Experience a good stay, enjoy fantastic offers</target>
+      </trans-unit>
+      <trans-unit id="Zi2V6yI" resname="RETROUVEZ NOTRE ACCUEIL CONVIVIAL">
+        <source>RETROUVEZ NOTRE ACCUEIL CONVIVIAL</source>
+        <target>Find our friendly welcoming reception</target>
+      </trans-unit>
+      <trans-unit id="hUfxTWD" resname="MASTER BEDROOMS">
+        <source>MASTER BEDROOMS</source>
+        <target>MASTER BEDROOMS</target>
+      </trans-unit>
+      <trans-unit id="CDDaFnw" resname="BALCON VUE MER">
+        <source>BALCON VUE MER</source>
+        <target>SEA VIEW BALCONY</target>
+      </trans-unit>
+      <trans-unit id="Jkl3pSN" resname="CAFÉ">
+        <source>CAFÉ</source>
+        <target>LARGE CAFE</target>
+      </trans-unit>
+      <trans-unit id="i7YOG0n" resname="WIFI">
+        <source>WIFI</source>
+        <target>WIFI COVERAGE</target>
+      </trans-unit>
+      <trans-unit id="y9nyqJE" resname="À Propos De  RAPHIA">
+        <source>À Propos De  RAPHIA</source>
+        <target>About Our RAPHIA</target>
+      </trans-unit>
+      <trans-unit id="3BUr3Ad" resname="LUXUEUSES ...">
+        <source>LUXUEUSES ...</source>
+        <target>LUXIOUS</target>
+      </trans-unit>
+      <trans-unit id="CZ05.gQ" resname="Vous Allez Adorer Toutes Les Commodités Que Nous Offrons!">
+        <source>Vous Allez Adorer Toutes Les Commodités Que Nous Offrons!</source>
+        <target>You'll love all the amenities we offer!</target>
+      </trans-unit>
+      <trans-unit id="VNJHDKX" resname="Soyez les bienvenues">
+        <source>Soyez les bienvenues</source>
+        <target>Welcome</target>
+      </trans-unit>
+      <trans-unit id="v12ID_V" resname="Nos Services">
+        <source>Nos Services</source>
+        <target>Our Services</target>
+      </trans-unit>
+      <trans-unit id="7uls6DR" resname="Payer Avant!">
+        <source>Payer Avant!</source>
+        <target>Payer Avant!</target>
+      </trans-unit>
+      <trans-unit id="JFVo1Aa" resname="quelques mots">
+        <source>quelques mots</source>
+        <target>Some words</target>
+      </trans-unit>
+      <trans-unit id="UfhZ9yM" resname="Chambre décorée, climatisée">
+        <source>Chambre décorée, climatisée</source>
+        <target> Decorated room, proper air conditioned</target>
+      </trans-unit>
+      <trans-unit id="HXADM0F" resname="Balcon privé">
+        <source>Balcon privé</source>
+        <target>Private balcony</target>
+      </trans-unit>
+      <trans-unit id="ISELtHb" resname="Restaurant 24 Heure">
+        <source>Restaurant 24 Heure</source>
+        <target>24 Hour Restaurant</target>
+      </trans-unit>
+      <trans-unit id="SEM0TSS" resname="Service en chambre 24h/24">
+        <source>Service en chambre 24h/24</source>
+        <target>24 hours room service</target>
+      </trans-unit>
+      <trans-unit id="X7COw5n" resname="Service de conciergerie 24h/24">
+        <source>Service de conciergerie 24h/24</source>
+        <target>24-hour Concierge service</target>
+      </trans-unit>
+      <trans-unit id="DY9Umgc" resname="Notre Galleries">
+        <source>Notre Galleries</source>
+        <target>Our Gallery</target>
+      </trans-unit>
+      <trans-unit id="J38uMaz" resname="Nos agences">
+        <source>Nos agences</source>
+        <target>Our Agences</target>
+      </trans-unit>
+      <trans-unit id="bAosnyJ" resname="Visitez">
+        <source>Visitez</source>
+        <target>Visit Us</target>
+      </trans-unit>
+      <trans-unit id="m108CHE" resname="Ce Que Les Autres Visiteurs Ont Vécu">
+        <source>Ce Que Les Autres Visiteurs Ont Vécu</source>
+        <target>What other visitors experienced</target>
+      </trans-unit>
+      <trans-unit id="9q7B8ZJ" resname="ÇA VAUT LE COUP DE REVENIR">
+        <source>ÇA VAUT LE COUP DE REVENIR</source>
+        <target>Worth to come again</target>
+      </trans-unit>
+      <trans-unit id="4.1ioQT" resname="j'ai Aimer">
+        <source>j'ai Aimer</source>
+        <target>I Loved it</target>
+      </trans-unit>
+      <trans-unit id="a1jb1qm" resname="Allemagne">
+        <source>Allemagne</source>
+        <target>Germany</target>
+      </trans-unit>
+      <trans-unit id="TcL0zTN" resname="Assez Bien">
+        <source>Assez Bien</source>
+        <target>Good enough</target>
+      </trans-unit>
+      <trans-unit id="jva9x3." resname="Le personnel est tres reactif">
+        <source>Le personnel est tres reactif</source>
+        <target>Reactive Personnel</target>
+      </trans-unit>
+      <trans-unit id="lFAO8pW" resname="Etats-unis">
+        <source>Etats-unis</source>
+        <target>United States</target>
+      </trans-unit>
+      <trans-unit id="PX7Rv7p" resname="Bien">
+        <source>Bien</source>
+        <target>Good</target>
+      </trans-unit>
+      <trans-unit id="jYlFU6S" resname="Bien, le lit bien dresser">
+        <source>Bien, le lit bien dresser</source>
+        <target>Good, well dressed beds</target>
+      </trans-unit>
+      <trans-unit id="rEeVUYT" resname="je donne 3 etoiles">
+        <source>je donne 3 etoiles</source>
+        <target>I give 3 stars</target>
+      </trans-unit>
+      <trans-unit id="URp1MKx" resname="Je donne 3 etoiles parce que , certains hotes mimique les gens">
+        <source>Je donne 3 etoiles parce que , certains hotes mimique les gens</source>
+        <target>I give 3 stars because , some hosts mimic people</target>
+      </trans-unit>
+      <trans-unit id="Zl7fIEE" resname="Detail et reservation">
+        <source>Detail et reservation</source>
+        <target>Details and reservation</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

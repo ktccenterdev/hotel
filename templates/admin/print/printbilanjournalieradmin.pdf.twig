@@ -1,0 +1,51 @@
+{% extends 'admin/print/baseprint.pdf.twig' %}
+
+{% block reportbody %}
+	{% if debut and fin %}
+        <h2 class="titre">Bilan des entrées financières du <u>{{debut | date('d/m/Y')}}</u> au <u>{{fin | date('d/m/Y')}}</u></h2>
+    {% elseif today %}
+        <h2 class="titre">Bilan des entrées financières du <u>{{today | date('d/m/Y')}}</u></h2>
+    {% else %}
+        <h2 class="titre  ">Bilan général des entrées financières</h2>
+    {% endif %}
+    <br>
+    {% set grandTotal = 0 %}    
+    {% for antenne in antennes %}
+        <h3 style="text-align: center;">{{antenne.nom}} : <span><u>{{totaux[antenne.id] | craue_currency('XAF', 'fr-FR')}}</u></span></h3>
+        <table  style="width: 100%;" class="table"  border="1" cellspacing="1" cellpadding="4">
+            <tr class="table-header">    
+                <th width="5%">#</th>
+                <th width="30%">Opérateurs</th>
+                <th width="20%">Siestes</th>
+                <th width="20%">Nuitées</th>
+                <th width="25%">Total</th>
+            </tr>
+            <tbody>                    
+                {% set totalSieste = 0 %}    
+                {% set totalNuitee = 0 %}    
+                {% for entree in bilans[antenne.id] %}     
+                  {% set totalSieste = totalSieste + entree.sieste %}  
+                  {% set totalNuitee = totalNuitee + entree.nuitee %}    
+                  <tr style="background-color: {{loop.index % 2 == 0 ? '' : '#f0f4f5'}}">
+                      <td>{{ loop.index }}</td>
+                      <td>{{entree.operateur.nom}} {{entree.operateur.prenom}}</td>
+                      <td>{{ entree.sieste | craue_currency('XAF', 'fr-FR') }}</td>
+                      <td>{{ entree.nuitee | craue_currency('XAF', 'fr-FR')}}</td>
+                      <td>{{ (entree.nuitee  + entree.sieste) | craue_currency('XAF', 'fr-FR')}}</td>
+                  </tr>
+                {% endfor %}                           
+              </tbody>
+              <tfoot>
+                <tr style="background-color: darkgray; font-size: 1em; font-weight: bold;">
+                  <td colspan="2" class="text-center">TOTAL</td>
+                  <td>{{totalSieste | craue_currency('XAF', 'fr-FR')}}</td>
+                  <td>{{totalNuitee | craue_currency('XAF', 'fr-FR')}}</td>
+                  <td>{{ (totalNuitee + totalSieste) | craue_currency('XAF', 'fr-FR')}}</td>
+                </tr>
+              </tfoot>
+              {% set grandTotal = grandTotal + totaux[antenne.id] %}
+        </table>
+        <br>
+    {% endfor %}
+    <h3 style="text-align: center; font-weight: bold; font-size: 1.2em;">GRAND TOTAL: <span><u>{{grandTotal | craue_currency('XAF', 'fr-FR')}}</u></span></h3>
+{% endblock %}

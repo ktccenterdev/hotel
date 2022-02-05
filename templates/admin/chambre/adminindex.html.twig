@@ -1,0 +1,92 @@
+
+<div class="br-pagetitle">
+  <i class="icon fas fa-bed"></i>
+  <div>
+    <h4>Liste des chambres <i style="color:#0866C6;">{# {{role.nom}} #}</i></h4>
+    <p style="color:blue;" class="mg-b-0">----</p>
+  </div>
+</div><!-- d-flex -->
+<div    x-data="{ ajouter : false }">
+    <div class="d-flex justify-content-end" style="padding:10px;">
+      {# <button onclick="window.location.href='{{path('dash-chambre')}}';"onclick="show()"  class="btn btn-primary sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent" style="width: 12%;"><i class="fas fa-plus"></i> Ajouter</button> #}
+      <button class="btn btn-primary {{app.user.hasAccess('dash-chambre')}}" ><a href="{{path('dash-chambre')}}" style="padding: 0px !important; color:white;" class=" nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-plus" aria-hidden="true"></i>Ajouter</a></button>
+      {# <button class="btn btn-secondary {{app.user.hasAccess('print-bed')}}" style="margin-left:5px;"><a style="color:white;" href="{{path('print-bed')}}" target="_blank"><i class="fa fa-print"></i> Imprimer</a></button>  #}
+    </div>
+  </div>
+
+<div class="br-section-wrapper">  
+  <h6 class="br-section-label">Chambres enrégistrées</h6>
+  <div id="accordion2" class="accordion accordion-head-colored accordion-primary" role="tablist" aria-multiselectable="true">
+    
+      {% for item in entenes %}
+              <div class="card-header" role="tab" id="headingThree2{{loop.index}}">
+              <h4 class="mg-b-0">
+                <a class="collapsed transition" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree2{{loop.index}}" aria-expanded="false" aria-controls="collapseThree2">
+                  ANTENNE de {{item.nom}}                   
+                  <span class="tx-danger"><I>({{item.chambres | length}} Chambres)  </I></span>
+                  <i class=" fa fa-chevron-down"></i>
+                </a>
+              </h4>
+            </div>
+            <div id="collapseThree2{{loop.index}}" class="collapse" role="tabpanel" aria-labelledby="headingThree2">
+            <div class="br-pagebody">
+              <div class="card-block pd-20">
+                  <div class="table-wrapper">
+                    <table class="datatable table display responsive nowrap">
+                      <thead>
+                        <tr>
+                          <th class="wd-15p">ID</th>
+                          <th class="wd-15p">Type de chambre</th>
+                          <th class="wd-15p">Numéro de chambre</th>
+                          <th class="wd-15p">Entene</th>
+                          <th class="wd-25p">nblit</th>
+                          <th class="wd-25p">ACTION</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for chambre in item.chambres %}
+                          <tr>
+                                <td>{{loop.index}}</td>
+                                <td><a href="{{path('showchambre', {id: chambre.id})}}" class="nav-link ajax-link {{app.user.hasAccess('showchambre')}}"  data-toggle="ajax" data-target="monContent" >{{chambre.type.nom}}</a></td>
+                                <td>{{chambre.numero}}</td>
+                                <td>{{chambre.entene.nom}}</td>
+                                <td>{{chambre.nblit}}</td>
+                                {# <td>
+                                <button class="btn btn-info active" {{app.user.hasAccess('showchambre')}}><a href="{{ path('showchambre',{id: chambre.id}) }}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye" aria-hidden="true">View</i></a></button>
+                                <button class="btn btn-teal active" {{app.user.hasAccess('chambre-edit')}}><a href="{{ path('chambre-edit',{id: chambre.id}) }}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" data-toggle="ajax" data-target="monContent"><i class="fa fa-edit" aria-hidden="true">Modifier</i></a></button>
+                                <form style="display: contents;" class="js-form-send confirm-delete {{app.user.hasAccess('deletecha')}}" data-message="Voulez-vous supprimer ce client?" data-toggle="ajax" data-target="monContent" action="{{path('deletecha', {id: chambre.id})}}" method="DELETE">
+                                  <button class="btn btn-pink active"><i class="fa fa-trash" aria-hidden="true">supprimer</i></button>	
+                                </form>
+                                </td> #}
+
+                                <td class="dropdown text-center">
+                                  <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
+                                  <div class="dropdown-menu dropdown-menu-right pd-10">
+                                    <nav class="nav nav-style-1 flex-column text-center">	
+                                      <a href="{{ path('showchambre',{id: chambre.id}) }}" class="btn btn-link {{app.user.hasAccess('showchambre')}}"  data-toggle="ajax" data-target="monContent" >Détails</a>
+                                      <a href="{{ path('chambre-edit',{id: chambre.id}) }}" class="btn btn-link {{app.user.hasAccess('chambre-edit')}}"  data-toggle="ajax" data-target="monContent" >Modifier</a>							
+                                      <form class="confirm-delete {{app.user.hasAccess('deletecha')}}" method="DELETE"
+                                        action="{{path('deletecha', {id: chambre.id})}}"  
+                                        data-message="Voulez-vous supprimer ce type?"
+                                        data-toggle="ajax" data-target="monContent">
+                                        {# <input type="hidden" name="id" value="{{liste.id}}"> #}												
+                                        <button type="submit"  class=" ajax-link btn btn-link" >Supprimer</button>
+                                      </form>		
+                                    </nav>
+                                  </div><!-- dropdown-menu -->
+                                </td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+            </div>
+            </div><!-- collapse -->  
+      {% endfor %}
+    
+  </div><!-- accordion -->
+</div><!-- br-section-wrapper -->
+		
+
+

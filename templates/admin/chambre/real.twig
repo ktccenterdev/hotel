@@ -1,0 +1,229 @@
+
+  <div class="br-pagetitle">
+    <i class="fas fa-bed"></i>
+    <div>
+      <h4>Chambres</h4>
+      <p style="color:blue;" class="mg-b-0">----</p>
+    </div>
+  </div><!-- d-flex -->
+	
+  <div class="br-section-wrapper">
+    <a href="{{path('index-chambre')}}" id="btn-nouveau"  data-toggle="ajax" data-target="monContent"><i class="fa fa-arrow-left float-left {{app.user.hasAccess('index-chambre')}}">Liste</i></a>
+<br>
+    <h6 class="br-section-label">Liste des Chambres</h6>
+        {% if "chambre-add" in app.session.get('userdroit') %}
+        <div    x-data="{ ajouter : false }">
+        <div class="d-flex justify-content-end" style="padding:10px;">
+          <button onclick="show()"  class="btn btn-primary" style="width: 12%;"><i class="fas fa-plus"></i> Ajouter</button> 
+
+          </div>
+
+              <form id="form-send" class="js-form-sendavecfile sauvegardededonne {{app.user.hasAccess('chambre-add')}}" action="{{path('chambre-add')}}" method="POST">        
+              <div class="formelement" x-show="ajouter" style="padding:10px;">
+
+                <div class="form-layout form-layout-1">
+                  <div class="row mg-b-25">
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label">Type de chambre: <span class="tx-danger">*</span></label>
+                                  <select class="form-control" name="type_id">
+                                                <option>Choisit un type de chambre</option>
+                            {% for type in types %}
+                                                <option value="{{type.id}}">{{type.nom}}</option>
+                            {% endfor %}
+                                          </select>
+                      </div>
+                    </div><!-- col-4 -->
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label">Antenne: <span class="tx-danger">*</span></label>
+                                  <select class="form-control" name="entene_id">
+                                                <option>Choisit une Antenne</option>
+                            {% for entene in entene %}
+                                                <option value="{{entene.id}}">{{entene.nom}}</option>
+                              {% endfor %}
+                                          </select>
+                      </div>
+                    </div><!-- col-4 -->
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label">Numero: <span class="tx-danger">*</span></label>
+                        <input class="form-control" type="text" name="numero"  placeholder="numero">
+                      </div>
+                    </div><!-- col-4 -->
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label">Surface: <span class="tx-danger">*</span></label>
+                        <input class="form-control" type="text" name="surface"  placeholder="surface">
+                      </div>
+                    </div><!-- col-4 -->
+                    
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label">Nombres d'enfants: <span class="tx-danger">*</span></label>
+                        <input class="form-control" type="number" name="nbenafant" placeholder="Nombres d'enfants">
+                      </div>
+                    </div><!-- col-4 -->
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label">Nombres d'adultes: <span class="tx-danger">*</span></label>
+                        <input class="form-control" type="number" name="nbaldulte"  placeholder="Nombres d'adultes">
+                      </div>
+                    </div><!-- col-4 -->
+              <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label">Nombres de lits: <span class="tx-danger">*</span></label>
+                        <input class="form-control" type="number" name="nblit"  placeholder="Nombres de lits">
+                      </div>
+                    </div><!-- col-4 -->
+              <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label">Description: <span class="tx-danger">*</span></label>
+                        <input class="form-control" type="text" name="description"  placeholder="Description">
+                      </div>
+                    </div><!-- col-4 -->
+              <div class="col-lg-6">
+                      <div class="form-group">
+                        <div class="col-lg-3 mg-t-5 mg-sm-t-0">
+                                  <label class="col-sm-4 form-control-label">PHOTO1: <span class="tx-danger">*</span></label>
+                                  <input type="file" name="file1" id="file-1"
+                                        class="inputfile" data-caption="files selected" accept=".png, jpg,jpeg">
+                                      <label for="file-1" class="if-outline if-outline-info">
+                                        <i class="icon ion-ios-upload-outline tx-24"></i>
+                                        <span>Choisisez la Première photo</span>
+                                        </label>
+                            </div><!-- col-8 -->
+                      </div>
+                    </div><!-- col-4 -->
+              <div class="col-lg-6">
+                      <div class="form-group">
+                        <div class="col-lg-3 mg-t-5 mg-sm-t-0">
+                                  <label class="col-sm-4 form-control-label">PHOTO2: <span class="tx-danger">*</span></label>
+                                  <input type="file" name="file2" id="file-2"
+                                        class="inputfile" data-caption="files selected" accept=".png, jpg,jpeg">
+                                      <label for="file-2" class="if-outline if-outline-info">
+                                        <i class="icon ion-ios-upload-outline tx-24"></i>
+                                        <span>Choisisez la deuxième photo</span>
+                                        </label>
+                            </div><!-- col-8 -->
+                      </div>
+                    </div><!-- col-4 -->
+              <div class="col-lg-6">
+                      <div class="form-group">
+                        <div class="col-lg-3 mg-t-5 mg-sm-t-0">
+                                  <label class="col-sm-4 form-control-label">PHOTO3: <span class="tx-danger">*</span></label>
+                                  <input type="file" name="file3" id="file-3"
+                                        class="inputfile" data-caption="files selected" accept=".png, jpg,jpeg">
+                                      <label for="file-3" class="if-outline if-outline-info">
+                                        <i class="icon ion-ios-upload-outline tx-24"></i>
+                                        <span>Choisisez la troisième photo</span>
+                                        </label>
+                            </div><!-- col-8 -->
+                      </div>
+                    </div><!-- col-4 -->
+              <div class="col-lg-6">
+                      <div class="form-group">
+                        <div class="col-lg-3 mg-t-5 mg-sm-t-0">
+                                  <label class="col-sm-4 form-control-label">PHOTO4: <span class="tx-danger">*</span></label>
+                                  <input type="file" name="file4" id="file-4"
+                                        class="inputfile" data-caption="files selected" accept=".png, jpg,jpeg">
+                                      <label for="file-4" class="if-outline if-outline-info">
+                                        <i class="icon ion-ios-upload-outline tx-24"></i>
+                                        <span>Choisisez la Quatrième photo</span>
+                                        </label>
+                            </div><!-- col-8 -->
+                      </div>
+                    </div><!-- col-4 -->
+                  </div><!-- row -->
+                  <br>
+                    <div class="form-layout-footer mg-t-30">
+                    <button class="btn btn-info">Valider</button>
+                                                            
+                    <button class="btn btn-secondary" onclick="hide()">Annuler</button>
+                    </div><!-- form-layout-footer -->
+                </div><!-- form-layout -->
+              </form>
+          </div>
+        </div>
+      <div>
+      {% endif %}
+      <div class="table-wrapper">
+      <table class="datatable table display responsive nowrap">
+        <thead>
+          <tr>				
+                    
+            <th class="wd-15p">ID</th>
+            <th class="wd-15p">Type de chambre</th>
+            <th class="wd-15p">Entene</th>
+            <th class="wd-20p">numero</th>
+            <th class="wd-15p">surface</th>
+            <th class="wd-10p">nbenafant</th>
+            <th class="wd-25p">nbaldulte</th>
+            <th class="wd-25p">nblit</th>
+            
+            
+            <th class="wd-25p">ACTION</th>
+          </tr>
+        </thead>
+        {% for chambre in chambres %}
+        
+        <tbody>
+          <tr>
+            <td>{{loop.index}}</td>
+            <td>{{chambre.type.nom}}</td>
+            <td>{{chambre.entene.nom}}</td>
+            <td>{{chambre.numero}}</td>
+            <td>{{chambre.surface}}</td>
+            <td>{{chambre.nbenafant}}</td>
+            <td>{{chambre.nbaldulte}}</td>
+            <td>{{chambre.nblit}}</td>
+          
+            
+          
+            <td>
+
+            {# <a href="{{ path('showchambre',{id: chambre.id}) }}"><i class="fa fa-eye" style="color: green;"></i></a>
+            <a href=""><i class="fa fa-edit" aria-hidden="true" style="color: rgb(8, 206, 107)"></i></a> 
+            <a href="{{path('deletecha', {id: chambre.id})}}"><i class="fa fa-trash" aria-hidden="true" style="color: rgb(216, 10, 37)"></i></a>  #}
+
+            <td>
+                      {% if "showchambre" in app.session.get('userdroit') %}
+                      <a href="{{ path('showchambre',{id: chambre.id}) }}"><button class="btn btn-primary active {{app.user.hasAccess('showchambre')}}" ><i class="far fa-eye"></i></button></a> 
+                      {% endif %}
+                      {% if "edit-chambre" in app.session.get('userdroit') %}
+                      <a href="{{ path('entene_edit',{id: chambre.id}) }}"><button class="btn btn-pink active {{app.user.hasAccess(''entene_edit')}}"><i class="fa fa-edit" aria-hidden="true"></i></button></a> 
+                      {% endif %}
+                    {% if "deletecha" in app.session.get('userdroit') %}
+                    <form action="{{path('deletecha', {id: chambre.id})}}"  method="DELETE" class="js-form-send {{app.user.hasAccess('deletecha')}}">
+                      <button type="submit" class="btn btn-danger">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </form>
+                    {% endif %}                       
+            
+          
+            </td>
+          </tr>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div><!-- table-wrapper -->
+  </div><!-- br-section-wrapper -->
+
+    <script>
+    $(document).ready(function () {
+        $(".formelement").hide();
+        
+    });
+    </script>
+    <script>
+      function show() {
+        $(".formelement").show();
+      }
+      function hide() {
+        $(".formelement").hide();
+      }
+    </script>
+

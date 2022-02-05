@@ -1,0 +1,67 @@
+  {% if app.user %}
+  <style>
+    .optional{
+      background: #8def7c;
+        color: white;
+    }
+  </style>
+
+  <div class="br-pagetitle">
+  <i class="icon ion-man"></i>
+  <div>
+    <h4>LES CLIENTS <i style="color:#0866C6;">{# {{role.nom}} #}</i></h4>
+    <p style="color:blue;" class="mg-b-0">----</p>
+  </div>
+</div>
+
+  <div class="d-flex justify-content-end" style="padding:0px;">           
+    <button class="btn btn-primary {{app.user.hasAccess('client-add')}}"><a href="{{path('index-clientdash')}}" style="padding: 0px !important; color:white;" class=" nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-plus" aria-hidden="true"></i>Ajouter</a></button>           
+    <button class="btn btn-secondary {{app.user.hasAccess('print-client')}}" style="margin-left:5px;"><a style="color:white;" href="{{path('print-client')}}" target="_blank"><i class="fa fa-print"></i> Imprimer</a></button>
+  </div><br>
+
+       
+    <div class="table-wrapper responsiveelement">
+        <table class="datatable table display nowrap">
+          <thead>
+            <tr>
+              <th class="wd-5p">ID</th>
+              <th class="wd-15p">Nom</th>
+              <th class="wd-20p">Prenom</th>
+              <th class="wd-15p">Genre</th>
+              <th class="wd-10p">email</th>
+              <th class="wd-25p">phone</th>
+              <th class="wd-25p">Action</th>
+            </tr>
+          </thead>        
+          <tbody>            
+            {% for client in antenne.users | reverse %}  
+              {% if client.type == 'CLIENT' %}
+                <tr>
+                  <td>{{loop.index}}</td>
+                  <td>
+                    <a href="{{path('show-client', {id: client.id})}}" class="nav-link ajax-link {{app.user.hasAccess('show-client')}}"  data-toggle="ajax" data-target="monContent" >
+                      {{client.nom}}
+                    </a>
+                  </td>
+                  <td>{{client.prenom}}</td>
+                  <td>{{client.sexe}}</td>
+                  <td>{{client.adresse}}</td>
+                  <td>{{client.phone}}</td>
+                  <td>
+                    <button class="btn btn-info active {{app.user.hasAccess('show-client')}}"><a href="{{path('show-client', {id: client.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
+                    <button class="btn btn-teal active {{app.user.hasAccess('edit-client')}}"><a href="{{path('edit-client', {id: client.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
+                    
+                    <form style="display: contents;" class="js-form-send confirm-delete {{app.user.hasAccess('delete-client')}}" data-message="Voulez-vous supprimer ce client?" data-toggle="ajax" data-target="monContent" action="{{path('delete-client', {id: client.id})}}" method="DELETE">
+                      <button class="btn btn-pink active"><i class="fa fa-trash" aria-hidden="true"></i></button>	
+                    </form>
+                  </td>
+                </tr>
+              {% endif %}
+            {% endfor %}
+            
+          </tbody>
+        </table>
+      </div><!-- table-wrapper -->
+  </div><!-- br-section-wrapper -->
+<!-- CSV Excel -->
+{% endif %}

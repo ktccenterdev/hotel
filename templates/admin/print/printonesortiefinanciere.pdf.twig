@@ -1,0 +1,33 @@
+{% extends 'admin/print/baseprint.pdf.twig' %}
+
+{% block reportbody %}
+<h2 class="titre" style="text-align: center;">SORTIE FINANCIERE</h2>
+<table class=""  border="" cellspacing="40" cellpadding="">
+    <tr>
+        <td width="15%">Code: </td>
+        <th width="40%">{{sortie.code}}</th>
+        <td width="10%">Date: </td>
+        <th width="35%">{{sortie.createdAt | date("d-m-Y")}}</th>
+    </tr>
+    <tr>
+        <td width="10%">Antenne: </td>
+        <th width="35%">{{sortie.operateur.antene.nom}}</th>
+        <td width="10%">Opérateu: r</td>
+        <th width="35%">{{sortie.operateur.username}}</th>
+    </tr>
+    <tr>
+        <td width="10%">Montant: </td>
+        <th width="35%">{{sortie.montant}}</th>
+        <td width="10%">Compte: </td>
+        <th width="35%">{{sortie.compte.intitule}} : {{sortie.compte.code}}</th>
+    </tr>
+    <tr>
+        <td width="15%">Motif: </td>
+        <th width="80%" colspan="3">{{sortie.motif}}</th>
+    </tr>
+    <tr>
+        <td width="15%">Commentaire: </td>
+        <th width="80%" colspan="3">{{sortie.commentaire}}</th>
+    </tr>
+</table>
+{% endblock %}

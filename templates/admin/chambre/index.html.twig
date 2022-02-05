@@ -1,0 +1,317 @@
+
+<div class="br-pagetitle">
+  <i class="icon fas fa-bed"></i>
+  <div>
+    <h4>Chambres</h4>
+    <p style="color:blue;" class="mg-b-0">----</p>
+  </div>
+</div><!-- d-flex -->
+
+<div class="br-section-wrapper">
+  <h6 class="br-section-label">Liste des Chambres</h6>
+      {% if "chambre-add" in app.session.get('userdroit') %}
+      <div    x-data="{ ajouter : false }">
+        <div class="d-flex justify-content-end" style="padding:10px;">
+
+        
+          {# <button onclick="window.location.href='{{path('dash-chambre')}}';"onclick="show()"  class="btn btn-primary sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent" style="width: 12%;"><i class="fas fa-plus"></i> Ajouter</button> #}
+          <button class="btn btn-primary {{app.user.hasAccess('dash-chambre')}}" ><a href="{{path('dash-chambre')}}" style="padding: 0px !important; color:white;" class=" nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-plus" aria-hidden="true"></i>Ajouter</a></button>
+          <button class="btn btn-secondary {{app.user.hasAccess('print-bed')}}" style="margin-left:5px;"><a style="color:white;" href="{{path('print-bed')}}" target="_blank"><i class="fa fa-print"></i> Imprimer</a></button> 
+          
+        </div>
+
+            <form id="form-send" class="js-form-sendavecfile sauvegardededonne" data-toggle="ajax" data-target="monContent" action="{{path('chambre-add')}}" enctype = "multipart/form-data" method="POST">        
+
+            <div class="formelement" x-show="ajouter" style="padding:10px;">
+
+              <div class="form-layout form-layout-1">
+                <div class="row mg-b-25">
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="form-control-label">Type de chambre: <span class="tx-danger">*</span></label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                              <div class="input-group-text">
+                                  <i class="fas fa-crown tx-16 lh-0 op-6"></i>
+                              </div>
+                          </div><!-- input-group-prepend -->
+                                          <select class="form-control" name="type_id">
+                                                    <option>Choisit un type de chambre</option>
+                                                    {% for type in types %}
+                                                    <option value="{{type.id}}">{{type.nom}}</option>
+                                                    {% endfor %}
+                                            </select>
+                          
+                        </div>
+                    </div>
+                  </div>
+                            {#  </div><!-- col-4 --> #}
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                          <label class="form-control-label">Antenne: <span class="tx-danger">*</span></label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text">
+                                <i class="fas fa-signal tx-16 lh-0 op-6"></i>
+                              </div>
+                            </div><!-- input-group-prepend -->
+                                <select class="form-control" name="entene_id">
+                                              <option>Choisit une Antenne</option>
+                                                {% for entene in entene %}
+                                                <option value="{{entene.id}}">{{entene.nom}}</option>
+                                                {% endfor %}
+                                </select>
+                          </div>
+                    </div>
+                  </div><!-- col-4 -->
+
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label">Numero: <span class="tx-danger">*</span></label>
+                      <input class="form-control" type="text" name="numero"  placeholder="numero">
+                    </div>
+                  </div><!-- col-4 -->
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label">Surface: <span class="tx-danger">*</span></label>
+                      <input class="form-control" type="number" name="surface"  placeholder="surface en m²">
+                    </div>
+                  </div><!-- col-4 -->
+                  
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label class="form-control-label">Nombres d'enfants: <span class="tx-danger">*</span></label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text">
+                                <i class="fas fa-child tx-16 lh-0 op-6"></i>
+                              </div>
+                            </div><!-- input-group-prepend -->
+                            <input class="form-control" type="number" name="nbenafant" placeholder="Nombres d'enfants">
+                          </div>
+                    </div>
+                  </div><!-- col-4 -->
+
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label class="form-control-label">Nombres d'adultes: <span class="tx-danger">*</span></label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <i class="fas fa-male tx-16 lh-0 op-6"></i>
+                            </div>
+                          </div><!-- input-group-prepend -->
+                          <input class="form-control" type="number" name="nbaldulte"  placeholder="Nombres d'adultes">
+                        </div>
+                    </div>
+                  </div><!-- col-4 -->
+
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label class="form-control-label">Nombres de lits: <span class="tx-danger">*</span></label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <i class="fas fa-bed tx-16 lh-0 op-6"></i>
+                            </div>
+                          </div><!-- input-group-prepend -->
+                          <input class="form-control" type="number" name="nblit"  placeholder="Nombres de lits">
+                        </div>
+                    </div>
+                  </div><!-- col-4 -->
+                  <div class="col-lg-12">
+                    <div class="form-group">
+                      <label class="form-control-label">Description: <span class="tx-danger">*</span></label>
+                      <textarea class="form-control" type="text" name="description" rows="6" cols="100" placeholder="Description"></textarea>
+                    </div>
+                  </div><!-- col-4 -->
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <div class="col-lg-3 mg-t-5 mg-sm-t-0">
+                        <label class="col-sm-4 form-control-label">PHOTO1: <span class="tx-danger">*</span></label>
+                          <input type="file" name="file1" id="file-1"
+                                      class="inputfile" data-caption="files selected" accept=".png, .jpg, .jpeg">
+                            <label for="file-1" class="if-outline if-outline-info">
+                              <i class="icon ion-ios-upload-outline tx-24"></i>
+                                <span>Choisisez la Première photo</span>
+                            </label>
+                      </div><!-- col-8 -->
+                    </div>
+                  </div><!-- col-4 -->
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <div class="col-lg-3 mg-t-5 mg-sm-t-0">
+                        <label class="col-sm-4 form-control-label">PHOTO2: <span class="tx-danger">*</span></label>
+                          <input type="file" name="file2" id="file-2"
+                                      class="inputfile" data-caption="files selected" accept=".png, .jpg,.jpeg">
+                            <label for="file-2" class="if-outline if-outline-info">
+                              <i class="icon ion-ios-upload-outline tx-24"></i>
+                              <span>Choisisez la deuxième photo</span>
+                            </label>
+                      </div><!-- col-8 -->
+                    </div>
+                  </div><!-- col-4 -->
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <div class="col-lg-3 mg-t-5 mg-sm-t-0">
+                        <label class="col-sm-4 form-control-label">PHOTO3: <span class="tx-danger">*</span></label>
+                          <input type="file" name="file3" id="file-3"
+                                      class="inputfile" data-caption="files selected" accept=".png, .jpg,.jpeg">
+                            <label for="file-3" class="if-outline if-outline-info">
+                              <i class="icon ion-ios-upload-outline tx-24"></i>
+                              <span>Choisisez la troisième photo</span>
+                            </label>
+                        </div><!-- col-8 -->
+                    </div>
+                  </div><!-- col-4 -->
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <div class="col-lg-3 mg-t-5 mg-sm-t-0">
+                        <label class="col-sm-4 form-control-label">PHOTO4: <span class="tx-danger">*</span></label>
+                          <input type="file" name="file4" id="file-4"
+                            class="inputfile" data-caption="files selected" accept=".png, .jpg,.jpeg">
+                          <label for="file-4" class="if-outline if-outline-info">
+                            <i class="icon ion-ios-upload-outline tx-24"></i>
+                            <span>Choisisez la Quatrième photo</span>
+                          </label>
+                      </div><!-- col-8 -->
+                    </div>
+                  </div><!-- col-4 -->
+                        {#  </div><!-- row  #} 
+                  <br>
+                  <div class="form-layout-footer mg-t-30">
+                      {# <button class="btn btn-info">Valider</button>
+                      <button class="btn btn-secondary" onclick="hide()">Annuler</button> #}
+                        <button type="submit" id="btn-save-nouveau" class="btn btn-primary mg-r-5">Valider</button>
+                        <button type="button" class="btn btn-secondary" onclick="hide()">Annuler</button>
+                  </div><!-- form-layout-footer -->
+                </div><!-- form-layout -->
+                  </form>
+            </div>
+        </div>
+    {# <div>  #}
+    {% endif %}
+      <div class="table-wrapper responsiveelement">
+          <table class="datatable table display nowrap">
+            <thead>
+              <tr>	        
+                <th class="wd-15p">ID</th>
+                <th class="wd-15p">Type de chambre</th>
+				        <th class="wd-15p">Numéro de chambre</th>
+                <th class="wd-15p">Entene</th>
+                <th class="wd-25p">nblit</th>
+                <th class="wd-25p">ACTION</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for chambre in chambres %}
+				{% if app.user.isadmin %}
+					<tr>
+						<td>{{loop.index}}</td>
+						<td><a href="{{path('showchambre', {id: chambre.id})}}" class="nav-link ajax-link {{app.user.hasAccess('showchambre')}}"  data-toggle="ajax" data-target="monContent" >{{chambre.type.nom}}</a></td>
+						<td>{{chambre.numero}}</td>
+						<td>{{chambre.entene.nom}}</td>
+						<td>{{chambre.nblit}}</td>
+						{# <td> #}
+								
+							{# {% if "showchambre" in app.session.get('userdroit') %} #}
+{# 							<button class="btn btn-info active" {{app.user.hasAccess('showchambre')}}><a href="{{ path('showchambre',{id: chambre.id}) }}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye" aria-hidden="true">View</i></a></button>
+ #}						{# 	{% endif %}
+							{% if "edit-chambre" in app.session.get('userdroit') %} #}
+{# 							<button class="btn btn-teal active" {{app.user.hasAccess('chambre-edit')}}><a href="{{ path('chambre-edit',{id: chambre.id}) }}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" data-toggle="ajax" data-target="monContent"><i class="fa fa-edit" aria-hidden="true">Modifier</i></a></button>
+ #}						{# 	{% endif %}
+							{% if "deletecha" in app.session.get('userdroit') %} #}
+							{# <button class="btn btn-pink active"><a href="{{path('deletecha', {id: chambre.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-trash" aria-hidden="true" ></i></a></button>  #}
+							{# <form style="display: contents;" class="confirm-waiting js-form-send confirm-delete {{app.user.hasAccess('deletecha')}}" data-message="Voulez-vous supprimer cette chambre?" data-toggle="ajax" data-target="monContent" action="{{path('deletecha', {id: chambre.id})}}" method="DELETE">
+							<button class="btn btn-pink active"><i class="fa fa-trash" aria-hidden="true"></i></button>	
+							</form> #}
+              {# <button class="btn btn-pink active"><a href="{{ path('deletecha',{id: chambre.id}) }}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" data-toggle="ajax" data-target="monContent"><i class="fa fa-trash" aria-hidden="true"></i></a></button>	 #}
+             {#  <form style="display: contents;" class="js-form-send confirm-delete {{app.user.hasAccess('deletecha')}}" data-message="Voulez-vous supprimer ce client?" data-toggle="ajax" data-target="monContent" action="{{path('deletecha', {id: chambre.id})}}" method="DELETE">
+                <button class="btn btn-pink active"><i class="fa fa-trash" aria-hidden="true">supprimer</i></button>	
+              </form> #}
+						{# 	{% endif %}        #}                
+									
+						{# </td> #}
+            <td class="dropdown text-center">
+              <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
+              <div class="dropdown-menu dropdown-menu-right pd-10">
+                <nav class="nav nav-style-1 flex-column text-center">	
+                  <a href="{{ path('showchambre',{id: chambre.id}) }}" class="btn btn-link {{app.user.hasAccess('showchambre')}}"  data-toggle="ajax" data-target="monContent" >Détails</a>
+                  <a href="{{ path('chambre-edit',{id: chambre.id}) }}" class="btn btn-link {{app.user.hasAccess('chambre-edit')}}"  data-toggle="ajax" data-target="monContent" >Modifier</a>							
+                  <form class="confirm-delete {{app.user.hasAccess('deletecha')}}" method="DELETE"
+                    action="{{path('deletecha', {id: chambre.id})}}"  
+                    data-message="Voulez-vous supprimer ce type?"
+                    data-toggle="ajax" data-target="monContent">
+                    {# <input type="hidden" name="id" value="{{liste.id}}"> #}												
+                    <button type="submit"  class=" ajax-link btn btn-link" >Supprimer</button>
+                  </form>		
+                </nav>
+              </div><!-- dropdown-menu -->
+            </td>
+
+
+					</tr>
+				{% else %}
+					{% if chambre.entene.nom == app.user.antene.nom %}
+						<tr>
+							<td>{{loop.index}}</td>
+							<td><a href="{{path('showchambre', {id: chambre.id})}}" class="nav-link ajax-link {{app.user.hasAccess('showchambre')}}"  data-toggle="ajax" data-target="monContent" >{{chambre.type.nom}}</a></td>
+							<td>{{chambre.numero}}</td>
+              <td>{{chambre.entene.nom}}</td>
+							<td>{{chambre.nblit}}</td>
+							{# <td>
+									
+								{% if "showchambre" in app.session.get('userdroit') %}
+								<button class="btn btn-info active" {{app.user.hasAccess('showchambre')}}><a href="{{ path('showchambre',{id: chambre.id}) }}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
+								{% endif %}
+								{% if "edit-chambre" in app.session.get('userdroit') %}
+								<button class="btn btn-teal active" {{app.user.hasAccess('chambre-edit')}}><a href="{{ path('chambre-edit',{id: chambre.id}) }}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" data-toggle="ajax" data-target="monContent"><i class="fa fa-edit" aria-hidden="true"></i></a></button>
+								{% endif %}
+								{% if "deletecha" in app.session.get('userdroit') %} #}
+								{# <button class="btn btn-pink active"><a href="{{path('deletecha', {id: chambre.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-trash" aria-hidden="true" ></i></a></button>  #}
+								{# <form style="display: contents;" class="confirm-waiting js-form-send confirm-delete {{app.user.hasAccess('deletecha')}}" data-message="Voulez-vous supprimer cette chambre?" data-toggle="ajax" data-target="monContent" action="{{path('deletecha', {id: chambre.id})}}" method="DELETE">
+								<button class="btn btn-pink active"><i class="fa fa-trash" aria-hidden="true"></i></button>	
+								</form>
+								{% endif %}  #}                      
+                <td class="dropdown text-center">
+                  <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
+                  <div class="dropdown-menu dropdown-menu-right pd-10">
+                    <nav class="nav nav-style-1 flex-column text-center">	
+                      <a href="{{ path('showchambre',{id: chambre.id}) }}" class="btn btn-link {{app.user.hasAccess('showchambre')}}"  data-toggle="ajax" data-target="monContent" >Détails</a>
+                      <a href="{{ path('chambre-edit',{id: chambre.id}) }}" class="btn btn-link {{app.user.hasAccess('chambre-edit')}}"  data-toggle="ajax" data-target="monContent" >Modifier</a>							
+                      <form class="confirm-delete {{app.user.hasAccess('deletecha')}}" method="DELETE"
+                        action="{{path('deletecha', {id: chambre.id})}}"  
+                        data-message="Voulez-vous supprimer ce type?"
+                        data-toggle="ajax" data-target="monContent">
+                        {# <input type="hidden" name="id" value="{{liste.id}}"> #}												
+                        <button type="submit"  class=" ajax-link btn btn-link" >Supprimer</button>
+                      </form>		
+                    </nav>
+                  </div><!-- dropdown-menu -->
+                </td>
+							</td>
+						</tr>
+					{% endif %}
+				{% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+      </div><!-- table-wrapper -->
+</div><!-- br-section-wrapper -->
+
+
+
+    <script>
+      $(".formelement").hide();
+    
+    </script>
+    <script>
+      function show() {
+        $(".formelement").show();
+      }
+      function hide() {
+        $(".formelement").hide();
+      }
+    </script>
+    {#  #}
+  {#  #}

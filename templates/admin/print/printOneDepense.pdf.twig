@@ -1,0 +1,82 @@
+{% extends 'admin/print/baseprint.pdf.twig' %}
+
+{% block reportbody %}
+    <p></p>
+<h2 class="titre">FICHE DE SORTIE FINANCIERE</h2>
+
+   <p></p>
+
+    <table cellspacing="2">
+        <tr>
+            <td style="vertical-align: middle;" valign="middle">
+                N°: <b>___{{ sortie.code }}____</b>
+            </td>
+            <td style="vertical-align: middle; text-align: right">
+                <u>Date de l'opération: </u> <b>{{ sortie.createdAt | date('d-m-Y') }}</b>
+            </td>
+        </tr>
+    </table>
+
+
+ <p>
+    <table class=""  cellspacing="2" cellpadding="10">
+
+        <tr>
+            <td align="left" width="30%">
+                <u>Bénéficiaire:</u>
+            </td>
+            <td align="left">
+                <b>
+                    {% if sortie.beneficiaire.type == "autre" %}
+                        {{ sortie.beneficiaire.autre.nom }} {{ sortie.beneficiaire.autre.prenom }}
+                    {% else %}
+                        {{ sortie.beneficiaire.fournisseur.nom }}
+                    {% endif %}
+                </b>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" width="100%">
+                <u>Motif de la sortie:</u> <br>
+                <b style="text-align: justify;">{{ sortie.motif }}</b>
+            </td>
+        </tr>
+
+        <tr>
+            <td align="left" width="30%">
+                <u>Montant de l'opération:</u> <br> <b>{{ sortie.montant | craue_currency('XAF', 'fr-FR') }}</b>
+            </td>
+            <td align="left">
+                <u>Montant en lettre:</u> <br> <b>{{ sortie.montant | craue_spellout }} FCFA</b>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <u>Mode de règlement:</u> <br> <b>Espèces</b>
+            </td>
+            <td align="left">
+                <u>Ligne budgétaire:</u> <br>
+                Code: <b>{{ sortie.compte.code }}</b> Intitulé: <b>{{ sortie.compte.intitule }}</b>
+            </td>
+        </tr>
+    </table>
+</p>
+
+    <p></p><p></p>
+<p>
+    <table>
+        <tr>
+            <td align="center">
+                <u> La Direction </u>
+            </td>
+            <td align="center">
+                <u>Le Bénéficiaire de la Sortie</u>
+            </td>
+            <td align="center">
+                <u>Le Trésorier</u>
+            </td>
+        </tr>
+    </table>
+</p>
+{% endblock %}

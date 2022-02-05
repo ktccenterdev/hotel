@@ -1,0 +1,31 @@
+{% extends 'admin/print/baseprint.pdf.twig' %}
+
+{% block reportbody %}
+<h2 class="titre">LISTE DES SORTIES EN STOCK</h2>
+<table style="width: 100%;" class="table"  border="1" cellspacing="1" cellpadding="4">
+    <tr class="table-header">
+        <th width="10%">ID</th>
+        <th width="18%">Produit</th>
+        <th width="10%">Quantité</th>
+        <th width="17%">Départ</th>
+        <th width="17%">Arrivée</th>
+        <th width="18%">Type</th>
+    </tr>
+    <tbody>
+        {% for item in sortirstocks %}
+         <tr style="background-color: {{loop.index % 2 == 0 ? '' : '#f0f4f5'}}">
+            <td align="center">{{ loop.index }}</td>
+            <td>{{ item.produit.nom}}</td>
+            <td>{{ item.qt}}</td>
+            <td>{{ item.sortistock.magdepart.nom}}</td>
+            {% if (item.sortistock.magdest == null) %}
+				<td>{{ item.sortistock.responsable.nom}}</td>
+			{% else %}
+				<td>{{ item.sortistock.magdest.nom}}</td>
+			{% endif %}
+            <td>{{ item.sortistock.type}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,54 @@
+<div class="br-pagetitle">
+    <i class="icon ionicons ion-android-cart"></i>
+    <div>
+        <h4>Produits</h4>
+        <p style="color:blue;" class="mg-b-0">----</p>
+    </div>
+</div><!-- d-flex -->
+
+<div class="br-section-wrapper">
+    <h6 class="br-section-label">
+      <a href="{{path('index-produit')}}" data-toggle="ajax" data-target="monContent" title="précédent">
+        <i class="fa fa-arrow-left"></i>
+      </a>
+      Details du produit
+    </h6>
+    <div class="form-layout form-layout-2">
+      <div class="row no-gutters">
+        <div class="col-md-4">
+          <div class="form-group">
+              <h6 class="br-section-label">Nom: <span class="tx-secondary"> {{produit.nom}}</span></h6>
+          </div>
+        </div><!-- col-4 -->
+        <div class="col-md-4 mg-t--1 mg-md-t-0">
+          <div class="form-group mg-md-l--1">
+              <h6 class="br-section-label">Type: <span class="tx-secondary"> {{produit.type}}</span></h6>
+          </div>
+        </div><!-- col-4 -->
+        <div class="col-md-4 mg-t--1 mg-md-t-0">
+          <div class="form-group mg-md-l--1">
+              <h6 class="br-section-label">Quantité seuil: <span class="tx-secondary"> {{produit.qtseuil}}</span></h6>
+          </div>
+        </div><!-- col-4 -->
+        <div class="col-md-8">
+          <div class="form-group bd-t-0-force">
+              <h6 class="br-section-label">Description : <span class="tx-secondary"> {{produit.description}}</span></h6>
+          </div>
+        </div><!-- col-8 -->
+        <div class="col-md-4">
+          <div class="form-group mg-md-l--1 bd-t-0-force">
+              <img src="{{asset('photo/Produits/'~ produit.photo)}}" class="wd-33">
+          </div>
+        </div><!-- col-4 -->
+      </div><!-- row -->
+      <div class="form-layout-footer bd pd-20 bd-t-0">
+        <a href="{{path('index-produit')}}" class="btn btn-info ajax-link"  data-toggle="ajax" data-target="monContent"><i class="fa fa-arrow-left"></i> Liste</a>
+        <a href="{{path('editer-produit',{id: produit.id})}}" class="btn btn-success ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-edit"></i>  Edition</a>
+      </div><!-- form-group -->
+    </div><!-- form-layout -->
+</div><!-- br-section-wrapper -->
+
+
+
+
+

@@ -1,0 +1,27 @@
+{% extends 'admin/print/baseprint.pdf.twig' %}
+
+{% block reportbody %}
+<h2 class="titre">LISTE DES FOURNISSEURS</h2>
+<table style="width: 100%;" class="table"  border="1" cellspacing="1" cellpadding="4">
+    <tr class="table-header">
+        <th width="5%">#</th>
+        <th width="20%">Nom</th>
+        <th width="20%">Ville</th>
+        <th width="20%">Localisation</th>
+        <th width="17%">Téléphone1</th>
+        <th width="17%">Téléphone2</th>
+    </tr>
+    <tbody>
+        {% for item in fournisseurs %}
+         <tr style="background-color: {{loop.index % 2 == 0 ? '' : '#f0f4f5'}}">
+            <td align="center">{{ loop.index }}</td>
+            <td>{{ item.nom}} </td>
+            <td>{{ item.ville}} </td>
+            <td>{{ item.localisation}} </td>
+            <td>{{item.tel1}} </td>
+            <td>{{item.tel2 }} </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

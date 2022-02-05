@@ -1,0 +1,275 @@
+
+<style>
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  size: 50px;
+  color:black;
+}
+
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 25px 40px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+
+
+.tabcontent {
+  animation: fadeEffect 1s; /* Fading effect takes 1 second */
+}
+
+/* Go from zero to full opacity */
+@keyframes fadeEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+
+</style>
+
+<div class="br-mainpanel" style="position: relative;">
+    <div class="br-pageheader">
+       
+      	</div><!-- br-pageheader -->
+		<div class="br-pagetitle">
+				<i class="icon icon ion-ios-photos-outline txt-14"></i>
+				<div>
+					<h4>Allocations</h4>
+					<p class="mg-b-0">RESUME</p>
+				</div>
+		</div><!-- d-flex -->
+
+    <div class="br-pagebody pd-x-20 pd-sm-x-30">
+        {# votre body ici #}
+      <div class="br-pagebody">
+        <div class="row row-sm">
+          <div class="col-sm-6 col-xl-3">
+            <div class="bg-info rounded overflow-hidden">
+              <div class="pd-x-20 pd-t-20 d-flex align-items-center">
+                <i class="ion ion-earth tx-60 lh-0 tx-white op-7"></i>
+                <div class="mg-l-20">
+                  <p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1"><span class="tx-11 tx-roboto tx-white-8"> Agences</span></p>
+                  <p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1"> <span class="tx-11 tx-roboto tx-white-8"> Chambres</span></p>
+                  <span class="tx-11 tx-roboto tx-white-8">24% d'occupation global</span>
+                </div>
+              </div>
+              <div id="ch1" class="ht-50 tr-y-1">
+              </div>
+            </div>
+          </div><!-- col-3 -->
+          <div class="col-sm-6 col-xl-3 mg-t-20 mg-sm-t-0">
+            <div class="bg-purple rounded overflow-hidden">
+              <div class="pd-x-20 pd-t-20 d-flex align-items-center">
+                <i class="ion ion-bag tx-60 lh-0 tx-white op-7"></i>
+                <div class="mg-l-20">
+                  <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Recette du jour</p>
+                  <p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">329,291XAF</p>
+                  <span class="tx-11 tx-roboto tx-white-8">390,212 XAF ce moi</span>
+                </div>
+              </div>
+              <div id="ch3" class="ht-50 tr-y-1">
+              </div>
+            </div>
+          </div><!-- col-3 -->
+          <div class="col-sm-6 col-xl-3 mg-t-20 mg-xl-t-0">
+            <div class="bg-teal rounded overflow-hidden">
+              <div class="pd-x-20 pd-t-20 d-flex align-items-center">
+                <i class="ion ion-monitor tx-60 lh-0 tx-white op-7"></i>
+                <div class="mg-l-20">
+                  <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Reservations</p>
+                  <p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">60</p>
+                  <span class="tx-11 tx-roboto tx-white-8">23%</span>
+                </div>
+              </div>
+            <div id="ch2" class="ht-50 tr-y-1"></div>
+            </div>
+          </div><!-- col-3 -->
+          <div class="col-sm-6 col-xl-3 mg-t-20 mg-xl-t-0">
+            <div class="bg-primary rounded overflow-hidden">
+              <div class="pd-x-20 pd-t-20 d-flex align-items-center">
+                  <i class="ion ion-clock tx-60 lh-0 tx-white op-7"></i>
+                  <div class="mg-l-20">
+                    <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Employés</p>
+                    <p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">32</p>
+                    <span class="tx-11 tx-roboto tx-white-8">100%</span>
+                  </div>
+              </div>
+              <div id="ch4" class="ht-50 tr-y-1">
+              </div>
+            </div>
+          </div><!-- col-3 -->
+        </div><!-- row -->
+        <div class="row row-sm mg-t-20">
+          <div class="col-lg-12">
+            <div class="card bd-0 shadow-base">
+              <div class="d-md-flex justify-content-between pd-25">
+                {# <div>
+                <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">STATISTIQUES ANNUELLES</h6>
+                <p>les mois de 2017</p>
+                </div> #}
+            
+                <!-- startstate -->
+                <!-- Tab links -->
+                <h4>
+                <div class="tab">
+                  <button class="tablinks" onclick="openCity(event, 'Photo')">Photos</button>
+                  <button class="tablinks" onclick="openCity(event, 'London')">London</button>
+                  <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
+                  <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
+                </div>
+                </h4>
+
+                <!-- Tab content -->
+                <div id="Photo" class="tabcontent">
+                  <h2 align="center" style="color:black;">Galleries Photo</h2>
+                    <div class="row row-sm mg-t-20" style="color:;">
+                      <div class="col-lg-6">
+                        <div class="card bd-0 shadow-base">
+                          <div class="d-md-flex justify-content-between pd-25" >
+                            <div>
+                              <h1>Galleries Photo 1</h1>
+                                            <img src="" 
+                                                height="100px" width="500" alt="dropdown image" 
+                                                class="img-responsive">
+                                        
+                            </div>
+                          </div><!-- d-flex -->
+                        </div><!-- card -->
+                      </div><!-- col-8 -->
+                      <div class="col-lg-6">
+                        <div class="card bd-0 shadow-base">
+                          <div class="d-md-flex justify-content-between pd-25" >
+                            <div>
+                              <h1>Galleries Photo 2</h1>
+                                            <img src="" 
+                                                height="100px" width="500" alt="dropdown image" 
+                                                class="img-responsive">
+                                        
+                            </div>
+                          </div><!-- d-flex -->
+                        </div><!-- card -->
+                      </div><!-- col-6 -->
+                      <div class="col-lg-6">
+                        <div class="card bd-0 shadow-base">
+                          <div class="d-md-flex justify-content-between pd-25" >
+                            <div>
+                              <h1>Galleries Photo3</h1>
+                                            <img src="" 
+                                                height="100px" width="500" alt="dropdown image" 
+                                                class="img-responsive">
+                                        
+                            </div>
+                          </div><!-- d-flex -->
+                        </div><!-- card -->
+                      </div><!-- col-6 -->
+                      <div class="col-lg-6">
+                        <div class="card bd-0 shadow-base">
+                          <div class="d-md-flex justify-content-between pd-25" >
+                            <div>
+                              <h1>Galleries Photo4</h1>
+                                            <img src="" 
+                                                height="100px" width="500" alt="dropdown image" 
+                                                class="img-responsive">
+                                        
+                            </div>
+                          </div><!-- d-flex -->
+                        </div><!-- card -->
+                      </div><!-- col-8 -->
+                        
+                    </div><!-- row -->
+                    
+                </div>
+                <div id="London" class="tabcontent">
+                  <h3>London</h3>
+                  <p>London is the capital city of England.</p>
+                  <h3>London</h3>
+                  <h3>London</h3>
+                </div>
+
+                <div id="Paris" class="tabcontent">
+                  <h3>Paris</h3>
+                  <p>Paris is the capital of France.</p>
+                  <h3>Paris</h3>
+                    <h3>Paris</h3>
+                </div>
+
+                <div id="Tokyo" class="tabcontent">
+                  <h3>Tokyo</h3>
+                  <p>Tokyo is the capital of Japan.</p>
+                  <h3>Tokyo</h3>
+                  <h3>Tokyo</h3>
+                </div>
+
+                <!-- end startstate -->
+              
+              </div><!-- d-flex -->
+              
+            </div><!-- card -->
+          </div><!-- col-12 -->
+          
+        </div><!-- row -->
+      </div><!-- br-pagebody -->
+
+      {# fin de votre body #}
+    </div><!-- br-pagebody -->
+		
+    <div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;">
+			<div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;">
+				<div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 100000px; height: 100000px;">
+				</div>
+			</div>
+			<div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;">
+			<div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%">
+		</div>
+  </div>
+
+
+
+<script type="text/javascript">
+  function openCity(evt, cityName) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>

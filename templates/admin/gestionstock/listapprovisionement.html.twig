@@ -1,0 +1,80 @@
+    <div class="br-pagetitle">
+        <div>
+            <h4>Demande d'approvisionnement en stock</h4>
+            <p style="color:blue;" class="mg-b-0">----</p>
+        </div>
+    </div>
+    <div class="br-section-wrapper">
+        <h6 class="br-section-label">Liste des Demandes d'approvisionnement de stock</h6>
+        <div x-data="{ ajouter : false }">
+            <div class="d-flex justify-content-end mg-b-20">
+                <button class="btn btn-secondary mg-r-10 {{app.user.hasAccess('print-approvisionement')}}"><a style="color:white;" href="{{path('print-approvisionement')}}" target="_blank"><i class="fa fa-print"></i> Imprimer</a></button>
+                <a href="{{path('index-approvisionement')}}" id="btn-nouveau" class="btn btn-primary {{app.user.hasAccess('index-approvisionement')}}" data-toggle="ajax" data-target="monContent"><i class="fa fa-plus-circle"></i>  Approvisionner</a>
+            </div>
+            <div id="divError" style="display:none" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Erreur:</strong>
+                <span class="messageError"></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div>
+                <div class="table-wrapper responsiveelement">
+                    <table class="table display nowrap">
+                        <thead>
+                            <tr>
+                                <th class="wd-5p">ID</th>
+                                <th class="wd-10p">Magasin</th>
+                                <th class="wd-10p">Date demande</th>
+                                <th class="wd-10p">Statut</th>
+                                <th class="wd-10p">Produit</th>
+                                <th class="wd-5p">Quantite</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for demande in demandes| reverse %} 
+                                <tr>
+                                    <td rowspan={{demande.demandeitems | length + 1}}>{{ loop.index }}</td>
+                                    <td rowspan={{demande.demandeitems | length + 1 }}><a href="{{path('viewapprovisionement', {id: demande.id})}}" data-toggle="ajax" data-target="monContent" class="nav-link ajax-link">{{demande.magasin.nom}}</a></td>
+                                    <td rowspan={{demande.demandeitems | length + 1 }}>{{demande.datedemande|date("d/m/Y") }}</td>
+                                    {% if demande.etat == 0 %}
+                                        <td rowspan={{demande.demandeitems | length + 1 }} class="tx-warning">Demander</td>
+                                    {% elseif demande.etat == 1 %}
+                                        <td rowspan={{demande.demandeitems | length + 1 }} class="tx-success">Traiter</td>
+                                    {% else %}
+                                        <td rowspan={{demande.demandeitems | length + 1 }} class="tx-danger">Defaut</td>
+                                    {% endif %}
+                                </tr>
+                                {% for demandeitem in demande.demandeitems %}
+                                    <tr>
+                                        <td>{{ demandeitem.produit.nom }}</td>
+                                        <td>{{ demandeitem.quantite }}</td>
+                                    </tr>
+                                {% endfor %}
+                                    
+                            {% endfor %}
+                            
+                        </tbody>
+                    </table>
+                </div><!-- table-wrapper -->
+            </div>
+            <!-- br-section-wrapper -->
+        </div>
+        <!-- br-pagebody -->
+    </div>
+        <!-- br-mainpanel -->
+
+
+        <script>
+            $(".formelement").hide();
+        </script>
+        <script>
+            function show() {
+                $(".formelement").show();
+            }
+
+            function hide() {
+                $(".formelement").hide();
+            }
+        </script>
+        <script src="{{asset('js/hotelktc.js')}}"></script>
+        

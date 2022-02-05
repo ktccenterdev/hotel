@@ -1,0 +1,240 @@
+<div class="br-pagetitle">
+	<i class="icon ionicons ion-ios-people"></i>
+	<div>
+		<h4>Employés</h4>
+		<p style="color:blue;" class="mg-b-0">----</p>
+	</div>
+</div><!-- d-flex -->
+
+<div class="br-section-wrapper" style="padding:5px;">
+	<h6 class="br-section-label">Liste des Employés</h6>
+	<div class="container-fixed" id="clientemail" align="center">
+		{% for message in app.flashes('409') %}
+		<div class="alert alert-danger">
+			{{ message }}
+		</div>
+		{% endfor %}
+	</div>
+	<div x-data="{ ajouter : false }">
+		<div class="d-flex justify-content-end" style="padding:10px;">
+			
+			<button onclick="show()"  class="btn btn-primary {{app.user.hasAccess('add-employe')}}"><i class="fas fa-plus"></i> Ajouter</button>
+		
+			<button class="btn btn-secondary" style="margin-left:5px;"><a style="color:white;" href="{{path('print-employe')}}" target="_blank"><i class="fa fa-print"></i> Imprimer</a></button>
+		</div>
+		<form id="form-send" class="js-form-sendavecfile sauvegardededonne {{app.user.hasAccess('add-employe')}}" action="{{path('add-employe')}}" method="POST"
+			data-toggle="ajax" data-target="monContent" enctype="multipart/form-data">
+			<div class="formelement" x-show="ajouter" style="padding:10px;">
+				<div class="form-layout form-layout-1">
+					<div class="row mg-b-25">
+						<div class="col-lg-3">
+							<div class="form-group">
+								<label class="form-control-label">Nom d'utilisateur: <span class="tx-danger">*</span></label>
+								<input class="form-control" type="text" name="username"  placeholder="Nom pour la connexion">
+								<input class="form-control" type="text" name="passw" id="passw" style="display:none;">
+							</div>
+						</div><!-- col-3 -->
+						<div class="col-lg-3">
+							<div class="form-group">
+								<label class="form-control-label">Nom: <span class="tx-danger">*</span></label>
+								<input class="form-control" type="text" name="nom"  placeholder="Nom de l'employé">
+							</div>
+						</div><!-- col-3 -->
+						<div class="col-lg-3">
+							<div class="form-group">
+								<label class="form-control-label">Prénom : <span class="tx-danger">*</span></label>
+								<input class="form-control" type="text" name="prenom"  placeholder="Prénom de l'employé">
+							</div>
+						</div><!-- col-3 -->
+						<div class="col-lg-3">
+							<div class="form-group mg-b-10-force">
+								<label class="form-control-label">Genre: <span class="tx-danger">*</span></label>
+								{% set sexes = ['F', 'M'] %}
+								<select name="sexe" class="form-control select2" data-placeholder="Choose sexe">
+									<option label="--Sexe--"></option>
+										{% for sexe in sexes %}
+											<option value="{{sexe}}">{{sexe}}</option>
+								.       {% endfor %}
+								</select>
+							</div>
+						</div><!-- col-3 -->
+						<div class="col-lg-3">
+							<div class="form-group">
+								<label class="form-control-label">Né(e) le: <span class="tx-danger">*</span></label>
+								<div class="input-group">
+									<input type="date" id="datepicke" name="date" class="form-control fc-datepicker" placeholder="JJ/MM/AAAA">
+								</div>
+							</div>
+						</div><!-- col-3 -->
+						<div class="col-lg-3">
+							<div class="form-group">
+								<label class="form-control-label">A: <span class="tx-danger">*</span></label>
+								<input class="form-control" type="text" name="lieu"  placeholder="Lieu de naissance">
+							</div>
+						</div><!-- col-3 -->
+						
+						<div class="col-lg-3">
+							<div class="form-group">
+								<label class="form-control-label">Numéro de CNI: <span class="tx-danger">*</span></label>
+								<input class="form-control" type="text" name="cni" placeholder="Numéro de CNI/Passport">
+							</div>
+						</div><!-- col-3 -->
+						<div class="col-lg-3">
+							<div class="form-group mg-b-10-force">
+								<label class="form-control-label">Etat Civil: <span class="tx-danger">*</span></label>
+								{% set civils = ['Célibataire', 'Marié', 'Autre'] %}
+								<select name="etatcivil" class="form-control select2" data-placeholder="Choose civil">
+									<option label="--Etat Civil--"></option>
+										{% for civil in civils %}
+											<option value="{{ civil }}">{{civil}}</option>
+								.       {% endfor %}
+								</select>
+							</div>
+						</div><!-- col-3 -->
+						<div class="col-lg-3">
+							<div class="form-group">
+								<label class="form-control-label">Nationalité: <span class="tx-danger">*</span></label>
+								<input class="form-control" type="text" name="nationalite"  placeholder="Nationalité">
+							</div>
+						</div><!-- col-3 -->
+						<div class="col-lg-3">
+							<div class="form-group">
+								<label class="form-control-label">Email: <span class="tx-danger">*</span></label>
+								<input class="form-control" type="email" name="email"  placeholder="moi@ste.com">
+							</div>
+						</div><!-- col-3 -->
+						<div class="col-lg-3 mg-t-20 mg-lg-t-0">
+							<label class="form-control-label">Téléphone: <span class="tx-danger">*</span></label>
+							<div class="input-group">
+								<input name="phone" id="phoneMask" type="text" class="form-control" placeholder="(6) 999-999-999">
+							</div><!-- input-group -->
+						</div><!-- col-3 -->
+						<div class="col-lg-3">
+							<div class="form-group">
+								<label class="form-control-label">Adresse: <span class="tx-danger">*</span></label>
+								<input class="form-control" type="text" name="adresse"  placeholder="Quartier">
+							</div>
+						</div><!-- col-3 -->
+						<div class="col-lg-3">
+							<div class="form-group mg-b-10-force">
+								<label class="form-control-label">Antenne: <span class="tx-danger">*</span></label>
+								<select name="entenne" class="form-control select2" data-placeholder="Choose sexe">
+									<option label="--Antenne--"></option>
+										{% for entene in entenes %}
+											<option value="{{ entene.id }}">{{ entene.nom }}</option>
+								.       {% endfor %}
+								</select>
+							</div>
+						</div><!-- col-3 -->
+						<div class="col-lg-3">
+							<div class="form-group mg-b-10-force">
+								<label class="form-control-label">Rôle <span class="tx-danger">*</span></label>
+								<select name="role" class="form-control select2" data-placeholder="Choose sexe">
+									<option label="--Rôle--"></option>
+										{% for role in roles %}
+											<option value="{{ role.id }}">{{ role.nom }}</option>
+								.       {% endfor %}
+								</select>
+							</div>
+						</div><!-- col-3 -->
+						<div class="col-lg-3">
+							<div class="form-group">
+								<label class="form-control-label">Mot de passe: <span class="tx-danger" id="pass"></span></label>
+								<p type="button" class="btn btn-indigo active btn-block mg-b-10" id="genass">Générer</p>
+							</div>
+						</div><!-- col-3 -->
+						
+						<div class="col-lg-3">
+							<div class="form-group">
+								<div class="col-lg-3 mg-t-5 mg-sm-t-0">
+									<label class="col-sm-4 form-control-label">profil: <span class="tx-danger"></span></label>
+									<input type="file" name="photo" id="file-1"
+										class="inputfile" data-caption="files selected" accept=".png, .jpg,.jpeg">
+									<label for="file-1" class="if-outline if-outline-info">
+									<i class="icon ion-ios-upload-outline tx-24"></i>
+									<span>Choisisez une photo </span>
+									</label>
+								</div><!-- col-8 -->
+							</div>
+						</div><!-- col-4 -->
+					
+					</div><!-- row -->
+					<div class="form-layout-footer mg-t-30">
+						<button type="submit" id="btn-save-nouveau" class="btn btn-primary mg-r-5">Valider</button>							
+						<button type="button" class="btn btn-secondary" onclick="hide()">Annuler</button>
+					</div><!-- form-layout-footer -->
+				</div><!-- form-layout -->
+			</div>
+		</form>
+	</div>
+	<div class="table-wrapper responsiveelement">
+		<table class="datatable table display nowrap">
+			<thead>
+				<tr>				
+					<th class="wd-5p">ID</th>
+					<th class="wd-15p">Nom </th>
+					<th class="wd-15p">Prénom</th>
+					<th class="wd-5p">Genre</th>
+					<th class="wd-15p">Téléphone</th>
+					<th class="wd-10p">Adresse</th>
+					{% if app.user.isadmin %}
+                    	<th class="wd-25p">Antene</th>
+                  	{% endif %}
+					<th class="wd-20p">ACTION</th>
+				</tr>
+			</thead>
+			{% if employes is iterable %}
+				<tbody>
+					{% for employe in employes | reverse %}
+						<tr>
+							<td>{{ loop.index }}</td>
+							<td>
+								<a href="{{ path('showemploye',{id: employe.id})}}" class="nav-link ajax-link {{app.user.hasAccess('showemploye')}}" data-toggle="ajax" data-target="monContent" >
+									{{employe.nom}}
+								</a>
+							</td>
+							<td>{{ employe.prenom }}</td>
+							<td>{{ employe.sexe }}</td>
+							<td>{{ employe.phone }}</td>
+							<td>{{ employe.adresse }}</td>
+							{% if app.user.isadmin %}
+								<td>{{ employe.antene.nom }}</td>
+							{% endif %}
+							<td>
+
+								<button class="btn btn-info active {{app.user.hasAccess('showemploye')}}"><a href="{{ path('showemploye',{id: employe.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
+							
+								<button class="btn btn-teal active {{app.user.hasAccess('edit-employe')}}" ><a href="{{path('edit-employe', {id: employe.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
+								
+								<button class="btn btn-pink active {{app.user.hasAccess('deleteemp')}}" ><a href="{{path('deleteemp', {id: employe.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link confirm-delete" data-message="Voulez-vous supprimer cet employé?"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-trash" aria-hidden="true" ></i></a></button> 
+											
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			{% endif %}
+		</table>
+	</div><!-- table-wrapper -->
+</div><!-- br-section-wrapper -->
+   
+    <script>
+		$(".formelement").hide();
+    </script>
+    <script>
+      function show() {
+        $(".formelement").show();
+      }
+      function hide() {
+        $(".formelement").hide();
+      }
+    </script>
+	<script>
+		
+		$('#genass').click(function (e) {
+			let pass = (Math.random() + 1).toString(36).substring(7);
+			document.getElementById("pass").innerText = pass;
+			$("#passw").val(pass);
+		});	
+		
+	</script>
+

@@ -1,0 +1,206 @@
+{% extends 'intro/basefront.html.twig' %}
+
+{% block content %}
+
+<style>
+    .chambre {
+        display: block;
+        max-width:300px;
+        max-height:250px;
+        width: auto;
+        height: auto;
+    }
+
+    .advantage{
+        min-height: 350px;
+        background-size: cover !important;
+        padding: 100px 0px;
+        background: url("{{asset('photo/Entene/photo/'~ entene.photo)}}")no-repeat;
+    }
+
+</style>
+<!-- banner -->
+    
+   
+    <!--sevices-->
+    <div class="advantage">
+        <div class="container">
+         {% for message in app.flashes('success') %}
+                 <h1><div class="alert alert-success" align="center">
+                    {{ message }}
+                    </div>
+                </h1>
+            {% endfor %}
+            <div class="advantages-main">
+                <h3 class="title-w3-agileits " style=" color:black;{# filter: blur(1px); filter: contrast(10%); filter: brightness(70%); -webkit-filter: blur(1px); #}">À Propos De  RAPHIA agence de <pan>{{entene.nom}}</span></h3>
+                <div class="advantage-bottom">
+                    <div class="col-md-6 advantage-grid left-w3ls wow bounceInLeft" data-wow-delay="0.3s">
+                        <div class="advantage-block ">
+                            <i class="fa fa-credit-card" aria-hidden="true"></i>
+                            <h4>{{entene.nom}} est situé à {{entene.localisation}}</h4>
+                            <p>Vous propose des </p>
+                            {% set newArray = [] %}
+                            {% for chambre in chambres %}
+                                    {% if chambre.type.nom not in newArray %}
+                                        <p><i class="fa fa-check" aria-hidden="true"></i>Chambres 
+                                            <span>{{ chambre.type.nom |trim|upper }}</span>
+                                        </p>
+                                    {% set newArray = newArray|merge([chambre.type.nom]) %}
+                                {#<p><i class="fa fa-check" aria-hidden="true"></i>Balcon privé</p>#}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-md-6 advantage-grid right-w3ls wow zoomIn" data-wow-delay="0.3s">
+                        <div class="advantage-block">
+                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                            <h4>24 Hour Restaurant</h4>
+                            <p>Plusieurs menu</p>
+                            <p><i class="fa fa-check" aria-hidden="true"></i>Service en chambre 24h/24</p>
+                            <p><i class="fa fa-check" aria-hidden="true"></i>Service de conciergerie 24h/24</p>
+                        </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--//sevices-->
+    <!-- rooms & rates -->
+    <div class="plans-section" id="rooms">
+        <div class="container">
+            <h3 class="title-w3-agileits title-black-wthree">Chambres Et Tarifs</h3>
+            <div class="priceing-table-main">
+            {% for chambre in chambres %}
+            {# <div class="container"> #}
+                <div class="col-md-3 price-grid" style="position:relative;margin-bottom: 30px;">
+                    <div class="price-block agile">
+                        <div class="price-gd-top">
+                            <img src="{{asset('photo/Chambre/'~ chambre.photo1)}}" alt=" " class="chambre img-responsive" style="height: 200px; width: 250;"/>
+                            
+                        </div>
+                        <div class="price-gd-bottom">
+                            <div class="price-selet">
+                                <h3>Chambre<span>{{ chambre.type.nom }}</span></h3>
+
+                                <a href="{{path('entenereser', {id1: entene.id , id:chambre.id})}}" class="sub-link nav-link ajax-link br-menu-link">Reserve maintenant</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {# </div> #}
+                
+            {% endfor %}
+                
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+
+    {# try 4 #}
+    
+
+
+    {# end try 4 #}
+    
+    <!--// rooms & rates -->
+    <!-- visitors -->
+        <div class="w3layouts_work_grids">
+            <section class="slider">
+                <div class="flexslider">
+                    <ul class="slides">
+                        <li>
+                            <div class="w3layouts_work_grid_left">
+                                <img src="{{asset('images/curry.jpg')}}" alt=" " class="img-responsive" />
+                                <div class="w3layouts_work_grid_left_pos">
+                                    <img src="{{asset('images/curry.jpg')}}" alt=" " class="img-responsive" />
+                                </div>
+                            </div>
+                            <div class="w3layouts_work_grid_right">
+                                <h4>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>ÇA VAUT LE COUP DE REVENIR
+                                </h4>
+                                <p>Sed tempus vestibulum lacus blandit faucibus. Nunc imperdiet, diam nec rhoncus ullamcorper, nisl nulla suscipit ligula, at imperdiet urna. </p>
+                                <h5>Julia Rose</h5>
+                                <p>Germany</p>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </li>
+                        <li>
+                            <div class="w3layouts_work_grid_left">
+                                <img src="{{asset('images/ibaka.jpg')}}" alt=" " class="img-responsive" />
+                                <div class="w3layouts_work_grid_left_pos">
+                                    <img src="{{asset('images/ibaka.jpg')}}" alt=" " class="img-responsive" />
+                                </div>
+                            </div>
+                            <div class="w3layouts_work_grid_right">
+                                <h4>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star-o" aria-hidden="true"></i>ÇA VAUT LE COUP DE REVENIR
+                                </h4>
+                                <p>Sed tempus vestibulum lacus blandit faucibus. Nunc imperdiet, diam nec rhoncus ullamcorper, nisl nulla suscipit ligula, at imperdiet urna. </p>
+                                <h5>Jahnatan Smith</h5>
+                                <p>United States</p>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </li>
+                        <li>
+                            <div class="w3layouts_work_grid_left">
+                                <img src="{{asset('images/curry.jpg')}}" alt=" " class="img-responsive" />
+                                <div class="w3layouts_work_grid_left_pos">
+                                    <img src="{{asset('images/curry.jpg')}}" alt=" " class="img-responsive" />
+                                </div>
+                            </div>
+                            <div class="w3layouts_work_grid_right">
+                                <h4>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star-o" aria-hidden="true"></i>ÇA VAUT LE COUP DE REVENIR
+                                </h4>
+                                <p>Sed tempus vestibulum lacus blandit faucibus. Nunc imperdiet, diam nec rhoncus ullamcorper, nisl nulla suscipit ligula, at imperdiet urna. </p>
+                                <h5>Rosalind Cloer</h5>
+                                <p>Italy</p>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </li>
+                        <li>
+                            <div class="w3layouts_work_grid_left">
+                                <img src="{{asset('images/ibaka.jpg')}}" alt=" " class="img-responsive" />
+                                <div class="w3layouts_work_grid_left_pos">
+                                    <img src="{{asset('images/ibaka.jpg')}}" alt=" " class="img-responsive" />
+                                </div>
+                            </div>
+                            <div class="w3layouts_work_grid_right">
+                                <h4>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                    <i class="fa fa-star-o" aria-hidden="true"></i>ÇA VAUT LE COUP DE REVENIR
+                                </h4>
+                                <p>Sed tempus vestibulum lacus blandit faucibus. Nunc imperdiet, diam nec rhoncus ullamcorper, nisl nulla suscipit ligula, at imperdiet urna. </p>
+                                <h5>Amie Bublitz</h5>
+                                <p>Switzerland</p>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    <!-- visitors -->
+
+
+ <script>
+ 
+</script>   
+{% endblock %}

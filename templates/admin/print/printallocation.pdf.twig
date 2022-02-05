@@ -1,0 +1,27 @@
+{% extends 'admin/print/baseprint.pdf.twig' %}
+
+{% block reportbody %}
+<h2 class="titre">LISTE DES ALLOCATIONS</h2>
+<table style="width: 100%;" class="table"  border="1" cellspacing="1" cellpadding="4">
+    <tr class="table-header">
+        <th width="10%">ID</th>
+        <th width="10%">Chambre</th>
+        <th width="20%">Noms et prénom</th>
+        <th width="15%">Prix</th>
+        <th width="18%">Date de debut</th>
+        <th width="18%">Date de fin</th>
+    </tr>
+    <tbody>
+        {% for item in allocation %}
+         <tr style="background-color: {{loop.index % 2 == 0 ? '' : '#f0f4f5'}}">
+            <td align="center">{{ loop.index }}</td>
+            <td>{{ item.chambre.numero}} </td>
+            <td>{{ item.occupant.username}} {{item.occupant.prenom}} </td>
+            <td>{{item.montant }} </td>
+            <td>{{item.datedebut|date('d/m/Y H:i:s')}}</td>
+            <td>{{item.datefin|date('d/m/Y H:i:s')}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

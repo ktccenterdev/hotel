@@ -1,0 +1,368 @@
+
+<div class="br-pagetitle">
+  <i class="icon fas fa-bed"></i>
+  <div>
+    <h4>Reservations internes<i style="color:#0866C6;"></i></h4>
+    <p style="color:blue;" class="mg-b-0">----</p>
+  </div>
+</div><!-- d-flex -->
+
+<div class="br-section-wrapper">
+  <div class="d-flex justify-content-end" style="padding:10px;">
+    <button onclick="showFiltre()" id="btn-show-filter" class="btn btn-purple mg-r-10"><i class="fa fa-search"></i>  Filtrer</button>
+    <button onclick="showNouveau()" id="btn-nouveau" class="btn btn-primary"><i class="fa fa-plus-circle"></i>  Ajouter</button>
+  </div>
+
+ 	<div class="formelement" id="nouveau" x-show="ajouter" style="padding:10px; display:none;">
+		<div class="row d-flex justify-content-center">
+			<div class="col-lg-12 col-xlg-12 col-md-12">
+				<div class="row mg-t-20">
+					<div class="col">
+            <form id="form-send" class="js-form-send {{app.user.hasAccess('add-reservation')}}" action="{{path('add-reservation')}}" method="POST" data-toggle="ajax" data-target="monContent">
+              <div class="form-layout form-layout-4">
+                <h6 class="br-section-label">Ajouter une Reservation</h6>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Client: <span class="tx-danger">*</span></label>
+                      <div class="mg-t-10 mg-sm-t-0">
+                        <select style="width: 100%;" class="js-search-ajax form-control" name="client" id="client"></select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="col-sm-6 form-control-label">Type de Chambre:<span class="tx-danger">*</span></label>
+                      <div class="mg-t-10 mg-sm-t-0">
+                        <select name="typech" class="form-control select2" >
+                          <option label="Chambre à Reserver"></option>
+                          {% for type in types %}
+                            <option value="{{type.id}} ">{{type.nom}} </option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- row -->
+                <div class="row" style="padding-top:5px;">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Début du séjour <span class="tx-danger">*</span></label>
+                      <div class="mg-t-10 mg-sm-t-0">
+                        <input type="date" class="form-control" placeholder="Date" name="dateat" id="datefield1" min="{{'now' | date('Y-m-d')}}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Heure d'arrivée: <span class="tx-danger">*</span></label>
+                      <div class="mg-t-10 mg-sm-t-0">
+                        <input type="time" class="form-control" name="heurea">
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- row -->
+                <div class="row" style="padding-top:5px;">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Fin du séjour <span class="tx-danger">*</span></label>
+                      <div class="mg-t-10 mg-sm-t-0">
+                        <input type="date" class="form-control" placeholder="Date" name="dateto" id="datefield2" min="{{'now' | date('Y-m-d')}}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Heure de fin: <span class="tx-danger">*</span></label>
+                      <div class="mg-t-10 mg-sm-t-0">
+                        <input type="time" class="form-control" name="heuref">
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- row -->
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Montant: <span class="tx-danger">*</span></label>
+                      <div class="mg-t-10 mg-sm-t-0">
+                        <input type="number" class="form-control" placeholder="Montant" name="montant">
+                      </div>
+                    </div>
+                  </div><!-- col -->
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Antenne: <span class="tx-danger">*</span></label>
+                      <div class="mg-t-10 mg-sm-t-0">
+                        <select class="form-control" name="antene" required>
+                            {# <option label="--choisir--">Choisit une Antenne</option> #}
+                            <option value="" disabled selected>Choisit une Antenne</option>
+                                {% for antenne in antennes %}
+                                <option value="{{antenne.id}}">{{antenne.nom}}</option>
+                                {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                  </div><!-- col -->
+                </div>
+                <div class="row row-xs mg-t-30">
+                  <div class="col-sm-8 mg-l-auto">
+                  <div class="form-layout-footer">
+                    <button type="button" class="btn btn-secondary" onclick="showNouveau()">Annuler</button>
+                    <button type="submit" id="btn-save-nouveau" class="btn btn-primary mg-r-5">Enrégistrer</button>
+                  </div>
+                  <!-- form-layout-footer -->
+                  </div>
+                </div>
+              </div><!-- form-layout -->
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+
+  <!--Formulaire pour filtrer les resultats-->
+  <div class="card bd-purple mg-t-10 mg-b-10" id="filter" style="display: none">
+    <div class="card-header bg-purple tx-white">
+      Filter les reservations
+    </div>
+    <div class="card-body form-layout form-layout-5">
+      <form id="js-form-filter"  action="{{ 0}} {{app.user.hasAccess('index-reservation')}}" class="js-form-filter" method="GET">
+        <div class="row col-lg-12">
+            <!-- date début -->
+            <div class="col-lg-4">
+                Date de début: 
+                <input type="date" name="debut" id="debut" class="form-control">
+            </div>
+            <!-- date début -->
+            <div class="col-lg-4">
+              Date de fin: 
+                <input type="date" name="fin" id="fin" class="form-control">
+            </div>
+            <div class="col-lg-4 mg-t-20">              
+                <button type="submit" id="btn-show-filter" class="btn btn-purple mg-r-20">
+                  <i class="fa fa-search"></i> Rechercher
+                </button>   
+                <button class="btn btn-secondary" onclick="showFiltre()" type="button">Annuler</button>
+            </div>
+        </div>
+      </form>
+    </div>
+  </div> 
+    <!-- Fin du formulaire des filtres-->
+
+  {% if debut and fin %}
+    <h5 class="">Réservations enrégistrées du {{debut | date('d/m/Y')}} au {{fin | date('d/m/Y')}}</h5>
+  {% endif %}
+  <div id="accordion2" class="accordion accordion-head-colored accordion-primary" role="tablist" aria-multiselectable="true">
+      <div class="card">
+        
+      {% for item in listReservations %}
+          <div class="card-header" role="tab" id="headingThree2{{loop.index}}">
+            <h4 class="mg-b-0">
+              <a class="collapsed transition" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree2{{loop.index}}" aria-expanded="false" aria-controls="collapseThree2">
+                ANTENNE DE {{item.antenne.nom}}    
+                <i class="fa fa-chevron-down"></i>               
+                <i class="tx-16 text-secondary stats">( {{item.antenne.reservations | length}} reservations: <span class="tx-danger">{{item.reservationsNonTraitees | length}} non traitées</span> ,  <span class="tx-success">{{item.reservationsTraitees | length}} traitées</span> ) </i> 
+              </a>
+            </h4>
+          </div>
+          <div id="collapseThree2{{item.antenne.id}}" class="collapse" role="tabpanel" aria-labelledby="headingThree2">
+            <div class="card-block pd-20">
+              <!-- Tabs-->
+              <div class="container py-1">              
+                <div class="p-2 bg-white rounded shadow mb-5">
+                  <!-- Bordered tabs-->
+                  <ul id="myTab1{{item.antenne.id}}" role="tablist" class="nav nav-tabs nav-pills with-arrow flex-column flex-sm-row text-center">
+                    <li class="nav-item flex-sm-fill">
+                      <a id="non-traitees{{item.antenne.id}}-tab" data-toggle="tab" href="#non-traitees{{item.antenne.id}}" role="tab" aria-controls="non-traitees{{item.antenne.id}}" aria-selected="true" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0 border active">Reservations non traitées ({{item.reservationsNonTraitees | length}})</a>
+                    </li>
+                    <li class="nav-item flex-sm-fill">
+                      <a id="traitees{{item.antenne.id}}-tab" data-toggle="tab" href="#traitees{{item.antenne.id}}" role="tab" aria-controls="traitees{{item.antenne.id}}" aria-selected="false" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0 border">Reservations traitées ({{item.reservationsTraitees | length}})</a>
+                    </li>
+                  </ul>
+                  <div id="myTab1Content{{item.antenne.id}}" class="tab-content">
+                    <div id="non-traitees{{item.antenne.id}}" role="tabpanel" aria-labelledby="non-traitees{{item.antenne.id}}-tab" class="tab-pane fade px-4 py-4 show active">
+                      <div class="table-wrapper">
+                        <table class="datatable table display responsive nowrap">
+                          <thead>
+                            <tr>
+                              <th class="wd-15p">#</th>
+                              <th class="wd-15p">Nom du client</th>
+                              <th class="wd-20p">Date d'arrivée</th>
+                              <th class="wd-15p">Date de départ</th>
+                              <th class="wd-15p">Type de chambre</th>
+                              <th class="wd-15p">Etat</th>
+                              <th class="wd-15p">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>                        
+                            {% for reservation in item.reservationsNonTraitees %}            
+                              <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ reservation.client.nom }}</td>
+                                    <td>{{ reservation.datedariver | date('d/m/Y')}} à {{ reservation.heuredariver | date('H:i:s')}}</td>
+                                    <td>{{ reservation.datedepart | date('d/m/Y') }} à {{ reservation.heuredepart | date('H:i:s')}}</td>
+                                    <td>{{ reservation.typechambre.nom }}</td>
+                                    <td class="tx-danger">{{ reservation.etat}}</td>                             
+                                    <td class="dropdown text-center">
+                                      <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
+                                      <div class="dropdown-menu dropdown-menu-right pd-10">
+                                        <nav class="nav nav-style-1 flex-column text-center">	
+                                          <a href="{{path('show-reservation',{id:reservation.id})}}" class="btn btn-link {{app.user.hasAccess('show-reservation')}}"  data-toggle="ajax" data-target="monContent" >Détails</a>
+                                          <a href="{{path('edit-reservation',{id:reservation.id})}}" class="btn btn-link {{app.user.hasAccess('edit-reservation')}}"  data-toggle="ajax" data-target="monContent" >Modifier</a>							
+                                          <form class="confirm-delete {{app.user.hasAccess('delete-reservation')}}" method="DELETE"
+                                            action="{{path('delete-reservation', {id: reservation.id})}}"  
+                                            data-message="Voulez-vous supprimer cette reservation?"
+                                            data-toggle="ajax" data-target="monContent">
+                                            <button type="submit"  class=" ajax-link btn btn-link" >Supprimer</button>
+                                          </form>	
+                                            <button class="btn btn-primary {{app.user.hasAccess('allouer')}}"  name="active" ><a href="{{ path('allouer',{id: reservation.id}) }}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" data-toggle="ajax" data-target="monContent">Allouer</a></button>
+                                        </nav>
+                                      </div><!-- dropdown-menu -->
+                                    </td>
+                              </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div id="traitees{{item.antenne.id}}" role="tabpanel" aria-labelledby="traitees{{item.antenne.id}}-tab" class="tab-pane fade px-4 py-4">
+                      <div class="table-wrapper">
+                        <table class="datatable table display responsive nowrap">
+                          <thead>
+                            <tr>
+                              <th class="wd-15p">#</th>
+                              <th class="wd-15p">Nom du client</th>
+                              <th class="wd-20p">Date d'arrivée</th>
+                              <th class="wd-15p">Date de départ</th>
+                              <th class="wd-15p">Type de chambre</th>
+                              <th class="wd-15p">Etat</th>
+                              <th class="wd-15p">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>                        
+                            {% for reservation in item.reservationsTraitees %}                
+                              <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ reservation.client.nom }}</td>
+                                    <td>{{ reservation.datedariver | date('d/m/Y')}} à {{ reservation.heuredariver | date('H:i:s')}}</td>
+                                    <td>{{ reservation.datedepart | date('d/m/Y') }} à {{ reservation.heuredepart | date('H:i:s')}}</td>
+                                    <td>{{ reservation.typechambre.nom }}</td>
+                                    <td class="tx-success">{{ reservation.etat}}</td>                             
+                                    <td class="dropdown text-center">
+                                      <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
+                                      <div class="dropdown-menu dropdown-menu-right pd-10">
+                                        <nav class="nav nav-style-1 flex-column text-center">	
+                                          <a href="{{path('show-reservation',{id:reservation.id})}}" class="btn btn-link {{app.user.hasAccess('show-reservation')}}"  data-toggle="ajax" data-target="monContent" >Détails</a>
+                                          <a href="{{path('edit-reservation',{id:reservation.id})}}" class="btn btn-link {{app.user.hasAccess('edit-reservation')}}"  data-toggle="ajax" data-target="monContent" >Modifier</a>							
+                                          <form class="confirm-delete {{app.user.hasAccess('delete-reservation')}}" method="DELETE"
+                                            action="{{path('delete-reservation', {id: reservation.id})}}"  
+                                            data-message="Voulez-vous supprimer cette reservation?"
+                                            data-toggle="ajax" data-target="monContent">                                                                  
+                                            <button type="submit"  class=" ajax-link btn btn-link" >Supprimer</button>
+                                          </form>
+                                        </nav>
+                                      </div><!-- dropdown-menu -->
+                                    </td>
+                              </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                      </div>
+                      tabs2
+                    </div>
+                  </div>
+                  <!-- End bordered tabs -->
+                </div>
+              </div>              
+              <!-- Fin des tabs-->
+            </div>
+          </div>
+        {% endfor %}
+      </div>    
+  </div><!-- accordion -->
+</div><!-- br-section-wrapper -->
+<hr>
+
+
+  <script>
+    function filter(n) {
+        
+        searchText = n.toLowerCase();
+        console.log(searchText);
+
+        $.each($(".datatable tbody tr"), function() {
+            if($(this).text().toLowerCase().indexOf(searchText) === -1)
+                $(this).hide();
+                
+            else
+                $(this).show();                
+        });
+        
+    }
+  </script>
+
+  <script>
+    function permission(id){
+      var element = $("#checkbox-"+id);
+      var valeur;         
+      if (element.is(':checked')) { 
+          valeur = true;
+      }else{ 
+          valeur = false;
+      }
+
+      var url = "/addorremovedroit";
+      var data = {'id':id, 'etat':valeur};
+      console.log(data)
+      $.ajax({
+          'url':url,
+          'type':'PUT',
+          'data':data,
+          success : function(result){
+          },
+          error: function(error){
+              console.log("Erreur ");
+          }
+      })
+  }
+
+  </script>
+
+  <script src="{{asset('js/search.js')}}"></script>
+  <link rel="stylesheet" href="{{asset('css/tabs.css')}}">
+	
+<script>
+  function showFiltre() {
+            var v = document.getElementById("filter");
+            if (v.style.display === "none") {
+                v.style.display = "block";
+            } else {
+                $('form')[0].reset();
+                v.style.display = "none";
+            }
+        }
+
+      $('#js-form-filter').on('submit', function(e){
+        e.preventDefault();
+        loaderIn();
+        var debut = $("#debut").val();    
+        var fin = $("#fin").val();    
+        if(debut && fin && debut <= fin){
+          var url = "/indexreservation?debut="+debut+"&fin="+fin;
+          var effect = guessEffect(this, "#monContent");
+          ajaxLink(url, "monContent", "html", effect); 
+        }else{
+          sweetNotificationbad("dates invalides", "debut: "+debut+", fin: "+fin);
+        }
+        loaderOut();
+      })
+  
+</script>
+<style>
+  .active{
+    color: white;
+  }
+</style>

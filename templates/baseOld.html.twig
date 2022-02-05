@@ -1,0 +1,518 @@
+<html lang="en">
+     <head>
+    <!-- Required meta tags -->
+    <meta http-equiv="Content-Type" content=\"text/html; charset=UTF-8\">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!-- Twitter -->
+    <meta name="twitter:site" content="@themepixels">
+    <meta name="twitter:creator" content="@themepixels">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bracket Plus">
+    <meta name="twitter:description" content="Premium Quality and Responsive UI for Dashboard.">
+    <meta name="twitter:image" content="http://themepixels.me/bracketplus/img/bracketplus-social.png">
+
+    <!-- Facebook -->
+    <meta property="og:url" content="http://themepixels.me/bracketplus">
+    <meta property="og:title" content="Bracket Plus">
+    <meta property="og:description" content="Premium Quality and Responsive UI for Dashboard.">
+
+    <meta property="og:image" content="http://themepixels.me/bracketplus/img/bracketplus-social.png">
+    <meta property="og:image:secure_url" content="http://themepixels.me/bracketplus/img/bracketplus-social.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="600">
+
+    <!-- Meta -->
+    <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
+    <meta name="author" content="ThemePixels">
+
+    <title>HOTEL KTC</title>
+
+    <!-- vendor css -->
+    <link href="../lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="../lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="../lib/rickshaw/rickshaw.min.css" rel="stylesheet">
+    <link href="../lib/select2/css/select2.min.css" rel="stylesheet">
+    <link href="../lib/timepicker/jquery.timepicker.css" rel="stylesheet">
+    
+
+    <!-- Bracket CSS -->
+	<link href="../lib/highlightjs/styles/github.css" rel="stylesheet">
+    <link href="../lib/datatables.net-dt/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="../lib/datatables.net-responsive-dt/css/responsive.dataTables.min.css" rel="stylesheet">
+    
+
+    <!-- Bracket CSS -->
+    <link rel="stylesheet" href="../css/responsive.css">
+	<link rel="stylesheet" href="{{asset('plugins/var.css')}}">
+	<link rel="stylesheet" href="{{asset('css/loader-ajax.css')}}">	
+    <link rel="stylesheet" href="../css/bracket.css">
+    
+     <!-- Favicon and touch icons  -->
+    <link href="{{asset('icon/1.jpeg')}}" rel="apple-touch-icon-precomposed" sizes="48x48">
+    <link href="{{asset('icon/3.jpeg')}}" rel="apple-touch-icon-precomposed">
+    <link href="{{asset('icon/2.jpeg')}}" rel="shortcut icon">
+
+    <!-- tab CSS -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+
+        {% block style %}{% endblock %}
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('bundles/troopersajax/css/ajax.css') }}" />
+        {% endblock %}
+        <style>
+            a .btn {
+                cursor: pointer;
+            }
+            .sidebar-menu-text {
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body class="collapsed-menu with-subleft ">
+        <div class="ajax-loader"></div>
+        <!-- ########## START: LEFT PANEL ########## -->
+        <div class="br-logo">
+            <a href="">
+                <span>
+                    <img  src="{{asset('photo/Logo/e.jpeg')}}"   height="50px" width="150" alt="dropdown image" class="img-responsive">
+                </span>
+               <p class="logo_w3l_agile_caption"></p>
+            </a>
+        </div>
+        <div class="br-sideleft sideleft-scrollbar" style="z-index: 1000;">
+            <label class="sidebar-label pd-x-10 mg-t-20 op-3">Navigation</label>
+            <ul class="br-sideleft-menu">
+                <li class="br-menu-item">
+                <a href="{{path('dashboard')}}" class="br-menu-link active">
+                    <i class="menu-item-icon icon ion-ios-home-outline tx-24"></i>
+                    <span class="menu-item-label">Dashboard</span>
+                </a><!-- br-menu-link -->
+                </li><!-- br-menu-item -->
+            {% if "client-index" in app.session.get('userdroit') %}
+                {# <li class="br-menu-item">
+                    <a href="#" class="br-menu-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">
+                        <i class="tx-24 fa fa-user"></i>
+                        <span class="menu-item-label">Gestion des clients</span>
+                    </a><!-- br-menu-link -->
+                </li><!-- br-menu-item --> #}
+                {% endif %}
+                <li class="br-menu-item {{app.user.hasAccess('index-employe')}}">
+                    <a href="#"  class="br-menu-link with-sub nav-link">
+                        <i class="menu-item-icon ionicons ion-ios-bookmarks-outline tx-24"></i>
+                        <span class="menu-item-label">Administration</span>
+                    </a><!-- br-menu-link -->
+                    <ul class="br-menu-sub">
+                        <li class="sub-item {{app.user.hasAccess('index-module')}}"><a href="{{path('index-module')}}"   class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Module</a></li>
+                        <li class="sub-item {{app.user.hasAccess('index-role')}}"><a href="{{path('index-role')}}"    class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Role</a></li>
+                        <li class="sub-item {{app.user.hasAccess('entene')}}"><a href="{{path('entene')}}"  class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Antenne</a></li>
+                        <li class="sub-item {{app.user.hasAccess('utilisateur-index')}}"><a href="{{path('utilisateur-index')}}"    class="sub-link ajax-link"  data-toggle="ajax" data-target="monContent">Utilisateurs</a></li>
+                        <li class="sub-item {{app.user.hasAccess('index-employe')}}"><a href="{{path('index-employe')}}"    class="sub-link ajax-link"  data-toggle="ajax" data-target="monContent">Gestion des employés</a></li>
+                        <li class="sub-item {{app.user.hasAccess('log-index')}}"><a href="{{path('log-index')}}"   class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Logs</a></li>
+                    </ul>
+                </li>
+                <li class="br-menu-item {{app.user.hasAccess('index-client')}}">
+                    <a href="{{path('index-client')}}" class="sub-link nav-link ajax-link br-menu-link" data-toggle="ajax" data-target="monContent">
+                    <i class="menu-item-icon icon ionicons ion-happy tx-24"  data-toggle="ajax" data-target="monContent"></i>                
+                                    <span class="menu-item-label">Gestions Des Clients</span>
+                    </a><!-- br-menu-link -->
+                </li>
+                <li class="br-menu-item">
+                </li>
+                <li class="br-menu-item {{app.user.hasAccess('index-chambre')}}">
+                    <a href="#" class="br-menu-link with-sub">
+                        <i class="menu-item-icon ionicons ion-speedometer tx-24"></i>
+                        <span class="menu-item-label">Gestion des Chambres</span>
+                    </a><!-- br-menu-link -->
+                    <ul class="br-menu-sub">
+                        {#{% if "index-chambre" in app.session.get('userdroit') %}#}
+                        <li class="sub-item {{app.user.hasAccess('index-chambre')}}"><a href=" {{path('index-chambre')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Chambres</a></li>
+                        {#{% endif %}#}
+                        <li class="sub-item {{app.user.hasAccess('index-type')}}"><a href="{{path('index-type')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Type de chambre</a></li>
+                       
+                        {#{% if "index-type" in app.session.get('userdroit') %}#}
+                        <li class="sub-item {{app.user.hasAccess('index-allocation')}}"><a href="{{path('index-allocation')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Hebergement</a></li>
+                        {#{% endif %}
+                        {% if "index-type" in app.session.get('userdroit') %}#}
+                        <li class="sub-item {{app.user.hasAccess('liste-allocation')}}"><a href="{{path('liste-allocation')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">liste des Hebergements</a></li>
+						<li class="sub-item {{app.user.hasAccess('liste-allocation')}}"><a href="{{path('leave-allocation')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Hebergements journalière</a></li>
+
+                        <li class="sub-item {{app.user.hasAccess('liste-allocation')}}"><a href="{{path('mes-allocation')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Mes Hebergements</a></li>
+                        {#{% endif %}
+                        {% if "index-tarif" in app.session.get('userdroit') %}#}
+                        <li class="sub-item {{app.user.hasAccess('index-tarif')}}"><a href="{{path('index-tarif')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Tarif</a></li>
+                        {#{% endif %}#}
+                        <li class="sub-item {{app.user.hasAccess('index-allocation')}}"><a href="{{path('dashboard-allocation')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Dashboard Allocation</a></li>
+                        
+                    </ul>
+                </li><!-- br-menu-item -->
+                <li class="br-menu-item {{app.user.hasAccess('index-reservation')}}">
+                    <a href="#" class="br-menu-link with-sub">
+                        <i class="menu-item-icon icon ion-ios-home-outline tx-24"></i>
+                        <span class="menu-item-label">Reservations</span>
+                    </a><!-- br-menu-link -->
+                    <ul class="br-menu-sub">                
+                        <li class="sub-item {{app.user.hasAccess('index-reservation')}}"><a href="{{path('index-reservation')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Reservation Interne</a></li>
+                        <li class="sub-item {{app.user.hasAccess('list-reservation')}}"><a href="{{path('list-reservation')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Reservation Externe</a></li>
+                    </ul>
+                </li>
+                <li class="br-menu-item {{app.user.hasAccess('entene')}}">
+                    <a href="{{path('mon-bilanjournalier')}}"  data-toggle="ajax" data-target="monContent" class="br-menu-link with-sub">
+                        <i class="menu-item-icon ionicons ion-stats-bars tx-24"></i>
+                        <span class="menu-item-label">Mon bilan</span>
+                    </a>
+                    <ul class="br-menu-sub">
+                    <li class="sub-item {{app.user.hasAccess('mon-bilanjournalier')}}"><a href=" {{path('mon-bilanjournalier')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Mon Bilan journalier </a></li>
+                        <li class="sub-item {{app.user.hasAccess('bilanjournalier')}}"><a href=" {{path('bilanjournalier')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Bilan journalier </a></li>
+                    </ul>
+                </li>
+                <li class="br-menu-item {{app.user.hasAccess('index-magasin')}}">
+                    <a href="#" class="br-menu-link with-sub">
+                        <i class="menu-item-icon ionicons ion-ios-calculator-outline tx-24"></i>
+                        <span class="menu-item-label">Gestion De Stock</span>
+                    </a>
+                    <ul class="br-menu-sub">
+                        <li class="sub-item">
+                        </li>
+                        <li class="sub-item {{app.user.hasAccess('index-magasin')}}"><a href="{{path('index-magasin')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Magasins </a></li>
+                        <li class="sub-item {{app.user.hasAccess('index-entree')}}"><a href="{{path('index-entree')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Entrée en stock </a></li>
+                        <li class="sub-item {{app.user.hasAccess('index-sortis')}}"><a href="{{path('index-sortis')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Sorties en stock </a></li>
+                        <li class="sub-item {{app.user.hasAccess('listeentrestockgenerale')}}"><a href="{{path('listeentrestockgenerale')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Liste des Entrées</a></li>
+                        <li class="sub-item {{app.user.hasAccess('index-fournisseur')}}"><a href="{{path('index-fournisseur')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">fournisseurs </a></li>
+                        <li class="sub-item {{app.user.hasAccess('index-produit')}}"><a href="{{path('index-produit')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Produits </a></li>
+                        <li class="sub-item {{app.user.hasAccess('listapprovisionement')}}"><a href="{{path('listapprovisionement')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">approvisionements </a></li>
+                        <li class="sub-item {{app.user.hasAccess('mesapprovisionement')}}"><a href="{{path('mesapprovisionement')}}" class="sub-link nav-link ajax-link" data-toggle="ajax" data-target="monContent">Mes approvisionements </a></li>
+                    </ul>
+                </li>
+                <!-- Gestion des finances-->
+                <li class="br-menu-item {{app.user.hasAccess('compte-index')}}">
+                    <a href="#" class="br-menu-link with-sub">
+                        <i class="menu-item-icon ionicons ion-ios-calculator tx-24"></i>
+                        <span class="menu-item-label">Finances</span>
+                    </a><!-- br-menu-link -->
+                    <ul class="br-menu-sub">
+                       
+                            <li class="sub-item {{app.user.hasAccess('compte-index')}}"><a href="{{path('compte-index')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Comptes</a></li>
+                        
+                            <li class="sub-item {{app.user.hasAccess('sortie-financiere-index')}}"><a href="{{path('sortie-financiere-index')}}" class="sub-link nav-link ajax-links" data-toggle="ajax" data-target="monContent">Sorties financières</a></li>
+                        
+                            <li class="sub-item {{app.user.hasAccess('journal-index')}}"><a href="{{path('journal-index')}}" class="sub-link nav-link ajax-links" data-toggle="ajax" data-target="monContent">Journal comptable</a></li>
+                                        
+                    </ul>
+                </li>
+                <!-- Fin gestion des finances -->
+                {% if "index-parametre" in app.session.get('userdroit') %}
+                    <li class="br-menu-item">
+                        <a href="{{path('param-vue')}}" class="sub-link nav-link ajax-link br-menu-link {{app.user.hasAccess('param-vue')}}" data-toggle="ajax" data-target="monContent">
+                            <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>                
+                            <span class="menu-item-label">Parametres</span>
+                        </a><!-- br-menu-link -->
+                    </li><!-- br-menu-item -->
+                {% endif %}
+                <li class="br-menu-item">
+                    <a href="{{path('modulecle-add')}}" class="sub-link nav-link ajax-link br-menu-link {{app.user.hasAccess('modulecle-add')}}" data-toggle="ajax" data-target="monContent">
+                    <i class="menu-item-icon icon ionicons ion-code tx-24"></i>                
+                        <span class="menu-item-label">FOR DEVELLOPER</span>
+                    </a><!-- br-menu-link -->
+                </li><!-- br-menu-item -->
+            </ul><!-- br-sideleft-menu -->
+            <br>
+        </div><!-- br-sideleft -->
+        <!-- ########## END: LEFT PANEL ########## -->
+
+        <!-- ########## START: HEAD PANEL ########## -->
+        <div class="br-header">
+            <div class="br-header-left">
+                <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href=""><i class="icon ion-navicon-round"></i></a></div>
+                <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a></div>
+                
+                <div class="barre-menu input-group hidden-xs-down wd-230 transition d-flex justify-content-center" style="">
+                    <a href="{{path('index-clientdash')}}" class="ajax-link text-center {{app.user.hasAccess('index-clientdash')}}"  data-toggle="ajax" data-target="monContent">
+                        <h4 class="tx-lato tx-inverse tx-bold mg-b-0"><i  class="fa fa-user"></i></h4>
+                        <span  class="tx-12 tx-danger tx-roboto"><b>AJOUTER UN CLIENT</b></span>
+                    </a>
+                </div>      
+                <div class="barre-menu input-group hidden-xs-down wd-230 transition d-flex justify-content-center">
+                    <a href="{{path('log-index')}}" class="ajax-link text-center {{app.user.hasAccess('log-index')}}"  data-toggle="ajax" data-target="monContent">
+                        <h4 class="tx-lato tx-inverse tx-bold mg-b-0"><i  class="fa fa-store"></i></h4>
+                        <span  class="tx-12 tx-danger tx-roboto"><b>LOGS</b></span>
+                    </a>
+                </div>
+
+                <div class="barre-menu input-group hidden-xs-down wd-230 transition d-flex justify-content-center">
+                    <a href="{{path('index-allocation')}}" class="{{app.user.hasAccess('index-allocation')}} ajax-link text-center"  data-toggle="ajax" data-target="monContent">
+                        <h4 class="tx-lato tx-inverse tx-bold mg-b-0"><i  class="fa fa-sitemap"></i></h4>
+                        <span  class="tx-12 tx-danger tx-roboto"><b>AJOUTER UNE ALLOCATION</b></span>
+                    </a>
+                </div>
+
+                <div class="barre-menu input-group hidden-xs-down wd-230 transition d-flex justify-content-center">
+                    <a href="{{path('mon-bilanjournalier')}}"  data-toggle="ajax" data-target="monContent" class="text-center {{app.user.hasAccess('mon-bilanjournalier')}}">
+                        <h4 class="tx-lato tx-inverse tx-bold mg-b-0"><i  class="fa fa-print"></i></h4>
+                        <span  class="tx-12 tx-danger tx-roboto"><b>BILAN</b></span>
+                    </a>
+                </div>
+
+                <div class="barre-menu input-group hidden-xs-down wd-230 transition d-flex justify-content-center">
+                    <a href="{{path('index-newsletter')}}" class="{{app.user.hasAccess('index-newsletter')}} ajax-link text-center"  data-toggle="ajax" data-target="monContent">
+                        <h4 class="tx-lato tx-inverse tx-bold mg-b-0"><i  class="fa fa-envelope"></i></h4>
+                        <span  class="tx-12 tx-danger tx-roboto"><b>Newsletter</b></span>
+                    </a>
+                </div>
+                <nav class="barre-menu nav input-group hidden-xs-down wd-230 transition d-flex justify-content-end">                          
+                    <div class="dropdown">
+                        <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
+                        <span class="logged-name hidden-md-down tx-lato tx-inverse tx-bold mg-b-0 size-21"> {{app.user.username}}</span>
+                        <img src="{{asset('photo/Avatar/avatarmale.jpeg')}}" height="50px" width="50">
+                        <span class="square-10 bg-success"></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-header wd-250">
+                            <div class="tx-center">
+                                <a href="">
+								<img src="{{asset('photo/Avatar/avatarmale.jpeg')}}" height="50px" width="50">
+								</a>
+                                <h6 class="logged-fullname">{{app.user.nom}} {{app.user.prenom}}</h6>
+                                <p>{{app.user.email}}</p>
+                            </div>
+                            <hr>
+                            <ul class="list-unstyled user-profile-nav">
+                                <li><a href=""><i class="icon ion-ios-person"></i> Editer mon  Profile</a></li>
+                                <li><a href=""  data-toggle="modal" data-target="#modaldemo6"><i class="icon ion-ios-gear"></i> Changer le password</a></li>
+                                <li><a href="/logout"><i class="icon ion-power"></i> Sign Out</a></li>
+                            </ul>
+                        </div><!-- dropdown-menu -->
+                    </div><!-- dropdown -->
+                </nav>
+            </div><!-- br-header-left -->
+            <div class="br-header-right">
+                
+            </div><!-- br-header-right -->
+        </div><!-- br-header -->
+        <!-- ########## END: HEAD PANEL ########## -->
+            <!-- start subleft-->
+            {% block subleft %}{% endblock %}
+            <!-- End subleft-->
+        <!-- ########## START: MAIN PANEL ########## -->        
+        
+        <div id="js-main-content">
+            <div class="br-mainpanel">
+			  <!--<div style="background: #0766c6; margin-right: 0px; margin-left: 0px;" class="row">
+                    <div   style=" background: #0766c6; padding-left: 0px; padding-right: 0px;" class="col-sm-2">
+                        <div class="tx-center pd-y-15 bd">
+                            <a href="{{path('index-clientdash')}}" class="ajax-link"  data-toggle="ajax" data-target="monContent">
+                                <h4 class="tx-lato tx-inverse tx-bold mg-b-0"><i  class="fa fa-user"></i></h4>
+                                <span  class="tx-12 tx-danger tx-roboto"><b>AJOUTER UN CLIENT</b></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div   style="padding-left: 0px; padding-right: 0px;" class="col-sm-2">
+                        <div class="tx-center pd-y-15 bd">
+                            <a href="{{path('log-index')}}" class="ajax-link"  data-toggle="ajax" data-target="monContent">
+                                <h4 class="tx-lato tx-inverse tx-bold mg-b-0"><i  class="fa fa-store"></i></h4>
+                                <span  class="tx-12 tx-danger tx-roboto"><b>LOGS</b></span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div   style="padding-left: 0px; padding-right: 0px;" class="col-sm-2">
+                        <div class="tx-center pd-y-15 bd">
+                            <a href="{{path('index-allocation')}}" class="ajax-link"  data-toggle="ajax" data-target="monContent">
+                                <h4 class="tx-lato tx-inverse tx-bold mg-b-0"><i  class="fa fa-sitemap"></i></h4>
+                                <span  class="tx-12 tx-danger tx-roboto"><b>AJOUTER UNE ALLOCATION</b></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div  style="padding-left: 0px; padding-right: 0px;"   class="col-sm-2">
+                        <div class="tx-center pd-y-15 bd">
+                            <a href="#">
+                                <h4 class="tx-lato tx-inverse tx-bold mg-b-0"><i  class="fa fa-print"></i></h4>
+                                <span  class="tx-12 tx-danger tx-roboto"><b>BILAN</b></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div   style="padding-left: 0px; padding-right: 0px;" class="col-sm-2">
+                        <div class="tx-center pd-y-15 bd">
+                            <a href="{{path('index-newsletter')}}" class="ajax-link"  data-toggle="ajax" data-target="monContent">
+                                <h4 class="tx-lato tx-inverse tx-bold mg-b-0"><i  class="fa fa-envelope"></i></h4>
+                                <span  class="tx-12 tx-danger tx-roboto"><b>Newsletter</b></span>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>  -->                    
+                
+                {% block breadcrumb %}{% endblock %}
+                <div class="br-pagebody">
+                    <br>
+                    <div id="divError" style="display:none" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Erreur: </strong>
+                        <span class="messageError"></span>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div  id="monContent">
+                            {% block content %}{% endblock %}
+                    </div>
+                </div><!-- br-pagebody -->
+                <!-- MODAL GRID -->
+                <div id="modaldemo6" class="modal fade">
+                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content bd-0 bg-transparent rounded overflow-hidden">
+                        <div class="modal-body pd-0">
+                        <div class="row no-gutters">  
+                            <div class="col-lg-12 bg-white">
+                            <div class="pd-30">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                                <div class="pd-x-30 pd-y-10">
+                                    <form id="form-send" class="js-form-send" action="{{path('changepassword')}}" method="POST">
+                                    <h3 class="tx-inverse  mg-b-5">CHANGER VOTRE MOT DE PASSE!</h3>
+                                    <br>
+                                    <div class="form-group">
+                                        <input type="password" name="ancienpassword" class="form-control pd-y-12" placeholder="Ancien mot de passe" Required>
+                                    </div><!-- form-group -->
+                                    <div class="form-group mg-b-20">
+                                        <input type="password" name="newpassword" class="form-control pd-y-12" placeholder="Nouveau mot de passe" Required>
+                                    </div><!-- form-group -->
+
+                                    <button type="submit" class="btn btn-primary pd-y-12 btn-block">VALIDER</button>
+                                    </form>
+                                </div>
+                            </div><!-- pd-20 -->
+                            </div><!-- col-6 -->
+                        </div><!-- row -->
+                        </div><!-- modal-body -->
+                    </div><!-- modal-content -->
+                    </div><!-- modal-dialog -->
+                </div>  
+                <div class="footer navbar-fixed-bottom">
+                <footer class="br-footer">
+                    <div class="footer-left">
+                        <div class="mg-b-2">Copyright &copy; 2021. By ktc-center. All Rights Reserved.</div>
+                    </div>
+                </footer>
+                </div>
+                
+            </div>        
+        </div><!-- br-mainpanel -->
+        <!-- ########## END: MAIN PANEL ########## -->    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="../lib/jquery/jquery.min.js"></script>        
+        <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>   
+        <script src="../lib/moment/min/moment.min.js"></script>
+        <script src="../lib/peity/jquery.peity.min.js"></script>
+        <script src="../lib/rickshaw/vendor/d3.min.js"></script>
+        <script src="../lib/rickshaw/vendor/d3.layout.min.js"></script>
+        <script src="../lib/rickshaw/rickshaw.min.js"></script>
+        <script src="../lib/jquery.flot/jquery.flot.js"></script>
+        <script src="../lib/jquery.flot/jquery.flot.resize.js"></script>
+        <script src="../lib/flot-spline/js/jquery.flot.spline.min.js"></script>
+        <script src="../lib/jquery-sparkline/jquery.sparkline.min.js"></script>
+        <script src="../lib/echarts/echarts.min.js"></script>
+        <script src="../lib/jquery-ui/ui/widgets/datepicker.js"></script>
+        <script src="http://maps.google.com/maps/api/js?key=AIzaSyAq8o5-8Y5pudbJMJtDFzb8aHiWJufa5fg"></script>
+        <script src="../lib/gmaps/gmaps.min.js"></script>
+        <script src="../lib/timepicker/jquery.timepicker.min.js"></script>
+         
+        <script src="{{asset('js/hotelktc.js')}}"></script>
+        <script src="../js/bracket.js"></script>
+        <script src="../js/map.shiftworker.js"></script>
+        <script src="../js/ResizeSensor.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script src="../lib/select2/js/select2.full.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/dt/jq-2.1.4,jszip-2.5.0,pdfmake-0.1.18,dt-1.10.9,af-2.0.0,b-1.0.3,b-colvis-1.0.3,b-html5-1.0.3,b-print-1.0.3,se-1.0.1/datatables.min.css"/>
+		<script type="text/javascript" src="https://cdn.datatables.net/r/dt/jq-2.1.4,jszip-2.5.0,pdfmake-0.1.18,dt-1.10.9,af-2.0.0,b-1.0.3,b-colvis-1.0.3,b-html5-1.0.3,b-print-1.0.3,se-1.0.1/datatables.min.js" defer></script>
+
+
+        <script src="js/hotelktc.js"></script>
+        <script src="js/login.js"></script>
+        <script src="../js/print.js"></script>
+
+        <script>
+            loaderOut();
+            $(function(){
+                'use strict'
+                $(window).resize(function(){
+                    minimizeMenu();
+                });
+                minimizeMenu();
+            });
+            //minimiser le left menu
+            function minimizeMenu() {
+                if(window.matchMedia('(min-width: 992px)').matches && window.matchMedia('(max-width: 1299px)').matches) {
+                    // show only the icons and hide left menu label by default
+                    $('.menu-item-label,.menu-item-arrow').addClass('op-lg-0-force d-lg-none');
+                    $('body').addClass('collapsed-menu');
+                    $('.show-sub + .br-menu-sub').slideUp();
+                } else if(window.matchMedia('(min-width: 1300px)').matches && !$('body').hasClass('collapsed-menu')) {
+                    $('.menu-item-label,.menu-item-arrow').removeClass('op-lg-0-force d-lg-none');
+                    $('body').removeClass('collapsed-menu');
+                    $('.show-sub + .br-menu-sub').slideDown();
+                }
+            }
+          
+            //action de la souris sur le leftmenu
+            $(document).on('mouseover', function(e){
+                e.stopPropagation();
+                if($('body').hasClass('collapsed-menu')) {
+                  var targ = $(e.target).closest('.br-sideleft').length;
+                  if(targ) {
+                    $('body').addClass('expand-menu');
+      
+                    // show current shown sub menu that was hidden from collapsed
+                    $('.show-sub + .br-menu-sub').slideDown();
+      
+                    var menuText = $('.menu-item-label,.menu-item-arrow');
+                    menuText.removeClass('d-lg-none');
+                    menuText.removeClass('op-lg-0-force');
+      
+                  } else {
+                    $('body').removeClass('expand-menu');
+      
+                    // hide current shown menu
+                    $('.show-sub + .br-menu-sub').slideUp();
+      
+                    var menuText = $('.menu-item-label,.menu-item-arrow');
+                    menuText.addClass('op-lg-0-force');
+                    menuText.addClass('d-lg-none');
+                  }
+                }
+              });
+      
+            // Showing sub left menu
+            $('#showSubLeft').on('click', function(){
+                    if($('body').hasClass('show-subleft')) {
+                    $('body').removeClass('show-subleft');
+                    } else {
+                    $('body').addClass('show-subleft');
+                    }
+                });
+                
+            $('.select2').select2({
+                width: 'resolve'
+            });
+            
+            // Select2 by showing the search
+            $('.select2-show-search').select2({
+                minimumResultsForSearch: ''
+            });
+            
+            // Select2 with tagging support
+            $('.select2-tag').select2({
+            tags: true,
+                tokenSeparators: [',', ' ']
+            });
+            
+        </script>
+        {% block javascripts %}
+            <script type="text/javascript" src="{{ asset('bundles/troopersajax/js/ajax.js') }}"></script>     
+        {% endblock %}
+    </body>
+</html>

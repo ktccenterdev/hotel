@@ -1,0 +1,120 @@
+
+<div class="br-pagetitle">
+  <i class="icon ion-man"></i>
+  <div>
+    <h4>Les Droits du compte <i style="color:#0866C6;">{{role.nom}}</i></h4>
+    <p style="color:blue;" class="mg-b-0">----</p>
+  </div>
+</div><!-- d-flex -->
+
+<div class="br-section-wrapper">
+  <div class="container">
+  <div class="row">
+    <div class="col-sm"><h6 class="br-section-label">      
+      Liste des Droits
+    </h6></div>
+  </div>
+</div>
+<div id="accordion2" class="accordion accordion-head-colored accordion-primary" role="tablist" aria-multiselectable="true">
+  
+    {% for item in tableauaction %}
+            <div class="card-header" role="tab" id="headingThree2{{loop.index}}">
+            <h6 class="mg-b-0">
+              <a class="collapsed transition" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree2{{loop.index}}" aria-expanded="false" aria-controls="collapseThree2">
+                {{item.module}}
+              </a>
+            </h6>
+          </div>
+          <div id="collapseThree2{{loop.index}}" class="collapse" role="tabpanel" aria-labelledby="headingThree2">
+          <div class="br-pagebody">
+            <div class="card-block pd-20">
+                <div class="table-wrapper">
+                  <table class="datatable table display responsive nowrap">
+                    <thead>
+                      <tr>
+                        <th class="wd-10p">#</th>
+                        <th class="wd-40p">Droit</th>
+                        <th class="wd-40p">Description</th>
+                        <th class="wd-10p">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for droit in item.action  %}
+                                <tr>
+                                  <td>{{loop.index}}</td>
+                                  <td>{{droit.action.nom}}</td>
+                                  <td>{{droit.action.description}}</td>
+                                  <td align="center">
+                                      <label class="label_check" for="checkbox-01" >
+                                          <input  type="checkbox" name="choix[]" id="checkbox-{{droit.id}}" value="{{droit.id}}" {{droit.etat ? "checked"}} onclick="permission({{droit.id}})"/>
+                                      </label>
+                                  </td>
+                                </tr>
+                        {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+          </div>
+          </div><!-- collapse -->  
+    {% endfor %}
+  
+</div><!-- accordion -->
+</div><!-- br-section-wrapper -->
+
+
+    {#<script>
+        $('.datatable').DataTable({
+        responsive: false,
+        language: {
+            searchPlaceholder: 'Recherche...',
+            sSearch: '',
+            lengthMenu: '_MENU_ items/page',
+        }
+        });
+    </script>#}
+    <script>
+    $(document).ready(function () {
+        $(".formelement").hide();
+        
+    });
+    </script>
+    <script>
+      function show() {
+        $(".formelement").show();
+      }
+      function hide() {
+        $(".formelement").hide();
+      }
+
+
+
+      function permission(id){
+        var element = $("#checkbox-"+id);
+        var valeur;         
+        if (element.is(':checked')) { 
+            valeur = true;
+        }else{ 
+            valeur = false;
+        }
+
+        var url = "/addorremovedroit";
+        var data = {'id':id, 'etat':valeur};
+        console.log(data)
+        $.ajax({
+            'url':url,
+            'type':'PUT',
+            'data':data,
+            success : function(result){
+            },
+            error: function(error){
+                console.log("Erreur ");
+            }
+        })
+    }
+
+    </script>
+
+		
+
+

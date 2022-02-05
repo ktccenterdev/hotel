@@ -1,0 +1,112 @@
+
+<div class="br-pagetitle">
+	<i class="icon ion-share"></i>
+	<div>
+		<h4>SORTIES FINANCIERES</h4>
+		<p style="color:blue;" class="mg-b-0">----</p>
+	</div>
+</div>
+
+<div class="br-section-wrapper">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm">
+				<h6 class="br-section-label">
+					<a class="{{app.user.hasAccess('sortie-financiere-type')}}" href="{{path('sortie-financiere-type', {'type':type})}}" data-toggle="ajax" data-target="monContent" title="précédent">
+						<i class="fa fa-arrow-left"></i>
+					</a>  Nouveau règlement fournisseur
+				</h6>
+			</div>
+		</div>
+		<div class="row br-pagebody pd-x-20 pd-sm-x-30">
+			<div class="card bd-0 shadow-base col-lg-12 col-md-12">
+			{% set montant = 0 %}
+			{% set total = 0 %}
+			  <table class="table mg-b-0">
+				<thead>
+				  <tr>
+					<th class="tx-10-force tx-mont tx-medium">FOURNISSEURS</th>
+					<th class="tx-10-force tx-mont tx-medium text-center">DATE</th>
+					<th class="tx-10-force tx-mont tx-medium text-center">MAGASIN</th>
+					<th class="tx-10-force tx-mont tx-medium text-center">OPERATEUR</th>
+					<th class="tx-10-force tx-mont tx-medium text-center">COMMENTAIRE</th>
+					<th class="tx-10-force tx-mont tx-medium text-center hidden-xs-down">MONTANT (FCFA)</th>
+				 	<th class="wd-5p"></th> 
+				  </tr>
+				</thead>
+				<tbody>					
+					{% for facture in factures %}
+						<tr>					
+							<td>
+							<i class="icon ion-ios-folder-outline tx-24 tx-warning lh-0 valign-middle"></i>
+							<span class="pd-l-5"><a class="{{app.user.hasAccess('showfour')}}" href="{{path('showfour', {'id':facture.fournisseur.id}) }}" data-toggle="ajax" data-target="monContent">{{facture.fournisseur.nom}}</a></span>
+							</td>				
+							<td class="hidden-xs-down text-center">{{facture.date | date("d-m-Y")}}</td>
+							<td class="hidden-xs-down text-center">{{facture.magasin.nom}}</td>																	
+							<td class="hidden-xs-down text-center">{{facture.user.nom}}</td>
+							<td class="hidden-xs-down text-center">{{facture.commentaire}}</td>
+							<td class="hidden-xs-down text-center">
+								{% for item in facture.entreitems %}
+									{% set montant = montant + item.pixtotal %}
+								{% endfor %}
+								{{montant}}
+								{% set total = total + montant %}
+							</td>
+							<td>
+								<form action="{{path('save-sortie-fournisseur')}}" class="confirm-action" method="POST" 
+								data-toggle="ajax" data-target="monContent" 
+								data-message="Voulez vous effectuer ce reglèment de {{montant}} FCFA à {{facture.fournisseur.nom}} ?">
+									<input type="hidden" name="factureID" value="{{facture.id}}">
+									<input type="hidden" name="montant" value="{{montant}}">									
+									<input class="btn btn-success" type="submit" value="Régler">
+								</form>
+							</td>					
+						</tr>
+					{% endfor %}
+				  
+				  
+				</tbody>
+				<tfoot>
+					<tr style="font-weight: bold;">
+						<td colspan="5">Total</td>
+						<td class="text-center">{{total}}</td>
+					</tr>
+				</tfoot>
+			  </table>
+			</div>
+		</div>
+	</div>
+</div><!-- br-section-wrapper -->
+
+
+<script>
+		$('input[type=radio][name=typeFilter]').change(function() {
+			if (this.value == 'antenne') {
+				$("#antenne").removeAttr("disabled", false);
+				$("#operateur").attr("disabled", true);
+			}
+			else if (this.value == 'operateur') {
+				$("#antenne").attr("disabled", true);
+				$("#operateur").removeAttr("disabled", false);
+			}else{
+				$("#antenne").attr("disabled", true);
+				$("#operateur").attr("disabled", true);
+			}
+		});
+
+		$("#form-filter").on('submit', function(e){
+			e.preventDefault();
+			var typeFilter = $('input[name=typeFilter]:checked', '#form-filter').val();
+			var operateur = $("#operateur").val();
+			var antenne = $("#antenne").val();
+			var debut = $("#debut").val();
+			var fin = $("#fin").val();
+			var url = "/sortiefinanciere?typeFilter="+typeFilter+
+			"&operateur="+operateur+"&antenne="+antenne+"&debut="+debut+"&fin="+fin;
+			//alert(url);
+			getPage(url);
+		})
+	</script>
+	
+	
+	

@@ -1,0 +1,134 @@
+
+<div class="br-pagetitle">
+	<i class="icon ion-share"></i>
+	<div>
+		<h4>SORTIES FINANCIERES</h4>
+		<p style="color:blue;" class="mg-b-0">----</p>
+	</div>
+</div>
+
+<div class="br-section-wrapper">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm">
+				<h6 class="br-section-label">
+					<a class="{{app.user.hasAccess('sortie-financiere-index')}}" href="{{path('sortie-financiere-index')}}" data-toggle="ajax" data-target="monContent" title="précédent">
+						<i class="fa fa-arrow-left"></i>
+					</a>  Sorties financieres {{type}}s
+				</h6>
+				<div class="d-flex justify-content-end" style="padding:10px;">
+					{% if type == "fournisseur" %}					
+						<a  class="btn btn-primary {{app.user.hasAccess('new-sortie-financiere-forunisseur')}}" href="{{path('new-sortie-financiere-forunisseur')}}" data-toggle="ajax" data-target="monContent">
+							<i class="fa fa-plus-circle"></i>  Nouvelle sortie
+						</a>
+					{% else %}
+					<a  class="btn btn-primary {{app.user.hasAccess('new-sortie-financiere-autre')}}" href="{{path('new-sortie-financiere-autre')}}" data-toggle="ajax" data-target="monContent">
+							<i class="fa fa-plus-circle"></i>  Nouvelle sortie
+						</a>
+					{% endif %}					
+				</div>
+			</div>
+		</div>
+		<div class="row br-pagebody pd-x-20 pd-sm-x-30">
+			<div class="card bd-0 shadow-base col-lg-12 col-md-12">
+			  <table class="table mg-b-0 datatable display responsive">
+				<thead>
+				  <tr>
+					<th class="tx-10-force tx-mont tx-medium">CODE</th>
+					<th class="tx-10-force tx-mont tx-medium">BENEFICIAIRE</th>
+					<th class="tx-10-force tx-mont tx-medium text-center">MOTIF</th>
+					<th class="tx-10-force tx-mont tx-medium text-center">DATE</th>
+					<th class="tx-10-force tx-mont tx-medium text-center hidden-xs-down">MONTANT (FCFA)</th>
+				 	<th class="wd-5p"></th> 
+				  </tr>
+				</thead>
+				<tbody>
+					{% set total = 0 %}
+					{% for sortie in sorties %}
+						{% set total = total + sortie.montant %}
+						<tr>					
+							<td>
+								{# <i class="icon ionforunisseur-ios-folder-outline tx-24 tx-warning lh-0 valign-middle"></i> #}
+								<span class="pd-l-5">
+									<a class="{{app.user.hasAccess('sortie-financiere-show')}}" href="{{path('sortie-financiere-show', {'id':sortie.id}) }}" data-toggle="ajax" data-target="monContent">{{sortie.code}}</a>
+								</span>
+							</td>
+							<td class="hidden-xs-down">
+								<span class="pd-l-5">
+									{% if type == "fournisseur" %}
+										<a class="{{app.user.hasAccess('showfour')}}" href="{{path('showfour', {'id':sortie.beneficiaire.fournisseur.id}) }}" data-toggle="ajax" data-target="monContent">{{sortie.beneficiaire.fournisseur.nom}}</a>
+									{% else %}
+										<a href="#" data-toggle="ajax" data-target="monContent">{{sortie.beneficiaire.autre.nom}}</a>
+									{% endif %}
+								</span>
+							</td>
+							<td class="hidden-xs-down text-center">{{sortie.motif}}</td>					
+							<td class="hidden-xs-down text-center">{{sortie.createdAt | date("d-m-Y")}}</td>					
+							<td class="hidden-xs-down text-center">{{sortie.montant}}</td>
+							<td class="dropdown">
+								<a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
+								<div class="dropdown-menu dropdown-menu-right pd-10">
+									<nav class="nav nav-style-1 flex-column text-center">
+										<a href="{{path('sortie-financiere-show', {'id':sortie.id}) }}" data-toggle="ajax" data-target="monContent" class="nav-link {{app.user.hasAccess('sortie-financiere-show')}}">Détails</a>	
+										<a href="{{path('sortie-financiere-print-one', {'id':sortie.id, 'type':sortie.beneficiaire.type}) }}" target="_blank" title="Imprimer" class="nav-link {{app.user.hasAccess('sortie-financiere-print-one')}}">PDF</a>
+										<form class="js-form-send nav-link confirm-delete {{app.user.hasAccess('sortie-financiere-delete')}}"
+											action="{{ path('sortie-financiere-delete', {'id': sortie.id})}}" 
+											data-toggle="ajax" data-target="monContent"
+											data-message="Voulez-vous supprimer cette sortie?"
+											method="DELETE">
+											<button class="btn btn-link" type="submit" titile="Supprimer">Supprimer
+											</button>	
+										</form>
+									</nav>
+								</div><!-- dropdown-menu -->
+							</td>					
+						</tr>
+					{% endfor %}
+				  
+				  
+				</tbody>
+				<tfoot>
+					<tr style="font-weight: bold;">
+						<td colspan="4">Total</td>
+						<td class="text-center">{{total}}</td>
+						<td></td>
+					</tr>
+				</tfoot>
+			  </table>
+			</div>
+		  </div>
+	</div>
+</div><!-- br-section-wrapper -->
+
+
+<script>
+		$('input[type=radio][name=typeFilter]').change(function() {
+			if (this.value == 'antenne') {
+				$("#antenne").removeAttr("disabled", false);
+				$("#operateur").attr("disabled", true);
+			}
+			else if (this.value == 'operateur') {
+				$("#antenne").attr("disabled", true);
+				$("#operateur").removeAttr("disabled", false);
+			}else{
+				$("#antenne").attr("disabled", true);
+				$("#operateur").attr("disabled", true);
+			}
+		});
+
+		$("#form-filter").on('submit', function(e){
+			e.preventDefault();
+			var typeFilter = $('input[name=typeFilter]:checked', '#form-filter').val();
+			var operateur = $("#operateur").val();
+			var antenne = $("#antenne").val();
+			var debut = $("#debut").val();
+			var fin = $("#fin").val();
+			var url = "/sortiefinanciere?typeFilter="+typeFilter+
+			"&operateur="+operateur+"&antenne="+antenne+"&debut="+debut+"&fin="+fin;
+			//alert(url);
+			getPage(url);
+		})
+	</script>
+	
+	
+	

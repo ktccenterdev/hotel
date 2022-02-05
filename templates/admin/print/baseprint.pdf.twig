@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/print.css') }}" media="print">
+        <title>KTC HOTEL</title>
+
+    </head>
+
+    <body class="">      
+        <table>
+            <tr class="entete" style="text-align:center">
+                <td class="left">
+                
+                    <b>{{ antene.nom}}</b><br />
+                    ******************<br>
+                    <b>{{antene.localisation}}</b><br />
+                    ******************<br>
+                    <span style="font-size: 0.8em;">BP/P.O.Box {{antene.bp}} {{antene.localisation}}  </span><br />
+                    <span style="font-size: 0.8em;">TEL: {{antene.tel}} / Email : {{antene.email}}</span><br/>
+                    <span style="font-size: 0.8em;">SITE: {{antene.site}}</span><br/>
+                </td>
+                <td class="center">
+                    <img src="{{ asset('img/logo.jpeg') }}" width="150" height="140" ><br>
+                    {# <span style="font-size: 0.8em;"> {{ eglise.email ? "Email: " ~ eglise.email: "" }}, 
+                        <br> {{ eglise.siteweb ? "Site: "~ eglise.siteweb }}</span> #}
+                </td>
+                <td class="right">
+                    <b>{{antene.nom}}</b><br />
+                    ******************<br>
+                    <b>{{antene.localisation}}</b><br />
+                    ******************<br>
+                    <span style="font-size: 0.8em;">BP/P.O.Box {{antene.bp}} {{antene.localisation}}  </span><br />
+                    <span style="font-size: 0.8em;">TEL: {{antene.tel}} / Email : {{antene.email}}</span><br/>
+                    <span style="font-size: 0.8em;">SITE: {{antene.site}}</span><br/>
+                </td>
+            </tr>
+        </table> <br>
+
+        <div style="border-top: 0.3px solid  black;" ></div>
+            <table>
+                <tr style="font-size: 0.8em;">
+                    <td style="text-align: left;">
+                        <i>HOTEL SOFT , powered by <a href="#">KTC-CENTER</a></i>
+                    </td>
+                    <td style="text-align: right;">
+                        <i>Imprimé le {{ "now"|date("d/m/Y") }} </i> à {{"now"|date("H:i:s")}}
+                    </td>
+                </tr>
+            </table>
+
+            {% block reportbody %} {% endblock reportbody %}
+    </body>
+</html>

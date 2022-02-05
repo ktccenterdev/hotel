@@ -1,0 +1,46 @@
+{% extends 'admin/print/baseprint.pdf.twig' %}
+
+{% block reportbody %}
+	{% if debut and fin %}
+        <h2 class="titre">Bilan des entrées financières du <u>{{debut | date('d/m/Y')}}</u> au <u>{{fin | date('d/m/Y')}}</u></h2>
+    {% elseif today %}
+        <h2 class="titre">Bilan des entrées financières du <u>{{today | date('d/m/Y')}}</u></h2>
+    {% else %}
+        <h2 class="titre">Bilan général des entrées financières</h2>
+    {% endif %}
+    <h2 class="titre">Opérateur: <u>{{app.user.nom}} {{app.user.prenom}}</u></h2>
+      {# <h3 style="text-align: center; text-decoration: underline;">ANTENNE DE {{antene.nom}}</h3> #}
+      <table  style="width: 100%;" class="table"  border="1" cellspacing="1" cellpadding="4">
+          <tr class="table-header">    
+            <th width="5%">#</th>
+            <th width="30%">Antenne</th>
+            <th width="20%">Siestes</th>
+            <th width="20%">Nuitées</th>
+            <th width="25%">Total</th>
+          </tr>
+          <tbody>                    
+              {% set totalSieste = 0 %}    
+              {% set totalNuitee = 0 %}    
+              {% for entree in bilans %}     
+                {% set totalSieste = totalSieste + entree.sieste %}  
+                {% set totalNuitee = totalNuitee + entree.nuitee %}    
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{entree.antenne.nom}}</td>
+                    <td>{{ entree.sieste | craue_currency('XAF', 'fr-FR') }}</td>
+                    <td>{{ entree.nuitee | craue_currency('XAF', 'fr-FR')}}</td>
+                    <td>{{ (entree.nuitee  + entree.sieste) | craue_currency('XAF', 'fr-FR')}}</td>
+
+                </tr>
+              {% endfor %}                           
+            </tbody>
+            <tfoot>
+              <tr style="background-color: darkgray; font-size: 1em;">
+                <td colspan="2" class="text-center">TOTAL</td>
+                <td>{{totalSieste | craue_currency('XAF', 'fr-FR')}}</td>
+                <td>{{totalNuitee | craue_currency('XAF', 'fr-FR')}}</td>
+                <td>{{ (totalNuitee + totalSieste) | craue_currency('XAF', 'fr-FR')}}</td>
+              </tr>
+            </tfoot>
+      </table>
+{% endblock %}

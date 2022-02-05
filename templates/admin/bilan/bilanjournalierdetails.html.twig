@@ -1,0 +1,73 @@
+<div class="br-pagetitle">
+  <i class="icon icon ionicons ion-android-calendar"></i>
+  <div>
+    <h4 class="tx-uppercase">Détails des entrées financières</u></h4>    
+  </div>
+</div><!-- d-flex -->
+<div class="br-section-wrapper">
+  <!-- Affichage du bilan-->
+  <a href="{{link}}" class="" data-toggle="ajax" data-target="monContent"> <i class="fa fa-chevron-left"></i> Précédent</a>
+  <div class="card bd-primary mg-t-10 mg-b-10">
+    <div class="card-header bg-primary tx-white">
+        {% if debut and fin %}
+            <h5 class="">
+                Détails des entrées financières du <u>{{debut | date('d/m/Y')}}</u> au <u>{{fin | date('d/m/Y')}}</u>
+                {% if user %} réalisées par <u>{{user.nom}} {{user.prenom}} </u> {% endif %}
+            </h5>
+        {% elseif today %}
+            <h5 class="">
+                Détails des entrées financières du <u>{{today | date('d/m/Y')}}</u>
+                {% if user %} réalisées par <u>{{user.nom}} {{user.prenom}} </u> {% endif %}
+            </h5>
+        {% else %}
+            <h5 class="">
+                Détails des entrées financières 
+                {% if user %} réalisées par <u>{{user.nom}} {{user.prenom}} </u> {% endif %}            
+            </h5>
+        {% endif %}
+    </div>
+    <div class="card-body">
+      <div class="container py-1">   
+          <div class="table-wrapper">
+            <table class="datatable table display responsive nowrap">
+              <thead>
+                <tr>
+                  <th class="wd-5p">#</th>
+                  <th class="wd-20p">CLIENT</th>
+                  <th class="wd-10p">CHAMBRE</th>
+                  <th class="wd-10p">TYPE CH</th>
+                  <th class="wd-10p">TYPE</th>
+                  <th class="wd-10p">ARRIVEE</th>
+                  <th class="wd-10p">DEPART</th>
+                  <th class="wd-7p">CREER LE</th>
+                  <th class="wd-10p">MONTANT</th>                  
+                </tr>
+              </thead>
+              <tbody>                    
+                {% set totalMontant = 0 %}    
+                {% for entree in details %}     
+                  {% set totalMontant = totalMontant + entree.montant %}  
+                  <tr>
+                      <td>{{ loop.index }}</td>
+                      <td>{{ entree.occupant.nom }} {{ entree.occupant.nom }}</td>
+                      <td>{{ entree.chambre.numero }}</td>
+                      <td>{{ entree.chambre.type.nom }}</td>
+                      <td>{{ entree.type }}</td>
+                      <td>{{ entree.datedebut | date('d/m/Y H:i:s') }}</td>
+                      <td>{{ entree.datefin | date('d/m/Y H:i:s') }}</td>
+                      <td>{{ entree.createat  | date('d/m/Y') }}</td>
+                      <td>{{ entree.montant | craue_currency('XAF', 'fr-FR') }}</td>
+                  </tr>
+                {% endfor %}                           
+              </tbody>
+              <tfoot>
+                <tr class="bg-black-8 tx-white tx-22">
+                  <td class="text-center" colspan="8">TOTAL</td>
+                  <td>{{ totalMontant | craue_currency('XAF', 'fr-FR')}}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+      </div>
+    </div>
+</div>

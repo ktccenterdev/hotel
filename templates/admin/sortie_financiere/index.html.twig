@@ -1,0 +1,88 @@
+
+<div class="br-pagetitle">
+	<i class="icon ion-share"></i>
+	<div>
+		<h4>SORTIES FINANCIERES</h4>
+		<p style="color:blue;" class="mg-b-0">----</p>
+	</div>
+</div>
+
+<div class="br-section-wrapper">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm">
+				<h6 class="br-section-label">Sorties financieres enrégistrées</h6>
+			</div>
+		</div>
+		<div class="row br-pagebody pd-x-20 pd-sm-x-30">
+			<div class="card bd-0 shadow-base col-lg-12 col-md-12">
+			  <table class="table mg-b-0">
+				<thead>
+				  <tr>
+					<th class="tx-10-force tx-mont tx-medium">TYPE</th>
+					<th class="tx-10-force tx-mont tx-medium text-center">QUANTITE</th>
+					<th class="tx-10-force tx-mont tx-medium text-center hidden-xs-down">MONTANT (FCFA)</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  <tr>					
+					<td>
+					  <i class="icon ion-ios-folder-outline tx-24 tx-warning lh-0 valign-middle"></i>
+					  <span class="pd-l-5"><a class="{{app.user.hasAccess('sortie-financiere-type')}}" href="{{path('sortie-financiere-type', {'type':'fournisseur'}) }}" data-toggle="ajax" data-target="monContent">Fournisseurs</a></span>
+					</td>
+					<td class="hidden-xs-down text-center">{{sortieFournisseurs | length}}</td>					
+					<td class="hidden-xs-down text-center">{{totalFournisseurs}}</td>					
+				  </tr>
+				  <tr>					
+					<td>
+					  <i class="icon ion-ios-folder-outline tx-24 tx-warning lh-0 valign-middle"></i>
+					  <span class="pd-l-5"><a class="{{app.user.hasAccess('sortie-financiere-type')}}" href="{{path('sortie-financiere-type', {'type':'autre'}) }}" data-toggle="ajax" data-target="monContent">Autres</a></span>
+					</td>
+					<td class="hidden-xs-down text-center">{{sortieAutres | length}}</td>
+					<td class="hidden-xs-down text-center">{{totalAutres}}</td>
+				  </tr>
+				</tbody>
+				<tfoot>
+					<tr style="font-weight: bold;">
+						<td colspan="2">Total</td>
+						<td class="text-center">{{totalFournisseurs + totalAutres}}</td>
+					</tr>
+				</tfoot>
+			  </table>
+			</div>
+		  </div>
+	</div>
+</div><!-- br-section-wrapper -->
+
+
+<script>
+		$('input[type=radio][name=typeFilter]').change(function() {
+			if (this.value == 'antenne') {
+				$("#antenne").removeAttr("disabled", false);
+				$("#operateur").attr("disabled", true);
+			}
+			else if (this.value == 'operateur') {
+				$("#antenne").attr("disabled", true);
+				$("#operateur").removeAttr("disabled", false);
+			}else{
+				$("#antenne").attr("disabled", true);
+				$("#operateur").attr("disabled", true);
+			}
+		});
+
+		$("#form-filter").on('submit', function(e){
+			e.preventDefault();
+			var typeFilter = $('input[name=typeFilter]:checked', '#form-filter').val();
+			var operateur = $("#operateur").val();
+			var antenne = $("#antenne").val();
+			var debut = $("#debut").val();
+			var fin = $("#fin").val();
+			var url = "/sortiefinanciere?typeFilter="+typeFilter+
+			"&operateur="+operateur+"&antenne="+antenne+"&debut="+debut+"&fin="+fin;
+			//alert(url);
+			getPage(url);
+		})
+	</script>
+	
+	
+	

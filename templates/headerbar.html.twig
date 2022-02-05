@@ -1,0 +1,69 @@
+<div class="br-header">
+    <div class="br-header-left">
+        <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href=""><b><i class="icon ion-grid tx-dark tx-24"></i></b></a></div>
+        <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><b><i class="icon ion-grid tx-dark tx-24"></i></b></a></div>
+        
+        <div class="barre-menu bg-primary input-group hidden-xs-down wd-230 transition d-flex justify-content-center">
+            <a href="{{path('index-allocation', {'type':'SIESTE'})}}" class="ajax-link text-center {{app.user.hasAccess('index-allocation')}}"  data-toggle="ajax" data-target="monContent">
+                <h4 class="tx-lato tx-inverse tx-bold mg-b-0"><i  class="fa fa-plus-circle text-white"></i></h4>
+                <span  class="tx-12 tx-danger tx-roboto text-white"><b>SIESTE</b></span>
+            </a>
+        </div>      
+        <div class="barre-menu bg-secondary input-group hidden-xs-down wd-230 transition d-flex justify-content-center">
+            <a href="{{path('index-allocation', {'type':'NUITEE'})}}" class="{{app.user.hasAccess('index-allocation')}} ajax-link text-center"  data-toggle="ajax" data-target="monContent">
+                <h4 class="tx-lato tx-inverse tx-bold mg-b-0"><i  class="fa fa-sitemap text-white"></i></h4>
+                <span  class="tx-12 tx-danger tx-roboto text-white"><b>NUITEE</b></span>
+            </a>
+        </div>
+        <div class="barre-menu bg-purple input-group hidden-xs-down wd-230 transition d-flex justify-content-center">
+            <a href="{{path('index-reservation')}}" class="text-center {{app.user.hasAccess('index-reservation')}}" data-toggle="ajax" data-target="monContent">
+                <h4 class="tx-lato tx-inverse tx-bold mg-b-0"><i  class="fa fa-cart-plus text-white"></i></h4>
+                <span  class="tx-12 tx-danger tx-roboto text-white"><b>RESERVATIONS</b></span>
+            </a>
+        </div>
+        <div class="barre-menu bg-success input-group hidden-xs-down wd-230 transition d-flex justify-content-center">
+            {% if app.user.isAdmin %}
+                <a href="{{path('bilanjournalier')}}" class="ajax-link text-center {{app.user.hasAccess('bilanjournalier')}}"  data-toggle="ajax" data-target="monContent">
+                <h4 class="tx-lato tx-inverse tx-bold mg-b-0"><i  class="fa fa-recycle text-white"></i></h4>
+                <span  class="tx-12 tx-danger tx-roboto text-white"><b>BILANS</b></span>
+            </a>
+            {% else %}
+                <a href="{{path('mon-bilanjournalier')}}" class="ajax-link text-center {{app.user.hasAccess('mon-bilanjournalier')}}"  data-toggle="ajax" data-target="monContent">
+                    <h4 class="tx-lato tx-inverse tx-bold mg-b-0"><i  class="fa fa-recycle text-white"></i></h4>
+                    <span  class="tx-12 tx-danger tx-roboto text-white"><b>MON BILAN</b></span>
+                </a>
+            {% endif %}
+        </div>
+        <div class="barre-menu bg-dark input-group hidden-xs-down wd-230 transition d-flex justify-content-center">
+            <a href="{{path('index-newsletter')}}"  class="text-center{{app.user.hasAccess('index-newsletter')}}" data-toggle="ajax" data-target="monContent">
+                <h4 class="tx-lato tx-inverse tx-bold mg-b-0"><i  class="fa fa-list-alt text-white"></i></h4>
+                <span  class="tx-12 tx-danger tx-roboto text-white"><b>NEWSLETTER</b></span>
+            </a>
+        </div>
+        <nav class="barre-menu bg-danger nav input-group hidden-xs-down wd-230 transition d-flex justify-content-end">                          
+            <div class="dropdown">
+                <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
+                <span class="logged-name hidden-md-down tx-lato tx-inverse tx-bold mg-b-0 size-21 text-white text-uppercase"> {{app.user.username}}</span>
+                {% set user_photo = app.user.photo ? app.user.photo : 'avatarmale.jpeg' %}
+                <img src="{{asset('photo/Avatar/'~ user_photo)}}" class="wd-32 rounded-circle" alt="">
+                <span class="square-10 bg-success"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-header wd-250">
+                    <div class="tx-center">
+                        <a href="" class="mg-r-10"><img src="{{asset('photo/Avatar/'~ user_photo)}}" class="wd-80 rounded-circle" alt=""></a>
+                        <h6 class="logged-fullname">{{app.user.nom}} {{app.user.prenom}}</h6>
+                        <p>{{app.user.phone}}</p>
+                    </div>
+                    <hr>
+                    <ul class="list-unstyled user-profile-nav">
+                        <li><a href=""><i class="icon ion-ios-person"></i> Mon profil</a></li>
+                        <li><a href=""  data-toggle="modal" data-target="#modaldemo6"><i class="icon ion-ios-gear"></i> Changer le password</a></li>
+                        <li><a href="/logout"><i class="icon ion-power"></i> Déconnexion</a></li>
+                    </ul>
+                </div><!-- dropdown-menu -->
+            </div><!-- dropdown -->
+        </nav>
+    </div><!-- br-header-left -->
+    <div class="br-header-right">   
+    </div><!-- br-header-right -->
+</div>

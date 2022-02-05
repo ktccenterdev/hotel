@@ -1,0 +1,106 @@
+<style>
+
+</style>
+
+
+
+<div class="br-mainpanel">
+    <div class="br-pagetitle">
+        <i class="icon ionicons ion-arrow-shrink"></i>
+    <div>
+		<h4>Reservation Externe</h4>
+		<p style="color:blue;" class="mg-b-0">----</p>
+    </div>
+</div><!-- d-flex -->
+    <div class="br-pagebody">
+        <div class="br-section-wrapper">
+          	<div class="container">
+				<div class="row">
+					<div class="col-sm"><h6 class="br-section-label">Liste des Reservations Externe</h6>
+						<div    x-data="{ ajouter : false }">
+							<div class="d-flex justify-content-end" style="padding:0px;">
+							
+								{# <button class="btn btn-primary" ><a href="{{path('index-clientdash')}}" style="padding: 0px !important; color:white;" class=" nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-plus" aria-hidden="true"></i>Ajouter</a></button> #}
+								
+								<button class="btn btn-secondary {{app.user.hasAccess('print-externe')}}" style="margin-left:5px;"><a style="color:white;" href="{{path('print-externe')}}" target="_blank"><i class="fa fa-print"></i> Imprimer</a></button>
+							</div><br>
+					</div>
+				</div>
+			</div>
+			<div class="table-wrapper responsiveelement">
+				<table class="datatable table display nowrap">
+					<thead>
+						<tr>
+							<th class="wd-15p">#</th>
+							<th class="wd-15p">Nom du client</th>
+							<th class="wd-20p">Date d'arrivé</th>
+							<th class="wd-15p">Date de départ</th>
+							<th class="wd-15p">Type de chambre</th>
+							<th class="wd-15p">Antenne</th>
+							<th class="wd-15p">Quantité</th>
+							<th class="wd-15p">Etat</th>
+							<th class="wd-15p">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for reservation in reservations | reverse %}
+						<tr>
+							<td>{{ loop.index }}</td>
+							<td>{{ reservation.client.nom }}</td>
+							<td>{{ reservation.datedariver | date('d/m/Y') }} à {{ reservation.heuredariver | date('H:i:s')}}</td>
+							<td>{{ reservation.datedepart | date('d/m/Y') }} à {{ reservation.heuredepart | date('H:i:s')}}</td>
+							<td>{{ reservation.typechambre.nom }}</td>
+							<td>{{ reservation.antene.nom }}</td>
+							<td>{{ reservation.quantite}}</td>
+							
+
+							{% if reservation.etat == "Non-traité" %}
+							<td class="tx-danger">{{ reservation.etat}}</td>
+							{% elseif reservation.etat == "Traité" %}
+							<td class="tx-teal">{{ reservation.etat}}</td>
+							{% endif %}
+								{# {% if reservation.etat == "Non-traiter" %}
+									class="wd-15p" style="color:red;">{{ reservation.etat}}
+								{% elseif reservation.etat == "Traiter" %}
+									class="wd-15p" style="color:green;">{{ reservation.etat}}
+								{% endif %} #}
+							
+							<td>
+                                
+								{# <a href="{{ path('activeclient',{'id': reservation.id}) }}" type="button" class="nav-link ajax-link" title="Désactiver"><i class="fa fa-times"></i></a> #}
+
+ 								<button class="btn btn-teal active {{app.user.hasAccess('active-client')}}" alt="Envoyer en Interne"  name="active" ><a href="{{ path('active-client',{'id': reservation.id}) }}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" data-toggle="ajax" data-target="monContent"><i class="fas fa-check-square" aria-hidden="true"></i></a></button>
+								 	{% if reservation.etat == "Non-traité" %}
+								 <button class="btn btn-primary {{app.user.hasAccess('allouer')}}"  name="active" ><a href="{{ path('allouer',{id: reservation.id}) }}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" data-toggle="ajax" data-target="monContent">Allouée</a></button>
+                                	{% endif %}
+                                
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div><!-- table-wrapper -->
+        </div><!-- br-section-wrapper -->
+    </div><!-- br-pagebody -->
+</div><!-- br-mainpanel -->
+
+
+
+   
+
+
+
+<script>
+$(document).ready(function () {
+	$(".formelement").hide();
+	
+});
+</script>
+<script>
+	function show() {
+	$(".formelement").show();
+	}
+	function hide() {
+	$(".formelement").hide();
+	}
+</script>

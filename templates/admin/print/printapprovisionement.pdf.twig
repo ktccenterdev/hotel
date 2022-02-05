@@ -1,0 +1,39 @@
+{% extends 'admin/print/baseprint.pdf.twig' %}
+
+{% block reportbody %}
+<h2 class="titre">LISTE DES DEMANDES APPROVISIONEMENT </h2>
+<table style="width: 100%;" class="table"  border="1" cellspacing="1" cellpadding="4">
+    <tr class="table-header">
+        <th width="10%">ID</th>
+        <th width="20%">Magasin</th>
+        <th width="20%">Date de demande</th>
+        <th width="15%">Statut</th>
+        <th width="20%">Produit</th>
+        <th width="15%">Quantite</th>
+    </tr>
+    <tbody>
+    {% for demande in demandes %}
+       <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{demande.magasin.nom}}</td>
+            <td rowspan={{demande.demandeitems | length + 1 }}>{{demande.datedemande|date("d/m/Y") }}</td>
+           
+            {% if demande.etat == 0 %}
+                <td rowspan={{demande.demandeitems | length + 1 }} class="tx-warning">Demander</td>
+            {% elseif demande.etat == 1 %}
+                <td rowspan={{demande.demandeitems | length + 1 }} class="tx-success">Traiter</td>
+            {% else %}
+                <td rowspan={{demande.demandeitems | length + 1 }} class="tx-danger">Defaut</td>
+            {% endif %}
+            {% for demandeitem in demande.demandeitems %}
+        
+                    <td>{{ demandeitem.produit.nom }}</td>
+                    <td>{{ demandeitem.quantite }}</td>
+                
+            {% endfor %}
+            </tr>
+       
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

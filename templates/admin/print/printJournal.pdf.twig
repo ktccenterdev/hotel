@@ -1,0 +1,72 @@
+{% extends 'admin/print/baseprint.pdf.twig' %}
+
+{% block reportbody %}
+    <p></p>
+<h2 class="titre">
+    JOURNAL DU <u>{{jour | date("d-m-Y")}}</u>
+    {% if antenne %}
+    POUR L'ANTENNE <u>{{antenne.nom}}</u>
+    {% endif %}    
+</h2>
+
+<table style="width: 100%;" class="mytable" border="1" width="100%" cellspacing="2px">
+      <tr class="bg-info text-white text-bold" style="text-align: center; font-weight: bold;">
+          <th width="11%">DATE</th>
+          <th colspan="3">CREDIT</th>
+          <th colspan="3">DEBIT</th>
+      </tr>
+      <tr style="font-size: 1em; font-weight: bold; font-style:normal">
+          <td rowspan="{{donnees | length + 1 }}" width="11%">{{jour | date('d-m-Y')}}</td>
+          <td width="7%">Code</td>
+          <td width="26%">Libelle</td>
+          <td width="10%">Montant</td>
+          <td width="7%">Code</td>
+          <td width="26%">Libelle</td>
+          <td width="10%">Montant</td>
+      </tr>
+      <tboby>
+      {% set total1 = 0 %}
+      {% set total2 = 0 %}
+        {% for item in donnees %}
+          {% set total1 = total1 + item.montant1 %}
+          {% set total2 = total2 + item.montant2 %}
+          <tr>
+            <td>{{item.code1}}</td>
+            <td>{{item.intitule1}}</td>
+            <td>{{item.montant1}}</td>
+            <td>{{item.code2}}</td>
+            <td>{{item.intitule2}}</td>
+            <td>{{item.montant2}}</td>
+          </tr>
+        {% endfor %}
+      <tr class="ligneTotal">
+          <td colspan="3">Total Crédit</td>
+          <td>{{total1}}</td>
+           <td colspan="2">Total Débit</td>
+          <td>{{total2}}</td>
+      </tr>                              
+  </tboby>
+   </table>
+   <style>
+      .ligneTotal td{
+          color:darkblue;
+          font-weight: bold;                
+      }
+      .ligne2 td{   
+          font-size: 0.8;
+      }
+      .mytable{
+          color: black;
+      }
+      td{
+          font-style: italic;
+      }
+      th{
+          text-align: center;
+          font-size: 1.2em;
+      }
+      .ligne1{
+          font-weight: bold;
+      }
+  </style>
+{% endblock %}
