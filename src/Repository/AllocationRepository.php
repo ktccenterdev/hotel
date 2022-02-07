@@ -123,64 +123,47 @@ class AllocationRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();     
     }
 
-    /*
-    public function findOneBySomeField($value): ?Allocation
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
-    public function countaportAllocation($identene)
+    public function countaportAllocation($identene = null)
     {
         $query = $this->createQueryBuilder('p')
-        ->select('sum(p.montant)')
-        ->leftJoin('App\Entity\Entene', 'u', 'WITH', 'p.antene = u')
-        ->Where('p.antene = :identene')->setParameter('identene',$identene );
-        return $query->getQuery()->getOneOrNullResult();
+        ->select('sum(p.montant) as montant')
+        ->leftJoin('App\Entity\Entene', 'u', 'WITH', 'p.antene = u');
+        if($identene){
+            $query->Where('p.antene = :identene')
+                  ->setParameter('identene',$identene );
+        }
+        return floatval($query->getQuery()->getOneOrNullResult()['montant']);
 
             
     }
 
-    public function countaportAllocationparjour($identene)
+    public function countaportAllocationparjour($identene=null)
     {
-        $vurrenttime = new DateTime();
-        $year=$vurrenttime->format('Y');
-        //dd($vurrenttime->format('Y'));
         $query = $this->createQueryBuilder('p')
-        ->select('sum(p.montant),count(p.id)')
+        ->select('sum(p.montant) as montant')
+        ->leftJoin('App\Entity\Entene', 'u', 'WITH', 'p.antene = u')
+        ->andWhere('DATE_DIFF(p.createat, CURRENT_DATE()) = 0');        
+        if($identene){
+            $query->andWhere('p.antene = :identene')
+            ->setParameter('identene',$identene ); 
+        }
+        return floatval($query->getQuery()->getOneOrNullResult()['montant']);     
+    }
+
+
+    /*public function countaportAllocationparjourtype($identene,$type=null)
+    {
+        $query = $this->createQueryBuilder('p')
+        ->select('sum(p.montant) as montant')
         ->leftJoin('App\Entity\Entene', 'u', 'WITH', 'p.antene = u')
         ->Where('p.antene = :identene')
         ->andWhere('DATE_DIFF(p.createat, CURRENT_DATE()) = 0')
+        // ->andWhere('p.type = :type')
         ->setParameter('identene',$identene );
-        //->setParameter('curentdate',$year)
+        // ->setParameter('type',$type );
         
-        
-        return $query->getQuery()->getOneOrNullResult();     
-    }
-
-
-    public function countaportAllocationparjourtype($identene,$type)
-    {
-        $vurrenttime = new DateTime();
-        $year=$vurrenttime->format('Y');
-        //dd($vurrenttime->format('Y'));
-        $query = $this->createQueryBuilder('p')
-        ->select('sum(p.montant),count(p.id)')
-        ->leftJoin('App\Entity\Entene', 'u', 'WITH', 'p.antene = u')
-        ->Where('p.antene = :identene')
-        ->andWhere('DATE_DIFF(p.createat, CURRENT_DATE()) = 0')
-        ->andWhere('p.type = :type')
-        ->setParameter('identene',$identene )
-        ->setParameter('type',$type );
-        //->setParameter('curentdate',$year)
-        
-        
-        return $query->getQuery()->getOneOrNullResult();     
-    }
+        return $query->getQuery()->getOneOrNullResult()['montant'];     
+    }*/
 
     public function countallocaionbyday($identene)
     {
@@ -234,26 +217,8 @@ class AllocationRepository extends ServiceEntityRepository
         //->setParameter('curentdate',$year)
         
         
-        return $query->getQuery()->getOneOrNullResult();     
+        return floatval($query->getQuery()->getOneOrNullResult());     
     }
-
-    // public function nombreallocationJourentene($idroom)
-    // {
-    //     $vurrenttime = new DateTime();
-    //     $year=$vurrenttime->format('Y');
-    //     //dd($vurrenttime->format('Y'));
-    //     $query = $this->createQueryBuilder('p')
-    //     ->select('count(p.montant)')
-    //     ->leftJoin('App\Entity\Entene', 'u', 'WITH', 'p.antene = u')
-    //     ->leftJoin('App\Entity\Chambre', 'c', 'WITH', 'p.chambre = c')
-    //     ->Where('p.chambre = :idroom')
-    //     ->andWhere('DATE_DIFF(p.datedebut, CURRENT_DATE()) = 0')
-    //     ->setParameter('idroom',$idroom );
-    //     //->setParameter('curentdate',$year)
-        
-        
-    //     return $query->getQuery()->getOneOrNullResult();     
-    // }
 
 
     public function countaportAllocationparmoisForroom($idroom)
@@ -270,12 +235,12 @@ class AllocationRepository extends ServiceEntityRepository
         //->setParameter('curentdate',$year)
         
         
-        return $query->getQuery()->getOneOrNullResult();     
+        return floatval($query->getQuery()->getOneOrNullResult());     
     }
 
 
 
-    public function countaportAllocationparmois($identene)
+    public function countaportAllocationparmois($identene=null)
     {
         //////initiaisation des fonction de date 
         $emConfig = $this->getEntityManager()->getConfiguration();
@@ -283,46 +248,39 @@ class AllocationRepository extends ServiceEntityRepository
         $emConfig->addCustomDatetimeFunction('MONTH', 'DoctrineExtensions\Query\Mysql\Month');
         ///////fin initialisation des fonction de date
         $vurrenttime = new DateTime();
-        $year=$vurrenttime->format('Y');
         $mois=$vurrenttime->format('m');
-        //dd($mois);
-        //dd($vurrenttime->format('Y'));
         $query = $this->createQueryBuilder('p')
-        ->select('sum(p.montant)')
+        ->select('sum(p.montant) as montant')
         ->leftJoin('App\Entity\Entene', 'u', 'WITH', 'p.antene = u')
-        ->Where('p.antene = :identene')
         ->andWhere('MONTH(p.createat) = :mois')
-        ->setParameter('identene',$identene )
         ->setParameter('mois',$mois);
-        //->setParameter('curentdate',$year)
-        
-        
-        return $query->getQuery()->getOneOrNullResult();     
+        if($identene){
+            $query->andWhere('p.antene = :identene')
+            ->setParameter('identene',$identene );
+        }        
+        return  floatval($query->getQuery()->getOneOrNullResult()['montant']);   
     }
 
 
 
 
     /////////////////////////////////bilan reques
-    public function countaportAllocationbymoisantene($identene)
+    public function countaportAllocationbymoisantene($identene=null)
     {
         //////initiaisation des fonction de date 
         $emConfig = $this->getEntityManager()->getConfiguration();
         $emConfig->addCustomDatetimeFunction('DATE', 'DoctrineExtensions\Query\Mysql\Date');
         $emConfig->addCustomDatetimeFunction('MONTH', 'DoctrineExtensions\Query\Mysql\Month');
-        ///////fin initialisation des fonction de date
-        $vurrenttime = new DateTime();
-        $year=$vurrenttime->format('Y');
-        //$mois=$vurrenttime->format('m');
-        //dd($mois);
-        //dd($vurrenttime->format('Y'));
+
         $query = $this->createQueryBuilder('p')
-            ->select('MONTH(p.createat) AS mois ,sum(p.montant)')
-            ->leftJoin('App\Entity\Entene', 'u', 'WITH', 'p.antene = u')
-            ->Where('p.antene = :identene')
-            ->groupBy('mois')
-            ->setParameter('identene',$identene );        
-        return $query->getQuery()->getResult();
+            ->select('MONTH(p.createat) AS mois ,sum(p.montant) as montant')
+            ->leftJoin('App\Entity\Entene', 'u', 'WITH', 'p.antene = u')            
+            ->groupBy('mois');
+            if($identene){
+                $query->Where('p.antene = :identene')
+                ->setParameter('identene',$identene );   
+            }
+            return $query->getQuery()->getResult();
     }
 
 
@@ -350,34 +308,6 @@ class AllocationRepository extends ServiceEntityRepository
         //->setParameter('curentdate',$year)
         return $query->getQuery()->getResult();
     }
-
-
-
-    // public function getallocationantnebydatebytypetarif($identene,$date)
-    // {
-    //     $vurrenttime = $date;
-    //     $year=$vurrenttime->format('Y');
-    //     $mois=$vurrenttime->format('m');
-    //     $jour=$vurrenttime->format('d');
-    //     //dd($jour);
-
-    //     $emConfig = $this->getEntityManager()->getConfiguration();
-    //     $emConfig->addCustomDatetimeFunction('DATE', 'DoctrineExtensions\Query\Mysql\Date');
-    //     $emConfig->addCustomDatetimeFunction('MONTH', 'DoctrineExtensions\Query\Mysql\Month');
-    //     $emConfig->addCustomDatetimeFunction('DAY', 'DoctrineExtensions\Query\Mysql\Day');
-    //     $query = $this->createQueryBuilder('p')
-    //     ->select('p')
-    //     ->leftJoin('App\Entity\Entene', 'u', 'WITH', 'p.antene = u')
-    //     ->Where('p.antene = :identene')
-    //     ->andWhere('MONTH(p.datedebut) = :mois')
-    //     ->andWhere('DAY(p.datedebut) = :jour')
-    //     ->setParameter('identene',$identene )
-    //     ->setParameter('jour',$jour)
-    //     ->setParameter('mois',$mois);
-    //     //->setParameter('curentdate',$year)
-    //     return $query->getQuery()->getResult();
-    // }
-
 
 
     public function getallocationantnebydateofuser($identene,$date,$iduser)
@@ -410,27 +340,4 @@ class AllocationRepository extends ServiceEntityRepository
     ////////////////////////////////end bilan 
 
 
-    /////////////////////////////////bilan reques
-    // public function countaportAllocationbymoisantene($identene,$mois)
-    // {
-    //     //////initiaisation des fonction de date 
-    //     $emConfig = $this->getEntityManager()->getConfiguration();
-    //     $emConfig->addCustomDatetimeFunction('DATE', 'DoctrineExtensions\Query\Mysql\Date');
-    //     $emConfig->addCustomDatetimeFunction('MONTH', 'DoctrineExtensions\Query\Mysql\Month');
-    //     ///////fin initialisation des fonction de date
-    //     $vurrenttime = new DateTime();
-    //     $year=$vurrenttime->format('Y');
-    //     //$mois=$vurrenttime->format('m');
-    //     //dd($mois);
-    //     //dd($vurrenttime->format('Y'));
-    //     $query = $this->createQueryBuilder('p')
-    //         ->select('sum(p.montant)')
-    //         ->leftJoin('App\Entity\Entene', 'u', 'WITH', 'p.antene = u')
-    //         ->Where('p.antene = :identene')
-    //         ->andWhere('MONTH(p.datedebut) = :mois')
-    //         ->setParameter('identene',$identene )
-    //         ->setParameter('mois',$mois);        
-    //     return $query->getQuery()->getOneOrNullResult();
-    // }
-    
 }

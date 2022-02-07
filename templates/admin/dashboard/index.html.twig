@@ -81,7 +81,7 @@
                                     <div id="carousel1" class="carousel slide" data-ride="carousel">
                                         <div class="carousel-inner" role="listbox">
                                             <div class="carousel-item active">
-                                                <h6>STATITIQUE EVOLUTION PAR ANTENNE</h6>
+                                                <h6>STATISTIQUES EVOLUTION PAR ANTENNE</h6>
                                                 <div class="bd pd-t-30 pd-b-20 pd-x-20"><canvas id="chartBar1" height="200"></canvas></div>
                                             </div>
                                             <div class="carousel-item">
@@ -90,25 +90,25 @@
                                         </div><!-- carousel-inner -->
                                         <a style="color: red; background: #ded6d6; width: 40px;" class="carousel-control-prev" href="#carousel1" role="button" data-slide="prev">
                                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="sr-only">Previous</span>
+                                            <span class="sr-only">Précédent</span>
                                         </a>
                                         <a style="color: red; background: #ded6d6; width: 40px;" class="carousel-control-next" href="#carousel1" role="button" data-slide="next">
                                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="sr-only">Next</span>
+                                            <span class="sr-only">Suivant</span>
                                         </a>
                                     </div><!-- carousel -->
                                     <div class="row row-xs mg-t-25">
                                         <div class="col-sm-6">
                                         <div style="background: black;" class="tx-center pd-y-15 bd bd-white-1">
                                             <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">New Deliveries</p>
-                                            <h4 class="tx-lato tx-white tx-bold mg-b-0">{{bilanjournalier | craue_currency('XAF', 'fr-FR')}}</h4>
+                                            <h4 class="tx-lato tx-white tx-bold mg-b-0">{{ bilanjournalier| craue_currency('XAF', 'fr-FR')}}</h4>
                                             <span class="tx-12 tx-success tx-roboto">BILAN JOURNALIER</span>
                                         </div>
                                         </div><!-- col-4 -->
                                         <div class="col-sm-6 mg-t-20 mg-sm-t-0">
                                         <div style="background: black;" class="tx-center pd-y-15 bd bd-white-1">
                                             <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">Delivered</p>
-                                            <h4 class="tx-lato tx-white tx-bold mg-b-0">{{staatistiquemois | craue_currency('XAF', 'fr-FR')}}</h4>
+                                            <h4 class="tx-lato tx-white tx-bold mg-b-0">{{ staatistiquemois | craue_currency('XAF', 'fr-FR')}}</h4>
                                             <span class="tx-12 tx-success tx-roboto">BILAN DU MOIS</span>
                                         </div>
                                         </div><!-- col-4 -->
@@ -172,134 +172,5 @@
                             </div>
                             
                         </div>
-        
-
-       
-        
-        
-        
-
-        <script src="../lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-        <script src="../js/chart.chartjs.js"></script>
-        <script src="../lib/chart.js/Chart.min.js"></script>
-        {# <script src="../js/dashboard.js"></script> #}
-        <script>
-            $(function() {
-                var statparenten = JSON.parse('{{ statistiqueentene | json_encode | raw }}');
-                    let antenestat = [];
-                    let totalaport = [];
-                    statparenten.forEach(value => {
-                    antenestat.push(value.entene);
-                    totalaport.push(value.total);   
-                    
-                    });
-                    console.log(totalaport);
-
-
-                    /////tracage de graphe 1 statistique par entene 
-                var ctx1 = document.getElementById('chartBar1').getContext('2d');
-                new Chart(ctx1, {
-                    type: 'bar',
-                    data: {
-                    labels: antenestat,
-                    datasets: [{
-                        label: '# of Votes',
-                        data: totalaport,
-                        backgroundColor: '#27AAC8'
-                    }]
-                    },
-                    options: {
-                    legend: {
-                        display: false,
-                        labels: {
-                            display: false
-                        }
-                    }
-                    }
-                });
-
-                    //////fin statistique par entene 
-                var statisticglobalantene = JSON.parse('{{ satistiquglobaleenteneparmois | json_encode | raw }}');
-                let mois = [];
-                let totalmois = [];
-                statisticglobalantene.forEach(value => {
-                    
-                    if(value.mois==1){
-                    mois.push("JAN");
-                    totalmois.push(value[1]);
-                    }
-
-                    if(value.mois==2){
-                    mois.push("FEV");
-                    totalmois.push(value[1]);
-                    }
-
-                    if(value.mois==3){
-                    mois.push("MAR");
-                    totalmois.push(value[1]);
-                    }
-
-                    if(value.mois==4){
-                    mois.push("AVR");
-                    totalmois.push(value[1]);
-                    }
-                    if(value.mois==5){
-                    mois.push("MAI");
-                    totalmois.push(value[1]);
-                    }
-                    if(value.mois==6){
-                    mois.push("JUI");
-                    totalmois.push(value[1]);
-                    }
-                    if(value.mois==7){
-                    mois.push("JUE");
-                    totalmois.push(value[1]);
-                    }
-                    if(value.mois==8){
-                    mois.push("AUO");
-                    totalmois.push(value[1]);
-                    }
-                    if(value.mois==9){
-                    mois.push("SEP");
-                    totalmois.push(value[1]);
-                    }
-                    if(value.mois==10){
-                    mois.push("OCT");
-                    totalmois.push(value[1]);
-                    }
-                    if(value.mois==11){
-                    mois.push("NOV");
-                    totalmois.push(value[1]);
-                    }
-                    if(value.mois==12){
-                    mois.push("DEC");
-                    totalmois.push(value[1]);
-                    }
-                    
-                    });
-                
-
-                var ctx2 = document.getElementById('chartBar2').getContext('2d');
-                new Chart(ctx2, {
-                    type: 'bar',
-                    data: {
-                    labels: mois,
-                    datasets: [{
-                        label: '# of Votes',
-                        data: totalmois,
-                        backgroundColor: '#27AAC8'
-                    }]
-                    },
-                    options: {
-                    legend: {
-                        display: false,
-                        labels: {
-                            display: false
-                        }
-                    }
-                    }
-                });
-
-            });
-        </script>
 {% endblock %}
+

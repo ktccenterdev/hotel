@@ -23,7 +23,129 @@
     
 
 
-        
+    <script src="../lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="../js/chart.chartjs.js"></script>
+    <script src="../lib/chart.js/Chart.min.js"></script>
+    {# <script src="../js/dashboard.js"></script> #}
+    <script>
+        $(function() {   
+            var statparenten = JSON.parse('{{ statistiqueentene | json_encode | raw }}');
+                let antenestat = [];
+                let totalaport = [];
+                statparenten.forEach(value => {
+                antenestat.push(value.entene);
+                totalaport.push(value.total);   
+                
+                });
+
+                /////tracage de graphe 1 statistique par entene 
+            var ctx1 = document.getElementById('chartBar1').getContext('2d');
+            new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                labels: antenestat,
+                datasets: [{
+                    label: '# of Votes',
+                    data: totalaport,
+                    backgroundColor: '#27AAC8'
+                }]
+                },
+                options: {
+                legend: {
+                    display: false,
+                    labels: {
+                        display: false
+                    }
+                }
+                }
+            });
+
+                //////fin statistique par entene 
+            var statisticglobalantene = JSON.parse('{{ satistiquglobaleenteneparmois | json_encode | raw }}');
+            let mois = [];
+            let totalmois = [];
+            statisticglobalantene.forEach(value => {
+                
+                if(value.mois==1){
+                mois.push("JAN");
+                totalmois.push(value[1]);
+                }
+
+                if(value.mois==2){
+                mois.push("FEV");
+                totalmois.push(value[1]);
+                }
+
+                if(value.mois==3){
+                mois.push("MAR");
+                totalmois.push(value[1]);
+                }
+
+                if(value.mois==4){
+                mois.push("AVR");
+                totalmois.push(value[1]);
+                }
+                if(value.mois==5){
+                mois.push("MAI");
+                totalmois.push(value[1]);
+                }
+                if(value.mois==6){
+                mois.push("JUI");
+                totalmois.push(value[1]);
+                }
+                if(value.mois==7){
+                mois.push("JUE");
+                totalmois.push(value[1]);
+                }
+                if(value.mois==8){
+                mois.push("AUO");
+                totalmois.push(value[1]);
+                }
+                if(value.mois==9){
+                mois.push("SEP");
+                totalmois.push(value[1]);
+                }
+                if(value.mois==10){
+                mois.push("OCT");
+                totalmois.push(value[1]);
+                }
+                if(value.mois==11){
+                mois.push("NOV");
+                totalmois.push(value[1]);
+                }
+                if(value.mois==12){
+                mois.push("DEC");
+                totalmois.push(value[1]);
+                }
+                
+                });
+            
+
+            var ctx2 = document.getElementById('chartBar2').getContext('2d');
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                labels: mois,
+                datasets: [{
+                    label: '# of Votes',
+                    data: totalmois,
+                    backgroundColor: '#27AAC8'
+                }]
+                },
+                options: {
+                legend: {
+                    display: false,
+                    labels: {
+                        display: false
+                    }
+                }
+                }
+            });
+
+        });
+    </script> 
+
+
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('bundles/troopersajax/js/ajax.js') }}"></script>     
 {% endblock %}

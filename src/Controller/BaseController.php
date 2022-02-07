@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use App\Entity\User;
 use App\Entity\Log;
 use App\Entity\Allocation;
+use App\Entity\Chambre;
 use App\Entity\Entene;
 use App\Entity\Reservation;
 
@@ -92,71 +93,73 @@ class BaseController extends DefaultController
                 $session->start();
             }
             /////calule des statistique 
-            
-            $totalchambre=count($this->getUser()->getAntene()->getChambres());
-            $totalallocation=count($this->getUser()->getAntene()->getAllocations());
-            $employer = $this->em->getRepository(User::class)->findBy(
-                ['type' => "EMPLOYE",'antene' => $this->getUser()->getAntene()->getId()]);
-            $client = $this->em->getRepository(User::class)->findBy(
-                    ['type' => "CLIENT",'antene' => $this->getUser()->getAntene()]);
-            ///fin calcule des statistique 
-            //$session->start();
-            ////
-            $idanteneok=$this->getUser()->getAntene()->getId();
-            $staatistiquejour=$this->em->getRepository(Allocation::class)->countaportAllocationparjour($idanteneok);
-            
-            
-            if(empty($staatistiquejour[1])){
-                $staatistiquejour[1]=0;
+            $user = $this->getUser();
+            $totalchambre = 0;
+            $totalallocation = 0;
+            $staatistiquejour = 0;
+            $satistiquglobaleenteneparmois = 0;
+            $staatistiquemois = 0;
+            $totalemployes = 0;
+            $totalclients = 0;
+            $statentne = array(); 
+
+            if($user){
+                if($user->getIsAdmin()){
+                    $antennes = $this->getAllAntennes();
+
+                    foreach ($antennes as $antenne) {
+                        $montant = $this->em->getRepository(Allocation::class)->countaportAllocation($antenne->getId());
+                        array_push($statentne, ["entene"=>$antenne->getNom(),"total"=>$montant]);                        
+                    }
+
+                    $totalchambre = count($this->em->getRepository(Chambre::class)->findAll());
+                    $totalallocation = count($this->em->getRepository(Allocation::class)->findAll());
+                    $totalemployes = count($this->em->getRepository(User::class)->findBy(['type' => "EMPLOYE"]));
+                    $totalclients = count($this->em->getRepository(User::class)->findBy(['type' => "CLIENT"]));
+				    $totalreservations = count($this->em->getRepository(Reservation::class)->findAll());
+                    $staatistiquejour = $this->em->getRepository(Allocation::class)->countaportAllocationparjour();
+                    $staatistiquemois = $this->em->getRepository(Allocation::class)->countaportAllocationparmois();
+                    $satistiquglobaleenteneparmois = $this->em->getRepository(Allocation::class)->countaportAllocationbymoisantene();
+
+                }else{
+                    $totalchambre=count($this->getUser()->getAntene()->getChambres());
+                    $totalallocation=count($this->getUser()->getAntene()->getAllocations());
+                    $totalemployes = count($this->em->getRepository(User::class)->findBy(['type' => "EMPLOYE",'antene' => $user->getAntene()]));
+                    $totalclients = count($this->em->getRepository(User::class)->findBy(['type' => "CLIENT",'antene' => $user->getAntene()]));
+                    $staatistiquejour=$this->em->getRepository(Allocation::class)->countaportAllocationparjour($user->getAntene()->getId());
+                    $satistiquglobaleenteneparmois = $this->em->getRepository(Allocation::class)->countaportAllocationbymoisantene($user->getAntene()->getId());
+                    $staatistiquemois=$this->em->getRepository(Allocation::class)->countaportAllocationparmois($user->getAntene()->getId());
+				    $totalreservations = count($this->em->getRepository(Reservation::class)->findBy(['antene' => $user->getAntene()]));
+                    $montant = $this->em->getRepository(Allocation::class)->countaportAllocation($user->getAntene()->getId());
+                        array_push($statentne, ["entene"=>$user->getAntene()->getNom(),"total"=>$montant]);
+                }
+            }else{
+                return $this->redirect("/login");
             }
-            $bilangneraleantene = array(); 
+
+            
+            // if(empty($staatistiquejour[1])){
+            //     $staatistiquejour[1]=0;
+            // }
+            // $bilangneraleantene = array(); 
             /////calcul bilan par mois de lantene de lutilisateur  
-            $satistiquglobaleenteneparmois=$this->em->getRepository(Allocation::class)->countaportAllocationbymoisantene($idanteneok);
             
             //array_push($bilangneraleantene,array("mois"=>"JANV","total"=>1000));
             /////fin calcule bilan par moi 
-            $staatistiquemois=$this->em->getRepository(Allocation::class)->countaportAllocationparmois($idanteneok);
             //dd($staatistiquemois[1]);
-            $entenes=[];
-            if ($this->getUser()->getIsadmin()) {
-                $entenes = $this->em->getRepository(Entene::class)->findAll();
-				$reservations = $this->em->getRepository(Reservation::class)->findAll();
-				$client = $this->em->getRepository(User::class)->findBy(
-                    ['type' => "CLIENT"]);
-            }else{
-                array_push($entenes, $this->getUser()->getAntene());
-				$reservations = $this->em->getRepository(Reservation::class)->findBy(['antene' => $this->getUser()->getAntene(),'createby'=> !null ]);
-				$client = $this->em->getRepository(User::class)->findBy(
-                    ['type' => "CLIENT",'antene' => $this->getUser()->getAntene()]);
-				
-            }
-            $statentne = array(); 
-            //$items[] = $curentitems;
-            foreach ($entenes as $value) {
-                $curent=$this->em->getRepository(Allocation::class)
-                ->countaportAllocation($value->getId());
-                if(!empty($curent[1])){
-                    $items=array("entene"=>$value->getNom(),"total"=>$curent[1]);
-                }else{
-                    $items=array("entene"=>$value->getNom(),"total"=>0);  
-                }
-                
-                $statentne[] = $items;
-                //dd($curent[1]);
-            }
-			
             
             $session->set('userdroit', $droituser);
             
+            //dd($statentne);
             return $this->render('admin/dashboard/index.html.twig', [
                 "totalchambre" => $totalchambre,
                 "totalallocation" => $totalallocation,
-                "totalemploye" => count($employer),
-                "totalclient" => count($client),
-				"totalreservation" => count($reservations),
+                "totalemploye" => $totalemployes,
+                "totalclient" => $totalclients,
+				"totalreservation" => $totalreservations,
                 "statistiqueentene"=>$statentne,
-                "bilanjournalier"=>$staatistiquejour[1],
-                "staatistiquemois"=>$staatistiquemois[1],
+                "bilanjournalier"=>$staatistiquejour,
+                "staatistiquemois"=>$staatistiquemois,
                 "satistiquglobaleenteneparmois"=>$satistiquglobaleenteneparmois,
                 "parametre" => $this->parametre
             ]); 
