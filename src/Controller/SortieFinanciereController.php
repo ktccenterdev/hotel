@@ -30,6 +30,9 @@ class SortieFinanciereController extends DefaultController
         $sortieAutres = [];
         $totalAutres = [];
         $totalFournisseurs = [];
+        $debut = $request->get('debut');
+        $fin = $request->get('fin');
+        $today = $request->get('today');
         try {
             if($user){
                 if($user->getIsadmin()){
@@ -37,8 +40,8 @@ class SortieFinanciereController extends DefaultController
                     foreach ($antennes as $antenne) {
                         $montantFournisseurs = 0;
                         $montantAutres = 0;
-                        $listeFournisseurs = $this->em->getRepository(SortieFinanciere::class)->findByTypeBeneficiaire("fournisseur", $antenne->getId());
-                        $listeAutres = $this->em->getRepository(SortieFinanciere::class)->findByTypeBeneficiaire("autre", $antenne->getId());
+                        $listeFournisseurs = $this->em->getRepository(SortieFinanciere::class)->findByTypeBeneficiaire("fournisseur", $antenne->getId(), $debut, $fin, $today);
+                        $listeAutres = $this->em->getRepository(SortieFinanciere::class)->findByTypeBeneficiaire("autre", $antenne->getId(), $debut, $fin, $today);
                         $sortieFournisseurs[$antenne->getId()] = $listeFournisseurs;
                         $sortieAutres[$antenne->getId()] = $listeAutres;
                         $montantFournisseurs += $this->sommeMontant($listeFournisseurs);
@@ -52,13 +55,16 @@ class SortieFinanciereController extends DefaultController
                         "totalFournisseurs" => $totalFournisseurs,
                         "sortieAutres" => $sortieAutres,
                         "totalAutres" => $totalAutres,
-                        "antennes" => $antennes
-                    ]);
+                        "antennes" => $antennes,
+                        "debut" => $debut,
+                        "fin" => $fin,
+                        "today" => $today                   
+                     ]);
                     
                 }else{
                     $antenne = $user->getAntene();
-                    $sortieFournisseurs = $this->em->getRepository(SortieFinanciere::class)->findByTypeBeneficiaire("fournisseur", $antenne->getId());
-                    $sortieAutres = $this->em->getRepository(SortieFinanciere::class)->findByTypeBeneficiaire("autre", $antenne->getId());
+                    $sortieFournisseurs = $this->em->getRepository(SortieFinanciere::class)->findByTypeBeneficiaire("fournisseur", $antenne->getId(), $debut, $fin, $today);
+                    $sortieAutres = $this->em->getRepository(SortieFinanciere::class)->findByTypeBeneficiaire("autre", $antenne->getId(), $debut, $fin, $today);
                     $data = $this->renderView('admin/sortie_financiere/index.html.twig', [
                         "sortieFournisseurs" => $sortieFournisseurs,
                         "sortieAutres" => $sortieAutres,
@@ -153,13 +159,12 @@ class SortieFinanciereController extends DefaultController
     public function saveSortieFournisseur(Request $request)
     {
 
-        $link="newsortiefinancierefournisseur";
+        $link="sortiefinanciere";
         $factureID = $request->get('factureID');
         $montant = $request->get('montant');
         try {
             if($factureID){
-                $facture = $this->em->getRepository(Entrestock::class)->find($factureID);
-                
+                $facture = $this->em->getRepository(Entrestock::class)->find($factureID);                
                 if($facture){
                     //add fournisseur to beneficiaire
                     $beneficiaire = $this->em->getRepository(Beneficiaire::class)->findOneBy(['fournisseur'=>$facture->getFournisseur()->getId()]);
@@ -187,7 +192,7 @@ class SortieFinanciereController extends DefaultController
                         $this->em->persist($facture);     
                         $this->em->flush();
                         $this->setlog("AJOUER","LA SortieFinanciere ".$this->getUser()->getUsername().
-                        " a Ajouer le Produit ".$facture->getNom(),"SortieFinanciere",$facture->getId());  
+                        " a Ajouer le Produit ".$facture->getFournisseur()->getNom(),"SortieFinanciere",$facture->getId());  
                         $this->successResponse("Sortie ajoutée avec succès ", $link);                 
                     }else{
                         $this->log("Quelque chose à mal tourné, veuillez réessayer.", $link);
@@ -210,7 +215,7 @@ class SortieFinanciereController extends DefaultController
      */
     public function saveSortieAutre(Request $request)
     {
-        $link  = $this->generateUrl("sortie-financiere-type", ['type'=>'autre']);
+        $link  = "sortiefinanciere";
         try {
             $motif = $request->get("motif");
             $operateur = $this->getUser();
@@ -249,7 +254,7 @@ class SortieFinanciereController extends DefaultController
                                 $this->em->persist($sortie);
                                 $this->em->flush();
                                 $this->setlog("AJOUER","LA SortieFinanciere ".$this->getUser()->getUsername().
-                                " a Ajouer le Produit ".$sortie->getOperateur(),"SortieFinanciere",$sortie->getId()); 
+                                " a Ajouer le Produit ".$sortie->getOperateur()->getNom(),"SortieFinanciere",$sortie->getId()); 
                                 $this->successResponse("Sortie ajoutée ", $link);
                             }                                
                         }else{

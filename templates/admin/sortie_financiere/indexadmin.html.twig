@@ -7,235 +7,234 @@
 	</div>
 </div>
 
-<div class="br-section-wrapper">
-	<div class="container">
-		{# {% if debut and fin %}
-    		<h5 class="">Sorties financieres enrégistrées du {{debut | date('d/m/Y')}} au {{fin | date('d/m/Y')}}</h5>
-  		{% endif %} #}
-		  {% set totalSortie = 0 %}
-		  <div class="card bd-primary mg-t-10 mg-b-10">
-			<div class="card-header bg-primary tx-white">
-				<h5 class="">Sorties financières enrégistrées</h5 >
+<div class="d-flex justify-content-end" style="padding:10px;">
+	<button onclick="showFiltre()" id="btn-show-filter" class="btn btn-purple mg-r-10"><i class="fa fa-search"></i>  Filtrer</button>
+	<a class="btn btn-dark mg-r-10 " href="{{path('sortie-financiere-index', 
+    {'today': 'now' | date('Y/m/d')})}}" data-toggle="ajax" data-target="monContent"><i class="fa fa-calendar"></i>  Aujourd'hui</a>
+</div>
+
+<!--Formulaire pour filtrer les resultats-->
+<div class="card bd-purple mg-t-10 mg-b-10" id="filter" style="display: none">
+	<div class="card-header bg-purple tx-white">
+		Filter les entrées financières
+	</div>
+	<div class="card-body form-layout form-layout-5">
+		<form id="js-form-filter"  class="js-form-filter {{app.user.hasAccess('sortie-financiere-index')}}" method="GET">
+			<div class="row col-lg-12">          
+				<!-- date début -->
+				<div class="col-lg-4">
+					Date de début: 
+					<input type="date" name="debut" id="debut" class="form-control">
+				</div>
+				<!-- date fin -->
+				<div class="col-lg-4">
+				Date de fin: 
+					<input type="date" name="fin" id="fin" class="form-control">
+				</div>
+				<div class="col-lg-4 mg-t-20">              
+					<button type="submit" id="btn-show-filter" class="btn btn-purple mg-r-20">
+					<i class="fa fa-search"></i> Rechercher
+					</button>   
+					<button class="btn btn-secondary" onclick="showFiltre()" type="button">Annuler</button>
+				</div>
 			</div>
-			<div class="card-body form-layout form-layout-5">
-				<div id="accordion2" class="accordion accordion-head-colored accordion-primary" role="tablist" aria-multiselectable="true">
-					<div class="card">						
-						{% for antenne in antennes %}
-							<div class="card-header" role="tab" id="headingThree2{{loop.index}}">
-								<h4 class="mg-b-0">
-								<a class="collapsed transition" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree2{{loop.index}}" aria-expanded="false" aria-controls="collapseThree2">
-									{{antenne.nom}}    
-									<i class="fa fa-chevron-down"></i>               
-									<i class="tx-16 text-secondary stats">( {{(totalFournisseurs[antenne.id] + totalAutres[antenne.id]) | craue_currency('XAF', 'fr-FR')}} </span> ) </i> 
-								</a>
-								</h4>
-							</div>
-							<div id="collapseThree2{{antenne.id}}" class="collapse" role="tabpanel" aria-labelledby="headingThree2">
-								<div class="card-block pd-20">
-								<!-- Tabs-->
-								<div class="container py-1">              
-									<div class="p-2 bg-white rounded shadow mb-5">
-									<!-- Bordered tabs-->
-									<ul id="myTab1{{antenne.id}}" role="tablist" class="nav nav-tabs nav-pills with-arrow flex-column flex-sm-row text-center">
-										<li class="nav-item flex-sm-fill">
-										<a id="non-traitees{{antenne.id}}-tab" data-toggle="tab" href="#non-traitees{{antenne.id}}" role="tab" aria-controls="non-traitees{{antenne.id}}" aria-selected="true" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0 border active">Sorties fournisseurs ({{totalFournisseurs[antenne.id] | craue_currency('XAF', 'fr-FR')}})</a>
-										</li>
-										<li class="nav-item flex-sm-fill">
-										<a id="traitees{{antenne.id}}-tab" data-toggle="tab" href="#traitees{{antenne.id}}" role="tab" aria-controls="traitees{{antenne.id}}" aria-selected="false" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0 border">Sorties autres ({{totalAutres[antenne.id] | craue_currency('XAF', 'fr-FR')}})</a>
-										</li>
-									</ul>
-										
-									<div id="myTab1Content{{antenne.id}}" class="tab-content">
-										<!--Fournisseurs-->
-										<div id="non-traitees{{antenne.id}}" role="tabpanel" aria-labelledby="non-traitees{{antenne.id}}-tab" class="tab-pane fade px-4 py-4 show active">
-											<div class="d-flex justify-content-end">
-												<a  class="btn btn-primary {{app.user.hasAccess('new-sortie-financiere-forunisseur')}}" href="{{path('new-sortie-financiere-forunisseur')}}" data-toggle="ajax" data-target="monContent">
-													<i class="fa fa-plus-circle"></i>  Nouvelle sortie
-												</a>
-											</div>
-											<div class="table-wrapper mg-t-20">
-												<table class="table mg-b-0 datatable display responsive">
-													<thead>
-														<tr>
-															<th class="tx-10-force tx-mont tx-medium text-center wd-15p">CODE</th>
-															<th class="tx-10-force tx-mont tx-medium wd-15p">BENEFICIAIRE</th>
-															<th class="tx-10-force tx-mont tx-medium wd-20p">MOTIF</th>
-															<th class="tx-10-force tx-mont tx-medium text-center wd-5p">DATE</th>
-															<th class="tx-10-force tx-mont tx-medium text-center hidden-xs-down wd-10p">MONTANT</th>
-															<th class="wd-5p"></th> 
-														</tr>
-													</thead>
-													<tbody>
-														{% for sortie in sortieFournisseurs[antenne.id] %}	
-															<tr>					
-																<td>
-																	<span class="pd-l-5">
-																		<a class="{{app.user.hasAccess('sortie-financiere-show')}}" href="{{path('sortie-financiere-show', {'id':sortie.id}) }}" data-toggle="ajax" data-target="monContent">{{sortie.code}}</a>
-																	</span>
-																</td>
-																<td class="hidden-xs-down">
-																	<span class="pd-l-5">
-																		<a class="{{app.user.hasAccess('showfour')}}" href="{{path('showfour', {'id':sortie.beneficiaire.fournisseur.id}) }}" data-toggle="ajax" data-target="monContent">{{sortie.beneficiaire.fournisseur.nom}}</a>							
-																	</span>
-																</td>
-																<td class="hidden-xs-down text-center">{{sortie.motif}}</td>					
-																<td class="hidden-xs-down text-center">{{sortie.createdAt | date("d-m-Y")}}</td>					
-																<td class="hidden-xs-down text-center">{{sortie.montant}}</td>
-																<td class="dropdown">
-																	<a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
-																	<div class="dropdown-menu dropdown-menu-right pd-10">
-																		<nav class="nav nav-style-1 flex-column text-center">
-																			<a href="{{path('sortie-financiere-show', {'id':sortie.id}) }}" data-toggle="ajax" data-target="monContent" class="nav-link {{app.user.hasAccess('sortie-financiere-show')}}">Détails</a>	
-																			<a href="{{path('sortie-financiere-print-one', {'id':sortie.id, 'type':sortie.beneficiaire.type}) }}" target="_blank" title="Imprimer" class="nav-link {{app.user.hasAccess('sortie-financiere-print-one')}}">PDF</a>
-																			<form class="js-form-send nav-link confirm-delete {{app.user.hasAccess('sortie-financiere-delete')}}"
-																				action="{{ path('sortie-financiere-delete', {'id': sortie.id})}}" 
-																				data-toggle="ajax" data-target="monContent"
-																				data-message="Voulez-vous supprimer cette sortie?"
-																				method="DELETE">
-																				<button class="btn btn-link" type="submit" titile="Supprimer">Supprimer
-																				</button>	
-																			</form>
-																		</nav>
-																	</div><!-- dropdown-menu -->
-																</td>					
-															</tr>
-														{% endfor %}
-													
-													
-													</tbody>
-													<tfoot>
-														<tr style="font-weight: bold;">
-															<td colspan="4">Total</td>
-															<td class="text-center">{{totalFournisseurs[antenne.id] | craue_currency('XAF', 'fr-FR')}}</td>
-																{% set totalSortie = totalSortie + totalFournisseurs[antenne.id] %}
-															<td></td>
-														</tr>
-													</tfoot>
-												</table>
-											</div>
+		</form>
+	</div>
+</div> 
+<!-- Fin du formulaire des filtres-->
+
+<div class="br-section-wrapper">
+	{% set totalSortie = 0 %}
+	<div class="card bd-primary mg-t-10 mg-b-10">
+		<div class="card-header bg-primary tx-white">
+			<h5>
+				Sorties financières
+				{% if debut and fin %}
+					du <u>{{debut | date('d/m/Y')}}</u> au <u>{{fin | date('d/m/Y')}}</u>
+				{% elseif today %}
+					du <u>{{today | date('d/m/Y')}}</u>
+				{% endif %}
+			</h5>
+		</div>
+		<div class="card-body form-layout form-layout-5">
+			<div id="accordion2" class="accordion accordion-head-colored accordion-primary" role="tablist" aria-multiselectable="true">
+				<div class="card">						
+					{% for antenne in antennes %}
+						<div class="card-header" role="tab" id="headingThree2{{loop.index}}">
+							<h4 class="mg-b-0">
+							<a class="collapsed transition" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree2{{loop.index}}" aria-expanded="false" aria-controls="collapseThree2">
+								{{antenne.nom}}    
+								<i class="fa fa-chevron-down"></i>               
+								<i class="tx-16 text-secondary stats">( {{(totalFournisseurs[antenne.id] + totalAutres[antenne.id]) | craue_currency('XAF', 'fr-FR')}} </span> ) </i> 
+							</a>
+							</h4>
+						</div>
+						<div id="collapseThree2{{antenne.id}}" class="collapse" role="tabpanel" aria-labelledby="headingThree2">
+							<div class="card-block pd-20">
+							<!-- Tabs-->
+							<div class="container py-1">              
+								<div class="p-2 bg-white rounded shadow mb-5">
+								<!-- Bordered tabs-->
+								<ul id="myTab1{{antenne.id}}" role="tablist" class="nav nav-tabs nav-pills with-arrow flex-column flex-sm-row text-center">
+									<li class="nav-item flex-sm-fill">
+									<a id="non-traitees{{antenne.id}}-tab" data-toggle="tab" href="#non-traitees{{antenne.id}}" role="tab" aria-controls="non-traitees{{antenne.id}}" aria-selected="true" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0 border active">Sorties fournisseurs ({{totalFournisseurs[antenne.id] | craue_currency('XAF', 'fr-FR')}})</a>
+									</li>
+									<li class="nav-item flex-sm-fill">
+									<a id="traitees{{antenne.id}}-tab" data-toggle="tab" href="#traitees{{antenne.id}}" role="tab" aria-controls="traitees{{antenne.id}}" aria-selected="false" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0 border">Sorties autres ({{totalAutres[antenne.id] | craue_currency('XAF', 'fr-FR')}})</a>
+									</li>
+								</ul>
+									
+								<div id="myTab1Content{{antenne.id}}" class="tab-content">
+									<!--Fournisseurs-->
+									<div id="non-traitees{{antenne.id}}" role="tabpanel" aria-labelledby="non-traitees{{antenne.id}}-tab" class="tab-pane fade px-4 py-4 show active">
+										<div class="d-flex justify-content-end">
+											<a  class="btn btn-primary {{app.user.hasAccess('new-sortie-financiere-forunisseur')}}" href="{{path('new-sortie-financiere-forunisseur')}}" data-toggle="ajax" data-target="monContent">
+												<i class="fa fa-plus-circle"></i>  Nouvelle sortie
+											</a>
 										</div>
-										<!--Autres-->
-										<div id="traitees{{antenne.id}}" role="tabpanel" aria-labelledby="traitees{{antenne.id}}-tab" class="tab-pane fade px-4 py-4">
-											<div class="d-flex justify-content-end">
-												<a  class="btn btn-primary{{app.user.hasAccess('new-sortie-financiere-autre')}}" href="{{path('new-sortie-financiere-autre')}}" data-toggle="ajax" data-target="monContent">
-													<i class="fa fa-plus-circle"></i>  Nouvelle sortie
-												</a>
-											</div>
-											<div class="table-wrapper mg-t-20">
-												<table class="table mg-b-0 datatable display responsive">
-													<thead>
+										<div class="table-wrapper mg-t-20">
+											<table class="table mg-b-0 datatable display responsive">
+												<thead>
 													<tr>
-														<th class="tx-10-force tx-mont tx-medium text-center wd-5p">CODE</th>
+														<th class="tx-10-force tx-mont tx-medium text-center wd-10p">CODE</th>
 														<th class="tx-10-force tx-mont tx-medium wd-15p">BENEFICIAIRE</th>
 														<th class="tx-10-force tx-mont tx-medium wd-20p">MOTIF</th>
 														<th class="tx-10-force tx-mont tx-medium text-center wd-5p">DATE</th>
 														<th class="tx-10-force tx-mont tx-medium text-center hidden-xs-down wd-10p">MONTANT</th>
 														<th class="wd-5p"></th> 
 													</tr>
-													</thead>
-													<tbody>
-														{% for sortie in sortieAutres[antenne.id] %}
-															<tr>					
-																<td>
-																	{# <i class="icon ionforunisseur-ios-folder-outline tx-24 tx-warning lh-0 valign-middle"></i> #}
-																	<span class="pd-l-5">
-																		<a class="{{app.user.hasAccess('sortie-financiere-show')}}" href="{{path('sortie-financiere-show', {'id':sortie.id}) }}" data-toggle="ajax" data-target="monContent">{{sortie.code}}</a>
-																	</span>
-																</td>
-																<td class="hidden-xs-down">
-																	<span class="pd-l-5">
-																		{{sortie.beneficiaire.autre.nom}}
-																	</span>
-																</td>
-																<td class="hidden-xs-down text-center">{{sortie.motif}}</td>					
-																<td class="hidden-xs-down text-center">{{sortie.createdAt | date("d-m-Y")}}</td>					
-																<td class="hidden-xs-down text-center">{{sortie.montant}}</td>
-																<td class="dropdown">
-																	<a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
-																	<div class="dropdown-menu dropdown-menu-right pd-10">
-																		<nav class="nav nav-style-1 flex-column text-center">
-																			<a href="{{path('sortie-financiere-show', {'id':sortie.id}) }}" data-toggle="ajax" data-target="monContent" class="nav-link {{app.user.hasAccess('sortie-financiere-show')}}">Détails</a>	
-																			<a href="{{path('sortie-financiere-print-one', {'id':sortie.id, 'type':sortie.beneficiaire.type}) }}" target="_blank" title="Imprimer" class="nav-link {{app.user.hasAccess('sortie-financiere-print-one')}}">PDF</a>
-																			<form class="js-form-send nav-link confirm-delete {{app.user.hasAccess('sortie-financiere-delete')}}"
-																				action="{{ path('sortie-financiere-delete', {'id': sortie.id})}}" 
-																				data-toggle="ajax" data-target="monContent"
-																				data-message="Voulez-vous supprimer cette sortie?"
-																				method="DELETE">
-																				<button class="btn btn-link" type="submit" titile="Supprimer">Supprimer
-																				</button>	
-																			</form>
-																		</nav>
-																	</div><!-- dropdown-menu -->
-																</td>					
-															</tr>
-														{% endfor %}
-													</tbody>
-													<tfoot>
-														<tr style="font-weight: bold;">
-															<td colspan="4">Total</td>
-															<td class="text-center">{{totalAutres[antenne.id] |  craue_currency('XAF', 'fr-FR')}}</td>
-															{% set totalSortie = totalSortie + totalAutres[antenne.id] %}
-															
-															<td></td>
+												</thead>
+												<tbody>
+													{% for sortie in sortieFournisseurs[antenne.id] %}	
+														<tr>					
+															<td>
+																<span class="pd-l-5">
+																	<a class="{{app.user.hasAccess('sortie-financiere-show')}}" href="{{path('sortie-financiere-show', {'id':sortie.id}) }}" data-toggle="ajax" data-target="monContent">{{sortie.code}}</a>
+																</span>
+															</td>
+															<td class="hidden-xs-down">
+																<span class="pd-l-5">
+																	<a class="{{app.user.hasAccess('showfour')}}" href="{{path('showfour', {'id':sortie.beneficiaire.fournisseur.id}) }}" data-toggle="ajax" data-target="monContent">{{sortie.beneficiaire.fournisseur.nom}}</a>							
+																</span>
+															</td>
+															<td class="hidden-xs-down text-center">{{sortie.motif}}</td>					
+															<td class="hidden-xs-down text-center">{{sortie.createdAt | date("d-m-Y")}}</td>					
+															<td class="hidden-xs-down text-center">{{sortie.montant}}</td>
+															<td class="dropdown">
+																<a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
+																<div class="dropdown-menu dropdown-menu-right pd-10">
+																	<nav class="nav nav-style-1 flex-column text-center">
+																		<a href="{{path('sortie-financiere-show', {'id':sortie.id}) }}" data-toggle="ajax" data-target="monContent" class="nav-link {{app.user.hasAccess('sortie-financiere-show')}}">Détails</a>	
+																		<a href="{{path('sortie-financiere-print-one', {'id':sortie.id, 'type':sortie.beneficiaire.type}) }}" target="_blank" title="Imprimer" class="nav-link {{app.user.hasAccess('sortie-financiere-print-one')}}">PDF</a>
+																		<form class="js-form-send nav-link confirm-delete {{app.user.hasAccess('sortie-financiere-delete')}}"
+																			action="{{ path('sortie-financiere-delete', {'id': sortie.id})}}" 
+																			data-toggle="ajax" data-target="monContent"
+																			data-message="Voulez-vous supprimer cette sortie?"
+																			method="DELETE">
+																			<button class="btn btn-link" type="submit" titile="Supprimer">Supprimer
+																			</button>	
+																		</form>
+																	</nav>
+																</div><!-- dropdown-menu -->
+															</td>					
 														</tr>
-													</tfoot>
-												</table>
-											</div>
+													{% endfor %}
+												
+												
+												</tbody>
+												<tfoot>
+													<tr style="font-weight: bold;">
+														<td colspan="4">Total</td>
+														<td class="text-center">{{totalFournisseurs[antenne.id] | craue_currency('XAF', 'fr-FR')}}</td>
+															{% set totalSortie = totalSortie + totalFournisseurs[antenne.id] %}
+														<td></td>
+													</tr>
+												</tfoot>
+											</table>
 										</div>
 									</div>
-									<!-- End bordered tabs -->
+									<!--Autres-->
+									<div id="traitees{{antenne.id}}" role="tabpanel" aria-labelledby="traitees{{antenne.id}}-tab" class="tab-pane fade px-4 py-4">
+										<div class="d-flex justify-content-end">
+											<a  class="btn btn-primary{{app.user.hasAccess('new-sortie-financiere-autre')}}" href="{{path('new-sortie-financiere-autre')}}" data-toggle="ajax" data-target="monContent">
+												<i class="fa fa-plus-circle"></i>  Nouvelle sortie
+											</a>
+										</div>
+										<div class="table-wrapper mg-t-20">
+											<table class="table mg-b-0 datatable display responsive">
+												<thead>
+												<tr>
+													<th class="tx-10-force tx-mont tx-medium text-center wd-5p">CODE</th>
+													<th class="tx-10-force tx-mont tx-medium wd-15p">BENEFICIAIRE</th>
+													<th class="tx-10-force tx-mont tx-medium wd-20p">MOTIF</th>
+													<th class="tx-10-force tx-mont tx-medium text-center wd-5p">DATE</th>
+													<th class="tx-10-force tx-mont tx-medium text-center hidden-xs-down wd-10p">MONTANT</th>
+													<th class="wd-5p"></th> 
+												</tr>
+												</thead>
+												<tbody>
+													{% for sortie in sortieAutres[antenne.id] %}
+														<tr>					
+															<td>
+																{# <i class="icon ionforunisseur-ios-folder-outline tx-24 tx-warning lh-0 valign-middle"></i> #}
+																<span class="pd-l-5">
+																	<a class="{{app.user.hasAccess('sortie-financiere-show')}}" href="{{path('sortie-financiere-show', {'id':sortie.id}) }}" data-toggle="ajax" data-target="monContent">{{sortie.code}}</a>
+																</span>
+															</td>
+															<td class="hidden-xs-down">
+																<span class="pd-l-5">
+																	{{sortie.beneficiaire.autre.nom}}
+																</span>
+															</td>
+															<td class="hidden-xs-down text-center">{{sortie.motif}}</td>					
+															<td class="hidden-xs-down text-center">{{sortie.createdAt | date("d-m-Y")}}</td>					
+															<td class="hidden-xs-down text-center">{{sortie.montant}}</td>
+															<td class="dropdown">
+																<a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
+																<div class="dropdown-menu dropdown-menu-right pd-10">
+																	<nav class="nav nav-style-1 flex-column text-center">
+																		<a href="{{path('sortie-financiere-show', {'id':sortie.id}) }}" data-toggle="ajax" data-target="monContent" class="nav-link {{app.user.hasAccess('sortie-financiere-show')}}">Détails</a>	
+																		<a href="{{path('sortie-financiere-print-one', {'id':sortie.id, 'type':sortie.beneficiaire.type}) }}" target="_blank" title="Imprimer" class="nav-link {{app.user.hasAccess('sortie-financiere-print-one')}}">PDF</a>
+																		<form class="js-form-send nav-link confirm-delete {{app.user.hasAccess('sortie-financiere-delete')}}"
+																			action="{{ path('sortie-financiere-delete', {'id': sortie.id})}}" 
+																			data-toggle="ajax" data-target="monContent"
+																			data-message="Voulez-vous supprimer cette sortie?"
+																			method="DELETE">
+																			<button class="btn btn-link" type="submit" titile="Supprimer">Supprimer
+																			</button>	
+																		</form>
+																	</nav>
+																</div><!-- dropdown-menu -->
+															</td>					
+														</tr>
+													{% endfor %}
+												</tbody>
+												<tfoot>
+													<tr style="font-weight: bold;">
+														<td colspan="4">Total</td>
+														<td class="text-center">{{totalAutres[antenne.id] |  craue_currency('XAF', 'fr-FR')}}</td>
+														{% set totalSortie = totalSortie + totalAutres[antenne.id] %}
+														
+														<td></td>
+													</tr>
+												</tfoot>
+											</table>
+										</div>
 									</div>
-								</div>              
-								<!-- Fin des tabs-->
 								</div>
+								<!-- End bordered tabs -->
+								</div>
+							</div>              
+							<!-- Fin des tabs-->
 							</div>
-						{% endfor %}
-					</div>    
-				</div><!-- accordion -->
-			</div>
-			<div class="card-footer text-muted">
-				<h5>Total: {{totalSortie | craue_currency('XAF', 'fr-FR')}}</h5>
-			</div>
+						</div>
+					{% endfor %}
+				</div>    
+			</div><!-- accordion -->
 		</div>
-
-
-		{# <div class="row br-pagebody pd-x-20 pd-sm-x-30">
-			<div class="card bd-0 shadow-base col-lg-12 col-md-12">
-			  <table class="table mg-b-0">
-				<thead>
-				  <tr>
-					<th class="tx-10-force tx-mont tx-medium">TYPE</th>
-					<th class="tx-10-force tx-mont tx-medium text-center">QUANTITE</th>
-					<th class="tx-10-force tx-mont tx-medium text-center hidden-xs-down">MONTANT (FCFA)</th>
-				  </tr>
-				</thead>
-				<tbody>
-				  <tr>					
-					<td>
-					  <i class="icon ion-ios-folder-outline tx-24 tx-warning lh-0 valign-middle"></i>
-					  <span class="pd-l-5"><a class="{{app.user.hasAccess('sortie-financiere-type')}}" href="{{path('sortie-financiere-type', {'type':'fournisseur'}) }}" data-toggle="ajax" data-target="monContent">Fournisseurs</a></span>
-					</td>
-					<td class="hidden-xs-down text-center">{{sortieFournisseurs | length}}</td>					
-					<td class="hidden-xs-down text-center">{{totalFournisseurs}}</td>					
-				  </tr>
-				  <tr>					
-					<td>
-					  <i class="icon ion-ios-folder-outline tx-24 tx-warning lh-0 valign-middle"></i>
-					  <span class="pd-l-5"><a class="{{app.user.hasAccess('sortie-financiere-type')}}" href="{{path('sortie-financiere-type', {'type':'autre'}) }}" data-toggle="ajax" data-target="monContent">Autres</a></span>
-					</td>
-					<td class="hidden-xs-down text-center">{{sortieAutres | length}}</td>
-					<td class="hidden-xs-down text-center">{{totalAutres}}</td>
-				  </tr>
-				</tbody>
-				<tfoot>
-					<tr style="font-weight: bold;">
-						<td colspan="2">Total</td>
-						<td class="text-center">{{totalFournisseurs + totalAutres}}</td>
-					</tr>
-				</tfoot>
-			  </table>
-			</div>
-		  </div> #}
+		<div class="card-footer text-muted">
+			<h5>Total: {{totalSortie | craue_currency('XAF', 'fr-FR')}}</h5>
+		</div>
 	</div>
 </div><!-- br-section-wrapper -->
 
@@ -267,6 +266,32 @@
 			//alert(url);
 			getPage(url);
 		})
+
+		function showFiltre() {
+              var v = document.getElementById("filter");
+              if (v.style.display === "none") {
+                  v.style.display = "block";
+              } else {
+                  $('form')[0].reset();
+                  v.style.display = "none";
+              }
+          }
+  
+        $('#js-form-filter').on('submit', function(e){
+          e.preventDefault();
+          loaderIn();
+          var debut = $("#debut").val();    
+          var fin = $("#fin").val();    
+          var antenne = $("#antenneId").val();    
+          if(debut && fin && debut <= fin){
+            var url = "/sortiefinanciere?debut="+debut+"&fin="+fin+"&antenneId="+antenne;
+            var effect = guessEffect(this, "#monContent");
+            ajaxLink(url, "monContent", "html", effect); 
+          }else{
+            sweetNotificationbad("dates invalides", "debut: "+debut+", fin: "+fin);
+          }
+          loaderOut();
+        })
 	</script>
 	
 	
