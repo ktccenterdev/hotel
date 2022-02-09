@@ -34,20 +34,26 @@ class ClientController extends DefaultController
 
         try {
             $roles=$this->em->getRepository(Role::class)->findAll();
-            if($this->getUser()->getIsadmin()){
-                $data = $this->renderView('admin/clients/indexadmin.html.twig', [
-                     "roles"=>$roles,
-                     "antennes"=>$this->getAllAntennes()
-                 ]);
+            $user = $this->getUser();
+            if($user){
+                if($this->getUser()->getIsadmin()){
+                    $data = $this->renderView('admin/clients/indexadmin.html.twig', [
+                         "roles"=>$roles,
+                         "antennes"=>$this->getAllAntennes()
+                     ]);
+                }else{
+                    $data = $this->renderView('admin/clients/index.html.twig', 
+                    [
+                         "roles"=>$roles,
+                         "antenne" => $this->getUser()->getAntene()
+                     ]);
+                  
+                }
+                $this->successResponse("Liste des clients ", $link, $data);
             }else{
-                $antene = $this->getUser()->getAntene();
-                $data = $this->renderView('admin/clients/index.html.twig', [
-                     "roles"=>$roles,
-                     "antenne"=>$this->getUser()->getAntene()
-                 ]);
-              
+                $this->redirectToRoute('login');
             }
-            $this->successResponse("Liste des clients ", $link, $data);
+            
 
         } catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);
