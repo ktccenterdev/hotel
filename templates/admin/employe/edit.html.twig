@@ -188,17 +188,7 @@
                                                                     <input class="form-control" type="text" name="adresse" value="{{ user.adresse}}">
                                                                 </div>
                                                             </div><!-- col-3 -->
-                                                            <div class="col-lg-4">
-                                                                <div class="form-group mg-b-10-force">
-                                                                    <label class="form-control-label">Antenne: <span class="tx-danger">*</span></label>
-                                                                    <select name="entenne" class="form-control select2" data-placeholder="Choose sexe">
-                                                                        <option value="{{user.antene.id}}">{{user.antene.nom}}</option>
-                                                                            {% for entene in entenes %}
-                                                                                <option value="{{ entene.id }}">{{ entene.nom }}</option>
-                                                                    .       {% endfor %}
-                                                                    </select>
-                                                                </div>
-                                                            </div><!-- col-3 -->
+                                                            
                                                             
                                                             <div class="col-lg-4">
                                                                 <div class="form-group">

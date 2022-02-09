@@ -47,6 +47,8 @@ class EmployeController extends DefaultController
                     'antene' => $user->getAntene()
                 ]);
             }
+            $users = $this->em->getRepository(User::class)->findAll();
+           
             $entenes = $this->em->getRepository(Entene::class)->findAll();
             $roles = $this->em->getRepository(Role::class)->findAll();
             
@@ -54,6 +56,7 @@ class EmployeController extends DefaultController
             $data = $this->renderView('admin/employe/index.html.twig', [
                 "entenes" => $entenes,
                 "roles" => $roles,
+                "users" => $users,
                 "employes" => $employe
             ]);
             $this->successResponse("Liste des employés ", $link, $data);
@@ -71,7 +74,15 @@ class EmployeController extends DefaultController
     public function employeadd(Request $request)
     {
         $link="employe";
+        $user = $this->getUser();
+       
+        //dd($antene);
 
+       
+
+       
+       
+       
         try {
             $username =  $request->get('username');
             $utilisateur = $this->em->getRepository(User::class)->findBy(
@@ -93,8 +104,17 @@ class EmployeController extends DefaultController
                 $email =  $request->get('email');
                 $phone =  $request->get('phone');
                 $adresse =  $request->get('adresse');
-                $identenne =  $request->get('entenne');
-                $entenne = $this->em->getRepository(Entene::class)->find($identenne);
+
+               
+                if($user->getIsadmin()){
+                    $identenne =  $request->get('entenne');
+                    $entenne = $this->em->getRepository(Entene::class)->find($identenne);
+    
+                }else {
+                    $entenne = $this->getUser()->getAntene();
+                }
+                
+
                 $rol =  $request->get('role');
                 $role = $this->em->getRepository(Role::class)->find($rol);
                 //dd($role);
@@ -275,10 +295,9 @@ class EmployeController extends DefaultController
             $employe->setPhone($request->get("phone"));
             $employe->setAdresse($request->get("adresse"));
 
-            $antene = $request->get("entenne");
-            $entenne = $this->em->getRepository(Entene::class)->find($antene);
 
-            $employe->setAntene($entenne);
+            $employe->setAntene($this->getUser()->getAntene());
+            
             $photo =  $request->files->get('photo');
             if(!empty($photo) ){
                 $path = md5(uniqid()).'.'.$photo->guessExtension();

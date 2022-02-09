@@ -181,6 +181,7 @@
                    
                       <tr>	        
                         <th class="wd-5p">ID</th>
+						{# <th class="wd-10p">Antene</th> #}
 						<th class="wd-10p">Chambre</th>
 						<th class="wd-10p">Type de Chambre</th>
                         <th class="wd-15p">Noms et prénom</th>
@@ -195,6 +196,7 @@
                      {% for allocation in allocations %}
                       <tr>
                         <td>{{loop.index}}</td>
+						{# <td>{{allocation.antene}}</td> #}
 						<td>
 							<a href="{{path('show-allocation', {id: allocation.id})}}" class="nav-link ajax-link {{app.user.hasAccess('liste-allocation')}}"  data-toggle="ajax" data-target="monContent" >
 								{{allocation.chambre.numero}}

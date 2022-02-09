@@ -31,12 +31,23 @@ class ClientController extends DefaultController
     public function indexclient()
     {
         $link="indexclient";
-
+        $antennes = $this->getAllAntennes();
+        $user = $this->getUser();
+        //dd($antennes);
         try {
+          /*   foreach ($antennes as $antenne) {
+                $antenne = $user->getAntene();
+                //dd($antenne);
+            } */
+            
+          $clients = $this->em->getRepository(User::class)->findBy(["type" => "CLIENT", "antene" =>$user->getAntene()]);
+          //dd($clients); 
+          
             $roles=$this->em->getRepository(Role::class)->findAll();
             if($this->getUser()->getIsadmin()){
                 $data = $this->renderView('admin/clients/indexadmin.html.twig', [
                      "roles"=>$roles,
+                     "clients"=>$clients,
                      "antennes"=>$this->getAllAntennes()
                  ]);
             }else{
