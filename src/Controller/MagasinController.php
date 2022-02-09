@@ -151,9 +151,28 @@ class MagasinController extends DefaultController
        return $this->returnPDFResponseFromHTML($template, "Liste des magasins"); 
     }
 
+    /**
+     * @Route("/detail/{id}", name="detail-magasin", methods={"GET"})
+     */
+    public function showmagasin($id){
+        $link="detail-magasin";
 
-
-
+        try {
+            $magasin = $this->em->getRepository(Magasin::class)->find($id);
+            
+            //dd($magasin);
+            $data = $this->renderView('admin/magasin/showmagasin.html.twig', [
+                "magasin" => $magasin
+            ]);
+            $this->successResponse("Détail d'un magasins ", $link, $data);
+        } catch (\Exception $ex) {
+            $this->log($ex->getMessage(), $link);
+        }
+       // dd($this->result);
+        return $this->json($this->result);
+        
+       
+    }
 
 
 

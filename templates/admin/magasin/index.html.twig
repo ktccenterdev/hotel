@@ -100,7 +100,7 @@
                         <td>{{ magasin.type }}</td>
                         <td>{{ magasin.description |slice(0, 50) ~ '...' }}</td>
                         <td>
-                            <button class="btn btn-teal active" ><a data-toggle="ajax" data-target="monContent" href="#" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
+                            <button class="btn btn-teal active {{app.user.hasAccess('detail-magasin')}}" ><a data-toggle="ajax" data-target="monContent" href="{{path('detail-magasin', {id: magasin.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
                             <button class="btn btn-teal active" ><a data-toggle="ajax" data-target="monContent" href="#" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
                             {% if magasin.defaut == false %}
                                 <button class="btn btn-pink active"><a data-toggle="ajax" data-target="monContent" href="#" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-trash" aria-hidden="true" ></i></a></button> 
