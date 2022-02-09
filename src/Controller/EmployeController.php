@@ -220,12 +220,6 @@ class EmployeController extends DefaultController
         try{
             $employe = $this->getDoctrine()->getRepository(User::class)->find($id);
             
-            /*if (!$employe) {
-                throw $this->createNotFoundException(
-                    'There are no articles with the following id: ' . $id
-                );
-            }
-            $this->em->remove($employe);*/
             $employe->setIsdeleted(true);
             $this->em->persist($employe);
             $this->em->flush();

@@ -14,6 +14,19 @@
   </div>
 </div>
 
+  <div class="container-fixed" id="clientemail" align="center">
+      {% for message in app.flashes('success') %}
+      <div class="alert alert-success">
+          {{ message }}
+      </div>
+      {% endfor %}
+      {% for message in app.flashes('fail') %}
+      <div class="alert alert-danger">
+          {{ message }}
+      </div>
+      {% endfor %}
+  </div>
+
   <div class="d-flex justify-content-end" style="padding:0px;">           
     <button class="btn btn-primary {{app.user.hasAccess('client-add')}}"><a href="{{path('index-clientdash')}}" style="padding: 0px !important; color:white;" class=" nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-plus" aria-hidden="true"></i>Ajouter</a></button>           
     <button class="btn btn-secondary {{app.user.hasAccess('print-client')}}" style="margin-left:5px;"><a style="color:white;" href="{{path('print-client')}}" target="_blank"><i class="fa fa-print"></i> Imprimer</a></button>
