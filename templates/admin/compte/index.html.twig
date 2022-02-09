@@ -81,10 +81,10 @@
 				<thead>
 					<tr>
 						<th class="wd-5p">#</th>
-						<th class="wd-5p">Code</th>
-						<th class="wd-15p">Intitulé</th>
+						<th class="wd-10p">Code</th>
+						<th class="wd-20p">Intitulé</th>
 						<th class="wd-15p">Type</th>
-						<th class="wd-15p">Action</th>
+						<th class="wd-15p text-center">Action</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -101,30 +101,29 @@
 										<span class='badge badge-danger'>{{ liste.type }}</span>
 									{% endif %}										
 								</td>
-								<td class="btn-group text-center">
-									{% if "updatetype" in app.session.get('userdroit') %}
-										
-									{% endif %}
-									{% if "updatetype" in app.session.get('userdroit') %}
-										<a class="btn btn-info {{app.user.hasAccess('compte-show')}}"  data-toggle="ajax" data-target="monContent" 
-												title="Afficher les détails" 
-												href="{{ path('compte-show', {'id': liste.id})}}">
-											<i class="far fa-eye"></i>
-										</a>
-									{% endif %}
-									{% if "type-delete" in app.session.get('userdroit') %}
-									<form class="confirm-waiting js-form-send confirm-delete" 
-										data-message="Voulez-vous supprimer ce compte?"
-										data-toggle="ajax" class="{{app.user.hasAccess('compte-delete')}}"
-										data-target="monContent"
-										action="{{ path('compte-delete', {'id': liste.id})}}" 
-										method="DELETE">
-										<button class="btn btn-danger" type="submit" titile="Supprimer">
-											<i class="fa fa-trash" aria-hidden="true"></i>
-										</button>	
-									</form>
-									{% endif %}
-									
+								<td class="dropdown text-center">
+										<a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-right pd-10">
+                                            <nav class="nav nav-style-1 flex-column text-center">	
+                                                {% if "updatetype" in app.session.get('userdroit') %}
+													<a class="btn btn-link {{app.user.hasAccess('compte-show')}}"  data-toggle="ajax" data-target="monContent" 
+															title="Afficher les détails" 
+															href="{{ path('compte-show', {'id': liste.id})}}"> Editer
+													</a>
+												{% endif %}
+												{% if app.user.isadmin %}
+													<form class="confirm-waiting js-form-send confirm-delete" 
+														data-message="Voulez-vous supprimer ce compte?"
+														data-toggle="ajax" class="{{app.user.hasAccess('compte-delete')}}"
+														data-target="monContent"
+														action="{{ path('compte-delete', {'id': liste.id})}}" 
+														method="DELETE">
+														<button class="btn btn-link" type="submit" titile="Supprimer">Supprimer
+														</button>	
+													</form>
+												{% endif %}
+                                            </nav>
+                                        </div><!-- dropdown-menu -->
 								</td>
 							</tr>
 						{% endfor %}

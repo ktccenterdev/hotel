@@ -25,21 +25,51 @@ class SortieFinanciereController extends DefaultController
     public function index(Request $request)
     {
         $link="sortiefinanciere";  
+        $user = $this->getUser();
+        $sortieFournisseurs = [];
+        $sortieAutres = [];
+        $totalAutres = [];
+        $totalFournisseurs = [];
         try {
-            $sortieFournisseurs = $this->em->getRepository(SortieFinanciere::class)
-            ->findByTypeBeneficiaire("fournisseur");
-            // $totalFournisseurs = array_sum(array_column($sortieFournisseurs, "montant")) ;
-            $sortieAutres = $this->em->getRepository(SortieFinanciere::class)
-          ->findByTypeBeneficiaire("autre");
-        //   $totalAutres = array_sum(array_column($sortieAutres, "montant"));
-            $data = $this->renderView('admin/sortie_financiere/index.html.twig', [
-                "sortieFournisseurs" => $sortieFournisseurs,
-                "totalFournisseurs" => $this->sommeMontant($sortieFournisseurs),
-                "sortieAutres" => $sortieAutres,
-                "totalAutres" => $this->sommeMontant($sortieAutres)
-            ]);
-            // dd($data);
-            $this->successResponse("Sorties financières affichées ", $link, $data);
+            if($user){
+                if($user->getIsadmin()){
+                    $antennes = $this->getAllAntennes();
+                    foreach ($antennes as $antenne) {
+                        $montantFournisseurs = 0;
+                        $montantAutres = 0;
+                        $listeFournisseurs = $this->em->getRepository(SortieFinanciere::class)->findByTypeBeneficiaire("fournisseur", $antenne->getId());
+                        $listeAutres = $this->em->getRepository(SortieFinanciere::class)->findByTypeBeneficiaire("autre", $antenne->getId());
+                        $sortieFournisseurs[$antenne->getId()] = $listeFournisseurs;
+                        $sortieAutres[$antenne->getId()] = $listeAutres;
+                        $montantFournisseurs += $this->sommeMontant($listeFournisseurs);
+                        $montantAutres  += $this->sommeMontant($listeAutres);
+                        $totalFournisseurs[$antenne->getId()] = $montantFournisseurs;
+                        $totalAutres[$antenne->getId()] = $montantAutres;
+                    }         
+                  //  dd($totalAutres);           
+                    $data = $this->renderView('admin/sortie_financiere/indexadmin.html.twig', [
+                        "sortieFournisseurs" => $sortieFournisseurs,
+                        "totalFournisseurs" => $totalFournisseurs,
+                        "sortieAutres" => $sortieAutres,
+                        "totalAutres" => $totalAutres,
+                        "antennes" => $antennes
+                    ]);
+                    
+                }else{
+                    $antenne = $user->getAntene();
+                    $sortieFournisseurs = $this->em->getRepository(SortieFinanciere::class)->findByTypeBeneficiaire("fournisseur", $antenne->getId());
+                    $sortieAutres = $this->em->getRepository(SortieFinanciere::class)->findByTypeBeneficiaire("autre", $antenne->getId());
+                    $data = $this->renderView('admin/sortie_financiere/index.html.twig', [
+                        "sortieFournisseurs" => $sortieFournisseurs,
+                        "sortieAutres" => $sortieAutres,
+                        "totalFournisseurs" => $this->sommeMontant($sortieFournisseurs),
+                        "totalAutres" => $this->sommeMontant($sortieAutres)
+                    ]);
+                }
+                $this->successResponse("Sorties financières affichées ", $link, $data);
+            }else{
+                return $this->redirectToRoute('login');
+            }
         } catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);
         }

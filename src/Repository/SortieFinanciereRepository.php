@@ -49,14 +49,16 @@ class SortieFinanciereRepository extends ServiceEntityRepository
         
     }
     
-    public function findByTypeBeneficiaire($beneficiaire)
+    public function findByTypeBeneficiaire($beneficiaire, $idAntenne=null)
     {
         
         $query = $this->createQueryBuilder('s');
             $query->join('App\Entity\Beneficiaire', 'b', 'WITH', 's.beneficiaire = b')
-            ->andWhere('b.type = :beneficiaire')
+            ->andWhere('b.type =:beneficiaire')
             ->setParameter('beneficiaire', $beneficiaire);       
-       
+        if($idAntenne){
+            $query->andWhere('s.antenne =:idAntenne')->setParameter('idAntenne', $idAntenne);
+        }
          return $query->orderBy('s.id', 'ASC')
         ->getQuery()
         ->getResult();
