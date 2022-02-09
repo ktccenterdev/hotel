@@ -219,18 +219,27 @@ class ClientController extends DefaultController
     public function deleteAction($id) {
         $link="indexclient";
         try{
-            $em = $this->getDoctrine()->getManager();
+           //$em = $this->getDoctrine()->getManager();
             $client = $this->getDoctrine()->getRepository(User::class)->find($id);
+            if(!is_null($client)){
 
-            if (!$client) {
+                $this->em->remove($client);
+                $this->em->flush();
+                $this->setlog("SUPPRIMER","L'utilisateur ".$this->getUser()->getUsername().
+             " a  supprimer le client ".$client->getNom(),"CLIENT",$client->getId());
+             
+            }else{
+                $this ->addFlash( 'fail', 'ce client est liée au donées' );
+                //return $this->redirectToRoute('index-client',[]);
+                $this->log("cette utilisateurs est utiliser", $link);
+            }
+
+          /*   if (!$client) {
                 throw $this->createNotFoundException(
                     'There are no articles with the following id: ' . $id
                 );
-            }
-            $em->remove($client);
-            $em->flush();
-            $this->setlog("SUPPRIMER","L'utilisateur ".$this->getUser()->getUsername().
-             " a  supprimer le client ".$client->getNom(),"CLIENT",$client->getId());
+            } */
+            
         //dd($user);
             $this->successResponse("client supprimé ", $link);
         }
