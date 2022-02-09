@@ -944,19 +944,33 @@ class AllocationController extends DefaultController
     public function listeallocation()
     {
         $link="listallocation";
-
+        $user = $this->getUser();
         try {
            
-            
-            $typchambres = $this->em->getRepository(Typechambre::class)->findAll();
-            $allocations = $this->em->getRepository(Allocation::class)->findAll();
-            //dd($allocations);
-            $chambres = $this->em->getRepository(Chambre::class)->findAll();
-            $tarif = $this->em->getRepository(Tarif::class)->findAll();
-            
-            $clients = $this->em->getRepository(User::class)->findBy(
-                ['type' => "CLIENT"]);
-            //dd($clients);
+            if($user->getIsadmin()){
+                $typchambres = $this->em->getRepository(Typechambre::class)->findAll();
+                $allocations = $this->em->getRepository(Allocation::class)->findAll();
+                //dd($allocations);
+                $chambres = $this->em->getRepository(Chambre::class)->findAll();
+                $tarif = $this->em->getRepository(Tarif::class)->findAll();
+                
+                $clients = $this->em->getRepository(User::class)->findBy(
+                    ['type' => "CLIENT"]);
+               
+            }else{
+                $typchambres = $this->em->getRepository(Typechambre::class)->findAll();
+                $allocations = $this->em->getRepository(Allocation::class)->findBy([
+                    "antene"=>$user->getAntene()
+                ]);
+                //dd($allocations);
+                //dd($allocations);
+                $chambres = $this->em->getRepository(Chambre::class)->findAll();
+                $tarif = $this->em->getRepository(Tarif::class)->findAll();
+                
+                $clients = $this->em->getRepository(User::class)->findBy(
+                    ['type' => "CLIENT"]);
+                //dd($clients);
+            }
             $data = $this->renderView('admin/allocation/liste.html.twig', [
                 "typchambres" => $typchambres,
                 "chambres" => $chambres,
@@ -1198,22 +1212,29 @@ class AllocationController extends DefaultController
     public function dashboardallocation(Request $request){
       
         $link="dashboardallocation";
+        $user = $this->getUser();
         try {
-
+            if($user->getIsadmin()){
           
             $allocations = $this->em->getRepository(Allocation::class)->findAll();
             foreach ($allocations as $allocation) {
 
                 $heureactuel= new \DateTime();
                 $datefin = $allocation->getDatefin("datefin");
-                
-                /* if($datefin == $heureactuel){
-                    dd("heoe");
-                } */
-              
-            }
-            //$etat = $allocations->getEtat("etat");
                
+            }
+           
+        }else {
+            $allocations = $this->em->getRepository(Allocation::class)->findBy([
+                "antene"=>$user->getAntene()
+            ]);
+            foreach ($allocations as $allocation) {
+
+                $heureactuel= new \DateTime();
+                $datefin = $allocation->getDatefin("datefin");
+               
+            }
+        }  
                 $data = $this->renderView('admin/allocation/dashboardallocation.html.twig', 
                 [
                     "allocations" => $allocations,
@@ -1317,9 +1338,10 @@ return $this->json($this->result);
     public function mesallocation(){
         //dd("received");
         $link="mesallocation";
+        $user = $this->getUser();
 
         try {
-           
+            if($user->getIsadmin()){
             $allocations = $this->em->getRepository(Allocation::class)->findAll();
             $typchambres = $this->em->getRepository(Typechambre::class)->findAll();
             $allocations = $this->em->getRepository(Allocation::class)->findAll();
@@ -1330,14 +1352,30 @@ return $this->json($this->result);
             $clients = $this->em->getRepository(User::class)->findBy(
                 ['type' => "CLIENT"]);
             
-            $data = $this->renderView('admin/allocation/mesallocation.html.twig', [
-                "typchambres" => $typchambres,
-                "chambres" => $chambres,
-                "tarifs" => $tarif,
-                "allocations" => $allocations,
-                "clients" => $clients
-               
+          
+        }else{
+            $allocations = $this->em->getRepository(Allocation::class)->findAll();
+            $typchambres = $this->em->getRepository(Typechambre::class)->findAll();
+            $allocations = $this->em->getRepository(Allocation::class)->findBy([
+                "antene"=>$user->getAntene()
             ]);
+            $chambres = $this->em->getRepository(Chambre::class)->findAll();
+            $tarif = $this->em->getRepository(Tarif::class)->findAll();
+            
+            $clients = $this->em->getRepository(User::class)->findBy(
+                ['type' => "CLIENT"]);
+            
+           
+        }
+        $data = $this->renderView('admin/allocation/mesallocation.html.twig', [
+            "typchambres" => $typchambres,
+            "chambres" => $chambres,
+            "tarifs" => $tarif,
+            "allocations" => $allocations,
+            "clients" => $clients
+           
+        ]);
+
             $this->successResponse("Liste de mesallocation", $link, $data);
 
         }catch (\Exception $ex) {

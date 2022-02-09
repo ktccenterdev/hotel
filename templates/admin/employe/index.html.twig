@@ -115,17 +115,25 @@
 								<input class="form-control" type="text" name="adresse"  placeholder="Quartier">
 							</div>
 						</div><!-- col-3 -->
-						<div class="col-lg-3">
-							<div class="form-group mg-b-10-force">
-								<label class="form-control-label">Antenne: <span class="tx-danger">*</span></label>
-								<select name="entenne" class="form-control select2" data-placeholder="Choose sexe">
-									<option label="--Antenne--"></option>
-										{% for entene in entenes %}
-											<option value="{{ entene.id }}">{{ entene.nom }}</option>
-								.       {% endfor %}
-								</select>
-							</div>
-						</div><!-- col-3 -->
+
+						{% if app.user.isadmin %}
+						
+							<div class="col-lg-3">
+								<div class="form-group mg-b-10-force">
+									<label class="form-control-label">Antenne: <span class="tx-danger">*</span></label>
+									<select name="entenne" class="form-control select2" data-placeholder="Choose sexe">
+										<option label="--Antenne--"></option>
+											{% for entene in entenes %}
+												<option value="{{ entene.id }}">{{ entene.nom }}</option>
+									.       {% endfor %}
+									</select>
+								</div>
+							</div><!-- col-3 -->
+						{% endif %}
+						
+						
+					
+
 						<div class="col-lg-3">
 							<div class="form-group mg-b-10-force">
 								<label class="form-control-label">Rôle <span class="tx-danger">*</span></label>
