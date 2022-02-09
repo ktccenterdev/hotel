@@ -32,7 +32,7 @@ function show() {
   function hide() {
     $(".formelement").hide();
   }
-
+/*
 function getPage(url) {
     loaderIn();
     this.axios.get(url)
@@ -68,7 +68,7 @@ function getPage(url) {
         });
 
 }
-
+*/
 
 function rendenContent(content) {
     $("#js-main-content").empty();
@@ -229,10 +229,6 @@ function sweetNotificationbad(message, footer = null) {
         footer: footer
     })
 }
-
-
-
-
 
 
 function sweetNotification(message) {

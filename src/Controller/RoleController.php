@@ -69,21 +69,6 @@ class RoleController extends DefaultController
         
     }
 
-    /**
-     * @Route("/useradd", name="user-add", methods={"GET"})
-     */
-    public function useradd(Request $request)
-    {
-        $user=new User();
-        $user->setUsername("admin");
-        $user->setPassword("admin");
-        $actions=$this->em->getRepository(Role::class)->find(9);
-        $user->setRole($actions);
-        $this->em->persist($user);
-        $this->em->flush();
-        $this->setlog("AJOUTER","L'utilisateur ".$this->getUser()->getUsername().
-        "a ajouter un administrateur  ".$user-> getUsername(),"USER",$user->getId()); 
-    }
 
 
     
@@ -94,16 +79,13 @@ class RoleController extends DefaultController
     public function addOrremovedroit(Request $request){
         $id =  $request->get('id');
         $actionrole=$this->em->getRepository(ActionRole::class)->find($id);
-        //dd($request->get('etat'));
         if($request->get('etat')=="true"){
             $actionrole->setEtat(1);
         }else{
             $actionrole->setEtat(0);
-        }
-        
+        }        
         $this->em->flush($actionrole);
-        //dd($actionrole);
-         
+        return $this->json($actionrole);      
     }
 
     /**
@@ -142,25 +124,6 @@ class RoleController extends DefaultController
        return $this->json($this->result);
     }
 
-    /**
-     * @Route("/utilisateur-index", name="utilisateur-index", methods={"GET"})
-     */
-    public function indexutilisateur(Request $request)
-    {
-
-        $id =  $request->get('id');
-        $link="utilisateur-index";
-        try {
-                $utilisateurs=$this->em->getRepository(User::class)->findAll();
-                $roles=$this->em->getRepository(Role::class)->findAll();
-
-                $data = $this->renderView('admin/users/utiliteur.html.twig', ["roles"=>$roles,"utilisateurs"=>$utilisateurs]);
-                $this->successResponse("Liste des utilisateurs", $link, $data);
-
-        } catch (\Exception $ex) {
-            $this->log($ex->getMessage(), $link);
-        }
-       return $this->json($this->result);
-    }
+  
 
 }

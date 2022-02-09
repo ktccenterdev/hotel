@@ -73,7 +73,10 @@
                   <td>{{role.description}}</td>
 				  <td>{{role.users|length }}</td>
                   <td>
-                      <button class="btn btn-teal active" ><a href="{{path('index-droit',{'id': role.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
+                      {% if role.nom != "Super" and  app.user.isadmin  %}
+                        <button class="btn btn-teal active" ><a href="{{path('index-droit',{'id': role.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
+                      {% endif %}
+                      
                       {#<button class="btn btn-primary active"><i class="far fa-edit"></i></button>
                       <button class="btn btn-pink active"><i class="fa fa-trash" aria-hidden="true"></i></button>#}
                   </td>
