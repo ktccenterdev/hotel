@@ -97,8 +97,8 @@ class StokentresortirController extends DefaultController
                 $entreestock->SetEtat(0); 
                 $this->em->persist($entreestock);
                 $this->em->flush();
-                $this->setlog("ENTREE","Le STOCK ".$this->getUser()->getUsername().
-                " a ENTREE le stock ".$entreestock->getUser(),"Entrestock",$entreestock->getId());
+               /*  $this->setlog("ENTREE","Le STOCK ".$this->getUser()->getUsername().
+                " a ENTREE le stock ".$entreestock->getUser(),"Entrestock",$entreestock->getId()); */
                 
                 foreach ($produits  as &$value) {
                     $item=new Entreitem();
@@ -113,8 +113,8 @@ class StokentresortirController extends DefaultController
                     $item->setQt($value["qt"]);
                     $this->em->persist($item);
                     $this->em->flush();
-                    $this->setlog("ENTREE","Le STOCK ".$this->getUser()->getUsername().
-                " a ENTREE le stock ".$entreestock->getUser(),"Entrestock",$entreestock->getId());
+                    /* $this->setlog("ENTREE","Le STOCK ".$this->getUser()->getUsername().
+                " a ENTREE le stock ".$entreestock->getUser(),"Entrestock",$entreestock->getId()); */
                    
                 }
 
@@ -136,15 +136,32 @@ class StokentresortirController extends DefaultController
     {
         $link="listeentrestockgenerale";
         try {
-            $magasing = $this->em->getRepository(Magasin::class)->findBy(['type' => 'Général']);
-            if($magasing){
-                $data = $this->renderView('admin/gestionstock/listeentrestock.html.twig', [
-                "entrestocks" => current($magasing)->GetEntrestocks()
-                ]);
-                $this->successResponse("Ajouter des entres", $link, $data);
-            }else{
-                $this->log("Aucun magasin enrégistré.", $link);
+            $user = $this->getUser();
+            if($user->getIsadmin()){
+                 
+                $magasing = $this->em->getRepository(Magasin::class)->findBy(['type' => 'Général']);
+                if($magasing){
+                    $data = $this->renderView('admin/gestionstock/listeentrestock.html.twig', [
+                    "entrestocks" => current($magasing)->GetEntrestocks()
+                    ]);
+                    $this->successResponse("Ajouter des entres", $link, $data);
+                }else{
+                    $this->log("Aucun magasin enrégistré.", $link);
+                }
+            }else {
+               
+                $magasing = $this->em->getRepository(Magasin::class)->findBy(['type' => 'Général','antene' => $user->getAntene()]);
+                if($magasing){
+                    $data = $this->renderView('admin/gestionstock/listeentrestock.html.twig', [
+                    "entrestocks" => current($magasing)->GetEntrestocks()
+                    ]);
+                    $this->successResponse("Ajouter des entres", $link, $data);
+                }else{
+                    $this->log("Aucun magasin enrégistré.", $link);
+                }
             }
+
+
             
             
         } catch (\Exception $ex) {
