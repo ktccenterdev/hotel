@@ -44,7 +44,6 @@ class MagasinController extends DefaultController
             }else{
                 return $this->redirectToRoute('login');
             }
-
         } catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);
         }
