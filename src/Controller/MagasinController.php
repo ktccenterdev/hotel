@@ -54,6 +54,7 @@ class MagasinController extends DefaultController
      */
     public function addmagasin(Request $request)
     {
+        $link="listmagasin";
         try {
             $nom =  $request->get('nom');
             $type =  $request->get('type');
@@ -71,9 +72,9 @@ class MagasinController extends DefaultController
             $this->em->flush();
             $this->setlog("AJOUTER","Le Magasin ".$this->getUser()->getUsername().
             " a ajouter le Magasin ".$magasin->getNom(),"MAGASIN",$magasin->getId());
-            $this->successResponse("Magasin ajouter !","index-magasin");  
+            $this->successResponse("Magasin ajouter !",$link);  
         } catch (\Exception $ex) {
-            $this->log($ex->getMessage(), "index-magasin");
+            $this->log($ex->getMessage(), $link);
         }
         return new JsonResponse($this->result);
     }
@@ -228,6 +229,41 @@ class MagasinController extends DefaultController
        // dd($this->result);
         return $this->json($this->result);
 
+    }
+
+    /**
+    * @Route("deletemagasin", name="delete-magasin",methods={"DELETE"})
+    */
+    public function deletemagasin(Request $request) {
+        $link="listmagasin";
+        //dd('bnnn');
+        try{
+            $id =  $request->get('id');
+            //dd($id);
+            $magasin = $this->getDoctrine()->getRepository(Magasin::class)->find($id);
+            //dd($magasin);
+            if(!is_null($magasin)){
+                if(count($magasin->getEntrestocks()) === 0 && count($magasin->getSortirstocks())===0){
+                    //$this->em->remove($magasin);
+                    //$this->em->flush();
+                    dd($magasin);
+                    $this->setlog("SUPPRESION",$this->getUser()->getUsername().
+                        " a supprimé le Magasin ".$magasin->getNom(),"MAGASIN",$magasin->getId());
+                    $this->successResponse("Magasin Supprimé ",$link);
+                }else{
+                    $this->log("Impossible de supprimer ce magasin, Car il est lié à d'autres ressources.", $link);
+                }
+             
+            }else{
+                $this->log("ce magasin semble ne pas exister", $link);
+            }
+
+        }
+        catch (\Exception $ex) {
+            $this->log($ex->getMessage(), $link);
+        } 
+        return new JsonResponse($this->result);
+          
     }
 
 
