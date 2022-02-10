@@ -142,8 +142,7 @@ $(document).ready(function () {
 <script>
     var produits = [];
 	$(document).on('click', '.add_to_cart', function(){
-        console.log(produits);
-		//alert("ajouter produit");
+        //console.log(produits);
         var item = {
             "idproduit": $( "#selectproduit" ).val(),
             "qt": $( "#qtproduct" ).val(),
@@ -159,7 +158,7 @@ $(document).ready(function () {
 <script>
     $(document).on('click', '.saveentrestock', function(){
         //alert("merci beaucoup a tous ");
-        console.log(produits);
+        //console.log(produits);
         /////////////////////////////////
              $.ajax({
                 url: "/entrestockadd",
@@ -167,7 +166,7 @@ $(document).ready(function () {
                 dataType: 'json',
                 data:{"produits":produits,"comment": $( "#description" ).val(),"fournisseur":$( "#fournisseur" ).val() }
             }).done(function(responsse){ 
-                console.log(responsse);        
+                //console.log(responsse);        
                 if(responsse.success){
                     Swal.fire({
                     title: 'enregistrement terminer',

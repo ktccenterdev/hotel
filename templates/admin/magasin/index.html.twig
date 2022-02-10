@@ -34,7 +34,7 @@
                                                         <input type="text" class="form-control" placeholder="Nom du magasin" name="nom">
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-4 col-xlg-4 col-md-12">
+                                                {#<div class="col-lg-4 col-xlg-4 col-md-12">
                                                     <label class="col-sm-12 form-control-label">Type: <span class="tx-danger">*</span></label>
                                                     <div class="col-sm-12 mg-t-12 mg-sm-t-0">
                                                     <select class="form-control" name="type">
@@ -45,14 +45,16 @@
                                                         {% endfor %}
                                                     </select>
                                                     </div>
-                                                </div>
+                                                </div>#}
                                                 <div class="col-lg-4 col-xlg-4 col-md-12">
                                                     <label class="col-sm-12 form-control-label">Antenne: <span class="tx-danger">*</span></label>
                                                     <div class="col-sm-12 mg-t-12 mg-sm-t-0">
                                                         <select class="form-control" name="entene_id">
                                                             <option value="" disabled selected>Choisit une Antenne</option>
-                                                            {% for entene in entene %}
-                                                                <option value="{{entene.id}}">{{entene.nom}}</option>
+                                                            {% for entene in entenes %}
+                                                                {% if not entene.magasin %}
+                                                                    <option value="{{entene.id}}">{{entene.nom}}</option>
+                                                                {% endif %}}
                                                             {% endfor %}
                                                         </select>
                                                     </div>

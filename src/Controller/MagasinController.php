@@ -38,7 +38,7 @@ class MagasinController extends DefaultController
             $entene = $this->em->getRepository(Entene::class)->findAll();
             $data = $this->renderView('admin/magasin/index.html.twig', [
                 "magasins" => $magasins,
-                "entene" => $entene,
+                "entenes" => $entene,
             ]);
             $this->successResponse("Liste des magasins ", $link, $data);
 
@@ -57,14 +57,14 @@ class MagasinController extends DefaultController
         $link="listmagasin";
         try {
             $nom =  $request->get('nom');
-            $type =  $request->get('type');
+            //$type =  $request->get('type');
             $description =  $request->get('description');
             $antene =  $request->get('entene_id');
             $entene =$this->em->getRepository(Entene::class)->find($antene);
 
             $magasin= new Magasin();
             $magasin->setNom($nom);
-            $magasin->setType($type);
+            //$magasin->setType($type);
             $magasin->setDescription($description);
             $magasin->setAntene($entene);
             

@@ -78,6 +78,7 @@ class StokentresortirController extends DefaultController
      */
     public function entrestockadd(Request $request)
     {
+        $link="listeentrestockgenerale";
         try {
             $fourniseur =$request->get('fournisseur');
             $fourniseur = $this->em->getRepository(Fournisseur::class)->find($fourniseur);
@@ -171,11 +172,11 @@ class StokentresortirController extends DefaultController
     }
 
     /**
-     * @Route("/detailentreestock", name="detailentreestock", methods={"GET"})
+     * @Route("/detailentreestock/{id}", name="detailentreestock", methods={"GET"})
      */
-    public function detailentreestock(Request $request)
+    public function detailentreestock($id)
     {
-        $id =  $request->get('id');
+        //$id =  $request->get('id');
         $link="detailentreestock";
         
         try {
