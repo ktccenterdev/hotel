@@ -54,6 +54,7 @@ class MagasinController extends DefaultController
      */
     public function addmagasin(Request $request)
     {
+        $link="listmagasin";
         try {
             $nom =  $request->get('nom');
             $type =  $request->get('type');
@@ -71,9 +72,9 @@ class MagasinController extends DefaultController
             $this->em->flush();
             $this->setlog("AJOUTER","Le Magasin ".$this->getUser()->getUsername().
             " a ajouter le Magasin ".$magasin->getNom(),"MAGASIN",$magasin->getId());
-            $this->successResponse("Magasin ajouter !","index-magasin");  
+            $this->successResponse("Magasin ajouter !",$link);  
         } catch (\Exception $ex) {
-            $this->log($ex->getMessage(), "index-magasin");
+            $this->log($ex->getMessage(), $link);
         }
         return new JsonResponse($this->result);
     }
@@ -151,11 +152,119 @@ class MagasinController extends DefaultController
        return $this->returnPDFResponseFromHTML($template, "Liste des magasins"); 
     }
 
+    /**
+     * @Route("/detailmagasin/{id}", name="detail-magasin", methods={"GET"})
+     */
+    public function showmagasin($id){
+        $link="detail-magasin";
 
+        try {
+            $magasin = $this->em->getRepository(Magasin::class)->find($id);
+            
+            $data = $this->renderView('admin/magasin/showmagasin.html.twig', [
+                "magasin" => $magasin
+            ]);
+            $this->successResponse("Détail d'un magasins ", $link, $data);
+        } catch (\Exception $ex) {
+            $this->log($ex->getMessage(), $link);
+        }
+       // dd($this->result);
+        return $this->json($this->result);
+    }
 
+    /**
+     * @Route("/editmagasin/{id}", name="edit-magasin", methods={"GET"})
+     */
+    public function editmagasin($id){
+        $link="edit-magasin";
 
+        try {
+            $magasin = $this->em->getRepository(Magasin::class)->find($id);
+            
+            $data = $this->renderView('admin/magasin/editmagasin.html.twig', [
+                "magasin" => $magasin
+            ]);
+            $this->successResponse("edition d'un magasins ", $link, $data);
+        } catch (\Exception $ex) {
+            $this->log($ex->getMessage(), $link);
+        }
+       // dd($this->result);
+        return $this->json($this->result);
 
+    }
 
+    /**
+     * @Route("/editionmagasin", name="edition-magasin", methods={"POST"})
+     */
+    public function editionmagasin(Request $request){
+        $link="listmagasin";
+
+        try {
+            $id =  $request->get('id');
+
+            $nom =  $request->get('nom');
+            $type =  $request->get('type');
+            $description =  $request->get('description');
+
+            $magasin = $this->em->getRepository(Magasin::class)->find($id);
+            if(!empty($nom)){
+                $magasin->setNom($nom);
+            }
+            if(!empty($type)){
+                $magasin->setType($type);
+            }
+            if(!empty($description)){
+                $magasin->setDescription($description);
+            }
+            
+            $this->em->persist($magasin);
+            $this->em->flush();
+            $this->setlog("Modification",$this->getUser()->getUsername().
+            " a modifier le Magasin ".$magasin->getNom(),"MAGASIN",$magasin->getId());
+            $this->successResponse("Magasin Modifié !",$link);
+
+        } catch (\Exception $ex) {
+            $this->log($ex->getMessage(), $link);
+        }
+       // dd($this->result);
+        return $this->json($this->result);
+
+    }
+
+    /**
+    * @Route("deletemagasin", name="delete-magasin",methods={"DELETE"})
+    */
+    public function deletemagasin(Request $request) {
+        $link="listmagasin";
+        //dd('bnnn');
+        try{
+            $id =  $request->get('id');
+            //dd($id);
+            $magasin = $this->getDoctrine()->getRepository(Magasin::class)->find($id);
+            //dd($magasin);
+            if(!is_null($magasin)){
+                if(count($magasin->getEntrestocks()) === 0 && count($magasin->getSortirstocks())===0){
+                    //$this->em->remove($magasin);
+                    //$this->em->flush();
+                    dd($magasin);
+                    $this->setlog("SUPPRESION",$this->getUser()->getUsername().
+                        " a supprimé le Magasin ".$magasin->getNom(),"MAGASIN",$magasin->getId());
+                    $this->successResponse("Magasin Supprimé ",$link);
+                }else{
+                    $this->log("Impossible de supprimer ce magasin, Car il est lié à d'autres ressources.", $link);
+                }
+             
+            }else{
+                $this->log("ce magasin semble ne pas exister", $link);
+            }
+
+        }
+        catch (\Exception $ex) {
+            $this->log($ex->getMessage(), $link);
+        } 
+        return new JsonResponse($this->result);
+          
+    }
 
 
 }

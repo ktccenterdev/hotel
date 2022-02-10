@@ -32,7 +32,25 @@
                       </tr>
                     </thead>
                     <tbody>
-                    {% for entree in entrestocks %}
+
+                    {# {% if app.user == app.user.username %} #}
+                      {% for entree in entrestocks %}
+                          <tr>
+                              <td>{{loop.index}}</td>
+                              <td>{{entree.user.username}}</td>
+                              <td>{{entree.commentaire}}</td>
+                              <td>{{entree.date|date('Y-m-d H:i:s')}}</td>
+                              <td>
+                                  <button class="btn btn-teal active" ><a href="{{path('detailentreestock', {id: entree.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
+                                  <button class="btn btn-teal active" ><a href="{{path('editfour', {id: entree.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
+                              </td>
+                              
+                          </tr>
+                      {% endfor %}
+                      
+                   {#  {% endif %} #}
+
+                    {# {% for entree in entrestocks %}
                         <tr>
                             <td>{{loop.index}}</td>
                             <td>{{entree.user.username}}</td>
@@ -44,7 +62,7 @@
                             </td>
                             
                         </tr>
-                    {% endfor %}
+                    {% endfor %} #}
                     </tbody>
                 </table>
               </div><!-- table-wrapper -->

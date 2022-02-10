@@ -38,7 +38,7 @@
                                                     <label class="col-sm-12 form-control-label">Type: <span class="tx-danger">*</span></label>
                                                     <div class="col-sm-12 mg-t-12 mg-sm-t-0">
                                                     <select class="form-control" name="type">
-                                                        <option>Choisis un type</option>
+                                                        <option value="" disabled selected>Choisis un type</option>
                                                         {% set types = ["Général", "Interne"] %}
                                                         {% for type in types %}
                                                             <option value="{{type}}">{{type}}</option>
@@ -50,7 +50,7 @@
                                                     <label class="col-sm-12 form-control-label">Antenne: <span class="tx-danger">*</span></label>
                                                     <div class="col-sm-12 mg-t-12 mg-sm-t-0">
                                                         <select class="form-control" name="entene_id">
-                                                            <option>Choisit une Antenne</option>
+                                                            <option value="" disabled selected>Choisit une Antenne</option>
                                                             {% for entene in entene %}
                                                                 <option value="{{entene.id}}">{{entene.nom}}</option>
                                                             {% endfor %}
@@ -100,19 +100,26 @@
                         <td>{{ magasin.type }}</td>
                         <td>{{ magasin.description |slice(0, 50) ~ '...' }}</td>
                         <td>
-                            <button class="btn btn-teal active" ><a data-toggle="ajax" data-target="monContent" href="#" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
-                            <button class="btn btn-teal active" ><a data-toggle="ajax" data-target="monContent" href="#" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
-                            {% if magasin.defaut == false %}
-                                <button class="btn btn-pink active"><a data-toggle="ajax" data-target="monContent" href="#" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-trash" aria-hidden="true" ></i></a></button> 
-                            {% endif %}
+                            <button class="btn btn-teal active {{app.user.hasAccess('detail-magasin')}}" ><a data-toggle="ajax" data-target="monContent" href="{{path('detail-magasin', {id: magasin.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
                             
                             {% if magasin.type=="Général" %}
                                 <button class="btn btn-warning active" ><a data-toggle="ajax" data-target="monContent" href="{{path('rupturedestock', {idmag: magasin.id,departforsortie: magasin.id,magdepart: null,magdest: null})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-battery-half" aria-hidden="true"></i></a></button>
                             {% else %}
+                                <button class="btn btn-primary active {{app.user.hasAccess('edit-magasin')}}" ><a data-toggle="ajax" data-target="monContent" href="{{path('edit-magasin', {id: magasin.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
                                 <button class="btn btn-warning active" ><a data-toggle="ajax" data-target="monContent" href="{{path('rupturedestock', {idmag: magasin.id,departforsortie: magasin.id,magdepart: 1,magdest: magasin.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-battery-half" aria-hidden="true"></i></a></button>
                             {% endif %}
-                                               
-                                    
+
+                            {% if magasin.defaut == false %}
+                                    <form style="display: contents;"
+                                        class="confirm-waiting js-form-send confirm-delete {{app.user.hasAccess('delete-magasin')}}"
+                                        data-message="Voulez-vous supprimer ce Magasin?"
+                                        data-toggle="ajax" data-target="monContent"
+                                        action="{{path('delete-magasin')}}"
+                                        method="DELETE">
+                                        <input type="hidden" id="id" class="form-control modif" name="id" value="{{magasin.id}}" >
+                                        <button class="btn btn-pink active"><i class="fa fa-trash" aria-hidden="true"></i></button>	
+                                    </form>
+                            {% endif %}
                         </td>
                       </tr>
                     {% endfor %}
