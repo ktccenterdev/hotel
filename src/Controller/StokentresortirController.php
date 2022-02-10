@@ -150,7 +150,7 @@ class StokentresortirController extends DefaultController
                 }
             }else {
                
-                $magasing = $this->em->getRepository(Magasin::class)->findBy(['type' => 'Général','antene' => $this->getUser()->getAntene()]);
+                $magasing = $this->em->getRepository(Magasin::class)->findBy(['type' => 'Général']);
                 if($magasing){
                     $data = $this->renderView('admin/gestionstock/listeentrestock.html.twig', [
                     //"entrestocks" => current($magasing)->GetEntrestocks()->getAntene()
