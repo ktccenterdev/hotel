@@ -25,27 +25,29 @@ class MagasinController extends DefaultController
     public function listmagasin()
     {
         $link="listmagasin";
-
+        $user = $this->getUser();
+       
         try {
-			if($this->getUser()->getIsadmin()){
-                $magasins = $this->em->getRepository(Magasin::class)->findAll();
-            }else{
-                $magasins = $this->em->getRepository(Magasin::class)->findBy([
-                    "antene" => $this->getUser()->getAntene()
+            if($user){
+                if($user->getIsadmin()){
+                    $magasins = $this->em->getRepository(Magasin::class)->findAll();
+                }else{
+                    $magasins = $this->em->getRepository(Magasin::class)->findBy([
+                        "antene" => $this->getUser()->getAntene()
+                    ]);
+                }
+                $data = $this->renderView('admin/magasin/index.html.twig', [
+                    "magasins" => $magasins,
+                    "entenes" => $this->getAllAntennes()
                 ]);
+                $this->successResponse("Liste des magasins ", $link, $data);
+            }else{
+                return $this->redirectToRoute('login');
             }
-            // dd($magasins);
-            $entene = $this->em->getRepository(Entene::class)->findAll();
-            $data = $this->renderView('admin/magasin/index.html.twig', [
-                "magasins" => $magasins,
-                "entene" => $entene,
-            ]);
-            $this->successResponse("Liste des magasins ", $link, $data);
 
         } catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);
         }
-       // dd($this->result);
         return $this->json($this->result);
     }
 
@@ -55,24 +57,42 @@ class MagasinController extends DefaultController
     public function addmagasin(Request $request)
     {
         $link="listmagasin";
+        $type = "Autre";
         try {
             $nom =  $request->get('nom');
-            $type =  $request->get('type');
-            $description =  $request->get('description');
-            $antene =  $request->get('entene_id');
-            $entene =$this->em->getRepository(Entene::class)->find($antene);
-
-            $magasin= new Magasin();
-            $magasin->setNom($nom);
-            $magasin->setType($type);
-            $magasin->setDescription($description);
-            $magasin->setAntene($entene);
+            if($nom){
+                $description =  $request->get('description');
+                $antenneId =  intval($request->get('entene_id'));
+                if($antenneId){
+                    $antenne =$this->em->getRepository(Entene::class)->find($antenneId);
+                    if(!is_null($antenne)){
+                        $magasin = new Magasin();
+                        if($antenne->getIsprincipal()){
+                            $type = "GENERAL";
+                        }
+                        $magasin->setType($type);
+                        $magasin->setAntene($antenne);
+                        $magasin->setNom($nom);
+                        $magasin->setDescription($description);
+                        $this->em->persist($magasin);
+                        $this->em->flush($magasin);
+                        $this->setlog("AJOUTER","Le Magasin ".$this->getUser()->getUsername().
+                        " a ajouter le Magasin ".$magasin->getNom(),"MAGASIN",$magasin->getId());
+                        $this->successResponse("Magasin ajouter !",$link);  
+                    }else{
+                        $this->log("Antenne introuvable", $link);
+                    }
+                }else{
+                    $this->log("Veuillez sélectionner une antenne", $link);
+                }
+                
+            }else{
+                $this->log("Le nom est obligatoire", $link);
+            }
             
-            $this->em->persist($magasin);
-            $this->em->flush();
-            $this->setlog("AJOUTER","Le Magasin ".$this->getUser()->getUsername().
-            " a ajouter le Magasin ".$magasin->getNom(),"MAGASIN",$magasin->getId());
-            $this->successResponse("Magasin ajouter !",$link);  
+            
+
+           
         } catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);
         }
