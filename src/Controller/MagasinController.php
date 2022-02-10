@@ -36,10 +36,9 @@ class MagasinController extends DefaultController
                         "antene" => $this->getUser()->getAntene()
                     ]);
                 }
-                $entene = $this->em->getRepository(Entene::class)->findAll();
                 $data = $this->renderView('admin/magasin/index.html.twig', [
                     "magasins" => $magasins,
-                    "entene" => $entene,
+                    "entenes" => $this->getAllAntennes()
                 ]);
                 $this->successResponse("Liste des magasins ", $link, $data);
             }else{
@@ -75,7 +74,11 @@ class MagasinController extends DefaultController
                         $magasin->setAntene($antenne);
                         $magasin->setNom($nom);
                         $magasin->setDescription($description);
+                        $this->em->persist($magasin);
                         $this->em->flush($magasin);
+                        $this->setlog("AJOUTER","Le Magasin ".$this->getUser()->getUsername().
+                        " a ajouter le Magasin ".$magasin->getNom(),"MAGASIN",$magasin->getId());
+                        $this->successResponse("Magasin ajouter !",$link);  
                     }else{
                         $this->log("Antenne introuvable", $link);
                     }
@@ -89,17 +92,7 @@ class MagasinController extends DefaultController
             
             
 
-            $magasin= new Magasin();
-            $magasin->setNom($nom);
-            //$magasin->setType($type);
-            $magasin->setDescription($description);
-            $magasin->setAntene($entene);
-            
-            $this->em->persist($magasin);
-            $this->em->flush();
-            $this->setlog("AJOUTER","Le Magasin ".$this->getUser()->getUsername().
-            " a ajouter le Magasin ".$magasin->getNom(),"MAGASIN",$magasin->getId());
-            $this->successResponse("Magasin ajouter !",$link);  
+           
         } catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);
         }
