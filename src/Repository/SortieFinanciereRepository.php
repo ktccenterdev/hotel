@@ -49,20 +49,31 @@ class SortieFinanciereRepository extends ServiceEntityRepository
         
     }
     
-    public function findByTypeBeneficiaire($beneficiaire, $idAntenne=null)
+    public function findByTypeBeneficiaire($beneficiaire, $idAntenne=null, $debut=null, $fin=null, $today=null)
     {
         
         $query = $this->createQueryBuilder('s');
-            $query->join('App\Entity\Beneficiaire', 'b', 'WITH', 's.beneficiaire = b')
+        $emConfig = $this->getEntityManager()->getConfiguration();
+        $emConfig->addCustomDatetimeFunction('DATE', 'DoctrineExtensions\Query\Mysql\Date');
+
+        $query->join('App\Entity\Beneficiaire', 'b', 'WITH', 's.beneficiaire = b')
             ->andWhere('b.type =:beneficiaire')
             ->setParameter('beneficiaire', $beneficiaire);       
+        
         if($idAntenne){
             $query->andWhere('s.antenne =:idAntenne')->setParameter('idAntenne', $idAntenne);
         }
+
+        if($debut && $fin){
+            $query->andWhere('DATE(s.createdAt) BETWEEN :debut AND :fin')                  
+                  ->setParameter('debut', $debut)
+                  ->setParameter('fin', $fin);
+        }elseif($today){
+            $query->andWhere('DATE(s.createdAt) =:jour')->setParameter('jour', $today);
+        }
          return $query->orderBy('s.id', 'ASC')
-        ->getQuery()
-        ->getResult();
-        
+                    ->getQuery()
+                    ->getResult();        
     }
 
 
