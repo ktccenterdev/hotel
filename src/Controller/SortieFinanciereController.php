@@ -69,7 +69,11 @@ class SortieFinanciereController extends DefaultController
                         "sortieFournisseurs" => $sortieFournisseurs,
                         "sortieAutres" => $sortieAutres,
                         "totalFournisseurs" => $this->sommeMontant($sortieFournisseurs),
-                        "totalAutres" => $this->sommeMontant($sortieAutres)
+                        "totalAutres" => $this->sommeMontant($sortieAutres),
+                        "debut" => $debut,
+                        "fin" => $fin,
+                        "today" => $today,
+                        "antenne" => $antenne
                     ]);
                 }
                 $this->successResponse("Sorties financières affichées ", $link, $data);

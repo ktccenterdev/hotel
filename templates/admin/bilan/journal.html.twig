@@ -20,15 +20,18 @@
 		<form id="js-form-filter"  class="js-form-filter {{app.user.hasAccess('journal-index')}}" method="GET">
 			<div class="row col-lg-12">     
         <!-- Antenne -->
-				<div class="col-lg-4">
-					Antenne: 
-					<select name="antenneId" id="antenneId" class="form-control">
-            <option value="all">Toutes les antennes</option>
-            {% for antenne in antennes %}
-              <option value="{{antenne.id}}">{{antenne.nom}}</option>
-            {% endfor %}
-          </select>
-				</div>     
+        {% if app.user.isadmin %}
+          <div class="col-lg-4">
+            Antenne: 
+            <select name="antenneId" id="antenneId" class="form-control">
+              <option value="all">Toutes les antennes</option>
+              {% for antenne in antennes %}
+                <option value="{{antenne.id}}">{{antenne.nom}}</option>
+              {% endfor %}
+            </select>
+          </div> 
+        {% endif %}
+				    
 				<!-- date début -->
 				<div class="col-lg-4">
 					Date de début: 
@@ -53,40 +56,6 @@
 </div> 
 <!-- Fin du formulaire des filtres-->
 
-  {# <div class="br-section-wrapper">
-    <h6><strong> 
-        Journal financier du <u>{{jour | date('d-m-Y')}}</u> 
-        {% if antenne %}
-          pour l'antenne <u>{{antenne.nom}}</u>
-        {% endif %}      
-      </strong></h6>
-    <br>
-    <div class="d-md-flex mg-b-5">
-      <!-- Le calendrier -->
-      <form id="form-filtre" class="form-inline" method="GET">
-        <div id="slWrapper" class="parsley-select wd-xs-700 mg-l-20 mg-t-15 form-inline">
-            <label>choisir une date: </label>
-            <input class="form-control mg-l-20 mg-r-20" type="date" id="jour" name="jour" placeholder="jj/mm/aaaa">
-  
-          <select class="form-control select2-show-search rapport-filte mg-r-20" id="antenne" name="antenne" data-placeholder="Sélectionner une antenne">
-              <option value="" disabled selected>Sélectionner une antenne</option>
-              {% for item in antennes %}
-              <option value="{{ item.id }}">
-                  {{item.nom}}
-              </option>
-              {% endfor %}
-          </select> 
-          <button class="btn btn-success" type="submit">Filtrer</button>          
-        </div>
-      </form>
-      <div id="slWrapper" class="parsley-select wd-xs-300 mg-l-20  mg-t-15"> 
-      {% if antenne %}
-        <a  class="btn btn-dark float-right" target="_blank" href="{{path('print-journal', {'antenne':antenne.id, 'jour':jour | date('d-m-Y')})}}"><i class="fa fa-print"></i>  Imprimer</a>
-      {% else %}
-        <a  class="btn btn-dark float-right" target="_blank" href="{{path('print-journal', {'jour':jour | date('d-m-Y')})}}"><i class="fa fa-print"></i>  Imprimer</a>
-      {% endif %}
-      </div>
-    </div> #}
 
     <div class="br-section-wrapper">
       <div class="card bd-primary mg-t-10 mg-b-10">
