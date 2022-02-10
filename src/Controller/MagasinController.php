@@ -91,7 +91,7 @@ class MagasinController extends DefaultController
 
             $magasin= new Magasin();
             $magasin->setNom($nom);
-            $magasin->setType($type);
+            //$magasin->setType($type);
             $magasin->setDescription($description);
             $magasin->setAntene($entene);
             
