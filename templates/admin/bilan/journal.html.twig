@@ -5,8 +5,55 @@
   </div>
 </div><!-- d-flex -->
 
+<div class="d-flex justify-content-end" style="padding:10px;">
+	<button onclick="showFiltre()" id="btn-show-filter" class="btn btn-purple mg-r-10"><i class="fa fa-search"></i>  Filtrer</button>
+  <button class="btn btn-secondary mg-r-10"><a style="color:white;" href="{{path('print-journal', 
+    {'debut' : debut, 'fin' : fin, 'antenneId': antenne ? antenne.id} )}}" target="_blank"><i class="fa fa-print"></i> Imprimer</a></button>
+</div>
 
-  <div class="br-section-wrapper">
+<!--Formulaire pour filtrer les resultats-->
+<div class="card bd-purple mg-t-10 mg-b-10" id="filter" style="display: none">
+	<div class="card-header bg-purple tx-white">
+		Filter les entrées financières
+	</div>
+	<div class="card-body form-layout form-layout-5">
+		<form id="js-form-filter"  class="js-form-filter {{app.user.hasAccess('journal-index')}}" method="GET">
+			<div class="row col-lg-12">     
+        <!-- Antenne -->
+				<div class="col-lg-4">
+					Antenne: 
+					<select name="antenneId" id="antenneId" class="form-control">
+            <option value="all">Toutes les antennes</option>
+            {% for antenne in antennes %}
+              <option value="{{antenne.id}}">{{antenne.nom}}</option>
+            {% endfor %}
+          </select>
+				</div>     
+				<!-- date début -->
+				<div class="col-lg-4">
+					Date de début: 
+					<input type="date" name="debut" id="debut" class="form-control">
+				</div>
+				<!-- date fin -->
+				<div class="col-lg-4">
+				Date de fin: 
+					<input type="date" name="fin" id="fin" class="form-control">
+				</div>				
+			</div>
+      <div class="row col-lg-12">
+        <div class="col-sm-7 mg-l-auto  mg-t-20">              
+					<button type="submit" id="btn-show-filter" class="btn btn-purple mg-r-20">
+					<i class="fa fa-search"></i> Rechercher
+					</button>   
+					<button class="btn btn-secondary" onclick="showFiltre()" type="button">Annuler</button>
+				</div>
+      </div>
+		</form>
+	</div>
+</div> 
+<!-- Fin du formulaire des filtres-->
+
+  {# <div class="br-section-wrapper">
     <h6><strong> 
         Journal financier du <u>{{jour | date('d-m-Y')}}</u> 
         {% if antenne %}
@@ -39,50 +86,72 @@
         <a  class="btn btn-dark float-right" target="_blank" href="{{path('print-journal', {'jour':jour | date('d-m-Y')})}}"><i class="fa fa-print"></i>  Imprimer</a>
       {% endif %}
       </div>
-    </div>
+    </div> #}
 
-
-    <div class="table-wrapper mg-t-40">
-      <table class="mytable" border="1" width="100%" cellspacing="2px">
-        <tr class="bg-info text-white text-bold text-center">
-            <th>DATE</th>
-            <th colspan="3">CREDIT</th>
-            <th colspan="3">DEBIT</th>
-        </tr>
-        <tr style="font-size: 1em; font-weight: bold; font-style:normal">
-            <td rowspan="{{donnees | length + 1 }}">{{jour | date('d-m-Y')}}</td>
-            <td>Code</td>
-            <td>Libelle</td>
-            <td>Montant</td>
-            <td>Code</td>
-            <td>Libelle</td>
-            <td>Montant</td>
-        </tr>
-        <tboby>
-        {% set total1 = 0 %}
-        {% set total2 = 0 %}
-          {% for item in donnees %}
-            {% set total1 = total1 + item.montant1 %}
-            {% set total2 = total2 + item.montant2 %}
-            <tr>
-              <td>{{item.code1}}</td>
-              <td>{{item.intitule1}}</td>
-              <td>{{item.montant1}}</td>
-              <td>{{item.code2}}</td>
-              <td>{{item.intitule2}}</td>
-              <td>{{item.montant2}}</td>
+    <div class="br-section-wrapper">
+      <div class="card bd-primary mg-t-10 mg-b-10">
+        <div class="card-header bg-primary tx-white">
+          <h5>
+            Journal financier
+            {% if debut and fin %}
+              du <u>{{debut | date('d/m/Y')}}</u> au <u>{{fin | date('d/m/Y')}}</u>
+            {% else %}
+              global
+            {% endif %}
+            {% if antenne %}
+              de <u>{{antenne.nom}}</u>
+            {% endif %}
+          </h5>
+        </div>
+        <div class="card-body form-layout form-layout-5">
+          <table class="mytable" border="1" width="100%" cellspacing="2px">
+            <tr class="bg-info text-white text-bold text-center">
+                <th>DATE</th>
+                <th colspan="3">CREDIT</th>
+                <th colspan="3">DEBIT</th>
             </tr>
-          {% endfor %}
-        <tr class="ligneTotal">
-            <td colspan="3">Total Crédit</td>
-            <td>{{total1}}</td>
-            <td colspan="2">Total Débit</td>
-            <td>{{total2}}</td>
-        </tr>                              
-    </tboby>
-    </table>
+            <tr style="font-size: 1em; font-weight: bold; font-style:normal">
+                <td rowspan="{{donnees | length + 1 }}">
+                  {% if  debut and fin %} 
+                    {{debut | date('d-m-Y')}} - {{fin | date('d-m-Y')}}
+                  {% else %}
+                    Global
+                  {% endif %}
+                </td>
+                <td>Code</td>
+                <td>Libelle</td>
+                <td>Montant</td>
+                <td>Code</td>
+                <td>Libelle</td>
+                <td>Montant</td>
+            </tr>
+            <tboby>
+            {% set total1 = 0 %}
+            {% set total2 = 0 %}
+              {% for item in donnees %}
+                {% set total1 = total1 + item.montant1 %}
+                {% set total2 = total2 + item.montant2 %}
+                <tr>
+                  <td>{{item.code1}}</td>
+                  <td>{{item.intitule1}}</td>
+                  <td>{{item.montant1}}</td>
+                  <td>{{item.code2}}</td>
+                  <td>{{item.intitule2 }}</td>
+                  <td>{{item.montant2}}</td>
+                </tr>
+              {% endfor %}
+            <tr class="ligneTotal">
+                <td colspan="3">Total Crédit</td>
+                <td>{{total1 | craue_currency('XAF', 'fr-FR')}}</td>
+                <td colspan="2">Total Débit</td>
+                <td>{{total2 | craue_currency('XAF', 'fr-FR')}}</td>
+            </tr>      
+            <tr style="font-weight: bold; font-size: 1.5em;"><td colspan="7" align="center">BALANCE: <u>{{(total1 - total2) | craue_currency('XAF', 'fr-FR')}}</u></td></tr>                        
+        </tboby>
+          </table>
+        </div>
+      </div>
     </div>
-  </div>
 
   <style>
       .ligneTotal td{
@@ -107,6 +176,7 @@
       }
   </style>
   <script>
+    /*
     $("#form-filtre").on('submit', function(e){
       e.preventDefault();
         var jour = $("#jour").val();    
@@ -114,7 +184,34 @@
         var url = "/journal?jour="+jour+"&antenne="+antenne;        ;
         var effect = guessEffect(this, "#monContent");
         ajaxLink(url, "monContent", "html", effect);        
-    })
+    })*/
+
+    function showFiltre() {
+      var v = document.getElementById("filter");
+      if (v.style.display === "none") {
+          v.style.display = "block";
+      } else {
+          $('form')[0].reset();
+          v.style.display = "none";
+      }
+  }
+
+  $('#js-form-filter').on('submit', function(e){
+    e.preventDefault();
+    loaderIn();
+    var debut = $("#debut").val();    
+    var fin = $("#fin").val();    
+    var today = $("#today").val();    
+    var antenne = $("#antenneId").val();    
+    if(debut && fin && debut <= fin){
+      var url = "/journal?debut="+debut+"&fin="+fin+"&antenneId="+antenne+"&today="+today;
+      var effect = guessEffect(this, "#monContent");
+      ajaxLink(url, "monContent", "html", effect); 
+    }else{
+      sweetNotificationbad("dates invalides", "debut: "+debut+", fin: "+fin);
+    }
+    loaderOut();
+  })
 
 </script>
    

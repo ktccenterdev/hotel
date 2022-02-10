@@ -270,24 +270,24 @@ class BilanController extends DefaultController
     public function journal(Request $request){
         
         $link="journal";
+        $user = $this->getUser();
+        $antenneID = intval($request->get("antenneId"));
+        $antenne = null;
+        $debut = $request->get('debut');
+        $fin = $request->get('fin');
+        //$today = $request->get('today');
+
         try {
-                $antenneID = $request->get("antenne") ? intval($request->get("antenne")) : null;
-                $antenne = null;
-                $jour = $request->get('jour'); 
-                if($jour){
-                  $jour = new DateTime($jour);
+            if($user){
+                if($user->getIsadmin()){
+                    $antenne = $antenneID ? $this->em->getRepository(Entene::class)->find($antenneID) : null;
                 }else{
-                  $jour = new Datetime();
-                }              
-                if($antenneID){
-                    $antenne = $this->em->getRepository(Entene::class)->find($antenneID);
-                    $entrees = $this->em->getRepository(Allocation::class)->findBy(['createat'=>$jour, "antene"=>$antenne]);
-                    $sorties = $this->em->getRepository(SortieFinanciere::class)->findBy(['createdAt'=> $jour, "antenne"=>$antenne]);
-                }else{
-                    $entrees = $this->em->getRepository(Allocation::class)->findBy(['createat'=>$jour]);
-                    $sorties = $this->em->getRepository(SortieFinanciere::class)->findBy(['createdAt'=> $jour]);
+                    $antenne = $user->getAntene();
                 }
-                
+               // dd($debut, $fin);
+                $entrees = $this->em->getRepository(Allocation::class)->findAllocationsBy($debut, $fin, $antenne);
+                $sorties = $this->em->getRepository(SortieFinanciere::class)->findSortiesBy($debut, $fin, $antenne);
+               
                 $donnees = array();
                 for ($i=0; $i < max(count($entrees), count($sorties)); $i++) { 
                     $donnees[$i]["code1"] = array_key_exists($i, $entrees) ? $entrees[$i]->getCompte()->getCode() : "-";
@@ -297,27 +297,74 @@ class BilanController extends DefaultController
                     $donnees[$i]["intitule2"] = array_key_exists($i, $sorties) ? $sorties[$i]->getCompte()->getIntitule() : "-";
                     $donnees[$i]["montant2"] = array_key_exists($i, $sorties) ? $sorties[$i]->getMontant() : 0;
                 }
-             //  dd($donnees);
-                $antennes = $this->em->getRepository(Entene::class)->findAll();              
                 $data = $this->renderView('admin/bilan/journal.html.twig', 
                 [
-                    "antennes"=>$antennes,
-                    "jour"=>$jour,
-                    "donnees"=>$donnees,
-                    "antenne"=>$antenne
+                    "antennes" => $this->getAllAntennes(),
+                    "debut" => $debut,
+                    "fin" => $fin,
+                    "donnees" => $donnees,
+                    "antenne" => $antenne
                 ]);
                 $this->successResponse("Journal comptable affiché", $link, $data);
+            }else{
+                return $this->redirectToRoute('login');
+            }                
         }catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);
         }
         return $this->json($this->result);
     }    
+
     /**
      * @Route("/printjournal", name="print-journal", methods={"GET"})
     */
     public function printJournal(Request $request){
-        
         $link="journal";
+        $user = $this->getUser();
+        $antenneID = intval($request->get("antenneId"));
+        $antenne = null;
+        $debut = $request->get('debut');
+        $fin = $request->get('fin');
+        //$today = $request->get('today');
+
+        try {
+            if($user){
+                if($user->getIsadmin()){
+                    $antenne = $antenneID ? $this->em->getRepository(Entene::class)->find($antenneID) : null;
+                }else{
+                    $antenne = $user->getAntene();
+                }
+               // dd($debut, $fin);
+                $entrees = $this->em->getRepository(Allocation::class)->findAllocationsBy($debut, $fin, $antenne);
+                $sorties = $this->em->getRepository(SortieFinanciere::class)->findSortiesBy($debut, $fin, $antenne);
+               
+                $donnees = array();
+                for ($i=0; $i < max(count($entrees), count($sorties)); $i++) { 
+                    $donnees[$i]["code1"] = array_key_exists($i, $entrees) ? $entrees[$i]->getCompte()->getCode() : "-";
+                    $donnees[$i]["intitule1"] = array_key_exists($i, $entrees) ? $entrees[$i]->getCompte()->getIntitule() : "-";
+                    $donnees[$i]["montant1"] = array_key_exists($i, $entrees) ? $entrees[$i]->getMontant() : 0;
+                    $donnees[$i]["code2"] = array_key_exists($i, $sorties) ? $sorties[$i]->getCompte()->getCode() : "-";
+                    $donnees[$i]["intitule2"] = array_key_exists($i, $sorties) ? $sorties[$i]->getCompte()->getIntitule() : "-";
+                    $donnees[$i]["montant2"] = array_key_exists($i, $sorties) ? $sorties[$i]->getMontant() : 0;
+                }
+                $template = $this->renderView('admin/print/printJournal.pdf.twig', [
+                    "debut" => $debut,
+                    "fin" => $fin,
+                    "donnees" => $donnees,
+                    "antenne" => $antenne,
+                    "antene" => $user->getAntene()
+                ]);
+                return $this->returnPDFResponseFromHTML($template, "Journal comptable"); 
+
+            }else{
+                return $this->redirectToRoute('login');
+            }  
+        }catch (\Exception $ex) {
+            $this->log($ex->getMessage(), $link);
+        }
+        return $this->json($this->result);
+                 
+      /*  $link="journal";
         $antenneID = $request->get("antenne") ? intval($request->get("antenne")) : null;
         $antenne = null;
         try {
@@ -355,6 +402,6 @@ class BilanController extends DefaultController
         }catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);
         }
-        return $this->json($this->result);
+        return $this->json($this->result); */
     }
 }

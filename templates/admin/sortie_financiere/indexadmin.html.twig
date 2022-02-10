@@ -281,10 +281,9 @@
           e.preventDefault();
           loaderIn();
           var debut = $("#debut").val();    
-          var fin = $("#fin").val();    
-          var antenne = $("#antenneId").val();    
+          var fin = $("#fin").val();     
           if(debut && fin && debut <= fin){
-            var url = "/sortiefinanciere?debut="+debut+"&fin="+fin+"&antenneId="+antenne;
+            var url = "/sortiefinanciere?debut="+debut+"&fin="+fin;
             var effect = guessEffect(this, "#monContent");
             ajaxLink(url, "monContent", "html", effect); 
           }else{
