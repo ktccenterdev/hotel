@@ -123,6 +123,25 @@ class AllocationRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();     
     }
 
+    public function findAllocationsBy($debut=null, $fin=null, $antenne=null)
+    {
+        $query = $this->createQueryBuilder('a');           
+        $emConfig = $this->getEntityManager()->getConfiguration();
+        $emConfig->addCustomDatetimeFunction('DATE', 'DoctrineExtensions\Query\Mysql\Date');
+                      
+        if($antenne){
+            $query->leftJoin('App\Entity\Entene','e', 'WITH', 'a.antene = e')
+                  ->andWhere('e.id =:id')->setParameter('id', $antenne->getId());
+        }
+        if($debut && $fin){
+            $query->andWhere('DATE(a.createat) BETWEEN :debut AND :fin')                  
+                  ->setParameter('debut', $debut)
+                  ->setParameter('fin', $fin);
+        }        
+        return $query->getQuery()->getResult();
+    }
+
+
     public function countaportAllocation($identene = null)
     {
         $query = $this->createQueryBuilder('p')

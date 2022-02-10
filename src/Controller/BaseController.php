@@ -28,9 +28,10 @@ class BaseController extends DefaultController
      */
     public function logindex()
     {
-        $link="allocation";
+        $link="logindex";
         try {
             $logs = $this->em->getRepository(Log::class)->findBy(array(), array('createat'=>'desc'));
+          //  dd($logs);
             $data = $this->renderView('admin/log/index.html.twig', [
                 "logs"=>$logs
             ]);

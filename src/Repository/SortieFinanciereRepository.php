@@ -76,6 +76,23 @@ class SortieFinanciereRepository extends ServiceEntityRepository
                     ->getResult();        
     }
 
+    public function findSortiesBy($debut=null, $fin=null, $antenne=null)
+    {
+        $query = $this->createQueryBuilder('a');           
+        $emConfig = $this->getEntityManager()->getConfiguration();
+        $emConfig->addCustomDatetimeFunction('DATE', 'DoctrineExtensions\Query\Mysql\Date');
+                      
+        if($antenne){
+            $query->leftJoin('App\Entity\Entene','e', 'WITH', 'a.antenne = e')
+                  ->andWhere('e.id =:id')->setParameter('id', $antenne->getId());
+        }
+        if($debut && $fin){
+            $query->andWhere('DATE(a.createdAt) BETWEEN :debut AND :fin')                  
+                  ->setParameter('debut', $debut)
+                  ->setParameter('fin', $fin);
+        }        
+        return $query->getQuery()->getResult();
+    }
 
     /*
     public function findOneBySomeField($value): ?SortieFinanciere

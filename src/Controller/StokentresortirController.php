@@ -138,7 +138,7 @@ class StokentresortirController extends DefaultController
         $link="listeentrestockgenerale";
         try {
             $user = $this->getUser();
-            if($user->getIsadmin()){
+            if($this->getUser()->getIsadmin()){
                  
                 $magasing = $this->em->getRepository(Magasin::class)->findBy(['type' => 'Général']);
                 if($magasing){
@@ -151,10 +151,12 @@ class StokentresortirController extends DefaultController
                 }
             }else {
                
-                $magasing = $this->em->getRepository(Magasin::class)->findBy(['type' => 'Général','antene' => $user->getAntene()]);
+                $magasing = $this->em->getRepository(Magasin::class)->findBy(['type' => 'Général']);
                 if($magasing){
                     $data = $this->renderView('admin/gestionstock/listeentrestock.html.twig', [
-                    "entrestocks" => current($magasing)->GetEntrestocks()
+                    //"entrestocks" => current($magasing)->GetEntrestocks()->getAntene()
+                   /* "entrestocks" => $magasing */
+                   "entrestocks" => current($magasing)->GetEntrestocks()
                     ]);
                     $this->successResponse("Ajouter des entres", $link, $data);
                 }else{
