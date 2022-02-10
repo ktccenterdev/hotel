@@ -219,14 +219,20 @@ class EmployeController extends DefaultController
         $link = "employe";
         try{
             $employe = $this->getDoctrine()->getRepository(User::class)->find($id);
-            
-            $employe->setIsdeleted(true);
-            $this->em->persist($employe);
-            $this->em->flush();
-
-            $this->setlog("Visualisation","L'utilisateur ".$this->getUser()->getUsername().
-                " a suprimé l'employé ".$employe->getNom(),"EMPLOYEE N-",$employe->getId());
-            $this->successResponse("employe supprimé ", $link);
+            if (!is_null($employe)) {
+                if(count($employe->getClienttransactions()) === 0){
+                    $this->em->remove($employe);
+                    $this->em->flush();
+                    $this->setlog("Visualisation","L'utilisateur ".$this->getUser()->getUsername().
+                    " a suprimé l'employé ".$employe->getNom(),"EMPLOYEE N-",$employe->getId());
+                    $this->successResponse("employe supprimé ", $link);
+                }else{
+                    $this->log("Impossible de supprimer cette employee, des données y sont liées.", $link);
+                }
+            }else{
+                $this->log("Employee  introuvable.", $link);
+            }
+           
         } 
         catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);

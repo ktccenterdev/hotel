@@ -9,7 +9,7 @@ use App\Entity\Entrestock;
 use App\Entity\Fournisseur;
 use App\Entity\SortieFinanciere;
 use App\Entity\User;
-use Proxies\__CG__\App\Entity\Beneficiare;
+use App\Entity\Beneficiare;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -69,7 +69,11 @@ class SortieFinanciereController extends DefaultController
                         "sortieFournisseurs" => $sortieFournisseurs,
                         "sortieAutres" => $sortieAutres,
                         "totalFournisseurs" => $this->sommeMontant($sortieFournisseurs),
-                        "totalAutres" => $this->sommeMontant($sortieAutres)
+                        "totalAutres" => $this->sommeMontant($sortieAutres),
+                        "debut" => $debut,
+                        "fin" => $fin,
+                        "today" => $today,
+                        "antenne" => $antenne
                     ]);
                 }
                 $this->successResponse("Sorties financières affichées ", $link, $data);

@@ -122,20 +122,24 @@ class EnteneController extends DefaultController
       */
     public function deleteAction($id) {
         $link="entene";
-          try{
-        $em = $this->getDoctrine()->getManager();
-        $entene = $this->getDoctrine()->getRepository(Entene::class);
-        $entene = $entene->find($id);
-        if (!$entene) {
-            throw $this->createNotFoundException(
-                'There are no articles with the following id: ' . $id
-            );
-        }
-        $em->remove($entene);
-        $em->flush();
-        $this->setlog("SUPPRIMER","L'utilisateur ".$this->getUser()->getUsername().
-        " a supprimer l'entene ".$entene->getNom(),"ENTENE",$entene->getId());
-        $this->successResponse("Antene supprimé ","entene");
+        try{
+           
+            $entene = $this->getDoctrine()->getRepository(Entene::class)->find($id);
+            if (!is_null($entene)) {
+                if(count($entene->getReservations()) === 0){
+
+                    $this->em->remove($entene);
+                    $this->em->flush();
+                    $this->setlog("SUPPRIMER","L'utilisateur ".$this->getUser()->getUsername().
+                    " a supprimer l'entene ".$entene->getNom(),"ENTENE",$entene->getId());
+                    $this->successResponse("Antene supprimé ","entene");
+                }else{
+                    $this->log("Impossible de supprimer cette Antenne, des données y sont liées.", $link);
+                }
+
+            }else{
+                $this->log("Antenne  introuvable.", $link);
+            }
     } 
     catch (\Exception $ex) {
         $this->log($ex->getMessage(),$link, "entene");

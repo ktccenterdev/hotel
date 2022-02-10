@@ -29,14 +29,14 @@
 				</div>
           
           <div class="table-wrapper responsiveelement">
-            <table class="datatable table display nowrap">
+            <table class="datatable table display">
               <thead>
                 <tr>
                   <th class="wd-5p">#</th>
                   <th class="wd-10p">Operation</th>
                   <th class="wd-15p">Operateur</th>
                   <th class="wd-40p">Description</th>
-                  <th class="wd-20p">Date</th>
+                  <th class="wd-15p">Date</th>
                 </tr>
               </thead>
               <tbody>
@@ -46,7 +46,7 @@
                     <td>{{log.action}}</td>
                     <td>{{log.operateur.username}}</td>
                     <td>{{log.description}}</td>
-                    <td>{{log.createat|date('Y-m-d H:i:s')}}</td>
+                    <td>{{log.createat | date('Y-m-d H:i:s')}}</td>
                 </tr>
                 {% endfor %}
               </tbody>
@@ -58,30 +58,7 @@
 
 
 
-    <script>
-        $('.datatable').DataTable({
-        responsive: true,
-        language: {
-            searchPlaceholder: 'Recherche...',
-            sSearch: '',
-            lengthMenu: '_MENU_ items/page',
-        }
-        });
-    </script>
-    <script>
-    $(document).ready(function () {
-        $(".formelement").hide();
-        
-    });
-    </script>
-    <script>
-      function show() {
-        $(".formelement").show();
-      }
-      function hide() {
-        $(".formelement").hide();
-      }
-    </script>
+    
 		
 
 
