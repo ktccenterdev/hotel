@@ -233,13 +233,13 @@ class ChambreController extends DefaultController
         } 
         return new JsonResponse($this->result);
     
-
+    }
+   
     /**
-    * @Route("deletecha/{id}", name="deletecha")
-    *
-    */
-    public function deleteAction($id){
-
+     * @Route("deletecha/{id}", name="deletecha")
+     */
+    public function deleteAction($id)
+    {
         $link = "deletecha";
         try{
             $user = $this->getUser();
@@ -267,7 +267,6 @@ class ChambreController extends DefaultController
         return new JsonResponse($this->result);
         
         // return new JsonResponse($this->result);
-
 
     }
 
