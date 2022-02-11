@@ -714,7 +714,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             }            
         }
         if(!in_array($droit, $droits)){
-            //return "d-none";
+            return "d-none";
         }
         return;
     }
