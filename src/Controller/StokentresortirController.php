@@ -250,7 +250,10 @@ class StokentresortirController extends DefaultController
         if($userg){
             try {
                 $magasins = $this->em->getRepository(Magasin::class)->findAll();
-                $users = $this->em->getRepository(User::class)->findBy(["type" =>"EMPLOYE"]);
+                $users = $this->em->getRepository(User::class)->findBy([
+                    "type" =>"EMPLOYE",
+                    "antene" => $userg->getAntene()
+                ]);
                 $produits = $this->em->getRepository(Produit::class)->findAll();
                 $sortirs = $this->em->getRepository(Sortiritem::class)->findAll();
                 $sortirstocks = $this->em->getRepository(Sortirstock::class)->findAll();
@@ -281,7 +284,7 @@ class StokentresortirController extends DefaultController
      */
     public function addsortitstock(Request $request)
     {
-        $link="indexsortis";
+        $link="listsortis";
         $userg = $this->getUser();
         if($userg){
             try {
@@ -329,7 +332,7 @@ class StokentresortirController extends DefaultController
             
                 }
 
-                $this->successResponse("Sortit magasin Effectue ","listsortis");  
+                $this->successResponse("Sortit magasin Effectue ",$link);  
             }catch (\Exception $ex) {
                 $this->log($ex->getMessage(), "index-Rsortis");
             } 

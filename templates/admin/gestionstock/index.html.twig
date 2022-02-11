@@ -88,15 +88,11 @@
 												</div> 
 												//#}
 												<div class="col-lg-3 col-xlg-3 col-md-3" id="myshow1">
-													<label class="col-sm-12 form-control-label" >Person: <span class="tx-danger">*</span></label>
+													<label class="col-sm-12 form-control-label" >Personne: <span class="tx-danger">*</span></label>
 													<select class="form-control"  name="responsable_id" >
 														<option label="--Choisissez la personne--"></option>
-														{% set newArray = [] %}
-														{% for sortirstock in sortirstocks %}
-														{% if sortirstock.user.nom not in newArray %}
-															<option value="{{sortirstock.id}}">{{sortirstock.user.nom}}</option>
-															{% set newArray = newArray|merge([sortirstock.user.nom,null ]) %}
-															{% endif %}
+														{% for user in users %}
+															<option value="{{user.id}}">{{user.nom}}</option>
 														{% endfor %}
 													</select>
 												</div>
