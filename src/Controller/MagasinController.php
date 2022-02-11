@@ -26,8 +26,7 @@ class MagasinController extends DefaultController
     public function listmagasin()
     {
         $link="listmagasin";
-        $user = $this->getUser();
-       
+        $user = $this->getUser();       
         try {
             if($user){
                 if($user->getIsadmin()){
