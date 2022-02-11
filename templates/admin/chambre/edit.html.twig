@@ -60,27 +60,21 @@
                                 </div><!-- card-header -->
                                     <div class="card-body">
                                         <div class="row row-xs">
-                                            <div class="col-lg-3">
-                                                <label for="">Type de chambre: 
-                                                </label>
+                                            <div class="col-lg-4">
+                                                <label for="">Type de chambre: </label>
                                                 <input class="form-control" id="id" type="hidden"  name="id"  value="{{chambre.id}}">
-                                                <input type="text" id="nom" class="form-control modif" name="nom" value="{{chambre.type.nom}}" disabled>
-                                               
+                                                <select class="form-control select2 modif" id="typeId" name="typeId" style="width:100%">
+                                                    {% for typechambre in chambre.entene.typechambres %}
+                                                        <option value="{{typechambre.id}}" {{typechambre.id == chambre.type.id ? "selected"}}>{{typechambre.nom}}</option>
+                                                    {% endfor %}
+                                                </select>
                                             </div>
-                                            <div class="col-lg-3">
-                                                <label for="">Entene:
-                                                </label>
-                                                <input type="text" id="prenom" name="prenom" class="form-control modif" value=" {{chambre.entene.nom}}" disabled>
-                                            </div>
-                                        {# </div>
-
-                                        <div class="row row-xs  mg-t-20"> #}
-                                            <div class="col-lg-3">
+                                            <div class="col-lg-4">
                                                 <label for="">Numero: 
                                                 </label>
                                                 <input type="text" id="telephone1" class="form-control modif" name="numero" value="{{chambre.numero}}" >
                                             </div>
-                                            <div class="col-lg-3">
+                                            <div class="col-lg-4">
                                                 <label for="">Surface: 
                                                 </label>
                                                 <input type="text" id="telephone1" class="form-control modif" name="surface" value="{{chambre.surface}}" >
@@ -90,50 +84,36 @@
                                         </div>
 
                                         <div class="row row-xs  mg-t-20">
-                                            <div class="col-lg-3">
-                                                <label for="">Nombres d'enfant: 
+                                            <div class="col-lg-4">
+                                                <label for="">Nombre d'enfants: 
                                                 </label>
                                                 <input type="text" id="telephone2" name="nbenafant" class="form-control modif" value="{{chambre.nbenafant}}" >
                                             </div>
-                                        {# </div>
-
-                                        <div class="row row-xs  mg-t-20"> #}
-                                            <div class="col-lg-3">
-                                                <label for="">Nombres d'adultes: 
+                                            <div class="col-lg-4">
+                                                <label for="">Nombre d'adultes: 
                                                 </label>
                                                 <input type="text" id="datenaiss" class="form-control modif datepicker" name="nbaldulte" value="{{chambre.nbaldulte}}"  style="height: 40px;" >
                                             </div>
-                                            <div class="col-lg-3">
-                                                <label for="">Nombres de lits: 
+                                            <div class="col-lg-4">
+                                                <label for="">Nombre de lits: 
                                                 </label>
                                                 <input type="text" id="lieunaiss" name="nblit" class="form-control modif" value="{{chambre.nblit}}" >
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <label for="">Entene: 
-                                                </label>
-                                                {# <input type="text" id="lieunaiss" name="nblit" class="form-control modif" value="" > #}
-                                                <select class="form-control" name="entene_id" required>
-                                                    {# <option label="--choisir--">Choisit une Antenne</option> #}
-                                                    <option value="" disabled selected>Choisit une Antenne</option>
-                                                        {% for entene in entenes %}
-                                                        <option value="{{entene.id}}">{{entene.nom}}</option>
-                                                        {% endfor %}
-                                                </select>
-                                            </div>
+                                            </div>                                           
                                             <div class="col-lg-12">
-                                                <label for="">Descriptions: 
+                                                <label for="">Description: 
                                                 </label>
                                                 <textarea type="text" id="lieunaiss" name="description" class="form-control modif" value="" >{{chambre.description}}</textarea>
                                             </div>
                                         </div>
-                                        
+                                        <div class="row row-xs mg-t-20">
+                                            <div class="col-sm-7 mg-l-auto">
+                                                <button type="submit" class="btn btn-primary">Modifier</button>                            
+                                            </div>
+                                        </div>
                                     </div>
                             </div><!-- card --><br>
-                        </div>
-                        <div class="col-sm-12 col-xl-12">
-                            <button type="submit" class="btn btn-primary">Modifier</button>
                             
-                        </div>
+                        </div>                        
                     </div>
                     
 

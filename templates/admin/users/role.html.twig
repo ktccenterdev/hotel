@@ -12,9 +12,9 @@
     <div class="col-sm"><h6 class="br-section-label">Liste des Roles</h6>
       <div    x-data="{ ajouter : false }">
         <div class="d-flex justify-content-end" style="padding:10px;">
-          <button onclick="show()"  class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter</button>
+          <button onclick="showNouveau()"  class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter</button>
         </div>
-        <div class="formelement" x-show="ajouter" style="padding:10px;">
+        <div class="formelement" x-show="ajouter"  id="nouveau" style="display: none;">
           <div class="row d-flex justify-content-center">
             <div class="col-lg-7 col-xlg-8 col-md-12">
               <div class="row mg-t-80">
@@ -39,7 +39,7 @@
 
                       <div class="form-layout-footer mg-t-30">
                         <button type="submit" id="btn-save-nouveau" class="btn btn-primary mg-r-5">Valider</button>
-                        <button type="button" class="btn btn-secondary" onclick="hide()">Annuler</button>
+                        <button type="button" class="btn btn-secondary" onclick="showNouveau()">Annuler</button>
                       </div><!-- form-layout-footer -->
                     </div><!-- form-layout -->
                   </form>
