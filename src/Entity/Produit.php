@@ -54,6 +54,10 @@ class Produit
      */
     private $entreitems;
 
+    private $stock;
+    private $totalEntree;
+    private $totalSortie;
+
     public function __construct()
     {
         $this->sortiritems = new ArrayCollection();
@@ -183,5 +187,75 @@ class Produit
         }
 
         return $this;
+    }
+
+    /**
+     * Get the value of stock
+     */ 
+    public function getStock($magasin=null)
+    {
+        $sommeEntrees = 0;
+        $sommeSorties = 0;
+        if($magasin){
+            foreach ($this->entreitems as $item) {
+                if($item->getEntre()->getMagasin()->getId() === $magasin){
+                    $sommeEntrees += $item->getQt();
+                }
+            }
+            foreach ($this->sortiritems as $item) {
+                if($item->getSortistock()->getMagdepart()->getId() === $magasin){
+                    $sommeSorties += $item->getQt();
+                }
+            }
+        }else{
+            foreach ($this->entreitems as $item) {
+                $sommeEntrees += $item->getQt();
+            }
+            foreach ($this->sortiritems as $item) {
+                $sommeSorties += $item->getQt();
+            }
+        }
+        return $this->getTotalEntree($magasin) - $this->getTotalSortie($magasin);
+    }
+
+
+    /**
+     * Get the value of totalEntree
+     */ 
+    public function getTotalEntree($magasin=null)
+    {
+        $sommeEntrees = 0;
+        if($magasin){
+            foreach ($this->entreitems as $item) {
+                if($item->getEntre()->getMagasin()->getId() === $magasin){
+                    $sommeEntrees += $item->getQt();
+                }
+            }
+        }else{
+            foreach ($this->entreitems as $item) {
+                $sommeEntrees += $item->getQt();
+            }
+        }
+        return $sommeEntrees;
+    }
+
+    /**
+     * Get the value of totalSortie
+     */ 
+    public function getTotalSortie($magasin=null)
+    {
+        $sommeSorties = 0;
+        if($magasin){            
+            foreach ($this->sortiritems as $item) {
+                if($item->getSortistock()->getMagdepart()->getId() === $magasin){
+                    $sommeSorties += $item->getQt();
+                }
+            }
+        }else{
+            foreach ($this->sortiritems as $item) {
+                $sommeSorties += $item->getQt();
+            }
+        }
+        return $sommeSorties;
     }
 }

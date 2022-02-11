@@ -22,7 +22,7 @@
         </div><!-- col-4 -->
         <div class="col-md-4 mg-t--1 mg-md-t-0">
           <div class="form-group mg-md-l--1">
-              <h6 class="br-section-label">Type: <span class="tx-secondary"> {{produit.type}}</span></h6>
+              <h6 class="br-section-label">Stock : <span class="tx-secondary"> {{produit.stock}}</span></h6>
           </div>
         </div><!-- col-4 -->
         <div class="col-md-4 mg-t--1 mg-md-t-0">
@@ -30,11 +30,16 @@
               <h6 class="br-section-label">Quantité seuil: <span class="tx-secondary"> {{produit.qtseuil}}</span></h6>
           </div>
         </div><!-- col-4 -->
-        <div class="col-md-8">
+        <div class="col-md-4">
+          <div class="form-group bd-t-0-force">
+          <h6 class="br-section-label">Type: <span class="tx-secondary"> {{produit.type}}</span></h6>
+          </div>
+        </div><!-- col-4 -->
+        <div class="col-md-4">
           <div class="form-group bd-t-0-force">
               <h6 class="br-section-label">Description : <span class="tx-secondary"> {{produit.description}}</span></h6>
           </div>
-        </div><!-- col-8 -->
+        </div><!-- col-4 -->
         <div class="col-md-4">
           <div class="form-group mg-md-l--1 bd-t-0-force">
               <img src="{{asset('photo/Produits/'~ produit.photo)}}" class="wd-33">
