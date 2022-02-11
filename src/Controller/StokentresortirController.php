@@ -288,8 +288,6 @@ class StokentresortirController extends DefaultController
            
             $responsable_id =  $request->get('responsable_id');
             $responsable_id = $this->em->getRepository(User::class)->find($responsable_id);
-            $magdepart_id =  $request->get('magdepart_id');
-            $magdepart_id = $this->em->getRepository(Magasin::class)->find($magdepart_id);
             $magdest_id =  $request->get('magdest_id');
             $magdest_id = $this->em->getRepository(Magasin::class)->find($magdest_id);
   
@@ -304,12 +302,12 @@ class StokentresortirController extends DefaultController
             $sortirstock ->setCommantaire($commantaire);
             $sortirstock->SetDate(new \DateTime());
             $sortirstock ->setType($type);
-            $sortirstock ->setMagdepart($magdepart_id);
+            $sortirstock ->setMagdepart($this->getUser()->getAntene()->getMagasin());
             $sortirstock ->setMagdest($magdest_id);
             $this->em->persist($sortirstock);
             $this->em->flush();
-            $this->setlog("SORTIT","Le stock ".$this->getUser()->getUsername().
-            " a sortit le stock ".$sortirstock->getUser(),"Sortirstock",$sortirstock->getId());
+            /* $this->setlog("SORTIT","Le stock ".$this->getUser()->getUsername().
+            " a sortit le stock ".$sortirstock->getUser(),"Sortirstock",$sortirstock->getId()); */
 
             $produit =  $request->get('produit');
             array_shift($produit);

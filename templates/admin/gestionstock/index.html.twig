@@ -45,23 +45,6 @@
 											
 												<div class="col-lg-3 col-xlg-3 col-md-3">
 													
-													<label class="col-sm-12 form-control-label">Magasin Depart: <span class="tx-danger">*</span></label>
-													<select class="form-control" id="id" name="magdepart_id" >
-														<option label="--Choisisez le Magasin de la sortitstock--"></option>
-														
-														{% set newArray = [] %}
-														{% for magasin in magasins %}
-														{% if (magasin.antene.id == app.user.antene.id) %}
-														{% if magasin.nom not in newArray %}
-															<option value="{{magasin.id}}">{{magasin.nom}}</option>
-															{% set newArray = newArray|merge([magasin.nom,null ]) %}
-															{% endif %}
-														{% endif %}
-														{% endfor %}
-													</select>
-												</div>
-												<div class="col-lg-3 col-xlg-3 col-md-3">
-													
 													<label class="col-sm-12 form-control-label">Type de sortit : <span class="tx-danger">*</span></label>
 													<select class="form-control" onchange="checkAlert(event)" name="sortistock_id">
 														<option label="Choisisez le type de sortit"></option>

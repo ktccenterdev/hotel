@@ -15,6 +15,11 @@
   display:none;
   
 }
+#myshow4 {
+ 
+  display:none;
+  
+}
 </style>
 
 
@@ -97,8 +102,11 @@
                             </select>
                         </div>
                         <div class="col-lg-3 col-xlg-3 col-md-3" id="myshow3">
-                           <label class="col-sm-12 form-control-label">Faire un(e) <span class="tx-danger"></span></label>
+                           <label class="col-sm-12 form-control-label">Faire un<span class="tx-danger"></span></label>
                            <button type="submit" class="btn btn-success">Approvisionnement</button>
+                        </div>
+                         <div class="col-lg-3 col-xlg-3 col-md-3" id="myshow4">
+                           <label class="col-sm-12 form-control-label">Faire une <span class="tx-danger"></span></label>
                            <button type="submit" class="btn btn-secondary">sortir de stock</button>
                         </div>
                        
@@ -175,16 +183,19 @@
 <script type="text/javascript">
     $(document).ready(function(){
         var x = document.getElementById("myshow3");
+         var y = document.getElementById("myshow4");
         $('#select_all').on('click',function(){
             if(this.checked){
                 $('.checkbox').each(function(){
                     this.checked = true;
                      x.style.display = "block";
+                     y.style.display = "block";
                 });
             }else{
                  $('.checkbox').each(function(){
                     this.checked = false;
                      x.style.display = "none";
+                     y.style.display = "none";
                 });
             }
         });
@@ -193,9 +204,11 @@
             if($('.checkbox:checked').length == $('.checkbox').length){
                 $('#select_all').prop('checked',true);
                 x.style.display = "block";
+                y.style.display = "block";
             }else{
                 $('#select_all').prop('checked',false);
                 x.style.display = "block";
+                y.style.display = "block";
             }
         });
     });

@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Entrestock;
 use App\Entity\Entreitem;
+use App\Entity\Fournisseur;
 use App\Entity\Sortiritem;
 use App\Entity\Sortirstock;
 use Doctrine\ORM\EntityManagerInterface;
@@ -179,9 +180,11 @@ class MagasinController extends DefaultController
 
         try {
             $magasin = $this->em->getRepository(Magasin::class)->find($id);
+            $fournisseurs = $this->em->getRepository(Fournisseur::class)->find($id);
             
             $data = $this->renderView('admin/magasin/showmagasin.html.twig', [
-                "magasin" => $magasin
+                "magasin" => $magasin,
+                "fournisseurs" => $fournisseurs
             ]);
             $this->successResponse("Détail d'un magasins ", $link, $data);
         } catch (\Exception $ex) {
