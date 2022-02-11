@@ -1,28 +1,4 @@
 
-
-<head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    </head>
-
-
-{#  <style>
-		#saveForm{
-    display: none;
-    color:#ff0000;
-        }
-p{
-    display:none;
-    }
-div{
-    cursor:pointer;
-    }
-     
-	</style>
- #}
-
-
-<div class="br-mainpanel">
-
       <div class="br-pagetitle">
         <i class="fas fa-signal"></i>
         <div>
@@ -32,43 +8,27 @@ div{
       </div><!-- d-flex -->
 
 
-
-
-
-{# #saveForm{display: none;color:#ff0000;}
-p{display:none;color:#ff0000;}
-div{cursor:pointer;}
-div:hover{opacity: 0.7;} #}
-
-
-</form>
-<div class="br-pagebody">
         <div class="br-section-wrapper">
-          <h6 class="br-section-label" align="center">RESERVER</h6>
-          
-								<div class="d-flex justify-content-end" style="padding:10px;">
+            <h6 class="br-section-label" align="center">RESERVER</h6>          
+            <div class="d-flex justify-content-end" style="padding:10px;">
+            </div>
 
-							 	</div>
-
-        <div class=""  style="padding:10px;">
-
-          <div class="form-layout form-layout-1">
-
-            <div class="row mg-b-25">
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label class="form-control-label">Title: <span class="tx-danger">*</span></label>
-                            <select class="form-control" name="type_id">
-                                          <option>statut!</option>
-										  <option value="">Mr.</option>
-                                          <option value="">Dr.</option>
-                                          <option value="">Miss.</option>
-                                          <option value="">Prov</option>
-                                          <option value="">Rev</option>
-                                          <option value="">Mrs.</option>
-										 
-                                    </select>                </div>
-              </div><!-- col-4 -->
+            <div class="form-layout form-layout-1">
+              <div class="row mg-b-25">
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label">Title: <span class="tx-danger">*</span></label>
+                    <select class="form-control select2" name="type_id">
+                      <option label="Sélectionner"></option>
+                      <option value="">Mr.</option>
+                      <option value="">Dr.</option>
+                      <option value="">Miss.</option>
+                      <option value="">Prov</option>
+                      <option value="">Rev</option>
+                      <option value="">Mrs.</option>
+                    </select>                
+                  </div>
+                </div><!-- col-4 -->
              
               <div class="col-lg-4">
                 <div class="form-group">
@@ -94,19 +54,17 @@ div:hover{opacity: 0.7;} #}
                 <div class="form-group">
                   <label class="form-control-label">Telephone: <span class="tx-danger">*</span></label>
                   <input class="form-control" type="text" name="bp"  placeholder="Telephone">
-                </div>
-                 </div>
+              </div>
+            </div>
 
                  
               <div class="col-lg-4">
                 <div class="form-group">
                   <label class="form-control-label">Type de chambre: <span class="tx-danger">*</span></label>
-                  					<select class="form-control" name="type_id">
-                                          <option>Choisit un type de chambre</option>
-										  
-                                          <option value=""></option>
-										 
-                                    </select>
+                  					<select class="form-control select2" name="type_id" style="width:100%">
+                              <option label="Sélectionner"></option>										  
+                              <option value=""></option>
+                            </select>
                 </div>
               </div><!-- col-4 -->
               <div class="col-lg-4">
@@ -174,30 +132,5 @@ div:hover{opacity: 0.7;} #}
             });
 
             </script>
-
-    <script>
-        $('.datatable').DataTable({
-        responsive: true,
-        language: {
-            searchPlaceholder: 'Recherche...',
-            sSearch: '',
-            lengthMenu: '_MENU_ items/page',
-        }
-        });
-    </script>
-    <script>
-    $(document).ready(function () {
-        $(".formelement").hide();
-        
-    });
-    </script>
-    <script>
-      function show() {
-        $(".formelement").show();
-      }
-      function hide() {
-        $(".formelement").hide();
-      }
-    </script>
     		
 

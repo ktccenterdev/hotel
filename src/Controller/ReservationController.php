@@ -149,9 +149,7 @@ class ReservationController extends DefaultController
             if($user->getIsadmin()){
                 $entene = $this->em->getRepository(Entene::class)->findAll();
                 $reservations = $this->em->getRepository(Reservation::class)->findBy(['createby' => null]);
-                //dd($reservations);
-               
-               /*  $data = $this->renderView('admin/reservation/adminexterne.html.twig', [ */
+               // dd($reservations);
                $data = $this->renderView('admin/reservation/externe.html.twig', [
                     "reservations" => $reservations,
                     "entenes" => $entene,
@@ -164,9 +162,9 @@ class ReservationController extends DefaultController
                 
                 $data = $this->renderView('admin/reservation/externe.html.twig', [
                     "reservations" => $reservations,
-                    "entenes" => $entene,
-                    
+                    "entenes" => $entene
                 ]);
+                
                 $this->successResponse("Liste des reservations externe ", $link, $data); 
             }
                 
@@ -202,10 +200,6 @@ class ReservationController extends DefaultController
                 }
                 
                 $typech = $this->em->getRepository(Typechambre::class)->find($type);
-               /*  $type = $typech->getType(); */
-
-               /*  $tarif = $this->em->getRepository(Tarif::class)->find($type); */
-
                 $dateat = $request->get("dateat");
                 $datedeb = new \DateTime($dateat);
                 
@@ -226,15 +220,13 @@ class ReservationController extends DefaultController
                 $reservation->setHeuredariver($timedebut);
                 $reservation->setHeuredepart($timefin);
                 $reservation->setMontan($request->get('client'));
-                //$reservation->setMontan($tarif->getPrix());
-                //$reservation->setReduction($request->get(''));
+
                 $reservation->setTypechambre($typech);
                 $reservation->setClient($client);
                 $reservation->setCreateat(new \DateTime('now'));
                 $reservation->setEtat("Non-traité");
                 $reservation->setCreateby($user);
                 $reservation->setAntene($antene);
-
                 $this->em->persist($reservation);
                 $this->em->flush();
                 $this->setlog("AJOUTER","L'utilisateur ".$this->getUser()->getUsername().
@@ -295,12 +287,8 @@ class ReservationController extends DefaultController
                 $user = $this->getUser(); 
 
                 $statut = $reservations->getCreateby("createby");
-             
-
                 if(!$statut){
-                    $reservations->setCreateby($user);
-                   // dd($reservations);
-                    
+                    $reservations->setCreateby($user);                    
                 }else
                 {
                     $reservations->setCreateby(NULL);

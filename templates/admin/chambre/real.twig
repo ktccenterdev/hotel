@@ -191,7 +191,7 @@
                       <a href="{{ path('showchambre',{id: chambre.id}) }}"><button class="btn btn-primary active {{app.user.hasAccess('showchambre')}}" ><i class="far fa-eye"></i></button></a> 
                       {% endif %}
                       {% if "edit-chambre" in app.session.get('userdroit') %}
-                      <a href="{{ path('entene_edit',{id: chambre.id}) }}"><button class="btn btn-pink active {{app.user.hasAccess(''entene_edit')}}"><i class="fa fa-edit" aria-hidden="true"></i></button></a> 
+                      <a href="{{ path('entene_edit',{id: chambre.id}) }}"><button class="btn btn-pink active {{app.user.hasAccess('entene_edit')}}"><i class="fa fa-edit" aria-hidden="true"></i></button></a> 
                       {% endif %}
                     {% if "deletecha" in app.session.get('userdroit') %}
                     <form action="{{path('deletecha', {id: chambre.id})}}"  method="DELETE" class="js-form-send {{app.user.hasAccess('deletecha')}}">
@@ -212,18 +212,4 @@
     </div><!-- table-wrapper -->
   </div><!-- br-section-wrapper -->
 
-    <script>
-    $(document).ready(function () {
-        $(".formelement").hide();
-        
-    });
-    </script>
-    <script>
-      function show() {
-        $(".formelement").show();
-      }
-      function hide() {
-        $(".formelement").hide();
-      }
-    </script>
 
