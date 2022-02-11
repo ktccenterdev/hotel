@@ -45,23 +45,6 @@
 											
 												<div class="col-lg-3 col-xlg-3 col-md-3">
 													
-													<label class="col-sm-12 form-control-label">Magasin Depart: <span class="tx-danger">*</span></label>
-													<select class="form-control" id="id" name="magdepart_id" >
-														<option label="--Choisisez le Magasin de la sortitstock--"></option>
-														
-														{% set newArray = [] %}
-														{% for magasin in magasins %}
-														{% if (magasin.antene.id == app.user.antene.id) %}
-														{% if magasin.nom not in newArray %}
-															<option value="{{magasin.id}}">{{magasin.nom}}</option>
-															{% set newArray = newArray|merge([magasin.nom,null ]) %}
-															{% endif %}
-														{% endif %}
-														{% endfor %}
-													</select>
-												</div>
-												<div class="col-lg-3 col-xlg-3 col-md-3">
-													
 													<label class="col-sm-12 form-control-label">Type de sortit : <span class="tx-danger">*</span></label>
 													<select class="form-control" onchange="checkAlert(event)" name="sortistock_id">
 														<option label="Choisisez le type de sortit"></option>
@@ -105,15 +88,11 @@
 												</div> 
 												//#}
 												<div class="col-lg-3 col-xlg-3 col-md-3" id="myshow1">
-													<label class="col-sm-12 form-control-label" >Person: <span class="tx-danger">*</span></label>
+													<label class="col-sm-12 form-control-label" >Personne: <span class="tx-danger">*</span></label>
 													<select class="form-control"  name="responsable_id" >
 														<option label="--Choisissez la personne--"></option>
-														{% set newArray = [] %}
-														{% for sortirstock in sortirstocks %}
-														{% if sortirstock.user.nom not in newArray %}
-															<option value="{{sortirstock.id}}">{{sortirstock.user.nom}}</option>
-															{% set newArray = newArray|merge([sortirstock.user.nom,null ]) %}
-															{% endif %}
+														{% for user in users %}
+															<option value="{{user.id}}">{{user.nom}}</option>
 														{% endfor %}
 													</select>
 												</div>
@@ -123,9 +102,11 @@
 														<option label="--Choisissez le Magasin de destination--"></option>
 														{% set newArray = [] %}
 														{% for magasin in magasins %}
-														{% if magasin.nom not in newArray %}
-															<option value="{{magasin.id}}">{{magasin.nom}}</option>
-															{% set newArray = newArray|merge([magasin.nom,null ]) %}
+															{% if magasin.nom not in newArray %}
+																{% if magasin.antene.nom != app.user.antene.nom %}
+																	<option value="{{magasin.id}}">{{magasin.nom}}</option>
+																{% endif %}
+																{% set newArray = newArray|merge([magasin.nom,null ]) %}
 															{% endif %}
 														{% endfor %}
 													</select>
