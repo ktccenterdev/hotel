@@ -119,13 +119,13 @@
 								<th class="wd-15p">Départ</th>
 								<th class="wd-15p">Destination</th>
 								<th class="wd-15p">Type</th>
-								<th class="wd-25p">ACTION</th>
+								{#<th class="wd-25p">ACTION</th>#}
 							</tr>
 							
 							</thead>
 							<tbody>
 								{% if ( app.user.isadmin) %}
-									{% for sortir in sortirs %}     
+									{% for sortir in sortirs | reverse %}     
 										<tr>
 											<td>{{loop.index}}</td>
 											<td>{{sortir.produit.nom}}</td>

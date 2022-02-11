@@ -281,58 +281,62 @@ class StokentresortirController extends DefaultController
      */
     public function addsortitstock(Request $request)
     {
-        $link="sortis";
+        $link="indexsortis";
+        $userg = $this->getUser();
+        if($userg){
+            try {
 
-        try {
+            
+                $responsable_id =  $request->get('responsable_id');
+                $responsable_id = $this->em->getRepository(User::class)->find($responsable_id);
+                $magdest_id =  $request->get('magdest_id');
+                $magdest_id = $this->em->getRepository(Magasin::class)->find($magdest_id);
+    
+                $commantaire =  $request->get('commantaire');
+                $type =  $request->get('type');
 
-           
-            $responsable_id =  $request->get('responsable_id');
-            $responsable_id = $this->em->getRepository(User::class)->find($responsable_id);
-            $magdest_id =  $request->get('magdest_id');
-            $magdest_id = $this->em->getRepository(Magasin::class)->find($magdest_id);
-  
-            $commantaire =  $request->get('commantaire');
-            $type =  $request->get('type');
+            
 
-           
+                $sortirstock = new Sortirstock();
+                $sortirstock->SetUser($this->getUser());
+                $sortirstock->setResponsable($responsable_id);
+                $sortirstock ->setCommantaire($commantaire);
+                $sortirstock->SetDate(new \DateTime());
+                $sortirstock ->setType($type);
+                $sortirstock ->setMagdepart($this->getUser()->getAntene()->getMagasin());
+                $sortirstock ->setMagdest($magdest_id);
+                $this->em->persist($sortirstock);
+                $this->em->flush();
+                /* $this->setlog("SORTIT","Le stock ".$this->getUser()->getUsername().
+                " a sortit le stock ".$sortirstock->getUser(),"Sortirstock",$sortirstock->getId()); */
 
-            $sortirstock = new Sortirstock();
-            $sortirstock->SetUser($this->getUser());
-            $sortirstock->setResponsable($responsable_id);
-            $sortirstock ->setCommantaire($commantaire);
-            $sortirstock->SetDate(new \DateTime());
-            $sortirstock ->setType($type);
-            $sortirstock ->setMagdepart($this->getUser()->getAntene()->getMagasin());
-            $sortirstock ->setMagdest($magdest_id);
-            $this->em->persist($sortirstock);
-            $this->em->flush();
-            /* $this->setlog("SORTIT","Le stock ".$this->getUser()->getUsername().
-            " a sortit le stock ".$sortirstock->getUser(),"Sortirstock",$sortirstock->getId()); */
+                $produit =  $request->get('produit');
+                array_shift($produit);
 
-            $produit =  $request->get('produit');
-            array_shift($produit);
+                $quantite =  $request->get('quantite');
+                array_shift($quantite);
+                $items = array_combine($produit,$quantite);
 
-            $quantite =  $request->get('quantite');
-            array_shift($quantite);
-            $items = array_combine($produit,$quantite);
+                foreach ($items as $produit => $quantite) {
+                    $item = new Sortiritem();
+                    //$produit = $this->em->getRepository(Produit::class)->find($value["idproduit"]);
+                    $produit = $this->em->getRepository(Produit::class)->find($produit);
+                    $item->setProduit($produit);
+                    $item->setSortistock($sortirstock);
+                    $item->setQt($quantite);
+                    $this->em->persist($item);
+                    $this->em->flush();
+            
+                }
 
-            foreach ($items as $produit => $quantite) {
-            $item = new Sortiritem();
-            //$produit = $this->em->getRepository(Produit::class)->find($value["idproduit"]);
-            $produit = $this->em->getRepository(Produit::class)->find($produit);
-            $item->setProduit($produit);
-            $item->setSortistock($sortirstock);
-            $item->setQt($quantite);
-            $this->em->persist($item);
-            $this->em->flush();
-           
+                $this->successResponse("Sortit magasin Effectue ","listsortis");  
+            }catch (\Exception $ex) {
+                $this->log($ex->getMessage(), "index-Rsortis");
+            } 
+            return new JsonResponse($this->result);
+        }else{
+            return $this->redirectToRoute('login');
         }
-
-            $this->successResponse("Sortit magasin Effectue ","listsortis");  
-        }catch (\Exception $ex) {
-            $this->log($ex->getMessage(), "index-sortis");
-        } 
-        return new JsonResponse($this->result);
     }
 
 
