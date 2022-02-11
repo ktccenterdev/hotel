@@ -84,46 +84,35 @@
             <div class="row mg-b-25">
                 <div class="col-lg-3">
                     <div class="form-group">
-                        <label class="form-control-label">Type de chambre: <span class="tx-danger">*</span></label>
-                        <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <i class="fas fa-crown tx-16 lh-0 op-6"></i>
-                            </div>
-                        </div><!-- input-group-prepend -->
-                                        <select class="form-control" name="type_id">
-                                                    <option>Choisit un type de chambre</option>
-                                                    {% for type in types %}
-                                                    <option value="{{type.id}}">{{type.nom}}</option>
-                                                    {% endfor %}
-                                            </select>
-                        
+                        <label class="form-control-label">Antenne: <span class="tx-danger">*</span></label>
+                        <div class="input-group">                            
+                            <select class="form-control select2" id="antenne" name="entene_id" style="width:100%">
+                                <option label="Choisir une antenne"></option>
+                                {% for entene in entene %}
+                                    <option value="{{entene.id}}" data-typechambres ="{{entene.typeDeChambres | json_encode()}}">{{entene.nom}}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                     </div>
                 </div>
-                        {#  </div><!-- col-4 --> #}
-                <div class="col-lg-3">
-                    <div class="form-group">
-                        <label class="form-control-label">Antenne: <span class="tx-danger">*</span></label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <i class="fas fa-signal tx-16 lh-0 op-6"></i>
-                            </div>
-                            </div><!-- input-group-prepend -->
-                                <select class="form-control" name="entene_id">
-                                            <option>Choisit une Antenne</option>
-                                                {% for entene in entene %}
-                                                <option value="{{entene.id}}">{{entene.nom}}</option>
-                                                {% endfor %}
-                                </select>
-                        </div>
-                    </div>
-                </div><!-- col-4 -->
 
                 <div class="col-lg-3">
                     <div class="form-group">
-                    <label class="form-control-label">Numero: <span class="tx-danger">*</span></label>
+                        <label class="form-control-label">
+                            Type de chambre: <span class="tx-danger">*</span>
+                        </label>
+                        <div class="input-group">
+                            <select class="form-control select2" id="type_chambre" name="type_id" style="width:80%">
+                                <option label="selectionner un type"></option>                               
+                            </select>                            
+                            <img src="{{ asset('img/loader/loader2.gif') }}" id="loader1" width="32" height="32" style="float:right; display: none;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3">
+                    <div class="form-group">
+                    <label class="form-control-label">Numéro: <span class="tx-danger">*</span></label>
                     <input class="form-control" type="text" name="numero"  placeholder="numero">
                     </div>
                 </div><!-- col-4 -->
@@ -245,32 +234,6 @@
 </div><!-- form-layout -->        
 
 
-
-
-<script>
-    $('.datatable').DataTable({
-    responsive: false,
-    language: {
-        searchPlaceholder: 'Recherche...',
-        sSearch: '',
-        lengthMenu: '_MENU_ items/page',
-    }
-    });
-</script>
-<script>
-$(document).ready(function () {
-    $(".formelement").hide();
-    
-});
-</script>
-<script>
-    function show() {
-    $(".formelement").show();
-    }
-    function hide() {
-    $(".formelement").hide();
-    }
-</script>
 <script type="text/javascript">
   function openCity(evt, cityName) {
   // Declare all variables
@@ -292,5 +255,19 @@ $(document).ready(function () {
   document.getElementById(cityName).style.display = "block";
   evt.currentTarget.className += " active";
 }
+
+$("#antenne").on('change', function(e){
+    var id = $(this).val();
+	if (id != "") {
+        $('#loader1').fadeIn();
+        var data = $(this).find(':selected').data('typechambres'); 
+        $("#type_chambre").empty();   
+        $("#type_chambre").append("<option label='Sélectionner un type'></option>");   
+        $.each(data, function (key, val) {
+            $("#type_chambre").append("<option value=" + val["id"]+ ">" + val["nom"] + "</option>");
+        });
+        $('#loader1').fadeOut();
+    }
+})
 </script>
 

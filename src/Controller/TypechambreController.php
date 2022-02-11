@@ -58,37 +58,29 @@ class TypechambreController extends DefaultController
             $description = $request->get("description");
             $photo = $request->files->get("photo");
             
-            $types = $this->em->getRepository(Typechambre::class)->findOneBy(['nom'=>$nom]);
+            $types = $this->em->getRepository(Typechambre::class)->findOneBy(['nom'=>$nom, 'antene'=>$antene]);
             if(is_null($types)){
                 $types = new Typechambre();
                 if($nom){
-                    if($description){
                         $types->setNom($nom);
                         $types->setDescription($description);
                         if($antene){
-                            $an = $this->em->getRepository(Entene::class)->find($antene);
-                            
+                            $an = $this->em->getRepository(Entene::class)->find($antene);                            
                         }else{
                             $an = $this->getUser()->getAntene();
                         }
-                        $types->setAntene($an);
-                        
+                        $types->setAntene($an);                        
                         if($photo){
                             $path = md5(uniqid()).'.'.$photo->guessExtension();
                             $photo->move($this->getParameter('typechambre'), $path);
                             $types->setPhoto($path);
-                            //dd($types);
-                            //$type->setRessourcename($photo->getClientOriginalName());
                         }
-
                         $this->em->persist($types);
                         $this->em->flush();
                         $this->setlog("AJOUTER","L'utilisateur ".$this->getUser()->getUsername().
                         " a ajouter un Type de chambre  ".$types-> getNom(),"TYPECHANMBRE",$types->getId()); 
                         $this->successResponse("Type de chambre ajouté ", $link);
-                    }else{
-                        $this->log("La description est obligatoire.", $link);
-                    }
+                    
                 }else{
                 $this->log("Le nom est obligatoire.", $link);
                 }
@@ -136,7 +128,7 @@ class TypechambreController extends DefaultController
     public function update(Request $request)
     {        
         $id = intval($request->get('id'));
-        $link= $this->generateUrl("type-chambre-show", ['id'=>$id]);
+        $link= "indextype";
         $nom = $request->get("nom");
         $description = $request->get("description");
         try {
@@ -145,22 +137,18 @@ class TypechambreController extends DefaultController
                 $type = $this->em->getRepository(Typechambre::class)->find($id);
                 if(!is_null($type)){
                    if($nom){
-                        if($description){
-                            $type->setNom($nom);
-                            $type->setDescription($description);
-                            if($photo){
-                                $path = md5(uniqid()).'.'.$photo->guessExtension();
-                                $photo->move($this->getParameter('typechambre'), $path);                
-                                $type->setPhoto($path);
-                            }
-                            $this->em->persist($type);
-                            $this->em->flush();
-                            $this->setlog("MODIFIER ","le type de chambre ".$this->getUser()->getUsername().
-                            " a modifier un type de chambre  ".$type-> getNom(),"Typechambre",$type->getId());      
-                            $this->successResponse("Type de chambre modifié avec succès.", $link);
-                        }else{
-                            $this->log("La description est obligatoire.", $link);
+                        $type->setNom($nom);
+                        $type->setDescription($description);
+                        if($photo){
+                            $path = md5(uniqid()).'.'.$photo->guessExtension();
+                            $photo->move($this->getParameter('typechambre'), $path);                
+                            $type->setPhoto($path);
                         }
+                        $this->em->persist($type);
+                        $this->em->flush();
+                        $this->setlog("MODIFIER ","le type de chambre ".$this->getUser()->getUsername().
+                        " a modifier un type de chambre  ".$type-> getNom(),"Typechambre",$type->getId());      
+                        $this->successResponse("Type de chambre modifié avec succès.", $link);
                    }else{
                        $this->log("Le nom est obligatoire.", $link);
                    }
@@ -168,7 +156,7 @@ class TypechambreController extends DefaultController
                     $this->log("Type de chambre introuvable.", $link);
                 }
             }else{
-                $this->log("Aucun type sélectionnée.", $link);
+                $this->log("Aucun type sélectionné.", $link);
             }
             $this->successResponse("Type de chambre affiché ", $link);             
             
@@ -194,7 +182,7 @@ class TypechambreController extends DefaultController
                         $this->em->remove($type);
                         $this->em->flush();
                         $this->setlog("SUPPRIMER","le type de chambre ".$this->getUser()->getUsername().
-                        " a supprimer un type de chambre  ".$type-> getNom(),"Typechambre",$type->getId()); 
+                        " a supprimé un type de chambre  ".$type-> getNom(),"Typechambre",$type->getId()); 
                         $this->successResponse("Type de Chambre Supprimé ", $link); 
                     }else{
                         $this->log("Impossible de supprimer ce type, des chambres y sont liées.", $link);
@@ -210,6 +198,4 @@ class TypechambreController extends DefaultController
         }
         return new JsonResponse($this->result);
     }
-
-
 }

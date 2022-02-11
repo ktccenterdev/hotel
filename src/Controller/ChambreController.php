@@ -118,24 +118,16 @@ class ChambreController extends DefaultController
     public function chambrevue()
     {
         $link="Chambrevue";
-        
-
         try {
-                $user = $this->getUser();
-                if ($user) {
-                    
-                    $chambres=$this->em->getRepository(Chambre::class)->findAll();
-                    //dd($entenes);
-                    $this->setlog("visualisation des chambres","L'utilisateur ".$this->getUser()->getUsername().
-                    "a vu les chambres","EMPLOYEE"); 
-                        
-                    $data = $this->renderView('admin/chambre/index.html.twig', ["chambres"=>$chambres]);
-                    $this->successResponse("Liste des chambre ", $link, $data);
-                   
-                }else{
-                    return $this->redirectToRoute('login');
-                }
-
+            $user = $this->getUser();
+            if ($user) {                    
+                $chambres=$this->em->getRepository(Chambre::class)->findAll();                        
+                $data = $this->renderView('admin/chambre/index.html.twig', ["chambres"=>$chambres]);
+                $this->successResponse("Liste des chambres ", $link, $data);
+                
+            }else{
+                return $this->redirectToRoute('login');
+            }
         } catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);
         }
@@ -276,48 +268,45 @@ class ChambreController extends DefaultController
       *
     */
     public function viewChambre($id) {
-
-
         $link="indexchambre";
-
         try {
         $user = $this->getUser();
         if ($user) {
-            $chambre = $this->em->getRepository(Chambre::class)->find($id);
+            $chambre = $this->em->getRepository(Chambre::class)->find(intval($id));
             $reservations = $this->em->getRepository(Reservation::class)->findAll();
+            if($chambre){            
+                $recettejournalier = $this->em->getRepository(Allocation::class)->countaportAllocationparjourForroom($chambre);
+                $recettemoisnalier = $this->em->getRepository(Allocation::class)->countaportAllocationparmoisForroom($chambre);
+                if(empty($recettejournalier[1])){
+                    $recettejournalier[1]=0;   
+                }
+                if(empty($recettemoisnalier[1])){
+                    $recettemoisnalier[1]=0;   
+                }
+                $allocations = $this->em->getRepository(Allocation::class)->findBy(['chambre' => $chambre]);
+                    if (!$chambre) {
+                        throw $this->createNotFoundException(
+                            'Aucun chambre pour l\'id: ' . $id
+                    );
+                }
                 
-            $recettejournalier = $this->em->getRepository(Allocation::class)->countaportAllocationparjourForroom($chambre);
-            $recettemoisnalier = $this->em->getRepository(Allocation::class)->countaportAllocationparmoisForroom($chambre);
-            if(empty($recettejournalier[1])){
-                $recettejournalier[1]=0;   
+                $data = $this->renderView('admin/chambre/view.html.twig', [
+                    'chambre' => $chambre,
+                    'allocations'=>$allocations,
+                    'reservations' => $reservations,
+                    'recettejournaliere'=>$recettejournalier[1],
+                    'recettemoisnalier'=>$recettemoisnalier[1]
+                
+                
+                ]);
+                $this->successResponse("Liste des chambres ", $link, $data);
+            }else{
+                $this->log("Chambre introuvable", $link);
             }
-            if(empty($recettemoisnalier[1])){
-                $recettemoisnalier[1]=0;   
-            }
-            $allocations = $this->em->getRepository(Allocation::class)->findBy(['chambre' => $chambre]);
-                if (!$chambre) {
-                    throw $this->createNotFoundException(
-                        'Aucun chambre pour l\'id: ' . $id
-                );
-            }
-            
-            $data = $this->renderView('admin/chambre/view.html.twig', [
-                'chambre' => $chambre,
-                'allocations'=>$allocations,
-                'reservations' => $reservations,
-                'recettejournaliere'=>$recettejournalier[1],
-                'recettemoisnalier'=>$recettemoisnalier[1]
-               
-               
-            ]);
-            $this->successResponse("Liste des chambres ", $link, $data);
         } else {
             return $this->redirectToRoute('login');
         }
         
-       
-
-
         } catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);
         } 
@@ -381,33 +370,28 @@ class ChambreController extends DefaultController
             if ( $user) {
                 $id = $request->get("id");
                 $numero = $request->get("numero");
+                $typeId = intval($request->get("typeId"));
                 $surface = $request->get("surface");
                 $nbenafant = $request->get("nbenafant");
                 $nbaldulte = $request->get("nbaldulte");
                 $nblit = $request->get("nblit");
                 $description = $request->get("description");
 
-                $entene_id = $request->get("entene_id");
-                $entene = $this->em->getRepository(Entene::class)->find($entene_id);
-                //dd($entene);
-
                 $photo1 = $request->files->get("file1");
                 $photo2 = $request->files->get("file2");
                 $photo3 = $request->files->get("file3");
                 $photo4 = $request->files->get("file4");
 
-
-
-
                 $chambre = $this->em->getRepository(Chambre::class)->find($id);
+                $typechambre = $this->em->getRepository(Typechambre::class)->find($typeId);
 
                 $chambre->setNumero($numero);
+                $chambre->setType($typechambre);
                 $chambre->setSurface($surface);
                 $chambre->setDescription($description);
                 $chambre->setNbenafant($nbenafant);
                 $chambre->setNbaldulte($nbaldulte);
                 $chambre->setNblit($nblit);
-                $chambre->setEntene($entene);
                 $chambre->setDescription($description);
                 if(!empty($photo1) ){
                     $path1 = md5(uniqid()).'.'.$photo1->guessExtension();
@@ -437,21 +421,17 @@ class ChambreController extends DefaultController
 
                     $chambre->setPhoto4($path4);
                     
-                }
-                
+                }                
 
             $this->em->persist($chambre);
             $this->em->flush($chambre);
-            $this ->addFlash('success','chambre modifié avec succes');
             $this->setlog("Modifier","L'utilisateur ".$this->getUser()->getUsername().
-                " a Modifier la chambre ".$chambre->getNumero(),"CHAMBRE",$chambre->getId());
+                " a Modifié la chambre ".$chambre->getNumero(),"CHAMBRE",$chambre->getId());
 
-            $this->successResponse("chambre Modifier !", $link);  
+            $this->successResponse("chambre Modifiée !", $link);  
             } else {
                 return $this->redirectToRoute('login');
             }
-            
-
             
         } catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);

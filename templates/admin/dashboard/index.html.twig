@@ -6,7 +6,6 @@
         <i class="icon ion-ios-home-outline"></i>
         <div>
           <h4>Dashboard</h4>
-          <p class="mg-b-0">Do bigger things with Bracket plus, the responsive bootstrap 4 admin template.</p>
         </div>
     </div>
 	 <div class="row row-sm">
@@ -18,7 +17,7 @@
                                             <div class="mg-l-20">
                                                 <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">% Unique Visits</p>
                                                 <p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">54.45%</p>
-                                                <span class="tx-11 tx-roboto tx-white-8">TOTAL CLIENT</span><br>
+                                                <span class="tx-11 tx-roboto tx-white-8">TOTAL CLIENTS</span><br>
                                                 <h4 style="color:white;">{{totalclient}}</h4>
                                             </div>
                                         </a>                                
@@ -34,7 +33,7 @@
                                                 <div class="mg-l-20">
                                                     <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Bounce Rate</p>
                                                     <p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">32.16%</p>
-                                                    <span class="tx-11 tx-roboto tx-white-8">TOTAL RESERVATION</span><br>
+                                                    <span class="tx-11 tx-roboto tx-white-8">TOTAL RESERVATIONS</span><br>
                                                     <h4 style="color:white;">{{totalreservation}}</h4>
                                                 </div>
                                             </a>                            
@@ -50,7 +49,7 @@
                                             <div class="mg-l-20">
                                                 <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Today Sales</p>
                                                 <p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">$329,291</p>
-                                                <span class="tx-11 tx-roboto tx-white-8">TOTAL HEBERGEMENT</span><br>
+                                                <span class="tx-11 tx-roboto tx-white-8">TOTAL HEBERGEMENTS</span><br>
                                                 <h4 style="color:white;">{{totalallocation}}</h4>
                                             </div>
                                         </a>                        
@@ -101,14 +100,14 @@
                                         <div class="col-sm-6">
                                         <div style="background: black;" class="tx-center pd-y-15 bd bd-white-1">
                                             <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">New Deliveries</p>
-                                            <h4 class="tx-lato tx-white tx-bold mg-b-0">{{ bilanjournalier}}</h4>
+                                            <h4 class="tx-lato tx-white tx-bold mg-b-0">{{ bilanjournalier | craue_currency('XAF', 'fr-FR') }}</h4>
                                             <span class="tx-12 tx-success tx-roboto">BILAN JOURNALIER</span>
                                         </div>
                                         </div><!-- col-4 -->
                                         <div class="col-sm-6 mg-t-20 mg-sm-t-0">
                                         <div style="background: black;" class="tx-center pd-y-15 bd bd-white-1">
                                             <p class="mg-b-5 tx-uppercase tx-10 tx-mont tx-semibold">Delivered</p>
-                                            <h4 class="tx-lato tx-white tx-bold mg-b-0">{{ staatistiquemois }}</h4>
+                                            <h4 class="tx-lato tx-white tx-bold mg-b-0">{{ staatistiquemois | craue_currency('XAF', 'fr-FR') }}</h4>
                                             <span class="tx-12 tx-success tx-roboto">BILAN DU MOIS</span>
                                         </div>
                                         </div><!-- col-4 -->
@@ -137,7 +136,7 @@
                                                     <div class="tx-white">
                                                         <p class="tx-uppercase tx-11 tx-semibold tx-mont tx-spacing-2 tx-white-5">Recent Article</p>
                                                         <h5 class="lh-5 mg-b-20">ANTENNE {{entene.entene}}</h5><br>
-                                                        <h5>{{entene.total }}</h5>
+                                                        <h5>{{entene.total | craue_currency('XAF', 'fr-FR')}}</h5>
                                                         
                                                     </div>
                                                 </div><!-- d-flex -->
@@ -155,7 +154,7 @@
                                                     <div class="tx-white">
                                                         <p class="tx-uppercase tx-11 tx-semibold tx-mont tx-spacing-2 tx-white-5">Recent Article</p>
                                                         <h5 class="lh-5 mg-b-20">ANTENNE {{entene.entene}}</h5><br>
-                                                        <h5>{{entene.total }}</h5>
+                                                        <h5>{{entene.total | craue_currency('XAF', 'fr-FR')}}</h5>
                                                         
                                                     </div>
                                                 </div><!-- d-flex -->

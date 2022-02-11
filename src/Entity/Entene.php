@@ -109,6 +109,8 @@ class Entene
      */
     private $tarifs;
 
+    private $typeDeChambres;
+
     /**
      * @ORM\Column(type="boolean", nullable=true, options={"default" : 0})
      */
@@ -492,5 +494,17 @@ class Entene
         $this->isPrincipal = $isPrincipal;
 
         return $this;
+    }
+
+    /**
+     * Get the value of typeDeChambres
+     */ 
+    public function getTypeDeChambres()
+    {
+        $types = array();
+        foreach ($this->typechambres as $typechambre) {
+            $types[] = ['id'=>$typechambre->getId(), 'nom'=>$typechambre->getNom()];
+        }
+        return $types;
     }
 }
