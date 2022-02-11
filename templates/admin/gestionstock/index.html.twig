@@ -43,12 +43,10 @@
 										<h6 class="br-section-label">Effectuez une sortie</h6>
 											<div class="row">
 											
-												<div class="col-lg-3 col-xlg-3 col-md-3">
+												<div class="col-lg-3 col-xlg-3 col-md-3" style="display:none;">
 													
 													<label class="col-sm-12 form-control-label">Magasin Depart: <span class="tx-danger">*</span></label>
 													<select class="form-control" id="id" name="magdepart_id" >
-														<option label="--Choisisez le Magasin de la sortitstock--"></option>
-														
 														{% set newArray = [] %}
 														{% for magasin in magasins %}
 														{% if (magasin.antene.id == app.user.antene.id) %}
