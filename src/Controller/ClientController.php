@@ -527,7 +527,6 @@ class ClientController extends DefaultController
                     
                     $client = $this->em->getRepository(User::class)->find($clientid); 
                     
-                    //return $this->redirectToRoute('show-client',[]);
                     $not = new Note();
                     $not->setContent($content);
                     $not->setCreatedat(new \DateTime("now"));

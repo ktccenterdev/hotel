@@ -200,41 +200,43 @@ class StokentresortirController extends DefaultController
     }
 
 
-
-	////sorties
     /**
      * @Route("/listsortis", name="index-sortis", methods={"GET"})
      */
     public function listsortis()
     {
         $link="sortis";
+        $userg = $this->getUser();
+        if($userg){
+            try {
+            
+            
+                $sortis = null;
 
-        try {
-           
-         
-            $sortis = null;
+                $magasins = $this->em->getRepository(Magasin::class)->findAll();
+                $users = $this->em->getRepository(User::class)->findBy(["type" =>"EMPLOYE"]);
+                $produits = $this->em->getRepository(Produit::class)->findAll();
+                $sortirs = $this->em->getRepository(Sortiritem::class)->findAll();
+                //dd($sortirs);
+                $sortirstocks = $this->em->getRepository(Sortirstock::class)->findAll();
+                $data = $this->renderView('admin/gestionstock/sortis.html.twig', [
+                    "sortis" => $sortis,
+                    "produits" => $produits,
+                    "magasins" => $magasins,
+                    "users" => $users,
+                    "sortirs" => $sortirs,
+                    "sortirstocks" => $sortirstocks
+                ]);
+                $this->successResponse("Liste des sortis ", $link, $data);
 
-            $magasins = $this->em->getRepository(Magasin::class)->findAll();
-            $users = $this->em->getRepository(User::class)->findBy(["type" =>"EMPLOYE"]);
-            $produits = $this->em->getRepository(Produit::class)->findAll();
-            $sortirs = $this->em->getRepository(Sortiritem::class)->findAll();
-			//dd($sortirs);
-            $sortirstocks = $this->em->getRepository(Sortirstock::class)->findAll();
-            $data = $this->renderView('admin/gestionstock/sortis.html.twig', [
-                "sortis" => $sortis,
-                "produits" => $produits,
-                "magasins" => $magasins,
-                "users" => $users,
-                "sortirs" => $sortirs,
-                "sortirstocks" => $sortirstocks
-            ]);
-            $this->successResponse("Liste des sortis ", $link, $data);
-
-        } catch (\Exception $ex) {
-            $this->log($ex->getMessage(), $link);
+            } catch (\Exception $ex) {
+                $this->log($ex->getMessage(), $link);
+            }
+            // dd($this->result);
+            return $this->json($this->result);
+        }else{
+            return $this->redirectToRoute('login');
         }
-       // dd($this->result);
-        return $this->json($this->result);
     }
    
 
@@ -244,30 +246,33 @@ class StokentresortirController extends DefaultController
     public function indexlistsortis()
     {
         $link="sortis";
+        $userg = $this->getUser();
+        if($userg){
+            try {
+                $magasins = $this->em->getRepository(Magasin::class)->findAll();
+                $users = $this->em->getRepository(User::class)->findBy(["type" =>"EMPLOYE"]);
+                $produits = $this->em->getRepository(Produit::class)->findAll();
+                $sortirs = $this->em->getRepository(Sortiritem::class)->findAll();
+                $sortirstocks = $this->em->getRepository(Sortirstock::class)->findAll();
+                //dd($produits);
+                $sortis = null;
+                $data = $this->renderView('admin/gestionstock/index.html.twig', [
+                    "sortis" => $sortis,
+                    "produits" => $produits,
+                    "magasins" => $magasins,
+                    "users" => $users,
+                    "sortirs" => $sortirs,
+                    "sortirstocks" => $sortirstocks
+                ]);
+                $this->successResponse("Liste des sortis ", $link, $data);
 
-        try {
-            $magasins = $this->em->getRepository(Magasin::class)->findAll();
-            $users = $this->em->getRepository(User::class)->findBy(["type" =>"EMPLOYE"]);
-            $produits = $this->em->getRepository(Produit::class)->findAll();
-            $sortirs = $this->em->getRepository(Sortiritem::class)->findAll();
-            $sortirstocks = $this->em->getRepository(Sortirstock::class)->findAll();
-            //dd($produits);
-            $sortis = null;
-            $data = $this->renderView('admin/gestionstock/index.html.twig', [
-                "sortis" => $sortis,
-                "produits" => $produits,
-                "magasins" => $magasins,
-                "users" => $users,
-                "sortirs" => $sortirs,
-                "sortirstocks" => $sortirstocks
-            ]);
-            $this->successResponse("Liste des sortis ", $link, $data);
-
-        } catch (\Exception $ex) {
-            $this->log($ex->getMessage(), $link);
+            } catch (\Exception $ex) {
+                $this->log($ex->getMessage(), $link);
+            }
+            return $this->json($this->result);
+        }else{
+            return $this->redirectToRoute('login');
         }
-       // dd($this->result);
-        return $this->json($this->result);
     }
 
 
