@@ -283,8 +283,6 @@ class StokentresortirController extends DefaultController
            
             $responsable_id =  $request->get('responsable_id');
             $responsable_id = $this->em->getRepository(User::class)->find($responsable_id);
-            $magdepart_id =  $request->get('magdepart_id');
-            $magdepart_id = $this->em->getRepository(Magasin::class)->find($magdepart_id);
             $magdest_id =  $request->get('magdest_id');
             $magdest_id = $this->em->getRepository(Magasin::class)->find($magdest_id);
   
