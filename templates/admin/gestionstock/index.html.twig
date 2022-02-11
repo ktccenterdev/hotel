@@ -106,9 +106,11 @@
 														<option label="--Choisissez le Magasin de destination--"></option>
 														{% set newArray = [] %}
 														{% for magasin in magasins %}
-														{% if magasin.nom not in newArray %}
-															<option value="{{magasin.id}}">{{magasin.nom}}</option>
-															{% set newArray = newArray|merge([magasin.nom,null ]) %}
+															{% if magasin.nom not in newArray %}
+																{% if magasin.antene.nom != app.user.antene.nom %}
+																	<option value="{{magasin.id}}">{{magasin.nom}}</option>
+																{% endif %}
+																{% set newArray = newArray|merge([magasin.nom,null ]) %}
 															{% endif %}
 														{% endfor %}
 													</select>
