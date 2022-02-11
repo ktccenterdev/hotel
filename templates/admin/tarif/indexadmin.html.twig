@@ -28,7 +28,7 @@
 												<div class="row">
 													<label class="col-sm-4 form-control-label">Antenne: <span class="tx-danger">*</span></label>
 													<div class="wd-250 col-sm-8 mg-t-10 mg-sm-t-0">
-														<select name="antenne" class="form-control select2" data-placeholder="Sélectionner" required>
+														<select name="antenne" class="form-control select2" data-placeholder="Sélectionner" required style="width:100%">
 														<option label="Sélectionner"></option>
 														{% for antenne in antennes %}
 															<option value="{{antenne.id}}">{{antenne.nom}}</option>
@@ -54,7 +54,7 @@
 												<div class="row">
 													<label class="col-sm-4 form-control-label">Type de chambre: <span class="tx-danger">*</span></label>
 													<div class="wd-250 col-sm-8 mg-t-10 mg-sm-t-0">
-														<select name="type" class="form-control select2" data-placeholder="Sélectionner">
+														<select name="type" class="form-control select2" data-placeholder="Sélectionner" style="width:100%">
 														<option label="Sélectionner"></option>
 														{% for type in types %}
 															<option value="{{type.id}}">{{type.nom}}</option>
@@ -66,8 +66,8 @@
 												<div class="row">
 													<label class="col-sm-4 form-control-label">Type de tarif: <span class="tx-danger">*</span></label>
 													<div class="wd-250 col-sm-8 mg-t-10 mg-sm-t-0">
-														<select name="typetarif" class="form-control select2" data-placeholder="Sélectionner">
-														
+														<select name="typetarif" class="form-control select2" data-placeholder="Sélectionner"style="width:100%">					
+															<option label="Sélectionner"></option>
 															<option value="NUITEE">nuitée</option>
 															<option value="SIESTE">sieste</option>
 														</select>

@@ -131,28 +131,16 @@
 <script type="text/javascript">
     $(document).ready(function(){
         var x = document.getElementById("myshow3");
-<<<<<<< HEAD
-=======
-         var y = document.getElementById("myshow4");
->>>>>>> f17982fd241e238b5d90ca3574f2a4914dee1d39
         $('#select_all').on('click',function(){
             if(this.checked){
                 $('.checkbox').each(function(){
                     this.checked = true;
                      x.style.display = "block";
-<<<<<<< HEAD
-=======
-                     y.style.display = "block";
->>>>>>> f17982fd241e238b5d90ca3574f2a4914dee1d39
                 });
             }else{
                  $('.checkbox').each(function(){
                     this.checked = false;
                      x.style.display = "none";
-<<<<<<< HEAD
-=======
-                     y.style.display = "none";
->>>>>>> f17982fd241e238b5d90ca3574f2a4914dee1d39
                 });
             }
         });
@@ -161,17 +149,9 @@
             if($('.checkbox:checked').length == $('.checkbox').length){
                 $('#select_all').prop('checked',true);
                 x.style.display = "block";
-<<<<<<< HEAD
             }else{
                 $('#select_all').prop('checked',false);
                 x.style.display = "block";
-=======
-                y.style.display = "block";
-            }else{
-                $('#select_all').prop('checked',false);
-                x.style.display = "block";
-                y.style.display = "block";
->>>>>>> f17982fd241e238b5d90ca3574f2a4914dee1d39
             }
         });
     });

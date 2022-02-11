@@ -1,9 +1,4 @@
 
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-   
-
-
  <style>
 		#saveForm{
     display: none;
@@ -19,107 +14,85 @@ div{
 	</style>
 
 
-
-<div class="br-mainpanel">
-
-      <div class="br-pagetitle">
-        <i class="fas fa-signal"></i>
-        <div>
-          <h4>Parametres</h4>
-          <p style="color:blue;" class="mg-b-0">----</p>
-        </div>
-      </div><!-- d-flex -->
-
-
-
-
-
-{# #saveForm{display: none;color:#ff0000;}
-p{display:none;color:#ff0000;}
-div{cursor:pointer;}
-div:hover{opacity: 0.7;} #}
-
+<div class="br-pagetitle">
+  <i class="fas fa-signal"></i>
+  <div>
+    <h4>Parametres</h4>
+    <p style="color:blue;" class="mg-b-0">----</p>
+  </div>
+</div><!-- d-flex -->
 
 <form>
-<div class="br-pagebody">
-        <div class="br-section-wrapper">
-          <h6 class="br-section-label" align="center">PARAMETRES DU SYSTEME</h6>
-          
-								<div class="d-flex justify-content-end" style="padding:10px;">
-
-							 	</div>
-
-        <div class=""  style="padding:10px;">
-
-          <div class="form-layout form-layout-1">
-            <div class="row mg-b-25">
+  <div class="br-pagebody">
+    <div class="br-section-wrapper">
+      <h6 class="br-section-label" align="center">PARAMETRES DU SYSTEME</h6>          
+      <div class="d-flex justify-content-end" style="padding:10px;">
+      </div>
+      <div class=""  style="padding:10px;">
+        <div class="form-layout form-layout-1">
+          <div class="row mg-b-25">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label class="form-control-label">Nom: <span class="tx-danger">*</span></label>
+                <input class="form-control" id="nom" type="text" name="nom"  placeholder="nom" disabled>
+              </div>
+            </div><!-- col-4 -->
+            
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label class="form-control-label">Description: <span class="tx-danger">*</span></label>
+                <input class="form-control" id="des" type="text" name="description"  placeholder="description" disabled>
+              </div>
+            </div><!-- col-4 -->
               <div class="col-lg-6">
-                <div class="form-group">
-                  <label class="form-control-label">Nom: <span class="tx-danger">*</span></label>
-                  <input class="form-control" id="nom" type="text" name="nom"  placeholder="nom" disabled>
+              <div class="form-group">
+                <label class="form-control-label">site: <span class="tx-danger">*</span></label>
+                <input class="form-control"  type="text" name="site"  placeholder="site" disabled>
+              </div>
+            </div><!-- col-4 -->
+            
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label class="form-control-label">Email: <span class="tx-danger">*</span></label>
+                <input class="form-control"  type="email" name="email" placeholder="email" disabled>
+              </div>
+            </div><!-- col-4 -->
+            
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label class="form-control-label">Boite Postal: <span class="tx-danger">*</span></label>
+                <input class="form-control" type="text" name="bp"  placeholder="Boite Postal" disabled>
+              </div>
                 </div>
-              </div><!-- col-4 -->
-             
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label class="form-control-label">Description: <span class="tx-danger">*</span></label>
-                  <input class="form-control" id="des" type="text" name="description"  placeholder="description" disabled>
-                </div>
-              </div><!-- col-4 -->
-               <div class="col-lg-6">
-                <div class="form-group">
-                  <label class="form-control-label">site: <span class="tx-danger">*</span></label>
-                  <input class="form-control"  type="text" name="site"  placeholder="site" disabled>
-                </div>
-              </div><!-- col-4 -->
-              
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label class="form-control-label">Email: <span class="tx-danger">*</span></label>
-                  <input class="form-control"  type="email" name="email" placeholder="email" disabled>
-                </div>
-              </div><!-- col-4 -->
-             
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label class="form-control-label">Boite Postal: <span class="tx-danger">*</span></label>
-                  <input class="form-control" type="text" name="bp"  placeholder="Boite Postal" disabled>
-                </div>
-                 </div>
-                 <div class="col-lg-6">
-                <div class="form-group">
-                  <label class="form-control-label">pourcentageReservation : <span class="tx-danger">*</span></label>
-                  <input class="form-control"  type="text" name="pourcentage de reservation"  placeholder="preservation" disabled>
-                </div>
-              </div><!-- col-4 -->
-
-              <div class="col-lg-6">
-                <div class="form-group">
-                 <input type="file" name="file" id="file2"
-                  																
-                  class="inputfile" data-caption="files selected" 
-                  accept=".png, jpg,jpeg" disabled>
-															<label for="file-2" class="if-outline if-outline-info">
-																<i class="icon ion-ios-upload-outline tx-24"></i>
-																<span>Choisisez un LOGO </span>
-															</label>
-                </div>
-              </div><!-- col-4 -->
-             
-            </div><!-- row -->
-            <br>
-             <div class="form-layout-footer mg-t-30">
-							                                     
-					
-            	   <div id="saveForm">Save Form</div>
-
-                  <div id="editForm">Edit Form</div>
-              </div><!-- form-layout-footer -->
-          </div><!-- form-layout -->
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label">pourcentageReservation : <span class="tx-danger">*</span></label>
+                    <input class="form-control"  type="text" name="pourcentage de reservation"  placeholder="preservation" disabled>
+                  </div>
+                </div><!-- col-4 -->
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <input type="file" name="file" id="file2"
+                                                
+                class="inputfile" data-caption="files selected" 
+                accept=".png, jpg,jpeg" disabled>
+                            <label for="file-2" class="if-outline if-outline-info">
+                              <i class="icon ion-ios-upload-outline tx-24"></i>
+                              <span>Choisisez un LOGO </span>
+                            </label>
+              </div>
+            </div><!-- col-4 -->
+        </div><!-- row -->
+        <br>
+        <div class="form-layout-footer mg-t-30">
+          <div id="saveForm">Save Form</div>
+          <div id="editForm">Edit Form</div>
+        </div><!-- form-layout-footer -->
+      </div><!-- form-layout -->
+    </div>
+  </div>
 </form>
-////
-
-
 
 <script>
 

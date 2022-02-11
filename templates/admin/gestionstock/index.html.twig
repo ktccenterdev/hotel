@@ -16,14 +16,14 @@
     <div class="br-pagetitle">
         <i class="ionicons ion-android-arrow-back"></i>
         <div>
-            <h4>GESTION DES SORTIS EN STOCK</h4>
+            <h4>GESTION DES SORTIES EN STOCK</h4>
             <p style="color: blue;" class="mg-b-0">----</p>
         </div>
     </div>
     <!-- d-flex -->
     <div class="br-pagebody">
         <div class="br-section-wrapper">
-            <h6 class="br-section-label">Liste des sortis en stock</h6>
+            <h6 class="br-section-label">Liste des sorties en stock</h6>
 
             <div x-data="{ ajouter : false }">
                 <div id="divError" style="display: none;" class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -44,63 +44,35 @@
 											<div class="row">
 											
 												<div class="col-lg-3 col-xlg-3 col-md-3">
-													
 													<label class="col-sm-12 form-control-label">Type de sortit : <span class="tx-danger">*</span></label>
-													<select class="form-control" onchange="checkAlert(event)" name="sortistock_id">
-														<option label="Choisisez le type de sortit"></option>
-														{# {% set newArray = [] %}
-														{% for sortirstock in sortirstocks %}
-															{% if sortirstock.type not in newArray %}
-																<option >{{sortirstock.type}}</option>
-															{% set newArray = newArray|merge([sortirstock.type,null ]) %}
-															{% endif %}
-														{% endfor %}	
-													 #}
+													<select class="form-control select2" onchange="checkAlert(event)" name="sortistock_id" style="width: 100%;">														
+													 <option label="Sélectionner"></option>
 													 <option value="PERSONNE">PERSONNE</option>
 													 <option value="MAGASIN">MAGASIN</option>
 													</select>
 													
 													
 												</div>
-												<div class="col-lg-3 col-xlg-3 col-md-3">
-													
+												<div class="col-lg-3 col-xlg-3 col-md-3">													
 													<label class="col-sm-12 form-control-label">Type de produit: <span class="tx-danger">*</span></label>
 													<input class="form-control" type="text" name="type"  placeholder="type  de produit" required>
 													
 												</div>
-												{#//
-												 <div class="col-lg-3 col-xlg-3 col-md-3">
-													
-													<label class="col-sm-12 form-control-label">Type de sortit : <span class="tx-danger">*</span></label>
-													<select class="form-control" onchange="checkAlert(event)">
-														<option label="Choisisez le type de sortit"></option>
-														{% set newArray = [] %}
-														{% for sortirstock in sortirstocks %}
-															{% if sortirstock.type not in newArray %}
-																<option >{{sortirstock.type}}</option>
-															{% set newArray = newArray|merge([sortirstock.type,null ]) %}
-															{% endif %}
-														{% endfor %}	
-													
-													</select>
-													
-													
-												</div> 
-												//#}
+												
 												<div class="col-lg-3 col-xlg-3 col-md-3" id="myshow1">
 													<label class="col-sm-12 form-control-label" >Personne: <span class="tx-danger">*</span></label>
-													<select class="form-control"  name="responsable_id" >
-														<option label="--Choisissez la personne--"></option>
-														{% for user in users %}
+													<select class="form-control select2"  name="responsable_id" style="width: 100%;">
+													<option label="Sélectionner"></option>
+													{% for user in users %}
 															<option value="{{user.id}}">{{user.nom}}</option>
 														{% endfor %}
 													</select>
 												</div>
 												<div class="col-lg-3 col-xlg-3 col-md-3" id="myshow2">
 													<label class="col-sm-12 form-control-label">Magasin Destination: <span class="tx-danger">*</span></label>
-													<select class="form-control"  name="magdest_id"  >
-														<option label="--Choisissez le Magasin de destination--"></option>
-														{% set newArray = [] %}
+													<select class="form-control select2"  name="magdest_id"  style="width: 100%;">
+													<option label="Sélectionner"></option>
+													{% set newArray = [] %}
 														{% for magasin in magasins %}
 															{% if magasin.nom not in newArray %}
 																{% if magasin.antene.nom != app.user.antene.nom %}
@@ -110,27 +82,7 @@
 															{% endif %}
 														{% endfor %}
 													</select>
-												</div>
-												{# <div class="col-lg-3 col-xlg-3 col-md-3">
-													
-													<label class="col-sm-12 form-control-label">Type: <span class="tx-danger">*</span></label>
-													
-													 <input class="form-control" type="text" name="type"  placeholder="type de stock" required>
-												</div> #}
-												{# <div class="col-lg-3 col-xlg-3 col-md-3">
-													
-													<label class="col-sm-12 form-control-label">Type de sortit : <span class="tx-danger">*</span></label>
-													<select class="form-control" id="sortistock_id" name="sortistock_id" >
-														<option label="Choisisez le type de sortir"></option>
-														{% for sortirstock in sortirstocks %}
-															<option value="{{sortirstock.id}}">{{sortirstock.type}}</option>
-														{% endfor %}
-													</select><br>
-													
-													 <input class="form-control" type="text" name="sortistock_id"  placeholder="type de stock" >
-												</div> #}
-												
-												
+												</div>												
 												<div class="errorform col-lg-8 col-xlg-8 col-md-8">
 													<div class="alert alert-warning alert-solid" role="alert">
 														<button type="button" class="close" data-dismiss="alert" click="close()" aria-label="Close">
@@ -148,8 +100,7 @@
 										<div class="row" style="background: #ced4da;">
 											<div class="col-lg-4 col-xlg-4 col-md-4">
 											 	<label class="col-sm-12 form-control-label">Produit: <span class="tx-danger">*</span></label>
-												<select class="form-control" id="produit" name="produit[]" >
-													<option label="--Choisisez le produit--"></option>
+												<select class="form-control select2" id="produit" name="produit[]" style="width: 100%;">
 													{% for produit in produits %}
 														<option value="{{produit.id}}">{{produit.nom}}</option>
 													{% endfor %}
@@ -207,35 +158,8 @@
 </div>
 
 <script>
-	$('.datatable').DataTable({
-	responsive: false,
-	language: {
-		searchPlaceholder: 'Recherche...',
-		sSearch: '',
-		lengthMenu: '_MENU_ items/page',
-	}
-	});
-</script>
-<script>
 $(".formelement").hide();
 $(".errorform").hide();
-$(document).ready(function () {
-	 
-	
-});
-</script>
-<script>
-	function show() {
-	$(".formelement").show();
-	}
-	function hide() {
-	$(".formelement").hide();
-	}
-{# 
-	function close() {
-		$(".errorform").hide();
-	} #}
-	
 </script>
 
 <script>
@@ -289,5 +213,3 @@ function checkAlert(evt) {
     
 }
 </script>
-
-<script src="{{asset('js/hotelktc.js')}}"></script>

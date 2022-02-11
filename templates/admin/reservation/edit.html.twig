@@ -36,9 +36,9 @@
 																<div class="form-group">
 																	<label class=" form-control-label">Votre Type de Chambre Actuelle: ({{reservations.typechambre.nom}})<span class="tx-danger">*</span></label>
 																	<div class="mg-t-10 mg-sm-t-0">
-																		<select name="typech" class="form-control select2" required>
-																			{# <option value="{{reservations.typechambre.id}}" disabled selected>{{reservations.typechambre.nom}}</option> #}
-																			<option value="" disabled selected>choisir un type de chambre</option>
+																		<select name="typech" class="form-control select2" required style="width:100%">
+																			
+																			<option label="Sélectionner"></option>
 																			{% for type in types %}
 																			<option value="{{type.id}}">{{type.nom}} </option>
 																			{% endfor %}
@@ -115,17 +115,5 @@
 
 
   
-<script>
-      $(".formelement").hide();
-    
-    </script>
-    <script>
-      function show() {
-        $(".formelement").show();
-      }
-      function hide() {
-        $(".formelement").hide();
-      }
-    </script>
-    <script src="{{asset('js/hotelktc.js')}}"></script>
+
   

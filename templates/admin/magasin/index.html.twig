@@ -48,8 +48,8 @@
                                                 <div class="col-lg-6 col-xlg-4 col-md-12">
                                                     <label class="col-sm-12 form-control-label">Antenne: <span class="tx-danger">*</span></label>
                                                     <div class="col-sm-12 mg-t-12 mg-sm-t-0">
-                                                        <select class="form-control" name="entene_id">
-                                                            <option value="" disabled selected>Choisit une Antenne</option>
+                                                        <select class="form-control select2" name="entene_id" style="width:100%">
+                                                            <option label="Sélectionner"></option>
                                                             {% for entene in entenes %}
                                                                 {% if not entene.magasin %}
                                                                     <option value="{{entene.id}}">{{entene.nom}}</option>
