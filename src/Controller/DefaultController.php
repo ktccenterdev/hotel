@@ -47,7 +47,7 @@ class DefaultController extends AbstractController
         $request = $this->requestStack->getCurrentRequest();
         $this->parametre = current($this->em->getRepository(Parametre::class)->findAll()); 
 
-        $this->checksecurity();
+       // $this->checksecurity();
     }
     
 	

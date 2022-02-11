@@ -1,201 +1,188 @@
-<div class="br-mainpanel">
-    <div class="br-pagetitle">
-        <i class="icon fa fa-share"></i>
-        <div>
-            <h4>GESTION DES ENTREES EN STOCK</h4>
-            <p style="color: blue;" class="mg-b-0">----</p>
-        </div>
-    </div>
-    <!-- d-flex -->
-    <div class="br-pagebody">
-        <div class="br-section-wrapper" style="padding:10px;">
-
-            <div x-data="{ ajouter : false }">
-                <div id="divError" style="display: none;" class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Erreur:</strong>
-                    <span class="messageError"></span>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-
-                <div class="row d-flex justify-content-center">
-                    <div class="col-lg-12 col-xlg-12 col-md-12">
-                        <div class="row mg-t-5">
-                            <div class="col">
-                                <form id="form-send"  class="js-form-send {{app.user.hasAccess('entrestock-add')}}" 
-                                    action="{{path('entrestock-add')}}" method="POST"
-                                    data-toggle="ajax" data-target="monContent">
-                                    <div class="form-layout form-layout-4">
-                                        <h6 class="br-section-label">Effectuez une entrée</h6>
-                                        <div class="row">
-                                            <div class="col-lg-6 col-xlg-6 col-md-8">
-                                                <label class="col-sm-12 form-control-label">Fournisseur: <span class="tx-danger">*</span></label>
-                                                <div class="col-sm-12 mg-t-12 mg-sm-t-0">
-                                                    <select id="fournisseur" class="form-control" name="fournisseur" required>
-                                                        <option>Choisisez le fournisseur</option>
-														{% for fournisseur in fournisseurs %}
-															<option value="{{fournisseur.id}}">{{fournisseur.nom}}</option>
-														{% endfor %}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            {# <div class="col-lg-6 col-xlg-6 col-md-4">
-                                                <label class="col-sm-12 form-control-label">Magasin: <span class="tx-danger">*</span></label>
-                                                <div class="col-sm-12 mg-t-12 mg-sm-t-0">
-                                                    <select class="form-control" name="produit">
-                                                        <option>Choisisez le magasin</option>
-                                                    </select>
-                                                </div>
-                                            </div> #}
-                                        </div>
-										
-                                        <!-- row -->
-                                        <br />
-										<div class="row" style="background: #ced4da;">
-											<div class="col-lg-4 col-xlg-4 col-md-4">
-											 	<label class="col-sm-12 form-control-label">Produit: <span class="tx-danger">*</span></label>
-												<select id="selectproduit" class="form-control" name="produit">
-													<option>Choisisez le produit</option>
-													{% for produit in produits %}
-														<option value="{{produit.id}}">{{produit.nom}}</option>
-													{% endfor %}
-												</select><br>
-												<label class="col-sm-12 form-control-label">Quantite: <span class="tx-danger">*</span></label>
-												<input id="qtproduct" type="number" class="form-control" placeholder="quantite" name="dure"><br>
-
-												<label class="col-sm-12 form-control-label">Prix Total: <span class="tx-danger">*</span></label>
-												<input id="prixtotal" type="number" class="form-control" placeholder="Prix total" name="dure"><br>
-												<span  class="btn btn-info add_to_cart">Ajouter</span>
-												<br>
-												<br>
-											</div>
-											<div class="col-lg-8 col-xlg-8 col-md-8">
-												<div class="table-responsive" id="order_table">
-													<table class="table table-bordered table-striped">
-														<tr>  
-															<th width="40%">Produit</th>  
-															<th width="10%">Quantite</th>  
-															<th width="20%">Prix unitaire</th>  
-															<th width="15%">Prix Total</th>  
-															<th width="5%">Action</th>  
-														</tr>
-														
-													</table>
-												</div>
-											</div>
-										</div>
-                                        <div class="row">
-                                            <div class="col-lg-12 col-xlg-12 col-md-12">
-                                                <label class="col-sm-12 form-control-label">Commentaire<span class="tx-danger">*</span></label>
-                                                <div class="col-sm-12 mg-t-12 mg-sm-t-0">
-                                                    <textarea rows="3" class="form-control mg-t-20" name="description" id="description" placeholder="Description"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- row -->
-
-                                        <div class="form-layout-footer mg-t-30" align="right">
-                                            <span  class="btn btn-info saveentrestock">Sauvegarder</span>
-                                        </div>
-                                        <!-- form-layout-footer -->
-                                    </div>
-                                    <!-- form-layout -->
-                                </form>
-                            </div>
-                            <!-- col-6 -->
-                        </div>
-                        <!-- row -->
-                    </div>
-                </div>
-            </div>
-            <!-- br-pagebody -->
-        </div>
-        <!-- br-mainpanel -->
+<div class="br-pagetitle">
+    <i class="icon fa fa-share"></i>
+    <div>
+        <h4>GESTION DES ENTREES EN STOCK</h4>
+        <p style="color: blue;" class="mg-b-0">----</p>
     </div>
 </div>
 
-<script>
-	$('.datatable').DataTable({
-	responsive: false,
-	language: {
-		searchPlaceholder: 'Recherche...',
-		sSearch: '',
-		lengthMenu: '_MENU_ items/page',
-	}
-	});
-</script>
-<script>
-$(".formelement").hide();
-$(document).ready(function () {
-	 
-	
-});
-</script>
-<script>
-	function show() {
-	$(".formelement").show();
-	}
-	function hide() {
-	$(".formelement").hide();
-	}
-</script>
+<div class="br-section-wrapper" style="padding:10px;">
+
+    <div x-data="{ ajouter : false }">
+        <div id="divError" style="display: none;" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Erreur:</strong>
+            <span class="messageError"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+
+        <div class="row d-flex justify-content-center">
+            <div class="col-lg-12 col-xlg-12 col-md-12">
+                <div class="row mg-t-5">
+                    <div class="col">
+                        <form id="form-send"  class="js-form-send {{app.user.hasAccess('entrestock-add')}}" 
+                            action="{{path('entrestock-add')}}" method="POST"
+                            data-toggle="ajax" data-target="monContent">
+                            <div class="form-layout form-layout-4">
+                                <h6 class="br-section-label">Effectuez une entrée</h6>
+                                <div class="row">
+                                    <div class="col-lg-6 col-xlg-6 col-md-8">
+                                        <label class="col-sm-12 form-control-label">Fournisseur: <span class="tx-danger">*</span></label>
+                                        <div class="col-sm-12 mg-t-12 mg-sm-t-0">
+                                            <select id="fournisseur" class="form-control select2" name="fournisseur" required placeholder="Sélecionner">
+                                                {% for fournisseur in fournisseurs %}
+                                                    <option value="{{fournisseur.id}}">{{fournisseur.nom}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    {# <div class="col-lg-6 col-xlg-6 col-md-4">
+                                        <label class="col-sm-12 form-control-label">Magasin: <span class="tx-danger">*</span></label>
+                                        <div class="col-sm-12 mg-t-12 mg-sm-t-0">
+                                            <select class="form-control" name="produit">
+                                                <option>Choisisez le magasin</option>
+                                            </select>
+                                        </div>
+                                    </div> #}
+                                </div>
+                                
+                                <!-- row -->
+                                <br />
+                                <div class="row" style="background: #ced4da;">
+                                    <div class="col-lg-4 col-xlg-4 col-md-4">
+                                        <label class="col-sm-12 form-control-label">Produit: <span class="tx-danger">*</span></label>
+                                        <select id="selectproduit" class="form-control select2 js-states" name="produit">
+                                            {% for produit in produits %}
+                                                <option value="{{produit.id}}">{{produit.nom}}</option>
+                                            {% endfor %}
+                                        </select><br>
+                                        <label class="col-sm-12 form-control-label">Quantite: <span class="tx-danger">*</span></label>
+                                        <input id="qtproduct" type="number" class="form-control" placeholder="quantite" name="qtproduct"><br>
+
+                                        <label class="col-sm-12 form-control-label">Prix Total: <span class="tx-danger">*</span></label>
+                                        <input id="prixtotal" type="number" class="form-control" placeholder="Prix total" name="prixtotal"><br>
+                                        <span  class="btn btn-info" id="add_to_cart"><i class="fa fa-plus"></i> Ajouter</span>
+                                        <br>
+                                        <br>
+                                    </div>
+                                    <div class="col-lg-8 col-xlg-8 col-md-8">
+                                        <div class="table-responsive" id="order_table">
+                                            <table class="table table-bordered table-striped" id="tableProduit">
+                                                <tr>  
+                                                    <th width="40%">Produit</th>  
+                                                    <th width="10%">Quantite</th>  
+                                                    <th width="20%">Prix unitaire</th>  
+                                                    <th width="15%">Prix Total</th>  
+                                                    <th width="5%">Action</th>  
+                                                </tr>
+                                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 col-xlg-12 col-md-12">
+                                        <label class="col-sm-12 form-control-label">Commentaire<span class="tx-danger">*</span></label>
+                                        <div class="col-sm-12 mg-t-12 mg-sm-t-0">
+                                            <textarea rows="3" class="form-control mg-t-20" name="description" id="description" placeholder="Description"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- row -->
+
+                                <div class="form-layout-footer mg-t-30" align="right">
+                                    <button id="saveentrestock"  class="btn btn-primary"> <i class="fa fa-save"></i> Sauvegarder</button>
+                                </div>
+                                <!-- form-layout-footer -->
+                            </div>
+                            <!-- form-layout -->
+                        </form>
+                    </div>
+                    <!-- col-6 -->
+                </div>
+                <!-- row -->
+            </div>
+        </div>
+    </div>
+    <!-- br-pagebody -->
+</div>
 
 <script>
     var produits = [];
-	$(document).on('click', '.add_to_cart', function(){
-        //console.log(produits);
-        var item = {
-            "idproduit": $( "#selectproduit" ).val(),
-            "qt": $( "#qtproduct" ).val(),
-            "pt":$( "#prixtotal" ).val()
-            };
+    var compteur = 0;
+    //produits.length = 0;
+    
+	$("#add_to_cart").on('click', function(e){
+        e.preventDefault(e);
+        var quantite = parseFloat($("#qtproduct" ).val());
+        var prixTotal = parseFloat($( "#prixtotal" ).val());
+        var produitId = parseInt($("#selectproduit" ).val());
+        if(quantite && prixTotal && quantite){
+            var item = {
+                "idproduit": produitId,
+                "qt": quantite,
+                "pt": prixTotal
+            }
             produits.push(item);
-        //$( "#selectproduit" ).find(":selected").text()
-        //$( "#selectproduit" ).val()
-        var markup = "<tr><td>"+$( "#selectproduit" ).find(":selected").text()+"</td><td>"+$( "#qtproduct" ).val()+"</td><td>"+parseFloat($( "#prixtotal" ).val())/parseFloat($( "#qtproduct" ).val())+"</td><td>"+$( "#prixtotal" ).val()+"</td><td><button name='delete' class='btn btn-danger btn-xs delete' id='12'>Remove</button></tr>";
-        $("table tbody").append(markup);
+            var markup = "<tr id='"+compteur+"'><td>"+$( "#selectproduit" ).find(":selected").text()+"</td><td>"+quantite+"</td><td>"+prixTotal/quantite+"</td><td>"+prixTotal+"</td><td><button name='delete' class='btn btn-danger btn-xs delete'  onclick='removeProduit("+compteur+")'>Remove</button></tr>";
+            $("table tbody").append(markup);
+            compteur += 1;
+            $("#prixtotal" ).val("")
+            $("#qtproduct" ).val("")
+        }else{
+            sweetNotificationbad("Veuillez renseigner tous les champs");
+        }        
 	});
 </script>
 <script>
-    $(document).on('click', '.saveentrestock', function(){
-        //alert("merci beaucoup a tous ");
-        //console.log(produits);
-        /////////////////////////////////
-             $.ajax({
-                url: "/entrestockadd",
-                type: 'POST',
-                dataType: 'json',
-                data:{"produits":produits,"comment": $( "#description" ).val(),"fournisseur":$( "#fournisseur" ).val() }
-            }).done(function(responsse){ 
-                //console.log(responsse);        
-                if(responsse.success){
-                    Swal.fire({
-                    title: 'enregistrement terminer',
-                    text: "Voulez vous imprimer la facture ?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Imprimer'
-                    }).then((result) => {
-                    
-                    })
-                }else{
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "problème d'enregistrer !",
-                        showConfirmButton: false,
-                        timer: 2000
-                    })
-                }        
-                    
-            }).fail(function(error){
-                
-            });
-        ////////////////////////////////
+    $("#saveentrestock").on('click', function(e){
+        e.preventDefault();
+        if(produits.length == 0){
+            sweetNotificationbad("Produits vides, veuillez sélectionner des produits.");
+        }else{
+            Swal.fire({
+                title: 'Entrée de stock',
+                text: "Voulez vous valider cette entrée?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Oui valider'
+                }).then((result) => {
+                    $.ajax({
+                        url: "/entrestockadd",
+                        type: 'POST',
+                        dataType: 'json',
+                        data:{"produits":produits,"comment": $( "#description" ).val(),"fournisseur":$( "#fournisseur" ).val() }
+                    }).done(function(responsse){       
+                        if(responsse.success){
+                            var url = "/indexentree";
+                            var effect = guessEffect(this, "#monContent");
+                            ajaxLink(url, "monContent", "html", effect); 
+                        }else{
+                            sweetNotificationbad("problème d'enregistrement, veuillez reprendre");
+                        }        
+                            
+                    }).fail(function(error){
+                        
+                    });
+                })
+        }
+       
     });
-    {# function removeelment(indice,tab) {
-        
-    } #}
+
+    function removeProduit(indice) {
+        //delete produits[indice];
+        Swal.fire({
+            title: 'Entrée de stock',
+            text: "Voulez vous retirer cette entrée?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Oui retirer'
+            }).then((result) => {
+                produits.splice(indice, 1);
+                $("table#tableProduit tr#"+indice).remove();
+        })
+    }
 </script>
-<script src="{{asset('js/hotelktc.js')}}"></script>

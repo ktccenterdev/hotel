@@ -33,22 +33,31 @@ class StokentresortirController extends DefaultController
     */
     public function indexentree()
     {
-        $link="magasin";
-        try {
-            $fournisseurs = $this->em->getRepository(Fournisseur::class)->findAll();
-            $margins = $this->em->getRepository(Magasin::class)->findAll();
-            $produits = $this->em->getRepository(Produit::class)->findAll();
-            $data = $this->renderView('admin/gestionstock/entreestock.html.twig', [
-                "fournisseurs" => $fournisseurs,
-                "produits" => $produits,
-                "magasins" => $margins
-            ]);
-            $this->successResponse("Ajouter des entres", $link, $data);
-        } catch (\Exception $ex) {
-            $this->log($ex->getMessage(), $link);
+        $link = "indexentree";
+        if($this->getUser()){
+            $user = $this->getUser();
+            try {
+                $fournisseurs = $this->em->getRepository(Fournisseur::class)->findAll();
+                $produits = $this->em->getRepository(Produit::class)->findAll();
+
+                if($user->getIsadmin()){
+                    $magasins = $this->em->getRepository(Magasin::class)->findAll();
+                }else{
+                    $magasins = [$user->getAntene()->getMagasin()];
+                }
+                $data = $this->renderView('admin/gestionstock/entreestock.html.twig', [
+                    "fournisseurs" => $fournisseurs,
+                    "produits" => $produits,
+                    "magasins" => $magasins
+                ]);
+                $this->successResponse("Ajouter des entres", $link, $data);
+            } catch (\Exception $ex) {
+                $this->log($ex->getMessage(), $link);
+            }
+            return $this->json($this->result);
+        }else{
+            return $this->redirectToRoute('login');
         }
-        return $this->json($this->result);
-        
     }
 
 
@@ -57,19 +66,26 @@ class StokentresortirController extends DefaultController
      */
     public function printrecus(Request $request)
     {
-        $link="print-recuentrestock";
-            $antene=$user=$this->getUser()->getAntene();
-            $entreestock =$this->em->getRepository(Entrestock::class)->find($request->get('id'));
-            //dd($types);
-            $tarifs =$this->em->getRepository(Tarif::class)->findAll();
-            $template = $this->renderView('admin/print/recuentrestock.pdf.twig', [
-                "tarifs" => $tarifs,
-                "entreestock" => $entreestock,
-                "antene" => $antene
-            ]);
-        
-       // dd($this->result);
-       return $this->returnPDFResponseFromHTML($template, "fiche entre"); 
+        $link = "indexentree";
+        if($this->getUser()){
+            $user = $this->getUser();
+            try {
+                $link="print-recuentrestock";
+                $entreestock =$this->em->getRepository(Entrestock::class)->find($request->get('id'));
+                $tarifs =$this->em->getRepository(Tarif::class)->findAll();
+                $template = $this->renderView('admin/print/recuentrestock.pdf.twig', [
+                    "tarifs" => $tarifs,
+                    "entreestock" => $entreestock,
+                    "antene" => $user->getAntene()
+                ]);
+                return $this->returnPDFResponseFromHTML($template, "fiche des entrées de stock"); 
+            } catch (\Exception $ex) {
+                $this->log($ex->getMessage(), $link);
+            }
+            return $this->json($this->result);
+        }else{
+            return $this->redirectToRoute('login');
+        }
     }
 
 
@@ -78,34 +94,30 @@ class StokentresortirController extends DefaultController
      */
     public function entrestockadd(Request $request)
     {
-        $link="listeentrestockgenerale";
-        try {
-            $fourniseur =$request->get('fournisseur');
-            $fourniseur = $this->em->getRepository(Fournisseur::class)->find($fourniseur);
-            $commentaire =  $request->get('comment');
-            $produits =  $request->get('produits');
-            
-            $entreestock = new Entrestock();
-            $entreestock->SetUser($this->getUser());
-            $entreestock->SetFournisseur($fourniseur);
-            $entreestock->SetCommentaire($commentaire);
-            $entreestock->SetDate(new \DateTime());
-            $magasing = $this->em->getRepository(Magasin::class)->findBy(['type' => 'Général']);
-            
-            if(!empty($magasing)){
-                //dd($magasing[0]);
-                $entreestock->SetMagasin($magasing[0]); 
-                $entreestock->SetEtat(0); 
+        $link = "indexentree";
+        if($this->getUser()){
+            $user = $this->getUser();
+            $antenne = $user->getAntene();
+            try {
+
+                $fourniseur =$request->get('fournisseur');
+                $fourniseur = $this->em->getRepository(Fournisseur::class)->find($fourniseur);
+                $commentaire =  $request->get('comment');
+                $produits =  $request->get('produits');
+                $magasin = $antenne->getMagasin();
+             //   dd($produits);
+                $entreestock = new Entrestock();
+                $entreestock->SetUser($this->getUser());
+                $entreestock->SetFournisseur($fourniseur);
+                $entreestock->SetCommentaire($commentaire);
+                $entreestock->SetDate(new \DateTime());
+                $entreestock->SetMagasin($magasin); 
+                $entreestock->SetEtat(0);                 
                 $this->em->persist($entreestock);
-                $this->em->flush();
-               /*  $this->setlog("ENTREE","Le STOCK ".$this->getUser()->getUsername().
-                " a ENTREE le stock ".$entreestock->getUser(),"Entrestock",$entreestock->getId()); */
-                
-                foreach ($produits  as &$value) {
+
+                foreach ($produits  as $value) {
                     $item=new Entreitem();
-                    //dd($value["idproduit"]);
                     $produit = $this->em->getRepository(Produit::class)->find($value["idproduit"]);
-                    //dd($produit);
                     $item->setProduit($produit);
                     $item->SetEntre($entreestock);
                     $item->setQt($value["qt"]);
@@ -114,17 +126,17 @@ class StokentresortirController extends DefaultController
                     $item->setQt($value["qt"]);
                     $this->em->persist($item);
                     $this->em->flush();
-                    /* $this->setlog("ENTREE","Le STOCK ".$this->getUser()->getUsername().
-                " a ENTREE le stock ".$entreestock->getUser(),"Entrestock",$entreestock->getId()); */
-                   
+                    $this->setlog("ENTREE","Le STOCK ".$this->getUser()->getUsername().
+                    " a entré le stock ".$entreestock->getUser()->getNom(),"Entrestock",$entreestock->getId());                
                 }
-
+                $result = array("success"=>true,"entrestock"=>$entreestock);
+                return new JsonResponse($result);
+            } catch (\Exception $ex) {
+                $result = array("success"=>false,"message"=>$ex->getMessage());
+                return new JsonResponse($result);
             }
-            $result = array("success"=>true,"entrestock"=>$entreestock);
-            return new JsonResponse($result);
-        } catch (\Exception $ex) {
-            $result = array("success"=>false,"message"=>$ex->getMessage());
-            return new JsonResponse($result);
+        }else{
+            return $this->redirectToRoute('login');
         }
 
 
@@ -200,41 +212,43 @@ class StokentresortirController extends DefaultController
     }
 
 
-
-	////sorties
     /**
      * @Route("/listsortis", name="index-sortis", methods={"GET"})
      */
     public function listsortis()
     {
         $link="sortis";
+        $userg = $this->getUser();
+        if($userg){
+            try {
+            
+            
+                $sortis = null;
 
-        try {
-           
-         
-            $sortis = null;
+                $magasins = $this->em->getRepository(Magasin::class)->findAll();
+                $users = $this->em->getRepository(User::class)->findBy(["type" =>"EMPLOYE"]);
+                $produits = $this->em->getRepository(Produit::class)->findAll();
+                $sortirs = $this->em->getRepository(Sortiritem::class)->findAll();
+                //dd($sortirs);
+                $sortirstocks = $this->em->getRepository(Sortirstock::class)->findAll();
+                $data = $this->renderView('admin/gestionstock/sortis.html.twig', [
+                    "sortis" => $sortis,
+                    "produits" => $produits,
+                    "magasins" => $magasins,
+                    "users" => $users,
+                    "sortirs" => $sortirs,
+                    "sortirstocks" => $sortirstocks
+                ]);
+                $this->successResponse("Liste des sortis ", $link, $data);
 
-            $magasins = $this->em->getRepository(Magasin::class)->findAll();
-            $users = $this->em->getRepository(User::class)->findBy(["type" =>"EMPLOYE"]);
-            $produits = $this->em->getRepository(Produit::class)->findAll();
-            $sortirs = $this->em->getRepository(Sortiritem::class)->findAll();
-			//dd($sortirs);
-            $sortirstocks = $this->em->getRepository(Sortirstock::class)->findAll();
-            $data = $this->renderView('admin/gestionstock/sortis.html.twig', [
-                "sortis" => $sortis,
-                "produits" => $produits,
-                "magasins" => $magasins,
-                "users" => $users,
-                "sortirs" => $sortirs,
-                "sortirstocks" => $sortirstocks
-            ]);
-            $this->successResponse("Liste des sortis ", $link, $data);
-
-        } catch (\Exception $ex) {
-            $this->log($ex->getMessage(), $link);
+            } catch (\Exception $ex) {
+                $this->log($ex->getMessage(), $link);
+            }
+            // dd($this->result);
+            return $this->json($this->result);
+        }else{
+            return $this->redirectToRoute('login');
         }
-       // dd($this->result);
-        return $this->json($this->result);
     }
    
 
@@ -244,30 +258,36 @@ class StokentresortirController extends DefaultController
     public function indexlistsortis()
     {
         $link="sortis";
+        $userg = $this->getUser();
+        if($userg){
+            try {
+                $magasins = $this->em->getRepository(Magasin::class)->findAll();
+                $users = $this->em->getRepository(User::class)->findBy([
+                    "type" =>"EMPLOYE",
+                    "antene" => $userg->getAntene()
+                ]);
+                $produits = $this->em->getRepository(Produit::class)->findAll();
+                $sortirs = $this->em->getRepository(Sortiritem::class)->findAll();
+                $sortirstocks = $this->em->getRepository(Sortirstock::class)->findAll();
+                //dd($produits);
+                $sortis = null;
+                $data = $this->renderView('admin/gestionstock/index.html.twig', [
+                    "sortis" => $sortis,
+                    "produits" => $produits,
+                    "magasins" => $magasins,
+                    "users" => $users,
+                    "sortirs" => $sortirs,
+                    "sortirstocks" => $sortirstocks
+                ]);
+                $this->successResponse("Liste des sortis ", $link, $data);
 
-        try {
-            $magasins = $this->em->getRepository(Magasin::class)->findAll();
-            $users = $this->em->getRepository(User::class)->findBy(["type" =>"EMPLOYE"]);
-            $produits = $this->em->getRepository(Produit::class)->findAll();
-            $sortirs = $this->em->getRepository(Sortiritem::class)->findAll();
-            $sortirstocks = $this->em->getRepository(Sortirstock::class)->findAll();
-            //dd($produits);
-            $sortis = null;
-            $data = $this->renderView('admin/gestionstock/index.html.twig', [
-                "sortis" => $sortis,
-                "produits" => $produits,
-                "magasins" => $magasins,
-                "users" => $users,
-                "sortirs" => $sortirs,
-                "sortirstocks" => $sortirstocks
-            ]);
-            $this->successResponse("Liste des sortis ", $link, $data);
-
-        } catch (\Exception $ex) {
-            $this->log($ex->getMessage(), $link);
+            } catch (\Exception $ex) {
+                $this->log($ex->getMessage(), $link);
+            }
+            return $this->json($this->result);
+        }else{
+            return $this->redirectToRoute('login');
         }
-       // dd($this->result);
-        return $this->json($this->result);
     }
 
 
@@ -276,60 +296,62 @@ class StokentresortirController extends DefaultController
      */
     public function addsortitstock(Request $request)
     {
-        $link="sortis";
+        $link="listsortis";
+        $userg = $this->getUser();
+        if($userg){
+            try {
 
-        try {
+            
+                $responsable_id =  $request->get('responsable_id');
+                $responsable_id = $this->em->getRepository(User::class)->find($responsable_id);
+                $magdest_id =  $request->get('magdest_id');
+                $magdest_id = $this->em->getRepository(Magasin::class)->find($magdest_id);
+    
+                $commantaire =  $request->get('commantaire');
+                $type =  $request->get('type');
 
-           
-            $responsable_id =  $request->get('responsable_id');
-            $responsable_id = $this->em->getRepository(User::class)->find($responsable_id);
-            $magdepart_id =  $request->get('magdepart_id');
-            $magdepart_id = $this->em->getRepository(Magasin::class)->find($magdepart_id);
-            $magdest_id =  $request->get('magdest_id');
-            $magdest_id = $this->em->getRepository(Magasin::class)->find($magdest_id);
-  
-            $commantaire =  $request->get('commantaire');
-            $type =  $request->get('type');
+            
 
-           
+                $sortirstock = new Sortirstock();
+                $sortirstock->SetUser($this->getUser());
+                $sortirstock->setResponsable($responsable_id);
+                $sortirstock ->setCommantaire($commantaire);
+                $sortirstock->SetDate(new \DateTime());
+                $sortirstock ->setType($type);
+                $sortirstock ->setMagdepart($this->getUser()->getAntene()->getMagasin());
+                $sortirstock ->setMagdest($magdest_id);
+                $this->em->persist($sortirstock);
+                $this->em->flush();
+                /* $this->setlog("SORTIT","Le stock ".$this->getUser()->getUsername().
+                " a sortit le stock ".$sortirstock->getUser(),"Sortirstock",$sortirstock->getId()); */
 
-            $sortirstock = new Sortirstock();
-            $sortirstock->SetUser($this->getUser());
-            $sortirstock->setResponsable($responsable_id);
-            $sortirstock ->setCommantaire($commantaire);
-            $sortirstock->SetDate(new \DateTime());
-            $sortirstock ->setType($type);
-            $sortirstock ->setMagdepart($magdepart_id);
-            $sortirstock ->setMagdest($magdest_id);
-            $this->em->persist($sortirstock);
-            $this->em->flush();
-            $this->setlog("SORTIT","Le stock ".$this->getUser()->getUsername().
-            " a sortit le stock ".$sortirstock->getUser(),"Sortirstock",$sortirstock->getId());
+                $produit =  $request->get('produit');
+                array_shift($produit);
 
-            $produit =  $request->get('produit');
-            array_shift($produit);
+                $quantite =  $request->get('quantite');
+                array_shift($quantite);
+                $items = array_combine($produit,$quantite);
 
-            $quantite =  $request->get('quantite');
-            array_shift($quantite);
-            $items = array_combine($produit,$quantite);
+                foreach ($items as $produit => $quantite) {
+                    $item = new Sortiritem();
+                    //$produit = $this->em->getRepository(Produit::class)->find($value["idproduit"]);
+                    $produit = $this->em->getRepository(Produit::class)->find($produit);
+                    $item->setProduit($produit);
+                    $item->setSortistock($sortirstock);
+                    $item->setQt($quantite);
+                    $this->em->persist($item);
+                    $this->em->flush();
+            
+                }
 
-            foreach ($items as $produit => $quantite) {
-            $item = new Sortiritem();
-            //$produit = $this->em->getRepository(Produit::class)->find($value["idproduit"]);
-            $produit = $this->em->getRepository(Produit::class)->find($produit);
-            $item->setProduit($produit);
-            $item->setSortistock($sortirstock);
-            $item->setQt($quantite);
-            $this->em->persist($item);
-            $this->em->flush();
-           
+                $this->successResponse("Sortit magasin Effectue ",$link);  
+            }catch (\Exception $ex) {
+                $this->log($ex->getMessage(), "index-Rsortis");
+            } 
+            return new JsonResponse($this->result);
+        }else{
+            return $this->redirectToRoute('login');
         }
-
-            $this->successResponse("Sortit magasin Effectue ","listsortis");  
-        }catch (\Exception $ex) {
-            $this->log($ex->getMessage(), "index-sortis");
-        } 
-        return new JsonResponse($this->result);
     }
 
 
@@ -399,7 +421,6 @@ class StokentresortirController extends DefaultController
     public function etatslock(Request $request){
         $link="rupturedestock";
         try {
-
             $idmagasion =$request->get('idmag');
             $magasin=$this->em->getRepository(Magasin::class)->find($idmagasion);
             $magdest=null;
