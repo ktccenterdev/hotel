@@ -45,7 +45,7 @@
 											
 												<div class="col-lg-3 col-xlg-3 col-md-3">
 													<label class="col-sm-12 form-control-label">Type de sortit : <span class="tx-danger">*</span></label>
-													<select class="form-control select2" onchange="checkAlert(event)" name="sortistock_id" style="width: 100%;">														
+													<select class="form-control js-select2" onchange="checkAlert(event)" name="sortistock_id" style="width: 100%;">														
 													 <option label="Sélectionner"></option>
 													 <option value="PERSONNE">PERSONNE</option>
 													 <option value="MAGASIN">MAGASIN</option>
@@ -61,7 +61,7 @@
 												
 												<div class="col-lg-3 col-xlg-3 col-md-3" id="myshow1">
 													<label class="col-sm-12 form-control-label" >Personne: <span class="tx-danger">*</span></label>
-													<select class="form-control select2"  name="responsable_id" style="width: 100%;">
+													<select class="form-control js-select2"  name="responsable_id" style="width: 100%;">
 													<option label="Sélectionner"></option>
 													{% for user in users %}
 															<option value="{{user.id}}">{{user.nom}}</option>
@@ -70,7 +70,7 @@
 												</div>
 												<div class="col-lg-3 col-xlg-3 col-md-3" id="myshow2">
 													<label class="col-sm-12 form-control-label">Magasin Destination: <span class="tx-danger">*</span></label>
-													<select class="form-control select2"  name="magdest_id"  style="width: 100%;">
+													<select class="form-control js-select2"  name="magdest_id"  style="width: 100%;">
 													<option label="Sélectionner"></option>
 													{% set newArray = [] %}
 														{% for magasin in magasins %}
@@ -100,7 +100,7 @@
 										<div class="row" style="background: #ced4da;">
 											<div class="col-lg-4 col-xlg-4 col-md-4">
 											 	<label class="col-sm-12 form-control-label">Produit: <span class="tx-danger">*</span></label>
-												<select class="form-control select2" id="produit" name="produit[]" style="width: 100%;">
+												<select class="form-control js-select2" id="produit" name="produit[]" style="width: 100%;">
 													{% for produit in produits %}
 														<option value="{{produit.id}}">{{produit.nom}}</option>
 													{% endfor %}

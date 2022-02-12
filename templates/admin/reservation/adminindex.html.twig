@@ -34,7 +34,7 @@
                     <div class="form-group">
                       <label class="col-sm-6 form-control-label">Type de Chambre:<span class="tx-danger">*</span></label>
                       <div class="mg-t-10 mg-sm-t-0">
-                        <select name="typech" class="form-control select2" style="width:100%">
+                        <select name="typech" class="form-control js-select2" style="width:100%">
                           <option label="Chambre à Reserver"></option>
                           {% for type in types %}
                             <option value="{{type.id}} ">{{type.nom}} </option>
@@ -93,7 +93,7 @@
                     <div class="form-group">
                       <label class="form-control-label">Antenne: <span class="tx-danger">*</span></label>
                       <div class="mg-t-10 mg-sm-t-0">
-                        <select class="form-control select2" name="antene" required style="width:100%">
+                        <select class="form-control js-select2" name="antene" required style="width:100%">
                             {# <option label="--choisir--">Choisit une Antenne</option> #}
                            <option label="Sélectionner"></option>
                                 {% for antenne in antennes %}

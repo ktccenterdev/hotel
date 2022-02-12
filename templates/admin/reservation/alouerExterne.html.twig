@@ -13,13 +13,13 @@
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label class="form-control-label">Type de Chambres: <span class="tx-danger">*</span></label>
-                            {# <select name="typebed" class="form-control typedechambre select2" data-placeholder="Choose one" style="width: 75%">
+                            {# <select name="typebed" class="form-control typedechambre js-select2" data-placeholder="Choose one" style="width: 75%">
                                 <option value="0">Sélectionner le type</option>
                                 {% for chambre in typchambres %}
                                     <option value="{{chambre.id}}">{{chambre.nom}}</option>
                                 {% endfor %}
                             </select> #}
-                            <select name="typebed" class="form-control typedechambre select2" data-placeholder="Choose one" style="width: 75%">
+                            <select name="typebed" class="form-control typedechambre js-select2" data-placeholder="Choose one" style="width: 75%">
                                 <option value="0">Sélectionner le type</option>
                                
                                     <option value="{{reservations.typechambre.id}}">{{reservations.typechambre.nom}}</option>
@@ -32,7 +32,7 @@
                    {#  <div class="col-lg-3">
                         <div class="form-group">
                         <label class="form-control-label">Client: <span class="tx-danger">*</span></label>
-                            <select name="client" class="form-control select2 paiement" data-placeholder="Choose one" style="width: 100%" required>
+                            <select name="client" class="form-controljs-select2"paiement" data-placeholder="Choose one" style="width: 100%" required>
                                 <option value="--Selectionner un client--"></option>
                                 
                                     <option value="{{reservations.client.id}}">{{reservations.client.nom}}({{reservations.client.solde}}XAF)</option>
@@ -55,7 +55,7 @@
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label class="form-control-label">Durée : <span class="tx-danger">*</span></label>
-                             <select name="sejourclient" class="form-control tarifdeschambres select2" data-placeholder="Choose one" style="width: 75%">
+                             <select name="sejourclient" class="form-control tarifdeschambres js-select2" data-placeholder="Choose one" style="width: 75%">
                                     <option value="0">Durée du sejour</option>
                              </select>
                         </div>
@@ -84,7 +84,7 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                             <label class="form-control-label">Client: <span class="tx-danger">*</span></label>
-                                <select name="client" class="form-control select2 paiement" data-placeholder="Choose one" style="width: 100%" required>
+                                <select name="client" class="form-controljs-select2"paiement" data-placeholder="Choose one" style="width: 100%" required>
                                      <option value="" disabled selected>Sélectionner un Client</option>
                                     
                                         <option value="{{reservations.client.id}}">{{reservations.client.nom}}({{reservations.client.solde}}XAF)</option>
@@ -95,7 +95,7 @@
                         <div class="col-lg-4">
                             <div class="form-group mg-b-10-force">
                                 <label class="form-control-label">Chambre disponible: <span class="tx-danger">*</span></label>
-                                <select name="chambre" class="form-control chambres select2" data-placeholder="Choose one" style="width: 75%">
+                                <select name="chambre" class="form-control chambres js-select2" data-placeholder="Choose one" style="width: 75%">
                                     
                                 </select>
                             </div>

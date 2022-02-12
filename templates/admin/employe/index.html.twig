@@ -49,7 +49,7 @@
 								<div class="form-group mg-b-10-force">
 									<label class="form-control-label">Genre: <span class="tx-danger">*</span></label>
 									{% set sexes = ['F', 'M'] %}
-									<select name="sexe" class="form-control select2" data-placeholder="Choose sexe">
+									<select name="sexe" class="form-control js-select2" data-placeholder="Choose sexe">
 										<option label="--Sexe--"></option>
 											{% for sexe in sexes %}
 												<option value="{{sexe}}">{{sexe}}</option>
@@ -82,7 +82,7 @@
 								<div class="form-group mg-b-10-force">
 									<label class="form-control-label">Etat Civil: <span class="tx-danger">*</span></label>
 									{% set civils = ['Célibataire', 'Marié', 'Autre'] %}
-									<select name="etatcivil" class="form-control select2" data-placeholder="Choose civil">
+									<select name="etatcivil" class="form-control js-select2" data-placeholder="Choose civil">
 										<option label="--Etat Civil--"></option>
 											{% for civil in civils %}
 												<option value="{{ civil }}">{{civil}}</option>
@@ -120,7 +120,7 @@
 								<div class="col-lg-3">
 									<div class="form-group mg-b-10-force">
 										<label class="form-control-label">Antenne: <span class="tx-danger">*</span></label>
-										<select name="entenne" class="form-control select2" data-placeholder="Choose sexe">
+										<select name="entenne" class="form-control js-select2" data-placeholder="Choose sexe">
 											<option label="--Antenne--"></option>
 												{% for entene in entenes %}
 													<option value="{{ entene.id }}">{{ entene.nom }}</option>
@@ -136,7 +136,7 @@
 							<div class="col-lg-3">
 								<div class="form-group mg-b-10-force">
 									<label class="form-control-label">Rôle <span class="tx-danger">*</span></label>
-									<select name="role" class="form-control select2" data-placeholder="Choose sexe">
+									<select name="role" class="form-control js-select2" data-placeholder="Choose sexe">
 										<option label="--Rôle--"></option>
 											{% for role in roles %}
 												<option value="{{ role.id }}">{{ role.nom }}</option>

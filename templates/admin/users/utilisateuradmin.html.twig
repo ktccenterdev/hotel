@@ -35,7 +35,7 @@
                             <div class="row">
                             <label class="col-sm-4 form-control-label">Rôle: <span class="tx-danger">*</span></label>
                             <div class="col-sm-8 mg-t-10 mg-sm-t-0">
-                                <select name="role" class="form-control select2" data-placeholder="Choose one" id="role" style="width: 100%">
+                                <select name="role" class="form-control js-select2" data-placeholder="Choose one" id="role" style="width: 100%">
                                 <option label="Sélectionner"></option>
                                 {% for role in roles %}
                                     {% if role.nom != 'Super' %}
