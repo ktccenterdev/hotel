@@ -22,10 +22,8 @@ class TarifController extends DefaultController
      */
     public function indextarif()
     {
-
         $link="indextarif";
-        try {
-            
+        try {            
             if($this->getUser()->getIsAdmin()){
                 $types = $this->em->getRepository(Typechambre::class)->findAll();
                 $data = $this->renderView('admin/tarif/indexadmin.html.twig', [
@@ -119,7 +117,7 @@ class TarifController extends DefaultController
     /**
      * @Route("/deletetarif", name="tarif-delete", methods={"DELETE"})
      */
-    public function delete(Request $request,$id)
+    public function delete(Request $request)
     {
         $link="indextarif";
         $id = intval($request->get("id"));
@@ -131,11 +129,9 @@ class TarifController extends DefaultController
                 $this->setlog("SUPPRIMER","L'utilisateur ".$this->getUser()->getUsername().
                 " a supprimé un tarif  ".$tarif-> getNom(),"TARIF",$tarif->getId());           
                 $this->successResponse("Tarif Supprimé ", $link); 
-            }
-            else{
-                $this->successResponse("Tarif innexistant ",$link);
-            }
-            
+            }else{
+                $this->log("Tarif innexistant ",$link);
+            }            
         } catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);
         }
@@ -151,14 +147,12 @@ class TarifController extends DefaultController
         $link="indextarif";
 
         try {           
-            $tarif = $this->getDoctrine()->getRepository(Tarif::class)->find($id);
-            $types =$this->em->getRepository(Typechambre::class)->findAll();
+            $tarif = $this->getDoctrine()->getRepository(Tarif::class)->find(intval($id));
             if (!$tarif) {
                 $this->log("Tarif inexistant", $link);
             }else{
                 $data = $this->renderView('admin/tarif/edit.html.twig', [
-                    'tarifs' => $tarif,
-                    "types" => $types                
+                    'tarif' => $tarif              
                 ]);
                 $this->successResponse("Tarif modifié  ", $link, $data);
             }            

@@ -223,38 +223,41 @@ class AllocationRepository extends ServiceEntityRepository
 
     public function countaportAllocationparjourForroom($idroom)
     {
-        $vurrenttime = new DateTime();
-        $year=$vurrenttime->format('Y');
-        //dd($vurrenttime->format('Y'));
         $query = $this->createQueryBuilder('p')
-        ->select('sum(p.montant)')
-        ->leftJoin('App\Entity\Entene', 'u', 'WITH', 'p.antene = u')
+        ->select('sum(p.montant) as montant')
+        // ->leftJoin('App\Entity\Entene', 'u', 'WITH', 'p.antene = u')
         ->leftJoin('App\Entity\Chambre', 'c', 'WITH', 'p.chambre = c')
         ->Where('p.chambre = :idroom')
         ->andWhere('DATE_DIFF(p.createat, CURRENT_DATE()) = 0')
         ->setParameter('idroom',$idroom );
-        //->setParameter('curentdate',$year)
-        
-        
-        return floatval($query->getQuery()->getOneOrNullResult());     
+        return floatval($query->getQuery()->getOneOrNullResult()['montant']);     
     }
 
 
     public function countaportAllocationparmoisForroom($idroom)
     {
-        $vurrenttime = new DateTime();
-        $year=$vurrenttime->format('Y');
-        //dd($vurrenttime->format('Y'));
+        $emConfig = $this->getEntityManager()->getConfiguration();
+        $emConfig->addCustomDatetimeFunction('MONTH', 'DoctrineExtensions\Query\Mysql\Month');
+        $mois = date('m');
         $query = $this->createQueryBuilder('p')
-        ->select('sum(p.montant)')
+        ->select('sum(p.montant) as montant')
         ->leftJoin('App\Entity\Chambre', 'c', 'WITH', 'p.chambre = c')
         ->Where('p.chambre = :idroom')
-        ->andWhere('DATE_DIFF(p.createat, CURRENT_DATE()) = 0')
+        ->andWhere('MONTH(p.createat) =:mois')
+        ->setParameter('idroom',$idroom )
+        ->setParameter('mois', $mois);
+        return floatval($query->getQuery()->getOneOrNullResult()['montant']);     
+    }
+
+
+    public function montantAllocationChambre($idroom)
+    {
+        $query = $this->createQueryBuilder('p')
+        ->select('sum(p.montant) as montant')
+        ->leftJoin('App\Entity\Chambre', 'c', 'WITH', 'p.chambre = c')
+        ->Where('p.chambre = :idroom')
         ->setParameter('idroom',$idroom );
-        //->setParameter('curentdate',$year)
-        
-        
-        return floatval($query->getQuery()->getOneOrNullResult());     
+        return floatval($query->getQuery()->getOneOrNullResult()['montant']);     
     }
 
 

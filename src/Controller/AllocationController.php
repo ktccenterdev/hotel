@@ -1005,8 +1005,7 @@ class AllocationController extends DefaultController
         $link="listallocation";
         $user = $this->getUser();
         if($user){
-            try {
-            
+            try {            
                 if($user->getIsadmin()){
                     $typchambres = $this->em->getRepository(Typechambre::class)->findAll();
                     $allocations = $this->em->getRepository(Allocation::class)->findAll();

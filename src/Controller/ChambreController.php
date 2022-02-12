@@ -228,27 +228,30 @@ class ChambreController extends DefaultController
     }
    
     /**
-     * @Route("deletecha/{id}", name="deletecha")
+     * @Route("deletecha", name="deletecha")
      */
-    public function deleteAction($id)
+    public function deleteAction(Request $request)
     {
-        $link = "deletecha";
+        $link = "indexchambre";
         try{
             $user = $this->getUser();
-            if ($user) {
-               
-                $chambre = $this->em->getRepository(Chambre::class)->find($id);
+            $id = intval($request->get('id'));
+            if ($user) {               
+                $chambre = $this->em->getRepository(Chambre::class)->find($id);                
                 if (!$chambre) {
-                    throw $this->createNotFoundException(
-                        'There are no articles with the following id: ' . $id
-                    );
+                    $this->log("Chambre introuvable", $link);
+                }else{
+                    if(count($chambre->getAllocations()) === 0 && count($chambre->getReservations()) === 0 ){
+                        $this->em->remove($chambre);
+                        $this->em->flush();
+                        $this->setlog("SUPPRIMER","L'utilisateur ".$this->getUser()->getUsername().
+                            " a Suprimé la chambre ".$chambre->getNumero(),"Chambre N-",$chambre->getId());                             
+                        $this->successResponse("Chambre supprimée ", $link);
+                    }else{
+                        $this->log("Impossible de supprimer cette chambre, des informations y sont liées.", $link);
+                    }
                 }
-                $this->em->remove($chambre);
-                $this->em->flush();
-                $this->setlog("SUPPRIMER","L'utilisateur ".$this->getUser()->getUsername().
-                    " a Suprimer la chambre ".$chambre->getNumero(),"Chambre N-",$chambre->getId()); 
-                     
-                $this->successResponse("Antene supprimé ", $link);
+                
             }else {
                 return $this->redirectToRoute('login');
             }
@@ -257,9 +260,6 @@ class ChambreController extends DefaultController
             $this->log($ex->getMessage(), $link);
         } 
         return new JsonResponse($this->result);
-        
-        // return new JsonResponse($this->result);
-
     }
 
            
@@ -277,27 +277,15 @@ class ChambreController extends DefaultController
             if($chambre){            
                 $recettejournalier = $this->em->getRepository(Allocation::class)->countaportAllocationparjourForroom($chambre);
                 $recettemoisnalier = $this->em->getRepository(Allocation::class)->countaportAllocationparmoisForroom($chambre);
-                if(empty($recettejournalier[1])){
-                    $recettejournalier[1]=0;   
-                }
-                if(empty($recettemoisnalier[1])){
-                    $recettemoisnalier[1]=0;   
-                }
-                $allocations = $this->em->getRepository(Allocation::class)->findBy(['chambre' => $chambre]);
-                    if (!$chambre) {
-                        throw $this->createNotFoundException(
-                            'Aucun chambre pour l\'id: ' . $id
-                    );
-                }
-                
+                $recetteglobale = $this->em->getRepository(Allocation::class)->montantAllocationChambre($chambre);
+                $allocations = $this->em->getRepository(Allocation::class)->findBy(['chambre' => $chambre]);          
                 $data = $this->renderView('admin/chambre/view.html.twig', [
                     'chambre' => $chambre,
                     'allocations'=>$allocations,
                     'reservations' => $reservations,
-                    'recettejournaliere'=>$recettejournalier[1],
-                    'recettemoisnalier'=>$recettemoisnalier[1]
-                
-                
+                    'recettejournaliere'=> $recettejournalier,
+                    'recettemoisnalier'=>$recettemoisnalier,
+                    'recetteglobale'=>$recetteglobale
                 ]);
                 $this->successResponse("Liste des chambres ", $link, $data);
             }else{

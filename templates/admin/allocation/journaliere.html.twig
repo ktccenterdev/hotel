@@ -28,9 +28,8 @@
 						<div class="card-title">Chambre</div>
 					</div><!-- card-header -->
 					<div class="card-body">
-						<select class="form-control select2-show-search rapport-filte mg-r-20" id="select" name="chambre" onchange="filter(this.value)">
-								<option value="" disabled selected>Filtrer via chambre</option>
-								<option value=""></option>
+						<select class="form-control  rapport-filte mg-r-20 select2"  name="chambre" onchange="filter(this.value)" style="width:100%">
+								<option label="Filtrer via chambre"></option>
 								{% set newArray = [] %}
 								{% for allocation in allocations %}
 									{% if allocation.chambre.numero not in newArray %}
@@ -49,9 +48,8 @@
 					</div><!-- card-header -->
 					<div class="card-body">
 						
-						<select class="form-control select2-show-search rapport-filte mg-r-20" id="select" name="plage" onchange="filter(this.value)">
-							<option value="" disabled selected>Filtrer via client</option>
-							<option value=""></option>
+						<select class="form-control  rapport-filte mg-r-20 select2"  name="plage" onchange="filter(this.value)" style="width:100%">
+							<option label="Filtrer via client"></option>
 								{% set newArray = [] %}
 								{% for allocation in allocations %}
 									{% if allocation.occupant.username not in newArray %}
@@ -66,12 +64,11 @@
 			<div class="col-lg-3 col-md-12">
 				<div class="card widget-12 shadow-base">
 					<div class="card-header" style="background-color:#3D9970;">
-						<div class="card-title">Typê de Chambre</div>
+						<div class="card-title">Type de Chambre</div>
 					</div><!-- card-header -->
 					<div class="card-body">
-						<select class="form-control select2-show-search rapport-filte mg-r-20" id="select" name="chambre" onchange="filter(this.value)">
-							<option value="" disabled selected>Filtrer via Type Chambre</option>
-							<option value=""></option>
+						<select class="form-control  rapport-filte mg-r-20 select2"  name="chambre" onchange="filter(this.value)" style="width:100%">
+							<option label="Filtrer via Type Chambre"></option>
 							{% set newArray = [] %}
 							{% for allocation in allocations %}
 								{% if allocation.chambre.type.nom not in newArray %}
@@ -89,9 +86,8 @@
 						<div class="card-title">Date</div>
 					</div><!-- card-header -->
 					<div class="card-body">
-						<select class="form-control select2-show-search rapport-filte mg-r-20" id="select" name="plage" onchange="filter(this.value)">
-							<option value="" disabled selected>Filtrer via Date</option>
-							<option value=""></option>
+						<select class="form-control rapport-filte mg-r-20 select2" id="select" name="plage" onchange="filter(this.value)" style="width:100%">						
+							<option label="filtrer via date"></option>
 							{% set newArray = [] %}
 							{% for allocation in allocations %}
 								{% if allocation.datefin|date('d/m/Y') not in newArray %}
@@ -118,19 +114,17 @@
 
            
               <div class="table-wrapper responsiveelement">
-                  <table class="datatable table display nowrap">
-                
-                    <thead>
-                   
+                  <table class="datatable table display nowrap">                
+                    <thead>                   
                       <tr>	        
-                        <th class="wd-5p">ID</th>
+                        <th class="wd-5p">#</th>
 						<th class="wd-10p">Chambre</th>
 						<th class="wd-10p">Type de Chambre</th>
                         <th class="wd-15p">Noms et prénom</th>
                         <th class="wd-10p">Prix</th>
-						<th class="wd-20p">Date de debut</th>
-                        <th class="wd-20p">Date de fin</th>
-                        <th class="wd-20p">ACTION</th>
+						<th class="wd-10p">Date de debut</th>
+                        <th class="wd-10p">Date de fin</th>
+                        <th class="wd-10p">ACTION</th>
                       </tr>
                       
                     </thead>
