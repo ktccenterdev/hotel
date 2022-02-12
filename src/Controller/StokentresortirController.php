@@ -148,41 +148,44 @@ class StokentresortirController extends DefaultController
     public function listeentrestockgenerale(Request $request)
     {
         $link="listeentrestockgenerale";
-        try {
-            $user = $this->getUser();
-            if($this->getUser()->getIsadmin()){
-                 
-                $magasing = $this->em->getRepository(Magasin::class)->findBy(['type' => 'Général']);
-                if($magasing){
-                    $data = $this->renderView('admin/gestionstock/listeentrestock.html.twig', [
-                    "entrestocks" => current($magasing)->GetEntrestocks()
-                    ]);
-                    $this->successResponse("Ajouter des entres", $link, $data);
-                }else{
-                    $this->log("Aucun magasin enrégistré.", $link);
+        $user = $this->getUser();
+        if($user){
+            try {
+                if($user->getIsadmin()){
+                     
+                    $magasing = $this->em->getRepository(Magasin::class)->findBy(['type' => 'Général']);
+                    if($magasing){
+                        $data = $this->renderView('admin/gestionstock/listeentrestock.html.twig', [
+                        "entrestocks" => current($magasing)->GetEntrestocks()
+                        ]);
+                        $this->successResponse("Ajouter des entres", $link, $data);
+                    }else{
+                        $this->log("Aucun magasin enrégistré.", $link);
+                    }
+                }else {
+                   
+                    $magasing = $this->em->getRepository(Magasin::class)->findBy(['type' => 'Général']);
+                    if($magasing){
+                        $data = $this->renderView('admin/gestionstock/listeentrestock.html.twig', [
+                        //"entrestocks" => current($magasing)->GetEntrestocks()->getAntene()
+                       /* "entrestocks" => $magasing */
+                       "entrestocks" => current($magasing)->GetEntrestocks()
+                        ]);
+                        $this->successResponse("Ajouter des entres", $link, $data);
+                    }else{
+                        $this->log("Aucun magasin enrégistré.", $link);
+                    }
                 }
-            }else {
-               
-                $magasing = $this->em->getRepository(Magasin::class)->findBy(['type' => 'Général']);
-                if($magasing){
-                    $data = $this->renderView('admin/gestionstock/listeentrestock.html.twig', [
-                    //"entrestocks" => current($magasing)->GetEntrestocks()->getAntene()
-                   /* "entrestocks" => $magasing */
-                   "entrestocks" => current($magasing)->GetEntrestocks()
-                    ]);
-                    $this->successResponse("Ajouter des entres", $link, $data);
-                }else{
-                    $this->log("Aucun magasin enrégistré.", $link);
-                }
+      
+            } catch (\Exception $ex) {
+                $this->log($ex->getMessage(), $link);
             }
+            return $this->json($this->result);
 
-
-            
-            
-        } catch (\Exception $ex) {
-            $this->log($ex->getMessage(), $link);
+        }else{
+            return $this->redirectToRoute('login');
         }
-        return $this->json($this->result);
+        
     }
 
     /**
@@ -192,22 +195,128 @@ class StokentresortirController extends DefaultController
     {
         //$id =  $request->get('id');
         $link="detailentreestock";
-        
-        try {
-            $entrestock = $this->em->getRepository(Entrestock::class)->find($id);
-            //dd($entrestock->GetEntreitems());
-            $data = $this->renderView('admin/gestionstock/detail.html.twig', [
-                "entrestocks" => $entrestock
-            ]);
+        $user = $this->getUser();
+        if($user){
+            try {
+                $entrestock = $this->em->getRepository(Entrestock::class)->find($id);
+                //dd($entrestock->GetEntreitems());
+                $data = $this->renderView('admin/gestionstock/detail.html.twig', [
+                    "entrestocks" => $entrestock
+                ]);
+                
+                $this->successResponse("Ajouter des entres", $link, $data); 
+            } catch (\Exception $ex) {
+                $result = array("success"=>false,"message"=>"probleme");
+            }
             
-            
-
-            $this->successResponse("Ajouter des entres", $link, $data); 
-        } catch (\Exception $ex) {
-            $result = array("success"=>false,"message"=>"probleme");
+            return $this->json($this->result);
+        }else{
+            return $this->redirectToRoute('login');
         }
-        return $this->json($this->result);
+       
+    }
+
+    /**
+     * @Route("/detailsortiestock/{id}", name="detail-sortie-stock", methods={"GET"})
+     */
+    public function detailsortiestock($id)
+    {
+        $link="detail-sortie-stock";
+        $user = $this->getUser();
+        if($user){
+            try {
+                $sortiestocks = $this->em->getRepository(Sortirstock::class)->find($id);
+                //dd($sortiestocks);
+                $data = $this->renderView('admin/gestionstock/detailsortie.html.twig', [
+                    "sortiestocks" => $sortiestocks
+                ]);
+                $this->successResponse("Détail sur la sortie du stock", $link, $data); 
+            } catch (\Exception $ex) {
+                $result = array("success"=>false,"message"=>"probleme");
+            }
+            return $this->json($this->result);
+        }else{
+            return $this->redirectToRoute('login');
+        }
+       
+    }
+
+    /**
+     * @Route("/editsortiestock/{id}", name="edit-sortie-stock", methods={"GET"})
+     */
+    public function editsortiestock($id)
+    {
+        $link="edit-sortie-stock";
+        $user = $this->getUser();
+        if($user){
+            try {
+                $sortiestocks = $this->em->getRepository(Sortirstock::class)->find($id);
+                $magasins=[];
+                $employes=[];
+                if($sortiestocks->getMagdest()){
+                    $magasins = $this->em->getRepository(Magasin::class)->findAll();
+                }else{
+                    $employes = $this->em->getRepository(User::class)->findBy(["type" =>"EMPLOYE"]);
+                }
+                //dd($sortiestocks);
+                $data = $this->renderView('admin/gestionstock/updatesortie.html.twig', [
+                    "sortiestocks" => $sortiestocks,
+                    "magasins" => $magasins,
+                    "employes" => $employes
+                ]);
+                $this->successResponse("éditer la sortie du stock", $link, $data); 
+            } catch (\Exception $ex) {
+                $result = array("success"=>false,"message"=>"probleme");
+            }
+            return $this->json($this->result);
+        }else{
+            return $this->redirectToRoute('login');
+        }
+       
+    }
+
+    /**
+     * @Route("/editionsortiestock", name="edition-sortie-stock", methods={"POST"})
+     */
+    public function editionsortiestock(Request $request)
+    {
+        $link="listsortis";
+        $user = $this->getUser();
         
+        if($user){
+            try {
+                $id =  intval($request->get('id'));
+
+                $magdest =  intval($request->get('magdest'));
+                $magasin = $this->em->getRepository(Magasin::class)->find($magdest);
+                
+                $responssable =  intval($request->get('responssable'));
+                $employes = $this->em->getRepository(User::class)->find($responssable);
+
+                $description =  $request->get('description');
+
+                $sortirstock = $this->em->getRepository(Sortirstock::class)->find($id);
+                
+                if($magasin){
+                    $sortirstock ->setMagdest($magasin);
+                }
+                if($employes){
+                    $sortirstock->setResponsable($employes);
+                }
+                if($description){
+                    $sortirstock ->setCommantaire($description);
+                }
+                //dd($sortirstock);
+                $this->em->persist($sortirstock);
+                $this->em->flush();
+                $this->successResponse("Modification Sortie en stock Effectuée ",$link); 
+            } catch (\Exception $ex) {
+                $this->log($ex->getMessage(),$link);
+            }
+            return $this->json($this->result);
+        }else{
+            return $this->redirectToRoute('login');
+        }
        
     }
 
@@ -221,10 +330,7 @@ class StokentresortirController extends DefaultController
         $userg = $this->getUser();
         if($userg){
             try {
-            
-            
                 $sortis = null;
-
                 $magasins = $this->em->getRepository(Magasin::class)->findAll();
                 $users = $this->em->getRepository(User::class)->findBy(["type" =>"EMPLOYE"]);
                 $produits = $this->em->getRepository(Produit::class)->findAll();
@@ -480,11 +586,6 @@ class StokentresortirController extends DefaultController
         
         return $this->json($this->result);
     }
-
-    /**
-     * Landry
-     */
-
 
     /**
      * @Route("/indexapprovisionement", name="index-approvisionement", methods={"GET"})

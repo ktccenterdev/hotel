@@ -1,0 +1,98 @@
+<div class="br-mainpanel">
+
+        <div class="br-pagetitle">
+          <i class="fas fa-bed"></i>
+          <div>
+            <h4>DETIAL DE LA SORTIE EN STOCKS</h4>
+            <p style="color:blue;" class="mg-b-0">----</p>
+          </div>
+        </div><!-- d-flex -->
+
+
+<div class="br-pagebody">
+        <div class="br-section-wrapper">
+          <h6 class="br-section-label">Detail de la sortie en stocks</h6>
+          	 
+             <div    x-data="{ ajouter : false }">
+                <div class="d-flex justify-content-end" style="padding:10px;">
+                    <button class="btn btn-primary" style="margin-left:5px;"><a style="color:white;" href="{{path('print-fournisseur')}}" target="_blank"><i class="fa fa-print"></i> Imprimer</a></button>
+                </div>
+             <div> 
+         
+              <div class="table-wrapper responsiveelement">
+                    <div class="card bd-primary">
+                        <div class="card-header bg-primary tx-white">
+                            Informations generale sur la sortie <span style="color:Moccasin"><b> </b></span>
+                        </div>
+                        <!-- card-header -->
+                        <div class="card-body">
+                            <div class="row row-xs">
+                                <div class="col-lg-4">
+                                <label for=""><b>Responssable</b></label>
+                                <input type="text" id="nom" class="form-control modif" name="Nom" value="{{sortiestocks.user.username}}" disabled>
+                                </div>
+                                <div class="col-lg-4">
+                                <label for=""><b>Date</b></label>
+                                <input type="text" id="nom" class="form-control modif" value="{{sortiestocks.date |date('Y-m-d H:i:s')}}" disabled>
+                                </div>
+                                <div class="col-lg-4">
+                                <label for=""><b>Destination</b></label>
+                                    {% if (sortiestocks.magdest == null) %}
+                                        <input type="text" id="nom" class="form-control modif" name="Nom" value="{{sortiestocks.responsable.nom}}" disabled>
+                                    {% else %}
+                                        <input type="text" id="nom" class="form-control modif" name="Nom" value="{{sortiestocks.magdest.nom}}" disabled>
+                                    {% endif %}
+                                
+                                </div>
+                            </div> 
+                            <div class="row row-xs">
+                            <div class="col-lg-12">
+                                <label for=""><b>Commentaire</b></label>
+                                <textarea rows="3" id="description" name="description" class="form-control modif" required="" readonly="">{{sortiestocks.commantaire}}</textarea>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card bd-danger">
+                        <div class="card-header bg-danger tx-white">
+                            Informations  <span style="color:Moccasin"><b> </b></span>
+                        </div>
+                        <!-- card-header -->
+                        <div class="card-body">
+                            <div class="row row-xs">
+                                <div class="col-lg-12">
+                                <table class="datatable table display responsive nowrap">
+                                    <thead>
+                                        <tr>	        
+                                        <th class="wd-15p">ID</th>
+                                        <th class="wd-15p">Produit</th>
+                                        <th class="wd-15p">Quantite</th>
+                                        <th class="wd-15p">Type</th>
+                                        
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    
+                                        {% for sortie in sortiestocks.sortiritems %}
+                                        <tr>
+                                            <td>{{loop.index}}</td>
+                                            <td>{{sortie.produit.nom}}</td>
+                                            <td>{{sortie.qt}}</td>
+                                            <td>{{sortie.sortistock.type}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                </div>
+                                {# <p>Prix total {{total}} XAF</p> #}
+                                
+                            </div> 
+                            
+                        </div>
+                    </div>
+              </div><!-- table-wrapper -->
+        </div><!-- br-section-wrapper -->
+      </div><!-- br-pagebody -->
+    </div><!-- br-mainpanel -->
+
