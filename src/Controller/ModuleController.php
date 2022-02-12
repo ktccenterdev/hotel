@@ -22,18 +22,15 @@ class ModuleController extends DefaultController
      */
     public function indexmodule(Request $request)
     {
-
         $link="Module";
         try {
-            //$sbf=$fknd;
-                $modules=$this->em->getRepository(Module::class)->findAll();
-                $data = $this->renderView('admin/module/index.html.twig', ["modules"=>$modules]);
-                $this->successResponse("Liste des modules ", $link, $data);
+            $modules=$this->em->getRepository(Module::class)->findAll();
+            $data = $this->renderView('admin/module/index.html.twig', ["modules"=>$modules]);
+            $this->successResponse("Liste des modules ", $link, $data);
 
         } catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);
         }
-       // dd($this->result);
         return $this->json($this->result);
     }
 
@@ -47,7 +44,7 @@ class ModuleController extends DefaultController
         public function modulecleadd(Request $request)
         {
 
-            $link="Module";
+            $link="modulecle-add";
             try {
                     $modules=$this->em->getRepository(Module::class)->findAll();
                     $data = $this->renderView('admin/module/modulecle.html.twig', ["modules"=>$modules]);
@@ -65,39 +62,32 @@ class ModuleController extends DefaultController
          */
         public function addfordevadd(Request $request)
         {
-
-            $link="index-role";
+            $link="modulecle-add";
+            $etat = boolval($request->get('isdefault'));
             try {
-
                 $moduleaction= new Action();
                 $moduleaction->setNom($request->get('nom'));
-                $moduleaction->setIsdefault($request->get('isdefault'));
+                $moduleaction->setIsdefault($etat);
                 $moduleaction->setCle($request->get('cle'));
                 $moduleaction->setVisible(true);
                 $moduleaction->setCreateAt(new \DateTime("now"));
                 $moduleaction->setDescription($request->get('description'));
-                $moduleaction->setModule($this->em->getRepository(Module::class)->find($request->get('module')));
-                //dd($moduleaction);
-                $this->em->persist($moduleaction);
-                $this->em->flush();
-                $this->setlog("AJOUTER","L'utilisateur ".$this->getUser()->getUsername().
-                "a ajouter le module  ".$moduleaction->getNom(),"ACTION",$moduleaction->getId()); 
-                $roles=$this->em->getRepository(Role::class)->findAll();
-                
-                foreach ($roles as &$role) {
+                $moduleaction->setModule($this->em->getRepository(Module::class)->find(intval($request->get('module'))));
+                $this->em->persist($moduleaction);               
+                $roles=$this->em->getRepository(Role::class)->findAll();                
+                foreach ($roles as $role) {
                     $actionrole= new ActionRole();
                     $actionrole->setRole($role);
                     $actionrole->setAction($moduleaction);
-                    $actionrole->setEtat(0);
+                    $actionrole->setEtat($etat);
                     $this->em->persist($actionrole);
-                    $this->em->flush();
                 } 
-                //dd($moduleaction);
+                $this->em->flush();
+                $this->successResponse("Action ajoutée ", $link);
             } catch (\Exception $ex) {
                 $this->log($ex->getMessage(), $link);
             }
-            //return $this->json($this->result);
-            return $this->redirectToRoute($link,[]);
+            return $this->json($this->result);
         }
     /////end for developer
 

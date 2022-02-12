@@ -123,7 +123,4 @@ class RoleController extends DefaultController
         }
        return $this->json($this->result);
     }
-
-  
-
 }

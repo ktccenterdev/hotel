@@ -192,4 +192,26 @@ class UserController extends DefaultController
         }
     }
 
+    /**
+     * @Route("/profiluser", name="profil-user", methods={"GET"})
+     */
+    public function profilUser(Request $request)
+    {
+        $link="utilisateur-index";
+        $user = $this->getUser();  
+
+        try {
+            if($user){                
+                $data = $this->renderView("/admin/users/profil.html.twig", [
+                    "user" => $user
+                ]);
+                $this->successResponse("Profil affiché ", $link, $data);
+            }else{
+                return $this->redirectToRoute('login');
+            }
+        }catch(\Exception $ex){
+            $this->log($ex->getMessage(), $link);
+        }
+        return $this->json($this->result);
+    }
 }

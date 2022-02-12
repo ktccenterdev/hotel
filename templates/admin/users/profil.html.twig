@@ -1,0 +1,198 @@
+<style>
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color:#696969;
+  size: 0px;
+  color: #ccc;
+}
+
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 10px 25px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid black;
+  border-top: none;
+}
+
+.h5{
+	color:white;
+}
+
+
+.tabcontent {
+  animation: fadeEffect 1s; /* Fading effect takes 1 second */
+}
+
+/* Go from zero to full opacity */
+@keyframes fadeEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+.btn-group .btn:hover {
+	cursor: pointer;
+}
+
+</style>
+<div class="br-pagetitle">
+    <i class="icon ionicons ion-android-walk"></i>
+    <div>
+        <h4>Profil</h4>
+        <p style="color:blue;" class="mg-b-0">----</p>
+    </div>
+</div><!-- d-flex -->
+
+<div class="row row-sm mg-t-25 mg-l-5 mg-t-5">
+	<div class="col-3">
+		<div class="card bd-primary">
+            <div class="card-header bg-primary tx-white">
+                Profil Photo
+            </div>
+            <!-- card-header -->
+            <div class="card-body tx-center">
+                <div id="image_preview" class="rounded-circle"> 
+                    <img src="{{asset('photo/users/'~ user.photo)}}" height="200px" width="250" class="wd-100" alt="">
+                </div>
+                <div class="mg-t-20">							
+                </div>
+            </div>
+						
+            <div class="card-header bg-primary tx-white">
+                
+            </div>
+            <!-- card-header -->
+            <div class="card-body tx-center">
+                <div class="mg-t-20">
+
+                </div>
+            </div><!-- card-body -->
+		</div>
+	</div>
+    <div class="col-9">
+		<input type="hidden" name="id" value="{{user.id}}">
+        <div class="card bd-primary">
+            <div class="card-header bg-primary tx-white">
+                Informations  du user <span style="color:Moccasin"><b> {{user.prenom}}  {{user.nom}}</b></span>
+                    travail pour <span style="color:Moccasin">{{user.antene.nom}}</span>
+            </div>
+            <!-- card-header -->
+            <div class="card-body">
+                <div class="row row-xs">
+                    <div class="col-lg-6">
+                        <label for=""><b>Nom</b></label>
+                        <input type="text" id="nom" class="form-control modif" name="nom" value="{{user.nom}}" disabled>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for=""><b>Prénom</b></label>
+                        <input type="text" id="prenom" name="prenom" class="form-control modif" value="{{user.prenom}}" disabled>
+                    </div>
+                </div>
+
+                <div class="row row-xs  mg-t-20">
+                    <div class="col-lg-6">
+                        <label for=""><b>Etatcivil</b></label>
+                        <input type="text" id="telephone1" class="form-control modif" name="telephone1" value="{{user.etatcivil}}" disabled>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for=""><b>sexe</b></label>
+                        <input type="text" id="sexe" class="form-control modif" name="sexe" value="{{user.sexe}}" disabled>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row row-xs  mg-t-20">
+                    <div class="col-lg-4">
+                        <label for=""><b>CNI</b></label>
+                        <input type="text" id="cni" name="cni" class="form-control modif" value="{{user.cni}}" disabled>
+                    </div>
+                    <div class="col-lg-4">
+                        <label for=""><b>Date de naissance</b></label>
+                        <input type="text" id="datenaiss" class="form-control modif datepicker" name="datenaiss" value="{{user.datenaisance | date('d-m-Y')}}"  style="height: 40px;" disabled>
+                    </div>
+                    <div class="col-lg-4">
+                        <label for=""><b>Lieu de naissance</b></label>
+                        <input type="text" id="lieunaiss" name="lieunaiss" class="form-control modif" value="{{user.lieunaisance}}" disabled>
+                    </div>
+                </div>
+                <div class="row row-xs  mg-t-20">									
+                    <div class="col-lg-4">
+                        <label for=""><b>Antenne</b></label>
+                        <input type="text" id="lieunaiss" name="lieunaiss" class="form-control modif" value="{{user.antene.nom}}" disabled>
+                    </div><div class="col-lg-4">
+                        <label for=""><b>Nationalité</b></label>
+                        <input type="text" id="lieunaiss" name="lieunaiss" class="form-control modif" value="{{user.nationalite}}" disabled>
+                    </div>
+                    <div class="col-lg-4">
+                        <label for=""><b>telephone</b></label>
+                        <input type="text" id="lieunaiss" name="lieunaiss" class="form-control modif" value="{{user.phone}}" disabled>
+                    </div>
+                </div>
+                <div class="row row-xs  mg-t-20">
+                    <div class="col-lg-6">
+                        <label for=""><b>adresse</b></label>
+                        <input type="text" id="lieunaiss" name="lieunaiss" class="form-control modif" value="{{user.adresse}}" disabled>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for=""><b>email</b></label>
+                        <input type="text" id="lieunaiss" name="lieunaiss" class="form-control modif" value="{{user.email}}" disabled>
+                    </div>
+                </div>
+                <div class="row row-xs" id="btn-footer" style="display: none;">
+                    <div class="col-sm-8 mg-l-auto">
+                        <button type="button" class="btn btn-default" onclick="makeEditable()">Annuler</button>
+                        <button type="submit" id="btn-save-nouveau" class="btn btn-primary mg-r-5">Enrégistrer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+
+<script type="text/javascript">
+  function openCity(evt, cityName) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+
+
+
+

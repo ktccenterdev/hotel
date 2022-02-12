@@ -2,7 +2,7 @@
 <div class="br-pagetitle">
   <i class="icon fas fa-bed"></i>
   <div>
-    <h4>Liste des Employees<i style="color:#0866C6;">{# {{role.nom}} #}</i></h4>
+    <h4>Liste des Employés<i style="color:#0866C6;">{# {{role.nom}} #}</i></h4>
     <p style="color:blue;" class="mg-b-0">----</p>
   </div>
 </div><!-- d-flex -->
@@ -94,7 +94,7 @@
                         <th class="wd-15p">Téléphone</th>
                         <th class="wd-10p">Adresse</th>
                         <th class="wd-25p">Antene</th>
-                    	<th class="wd-20p">ACTION</th>
+                    	<th class="wd-10p">ACTION</th>
 				</tr>
                     </thead>
                     <tbody>
@@ -112,27 +112,23 @@
 							<td>{{ employe.phone }}</td>
 							<td>{{ employe.adresse }}</td>
 							<td>{{ employe.antene.nom }}</td>
-							
-                             
+              <td class="dropdown text-center">
+                <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
+                <div class="dropdown-menu dropdown-menu-right pd-10">
+                  <nav class="nav nav-style-1 flex-column text-center">	
+                    <a href="{{ path('showemploye',{id: employe.id})}}" class="btn btn-link {{app.user.hasAccess('showemploye')}}"  data-toggle="ajax" data-target="monContent" >Détails</a>
+                    <a href="{{path('edit-employe', {id: employe.id})}}" class="btn btn-link {{app.user.hasAccess('edit-employe')}}"  data-toggle="ajax" data-target="monContent" >Modifier</a>							
+                    <form class="confirm-delete {{app.user.hasAccess('deleteemp')}}" method="DELETE"
+                      action="{{path('deleteemp', {id: employe.id})}}"  
+                      data-message="Voulez-vous supprimer cette reservation?"
+                      data-toggle="ajax" data-target="monContent">                                     											
+                      <button type="submit"  class=" ajax-link btn btn-link" >Supprimer</button>
+                    </form>	
 
-                              <td class="dropdown text-center">
-                                <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
-                                <div class="dropdown-menu dropdown-menu-right pd-10">
-                                  <nav class="nav nav-style-1 flex-column text-center">	
-                                    <a href="{{ path('showemploye',{id: employe.id})}}" class="btn btn-link {{app.user.hasAccess('showemploye')}}"  data-toggle="ajax" data-target="monContent" >Détails</a>
-                                    <a href="{{path('edit-employe', {id: employe.id})}}" class="btn btn-link {{app.user.hasAccess('edit-employe')}}"  data-toggle="ajax" data-target="monContent" >Modifier</a>							
-                                    <form class="confirm-delete {{app.user.hasAccess('deleteemp')}}" method="DELETE"
-                                      action="{{path('deleteemp', {id: employe.id})}}"  
-                                      data-message="Voulez-vous supprimer cette reservation?"
-                                      data-toggle="ajax" data-target="monContent">
-                                     											
-                                      <button type="submit"  class=" ajax-link btn btn-link" >Supprimer</button>
-                                    </form>	
-
-                                  </nav>
-                                </div><!-- dropdown-menu -->
-                              </td>
-                        </tr>
+                  </nav>
+                </div><!-- dropdown-menu -->
+              </td>
+          </tr>
                       {% endfor %}
                     </tbody>
                   </table>
@@ -160,33 +156,7 @@
           });
           
       }
-    
-      function permission(id){
-        var element = $("#checkbox-"+id);
-        var valeur;         
-        if (element.is(':checked')) { 
-            valeur = true;
-        }else{ 
-            valeur = false;
-        }
-
-        var url = "/addorremovedroit";
-        var data = {'id':id, 'etat':valeur};
-        console.log(data)
-        $.ajax({
-            'url':url,
-            'type':'PUT',
-            'data':data,
-            success : function(result){
-            },
-            error: function(error){
-                console.log("Erreur ");
-            }
-        })
-    }
-
     </script>
-
 		
 
 
