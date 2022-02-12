@@ -52,9 +52,8 @@
 					</div><!-- card-header -->
 					<div class="card-body">
 						<form id="form-filtre" class="form-inline" method="GET">
-								<select class="form-control select2-show-search rapport-filte mg-r-20" id="typechambre" name="typechambre" onchange="filter(this.value)">
-									<option value="" disabled selected>Filtrer via Type Chambre</option>
-									<option value=""></option>
+								<select class="form-control select2-show-search rapport-filte mg-r-20 select2" id="typechambre" name="typechambre" onchange="filter(this.value)" style="width:100%">
+									<option label="Sélectionner un type de chambre"></option>
 									{% set newArray = [] %}
 									{% for allocation in allocations %}
 										{% if allocation.chambre.type.nom not in newArray %}
@@ -104,11 +103,9 @@
 					<div class="card-header" style="background-color:#7FDBFF;">
 						<div class="card-title">Client</div>
 					</div><!-- card-header -->
-					<div class="card-body">
-						
-						<select class="form-control select2-show-search rapport-filte mg-r-20" id="select" name="plage" onchange="filter(this.value)">
-							<option value="" disabled selected>Filtrer via client</option>
-							<option value=""></option>
+					<div class="card-body">						
+						<select class="form-control select2-show-search rapport-filte mg-r-20 select2" id="select" name="plage" onchange="filter(this.value)" style="width:100%">
+							<option label="Sélectionner un client"></option>
 								{% set newArray = [] %}
 								{% for allocation in allocations %}
 									{% if allocation.occupant.username not in newArray %}
@@ -180,7 +177,7 @@
                     <thead>
                    
                       <tr>	        
-                        <th class="wd-5p">ID</th>
+                        <th class="wd-5p">#</th>
 						{# <th class="wd-10p">Antene</th> #}
 						<th class="wd-10p">Chambre</th>
 						<th class="wd-10p">Type de Chambre</th>
@@ -285,21 +282,6 @@ function filter(n) {
 	</script>
 {# endfiltre #}
 
-
-    <script>
-    $(document).ready(function () {
-        $(".formelement").hide();
-        
-    });
-    </script>
-    <script>
-      function show() {
-        $(".formelement").show();
-      }
-      function hide() {
-        $(".formelement").hide();
-      }
-    </script>
 
 {# filtre start #}	
 <script>

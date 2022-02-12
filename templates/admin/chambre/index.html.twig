@@ -280,10 +280,10 @@
                       <a href="{{ path('showchambre',{id: chambre.id}) }}" class="btn btn-link {{app.user.hasAccess('showchambre')}}"  data-toggle="ajax" data-target="monContent" >Détails</a>
                       <a href="{{ path('chambre-edit',{id: chambre.id}) }}" class="btn btn-link {{app.user.hasAccess('chambre-edit')}}"  data-toggle="ajax" data-target="monContent" >Modifier</a>							
                       <form class="confirm-delete {{app.user.hasAccess('deletecha')}}" method="DELETE"
-                        action="{{path('deletecha', {id: chambre.id})}}"  
+                        action="{{path('deletecha')}}"  
                         data-message="Voulez-vous supprimer ce type?"
                         data-toggle="ajax" data-target="monContent">
-                        {# <input type="hidden" name="id" value="{{liste.id}}"> #}												
+                        <input type="hidden" name="id" value="{{chambre.id}}">												
                         <button type="submit"  class=" ajax-link btn btn-link" >Supprimer</button>
                       </form>		
                     </nav>

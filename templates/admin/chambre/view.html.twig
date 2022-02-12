@@ -2,7 +2,7 @@
 <div class="br-pagetitle">
 	<i class="icon ion-ios-home-outline"></i>
 	<div>
-		<h4>Detail chambre</h4>
+		<h4>Détails chambre</h4>
 	</div>
 </div>
 	<a href="{{path('index-chambre')}}" id="btn-nouveau"  data-toggle="ajax" data-target="monContent"><i class="fa fa-arrow-left float-left {{app.user.hasAccess('index-chambre')}}">Liste</i></a>
@@ -48,7 +48,7 @@
 			<div class="col-sm-12 col-xl-12">
 				<div class="card bd-0">
 					<div  style="color:white;" class="card-header bg-primary">
-						INFORMATION SUR LA CHAMBRE : {{chambre.numero}}
+						INFORMATIONS SUR LA CHAMBRE : {{chambre.numero}}
 					</div><!-- card-header -->
 						<div class="card-body">
 							<div class="row row-xs">
@@ -58,7 +58,7 @@
 									<input type="text" id="nom" class="form-control modif" name="nom" value="{{chambre.type.nom}}" disabled>
 								</div>
 								<div class="col-lg-3">
-									<label for="">Entene:
+									<label for="">Antenne:
 									</label>
 									<input type="text" id="prenom" name="prenom" class="form-control modif" value=" {{chambre.entene.nom}}" disabled>
 								</div>
@@ -81,7 +81,7 @@
 
 							<div class="row row-xs  mg-t-20">
 								<div class="col-lg-4">
-									<label for="">Nombres d'enfant: 
+									<label for="">Nombre d'enfant: 
 									</label>
 									<input type="text" id="telephone2" name="telephone2" class="form-control modif" value="{{chambre.nbenafant}}" disabled>
 								</div>
@@ -89,17 +89,17 @@
 
 							<div class="row row-xs  mg-t-20"> #}
 								<div class="col-lg-4">
-									<label for="">Nombres d'adultes: 
+									<label for="">Nombre d'adultes: 
 									</label>
 									<input type="text" id="datenaiss" class="form-control modif datepicker" name="datenaiss" value="{{chambre.nbaldulte}}"  style="height: 40px;" disabled>
 								</div>
 								<div class="col-lg-4">
-									<label for="">Nombres de lits: 
+									<label for="">Nombre de lits: 
 									</label>
 									<input type="text" id="lieunaiss" name="lieunaiss" class="form-control modif" value="{{chambre.nblit}}" disabled>
 								</div>
 								<div class="col-lg-12">
-									<label for="">Descriptions: 
+									<label for="">Description: 
 									</label>
 									<textarea type="text" id="lieunaiss" name="lieunaiss" class="form-control modif" value="" disabled>{{chambre.description}}</textarea>
 								</div>
@@ -125,13 +125,13 @@
 				<div class="card-header bg-dark">
 				<ul class="nav nav-tabs nav-tabs-for-dark card-header-tabs">
 					<li class="nav-item">
-					<a class="nav-link bd-0 active pd-y-8" href="#popular2" data-toggle="tab">Startistique</a>
+					<a class="nav-link bd-0 active pd-y-8" href="#popular2" data-toggle="tab">Startistiques</a>
 					</li>
 					<li class="nav-item">
-					<a class="nav-link bd-0 tx-gray-light" href="#recent2" data-toggle="tab">Allocation</a>
+					<a class="nav-link bd-0 tx-gray-light" href="#recent2" data-toggle="tab">Allocations</a>
 					</li>
 					<li class="nav-item">
-					<a class="nav-link bd-0 tx-gray-light" href="#toprated2" data-toggle="tab">Reservation</a>
+					<a class="nav-link bd-0 tx-gray-light" href="#toprated2" data-toggle="tab">Reservations</a>
 					</li>
 				</ul>
 				</div><!-- card-header -->
@@ -147,27 +147,13 @@
 								<div class="mg-l-20">
 								<p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Today's Visits</p>
 								<p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">1,975,224</p>
-								<span class="tx-11 tx-roboto tx-white-8">TOTAL ALLOCATION</span><br>
+								<span class="tx-11 tx-roboto tx-white-8">TOTAL ALLOCATIONS</span><br>
 								<h4 style="color:white;">{{allocations|length}}</h4>
 								</div>
 							</div>
 							<div id="ch1" class="ht-50 tr-y-1"></div>
 							</div>
-						</div><!-- col-3 -->
-						<div class="col-sm-6 col-xl-3 mg-t-20 mg-sm-t-0">
-							<div class="bg-purple rounded overflow-hidden">
-							<div class="pd-x-20 pd-t-20 d-flex align-items-center">
-								<i class="ion ion-bag tx-60 lh-0 tx-white op-7"></i>
-								<div class="mg-l-20">
-								<p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Today Sales</p>
-								<p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">$329,291</p>
-								<span class="tx-11 tx-roboto tx-white-8">TOTAL RESERVATION</span><br>
-								<h4 style="color:white;">{{reservations|length}}</h4>
-								</div>
-							</div>
-							<div id="ch3" class="ht-50 tr-y-1"></div>
-							</div>
-						</div><!-- col-3 -->
+						</div><!-- col-3 -->						
 						<div class="col-sm-6 col-xl-3 mg-t-20 mg-xl-t-0">
 							<div class="bg-teal rounded overflow-hidden">
 							<div class="pd-x-20 pd-t-20 d-flex align-items-center">
@@ -176,7 +162,7 @@
 								<p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">% Unique Visits</p>
 								<p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">54.45%</p>
 								<span class="tx-11 tx-roboto tx-white-8">RECETTE JOURNALIÈRE</span><br>
-								<h4 style="color:white;">{{recettejournaliere}} FCFA</h4>
+								<h4 style="color:white;">{{recettejournaliere | craue_currency('XAF', 'fr-FR')}}</h4>
 								</div>
 							</div>
 							<div id="ch2" class="ht-50 tr-y-1"></div>
@@ -190,10 +176,24 @@
 								<p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Bounce Rate</p>
 								<p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">32.16%</p>
 								<span class="tx-11 tx-roboto tx-white-8">RECETTE MENSUELLE</span><br>
-								<h4 style="color:white;">{{recettemoisnalier}}</h4>
+								<h4 style="color:white;">{{recettemoisnalier | craue_currency('XAF', 'fr-FR')}}</h4>
 								</div>
 							</div>
 							<div id="ch4" class="ht-50 tr-y-1"></div>
+							</div>
+						</div><!-- col-3 -->
+						<div class="col-sm-6 col-xl-3 mg-t-20 mg-sm-t-0">
+							<div class="bg-purple rounded overflow-hidden">
+							<div class="pd-x-20 pd-t-20 d-flex align-items-center">
+								<i class="ion ion-bag tx-60 lh-0 tx-white op-7"></i>
+								<div class="mg-l-20">
+								<p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Today Sales</p>
+								<p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">$329,291</p>
+								<span class="tx-11 tx-roboto tx-white-8">RECETTE GLOBALE</span><br>
+								<h4 style="color:white;">{{recetteglobale | craue_currency('XAF', 'fr-FR')}}</h4>
+								</div>
+							</div>
+							<div id="ch3" class="ht-50 tr-y-1"></div>
 							</div>
 						</div><!-- col-3 -->
 					</div><!-- row -->
@@ -207,7 +207,7 @@
 							<thead>
 						
 							<tr>	        
-								<th class="wd-15p">ID</th>
+								<th class="wd-5p">#</th>
 								<th class="wd-15p">Client</th>
 								<th class="wd-25p">Type de Chambre</th>
 								<th class="wd-25p">Date de fin</th>
@@ -223,9 +223,9 @@
 								<td>{{allocation.chambre.type.nom}}</td>
 								<td>{{allocation.datefin|date('d/m/Y H:i:s')}}</td>
 								<td>
-									<button class="btn btn-teal active" ><a href="" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
-									<button class="btn btn-teal active" ><a href="" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
-									<button class="btn btn-pink active"><a href="" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-trash" aria-hidden="true" ></i></a></button>
+									{# <button class="btn btn-teal active" ><a  style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
+									<button class="btn btn-teal active" ><a  style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
+									<button class="btn btn-pink active"><a  style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-trash" aria-hidden="true" ></i></a></button> #}
 									<button class="btn btn-success  active"><a href="/printrecuallocation?id={{allocation.id}}"  style="padding: 0px !important; color:white;" class="nav-link" target="_blank" ><i class="fas fa-print" aria-hidden="true" ></i></a></button> 		
 								</td>
 							</tr>
@@ -240,7 +240,7 @@
 							<thead>
 						
 							<tr>	        
-								<th class="wd-15p">ID</th>
+								<th class="wd-5p">#</th>
 								<th class="wd-15p">Client </th>
 								<th class="wd-20p">Date de debut</th>
 								<th class="wd-15p">Date de fin</th>
@@ -256,10 +256,10 @@
 									<td>{{ reservation.client.nom}}</td>
 									<td>{{ reservation.datedariver |date('d/m/Y') }} à {{ reservation.heuredariver | date('H:i:s')}}</td>
 									<td>{{ reservation.datedepart |date('d/m/Y')}} à {{ reservation.heuredepart | date('H:i:s')}}</td>
-									<td>{{ reservation.montan}}</td>
+									<td>{{ reservation.montan | craue_currency('XAF', 'fr-FR') }}</td>
 								</tr>
 							{% else %}
-								<p>Cette Chambre n'a jamais été reserver</p>
+								<p>Cette chambre n'a jamais été reservée</p>
 							{% endfor %}
 							</tbody>
 						</table>

@@ -24,15 +24,15 @@
                                                 <div class="row">
                                                     <label class="col-sm-4 form-control-label">Nom: <span class="tx-danger">*</span></label>
                                                     <div class="col-sm-8 mg-t-10 mg-sm-t-0">                                                                    
-                                                        <input class="form-control" type="hidden" name="id" id="id" value="{{tarifs.id}}" >
-                                                        <input type="text" class="form-control" placeholder="Nom du module" name="nom" value="{{tarifs.nom}}">
+                                                        <input class="form-control" type="hidden" name="id" id="id" value="{{tarif.id}}" >
+                                                        <input type="text" class="form-control" placeholder="Nom du module" name="nom" value="{{tarif.nom}}">
                                                     </div>
                                                 </div><!-- row -->
                                                 <br>
                                                 <div class="row">
                                                     <label class="col-sm-4 form-control-label">durée (en Heure): <span class="tx-danger">*</span></label>
                                                     <div class="col-sm-8 mg-t-10 mg-sm-t-0">
-                                                        <input type="number" class="form-control" placeholder="la durée" name="dure" value="{{tarifs.duree}}">
+                                                        <input type="number" class="form-control" placeholder="la durée" name="dure" value="{{tarif.duree}}">
                                                     </div>
                                                 </div><!-- row -->
                                                 <br>
@@ -40,10 +40,9 @@
                                                     <label class="col-sm-4 form-control-label">Type de chambre: <span class="tx-danger">*</span></label>
                                                     <div class="wd-250 col-sm-8 mg-t-10 mg-sm-t-0">
                                                         <select name="type" class="form-control select2" data-placeholder="Choose one" style="width:100%">
-                                                        <option label="--Choisit un type de chambre--"></option>
-                                                            
-                                                        {% for type in types %}
-                                                            <option value="{{type.id}}">{{type.nom}}</option>
+                                                        <option label="--Choisit un type de chambre--"></option>                                                            
+                                                        {% for type in tarif.antenne.typeDeChambres %}
+                                                            <option value="{{type.id}}" {{type.id == tarif.typechambre.id ? "selected"}}>{{type.nom}}</option>
                                                         {% endfor %}
                                                         </select>
                                                     </div><!-- wd-250 -->
@@ -52,30 +51,28 @@
                                                 <div class="row">
 													<label class="col-sm-4 form-control-label">Type de tarif: <span class="tx-danger">*</span></label>
 													<div class="wd-250 col-sm-8 mg-t-10 mg-sm-t-0">
-														<select name="typetarif" class="form-control select2" data-placeholder="Sélectionner" required style="width:100%">
-															<option label="Sélectionner"></option>
-															<option value="NUITEE">NUITEE</option>
-															<option value="SIESTE">SIESTE</option>
+														<select name="typetarif" class="form-control select2" required style="width:100%">
+															<option value="NUITEE" {{tarif.type == "NUITEE" ? "selected"}}>NUITEE</option>
+															<option value="SIESTE"{{tarif.type == "SIESTE" ? "selected"}}>SIESTE</option>
 														</select>
 													</div><!-- wd-250 -->
 												</div><!-- col--><br>
                                                 <div class="row">
                                                     <label class="col-sm-4 form-control-label">prix: <span class="tx-danger">*</span></label>
                                                     <div class="col-sm-8 mg-t-10 mg-sm-t-0">
-                                                        <input type="number" class="form-control" name="price" min="100" value="{{tarifs.prix}}" step=".01">
+                                                        <input type="number" class="form-control" name="price" min="100" value="{{tarif.prix}}" step=".01">
                                                     </div>
                                                 </div><!-- row -->
                                                 <br>
                                                 <div class="row">
                                                     <label class="col-sm-4 form-control-label">Description: <span class="tx-danger">*</span></label>
                                                     <div class="col-sm-8 mg-t-10 mg-sm-t-0">
-                                                    <textarea rows="3" class="form-control mg-t-20" name="description" placeholder="Description">{{tarifs.description}}</textarea>
+                                                    <textarea rows="3" class="form-control mg-t-20" name="description" placeholder="Description">{{tarif.description}}</textarea>
                                                     </div>
                                                 </div><!-- row -->
 
                                                 <div class="form-layout-footer mg-t-30">
                                                     <button type="submit" class="btn btn-primary">Modifier</button>	
-                                                    
                                                 </div><!-- form-layout-footer -->
                                             </div><!-- form-layout -->
                                         </form>
