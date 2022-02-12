@@ -1,0 +1,81 @@
+<div class="br-mainpanel">
+
+        <div class="br-pagetitle">
+          <i class="fas fa-bed"></i>
+          <div>
+            <h4>DETIAL DE LA SORTIE EN STOCKS</h4>
+            <p style="color:blue;" class="mg-b-0">----</p>
+          </div>
+        </div><!-- d-flex -->
+
+
+<div class="br-pagebody">
+        <div class="br-section-wrapper">
+          <h6 class="br-section-label">Detail de la sortie en stocks</h6>
+          
+            <div class="table-wrapper responsiveelement">
+                
+                <div class="card bd-primary">
+                    <div class="card-header bg-primary tx-white">
+                        Informations generale sur la sortie <span style="color:Moccasin"><b> </b></span>
+                    </div>
+                    <form id="form-send" class="js-form-sendavecfile sauvegardededonne" 
+                        action="{{path('edition-sortie-stock')}}" method="POST" data-toggle="ajax" data-target="monContent"> 
+
+                        <!-- card-header -->
+                        <div class="card-body">
+                            <div class="row row-xs">
+                                {#<div class="col-lg-4">
+                                    <label for=""><b>Responssable</b></label>
+                                    <input type="text" id="nom" class="form-control modif" name="nom" value="{{sortiestocks.user.username}}">
+                                </div>#}
+                                <div class="col-lg-4">
+                                    <label for=""><b>Date</b></label>
+                                        <input type="hidden" class="form-control modif" name="id" value="{{sortiestocks.id}}">
+                                        <input type="text" class="form-control modif" name="date" value="{{sortiestocks.date |date('Y-m-d H:i:s')}}" disabled>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for=""><b>Destination</b></label>
+                                    {% if (sortiestocks.magdest == null) %}
+                                        {#<input type="text" class="form-control modif" name="responsable" value="{{sortiestocks.responsable.nom}}">#}
+                                        <select class="form-control" name="responssable">
+                                            <option value="" disabled selected>{{sortiestocks.responsable.nom}}</option>
+                                            {% for employe in employes %}
+                                                {% if employe.nom != sortiestocks.responsable.nom %}
+                                                    <option value="{{employe.id}}">{{employe.username}}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                    {% else %}
+                                        {#<input type="text" class="form-control modif" name="destinateur" value="{{sortiestocks.magdest.nom}}">#}
+                                        <select class="form-control" name="magdest">
+                                            <option value="" disabled selected>{{sortiestocks.magdest.nom}}</option>
+                                            {% for magasin in magasins %}
+                                                {% if magasin.nom != sortiestocks.magdest.nom %}
+                                                    <option value="{{magasin.id}}">{{magasin.nom}}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                    {% endif %}
+                                </div>
+                            </div> 
+                            <div class="row row-xs">
+                                <div class="col-lg-12">
+                                    <label for=""><b>Commentaire</b></label>
+                                    <textarea rows="3" id="description" name="description" class="form-control modif" >{{sortiestocks.commantaire}}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-layout-footer mg-t-30">
+                                <div class="col-sm-7 mg-l-auto">
+                                    <a href="{{path('index-sortis')}}" data-toggle="ajax" data-target="monContent"><button class="btn btn-default mg-r-5"><i class="fa fa-arrow-left"></i> Liste</button></a>
+                                    <button type="submit" id="btn-save-nouveau" class="btn btn-primary mg-r-5">Valider</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- table-wrapper -->
+        </div><!-- br-section-wrapper -->
+      </div><!-- br-pagebody -->
+    </div><!-- br-mainpanel -->
+

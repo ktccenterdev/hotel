@@ -119,7 +119,7 @@
 								<th class="wd-15p">Départ</th>
 								<th class="wd-15p">Destination</th>
 								<th class="wd-15p">Type</th>
-								<th class="wd-25p">Description</th>
+								<th class="wd-40p">Description</th>
 								<th class="wd-25p">ACTION</th>
 							</tr>
 							
@@ -138,10 +138,10 @@
 												<td>{{ sortir.sortistock.magdest.nom}}</td>
 											{% endif %}
 											<td>{{ sortir.sortistock.type}}</td>
-											<td>{{ sortir.sortistock.commantaire}}</td>
+											<td>{{ sortir.sortistock.commantaire |slice(0, 50) ~ '...'}}</td>
 											<td>			
-												<button class="btn btn-teal active" ><a href="" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
-												<button class="btn btn-teal active" ><a href="" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
+												<button class="btn btn-teal active" ><a href="{{path('detail-sortie-stock',{id: sortir.sortistock.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
+												<button class="btn btn-primary active" ><a href="{{path('edit-sortie-stock', {id: sortir.sortistock.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" data-toggle="ajax" data-target="monContent"><i class="fa fa-edit" aria-hidden="true"></i></a></button>
 												<form style="display: contents;" data-toggle="ajax" data-target="monContent" class="js-form-send {{app.user.hasAccess('')}}" action="" method="DELETE">
 													<button class="btn btn-pink active"><i class="fa fa-trash" aria-hidden="true"></i></button>	
 												</form>
@@ -153,8 +153,8 @@
 										{% if (sortir.sortistock.magdepart.antene.id == app.user.antene.id) %}      
 											<tr>
 												<td>{{loop.index}}</td>
-												<td>{{sortir.produit.nom}}</td>
-												<td>{{sortir.qt}}</td>
+												{#<td>{{sortir.produit.nom}}</td>
+												<td>{{sortir.qt}}</td>#}
 												<td>{{ sortir.sortistock.magdepart.nom}}</td>
 												{% if (sortir.sortistock.magdest == null) %}
 													<td>{{ sortir.sortistock.responsable.nom}}</td>
@@ -162,13 +162,14 @@
 													<td>{{ sortir.sortistock.magdest.nom}}</td>
 												{% endif %}
 												<td>{{ sortir.sortistock.type}}</td>
-												{#<td>				
-													<button class="btn btn-teal active" ><a href="" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
-													<button class="btn btn-teal active" ><a href="" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
+												<td>{{ sortir.sortistock.commantaire |slice(0, 50) ~ '...'}}</td>
+												<td>				
+													<button class="btn btn-teal active" ><a href="{{path('detail-sortie-stock', {id: sortir.sortistock.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
+													<button class="btn btn-primary active" ><a href="{{path('edit-sortie-stock', {id: sortir.sortistock.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" data-toggle="ajax" data-target="monContent"><i class="fa fa-edit" aria-hidden="true"></i></a></button>
 													<form style="display: contents;" data-toggle="ajax" data-target="monContent" class="js-form-send {{app.user.hasAccess('')}}" action="" method="DELETE">
 														<button class="btn btn-pink active"><i class="fa fa-trash" aria-hidden="true"></i></button>	
 													</form>
-												</td>#}
+												</td>
 											</tr>
 										{% endif %}
 									{% endfor %}
