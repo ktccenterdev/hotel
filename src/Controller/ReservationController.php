@@ -141,7 +141,7 @@ class ReservationController extends DefaultController
      */
     public function listreservation()
     {
-        $link="listreservation";
+        $link="extreservation";
 
         try {
             
@@ -279,7 +279,6 @@ class ReservationController extends DefaultController
     public function externeclient(Request $request): Response
     {
         $link="extreservation";
-
         try {
           
                 $id = $request->get("id");
@@ -295,14 +294,12 @@ class ReservationController extends DefaultController
                 }
 
                 $this->em->persist($reservations);
-                $this->em->flush($reservations);
+                $this->em->flush($reservations);               
                
-               
-                $this->successResponse("Reservation Activer !",$link);  
+                $this->successResponse("Reservation Activée !",$link);  
             } catch (\Exception $ex) {
-                $this->log($ex->getMessage(), "list-reservation");
+                $this->log($ex->getMessage(), $link);
             }
-           // dd($this->result);
             return $this->json($this->result);
         }
 

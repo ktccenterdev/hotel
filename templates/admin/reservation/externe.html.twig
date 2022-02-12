@@ -7,7 +7,7 @@
 <div class="br-section-wrapper">
 	<div class="container">
 		<div class="row">
-			<div class="col-sm"><h6 class="br-section-label">Liste des Reservations Externe</h6>
+			<div class="col-sm"><h6 class="br-section-label">Liste des Reservations Externes</h6>
 				<div    x-data="{ ajouter : false }">
 					<div class="d-flex justify-content-end" style="padding:0px;">						
 						<button class="btn btn-secondary {{app.user.hasAccess('print-externe')}}" style="margin-left:5px;"><a style="color:white;" href="{{path('print-externe')}}" target="_blank"><i class="fa fa-print"></i> Imprimer</a></button>
@@ -22,13 +22,13 @@
 				<tr>
 					<th class="wd-15p">#</th>
 					<th class="wd-15p">Nom du client</th>
-					<th class="wd-20p">Date d'arrivé</th>
+					<th class="wd-15p">Date d'arrivée</th>
 					<th class="wd-15p">Date de départ</th>
 					<th class="wd-15p">Type de chambre</th>
-					<th class="wd-15p">Antenne</th>
-					<th class="wd-15p">Quantité</th>
-					<th class="wd-15p">Etat</th>
-					<th class="wd-15p">Action</th>
+					<th class="wd-10p">Antenne</th>
+					<th class="wd-10p">Quantité</th>
+					<th class="wd-10p">Etat</th>
+					<th class="wd-10p">Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -44,16 +44,16 @@
 					
 
 					{% if reservation.etat == "Non-traité" %}
-					<td class="tx-danger">{{ reservation.etat}}</td>
+						<td class="tx-danger">{{ reservation.etat}}</td>
 					{% elseif reservation.etat == "Traité" %}
-					<td class="tx-teal">{{ reservation.etat}}</td>
+						<td class="tx-teal">{{ reservation.etat}}</td>
 					{% endif %}
 					<td>
 						
 						<button class="btn btn-teal active {{app.user.hasAccess('active-client')}}" alt="Envoyer en Interne"  name="active" ><a href="{{ path('active-client',{'id': reservation.id}) }}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" data-toggle="ajax" data-target="monContent"><i class="fas fa-check-square" aria-hidden="true"></i></a></button>
-							{% if reservation.etat == "Non-traité" %}
+						{% if reservation.etat == "Non-traité" %}
 							<button class="btn btn-primary {{app.user.hasAccess('allouer')}}"  name="active" ><a href="{{ path('allouer',{id: reservation.id}) }}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" data-toggle="ajax" data-target="monContent">Allouée</a></button>
-							{% endif %}
+						{% endif %}
 						
 					</td>
 				</tr>

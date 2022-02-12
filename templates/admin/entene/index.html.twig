@@ -10,84 +10,87 @@
   <h6 class="br-section-label">Liste des Antennes</h6>
     <div    x-data="{ ajouter : false }">
         <div class="d-flex justify-content-end" style="padding:10px;">
-          <button onclick="show()"  class="btn btn-primary {{app.user.hasAccess('enteneadd')}}"><i class="fas fa-plus"></i> Ajouter</button> 
+          <button onclick="showNouveau()"  class="btn btn-primary {{app.user.hasAccess('enteneadd')}}"><i class="fas fa-plus"></i> Ajouter</button> 
           <button class="btn btn-secondary {{app.user.hasAccess('print-antene')}}" style="margin-left:5px;"><a style="color:white;" href="{{path('print-antene')}}" target="_blank"><i class="fa fa-print"></i> Imprimer</a></button>
         </div>
-        <form id="form-send" class="js-form-sendavecfile sauvegardededonne {{app.user.hasAccess('enteneadd')}}" action="{{path('enteneadd')}}" method="POST" data-toggle="ajax" data-target="monContent" enctype="multipart/form-data">
-                <div class="formelement" x-show="ajouter" style="padding:10px;">
+        <div id="nouveau" style="display: none;">
+          <form id="form-send" class="js-form-sendavecfile sauvegardededonne {{app.user.hasAccess('enteneadd')}}" action="{{path('enteneadd')}}" method="POST" data-toggle="ajax" data-target="monContent" enctype="multipart/form-data">
+                  <div class="formelement" x-show="ajouter" style="padding:10px;">
 
-                  <div class="form-layout form-layout-1">
-                    <div class="row mg-b-25">
-                      <div class="col-lg-4">
-                        <div class="form-group">
-                          <label class="form-control-label">Nom: <span class="tx-danger">*</span></label>
-                          <input class="form-control" type="text" name="nom"  placeholder="nom">
-                        </div>
-                      </div><!-- col-4 -->
-                      <div class="col-lg-4">
-                        <div class="form-group">
-                          <label class="form-control-label">Localisation: <span class="tx-danger">*</span></label>
-                          <input class="form-control" type="text" name="localisation"  placeholder="localisation">
-                        </div>
-                      </div><!-- col-4 -->
-                      <div class="col-lg-4">
-                        <div class="form-group">
-                          <label class="form-control-label">Description: <span class="tx-danger">*</span></label>
-                        
-                          <textarea class="form-control" type="text" name="description"  placeholder="Description"></textarea>
+                    <div class="form-layout form-layout-1">
+                      <div class="row mg-b-25">
+                        <div class="col-lg-4">
+                          <div class="form-group">
+                            <label class="form-control-label">Nom: <span class="tx-danger">*</span></label>
+                            <input class="form-control" type="text" name="nom"  placeholder="nom">
+                          </div>
+                        </div><!-- col-4 -->
+                        <div class="col-lg-4">
+                          <div class="form-group">
+                            <label class="form-control-label">Localisation: <span class="tx-danger">*</span></label>
+                            <input class="form-control" type="text" name="localisation"  placeholder="localisation">
+                          </div>
+                        </div><!-- col-4 -->
+                        <div class="col-lg-4">
+                          <div class="form-group">
+                            <label class="form-control-label">Description: <span class="tx-danger">*</span></label>
+                          
+                            <textarea class="form-control" type="text" name="description"  placeholder="Description"></textarea>
 
-                        </div>
-                      </div><!-- col-4 -->
-                      <div class="col-lg-4">
-                        <div class="form-group">
-                          <label class="form-control-label">Telephone: <span class="tx-danger">*</span></label>
-                          <input class="form-control" type="text" name="tel"  placeholder="tel">
-                        </div>
-                      </div><!-- col-4 -->
-                      <div class="col-lg-4">
-                        <div class="form-group">
-                          <label class="form-control-label">Email: <span class="tx-danger">*</span></label>
-                          <input class="form-control" type="email" name="email" placeholder="email">
-                        </div>
-                      </div><!-- col-4 -->
-                      <div class="col-lg-4">
-                        <div class="form-group">
-                          <label class="form-control-label">Boite Postal: <span class="tx-danger">*</span></label>
-                          <input class="form-control" type="text" name="bp"  placeholder="Boite Postal">
-                        </div>
-                      </div><!-- col-4 -->
-                              <div class="col-lg-6 mg-t-10 mg-sm-t-0">
-                                    <label class="col-sm-4 form-control-label">Logo: <span class="tx-danger">*</span></label>
-                                    <input type="file" name="logo" id="file-2"
-                                          class="inputfile" data-caption="files selected" accept=".png, .jpg,.jpeg">
-                                        <label for="file-2" class="if-outline if-outline-info">
-                                          <i class="icon ion-ios-upload-outline tx-24"></i>
-                                          <span>Choisisez une photo pour ce type</span>
-                                          </label>
-                              </div><!-- col-8 -->
-                      <div class="col-lg-6">
-                        <div class="form-group mg-b-10-force">
-                          <label class="form-control-label">Site: <span class="tx-danger">*</span></label>
-                          <input class="form-control" type="text" name="site"  placeholder="site" required="">
+                          </div>
+                        </div><!-- col-4 -->
+                        <div class="col-lg-4">
+                          <div class="form-group">
+                            <label class="form-control-label">Telephone: <span class="tx-danger">*</span></label>
+                            <input class="form-control" type="text" name="tel"  placeholder="tel">
+                          </div>
+                        </div><!-- col-4 -->
+                        <div class="col-lg-4">
+                          <div class="form-group">
+                            <label class="form-control-label">Email: <span class="tx-danger">*</span></label>
+                            <input class="form-control" type="email" name="email" placeholder="email">
+                          </div>
+                        </div><!-- col-4 -->
+                        <div class="col-lg-4">
+                          <div class="form-group">
+                            <label class="form-control-label">Boite Postal: <span class="tx-danger">*</span></label>
+                            <input class="form-control" type="text" name="bp"  placeholder="Boite Postal">
+                          </div>
+                        </div><!-- col-4 -->
+                                <div class="col-lg-6 mg-t-10 mg-sm-t-0">
+                                      <label class="col-sm-4 form-control-label">Logo: <span class="tx-danger">*</span></label>
+                                      <input type="file" name="logo" id="file-2"
+                                            class="inputfile" data-caption="files selected" accept=".png, .jpg,.jpeg">
+                                          <label for="file-2" class="if-outline if-outline-info">
+                                            <i class="icon ion-ios-upload-outline tx-24"></i>
+                                            <span>Choisisez une photo pour ce type</span>
+                                            </label>
+                                </div><!-- col-8 -->
+                        <div class="col-lg-6">
+                          <div class="form-group mg-b-10-force">
+                            <label class="form-control-label">Site: <span class="tx-danger">*</span></label>
+                            <input class="form-control" type="text" name="site"  placeholder="site" required="">
 
-                        </div>
-                      </div><!-- col-4 -->
-                    </div><!-- row -->
-                    <br>
-                      <div class="form-layout-footer mg-t-30">
-                          <button type="submit" id="btn-save-nouveau" class="btn btn-primary mg-r-5">Valider</button>
-                                                                
-                          <button type="button" class="btn btn-secondary" onclick="hide()">Annuler</button>
-                      </div><!-- form-layout-footer -->
-                  </div><!-- form-layout -->
-        </form>
+                          </div>
+                        </div><!-- col-4 -->
+                      </div><!-- row -->
+                      <br>
+                        <div class="form-layout-footer mg-t-30">
+                            <button type="submit" id="btn-save-nouveau" class="btn btn-primary mg-r-5">Valider</button>
+                                                                  
+                            <button type="button" class="btn btn-secondary" onclick="showNouveau()">Annuler</button>
+                        </div><!-- form-layout-footer -->
+                    </div><!-- form-layout -->
+          </form>
+        </div>
+        
     </div>
           
     <div class="table-wrapper responsiveelement">
       <table class="datatable table display nowrap">
         <thead>
           <tr>
-            <th class="wd-15p">ID</th>
+            <th class="wd-5p">#</th>
             <th class="wd-15p">NOM</th>
             <th class="wd-20p">LOCALISATION</th>
             <th class="wd-10p">TELEPHONE</th>

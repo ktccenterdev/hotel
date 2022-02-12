@@ -16,7 +16,8 @@
           <div class="row">
             <label class="col-sm-4 form-control-label">module: <span class="tx-danger">*</span></label>
             <div class="col-sm-8 mg-t-10 mg-sm-t-0">
-              <select name="module" class="form-control select2" data-placeholder="Choose one" style="width: 75%">
+              <select name="module" class="form-control select2" style="width: 100%" required>
+                <option label="Sélectionner un module"></option>
                 {% for module in modules %}
                   <option value="{{module.id}}">{{module.nom}}</option>
                 {% endfor %}
@@ -27,11 +28,9 @@
           <div class="row">
             <label class="col-sm-4 form-control-label">is default: <span class="tx-danger">*</span></label>
             <div class="col-sm-8 mg-t-10 mg-sm-t-0">
-              <select name="isdefault" class="form-control select2" data-placeholder="Choose one" style="width: 75%">
-                
-                  <option value=1>Oui</option>
+              <select name="isdefault" class="form-control select2" data-placeholder="Choose one" style="width: 100%" required>
                   <option value=0>Non</option>
-                
+                  <option value=1>Oui</option>
               </select>
             </div>
           </div><!-- row -->
@@ -39,21 +38,20 @@
           <div class="row">
             <label class="col-sm-4 form-control-label">non action: <span class="tx-danger">*</span></label>
             <div class="col-sm-8 mg-t-10 mg-sm-t-0">
-              <input type="text" class="form-control" placeholder="Nom du module" name="nom">
+              <input type="text" class="form-control" placeholder="Intitule" name="nom" required>
             </div>
           </div><!-- row --><br>
-
           <div class="row">
-            <label class="col-sm-4 form-control-label">description: <span class="tx-danger">*</span></label>
+            <label class="col-sm-4 form-control-label">description: </label>
             <div class="col-sm-8 mg-t-10 mg-sm-t-0">
-              <input type="text" class="form-control" placeholder="Nom du module" name="description">
+              <input type="text" class="form-control" placeholder="Description" name="description">
             </div>
           </div><!-- row --><br>
 
           <div class="row">
             <label class="col-sm-4 form-control-label">cle: <span class="tx-danger">*</span></label>
             <div class="col-sm-8 mg-t-10 mg-sm-t-0">
-              <input type="text" class="form-control" placeholder="Nom du module" name="cle">
+              <input type="text" class="form-control" placeholder="clé" name="cle" required>
             </div>
           </div><!-- row --><br>
 
@@ -61,7 +59,7 @@
             <div class="col-sm-8 mg-l-auto">
               <div class="form-layout-footer">
                 <button type="submit" class="btn btn-info">Valider</button>
-                <button class="btn btn-secondary" onclick="hide()">Annuler</button>
+                <button class="btn btn-secondary" type="reset">Annuler</button>
               </div>
             </div>
           </div><!-- form-layout-footer -->
