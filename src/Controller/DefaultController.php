@@ -5,10 +5,16 @@ namespace App\Controller;
 use \Datetime;
 use Exception;
 use App\Entity\Log;
+use App\Entity\Role;
+use App\Entity\Action;
+use App\Entity\Entene;
+use App\Entity\Module;
 use App\Entity\Parametre;
+use App\Entity\ActionRole;
 use App\Exception\ErrorException;
 use App\Controller\RecuController;
-use App\Entity\Entene;
+use App\Repository\ActionRepository;
+use App\Repository\ModuleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
@@ -33,8 +39,9 @@ class DefaultController extends AbstractController
     protected $requestStack;
     protected TCPDFController $tcpdf;
     protected $parametre;
-	private ?string $reservations = NULL;
+    private ?string $reservations = NULL;
     protected $routes = array('search-client');
+    protected $verbes = ['GET' => "Afficher", "POST" => "Insérer", "PUT"=>"Modifier", "DELETE"=>"Supprimer", "HEAD"=>"Demande", "CONNECT"=>"Connecter", "OPTIONS" => "Décrire", "TRACE" => "Reéaliser", "PATCH" => "Appliquer les modifications"];
 
     public function __construct(TCPDFController $tcpdf,RequestStack $requestStack,EntityManagerInterface $em,UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -50,8 +57,8 @@ class DefaultController extends AbstractController
         $this->checksecurity();
     }
     
-	
-	
+    
+    
     public function successResponse($msg, $link=NULL, $data=[])
     {
        
@@ -97,18 +104,55 @@ class DefaultController extends AbstractController
             $this->redirect("/login");
         }else{
             $attributes = $this->requestStack->getCurrentRequest()->attributes;
-            $route = $attributes->get('_route');
+            $route = $attributes->get('_route');   
             if(!in_array($route, $this->routes)){
                 $droits=$this->session->get('userdroit'); 
                 if ($droits && !in_array($route, $droits) && $route != "dashboard"){
                     $html = $this->template_error("403.html");
-                die($html);          
+                    die($html);          
                 }
             }
             
         }
         
     }
+
+    private function addAction($request){
+        $attributes = $request->attributes;
+        $route = $attributes->get('_route');   
+        $method = $request->getMethod();
+        $item = explode("::", explode("\\", $attributes->get('_controller'))[2]);
+        $moduleName = strtoupper(current(explode("Controller", current($item))));
+        $actionName = $this->verbes[$method]." => ".end($item);
+       if($moduleName != "VUEFRONT"){
+           $module = $this->em->getRepository(Module::class)->findOneBy(['nom'=>$moduleName]);
+           if(is_null($module)){
+            $module = new Module();
+            $module->setNom($moduleName);
+            $this->em->persist($module);
+           }
+           $action = $this->em->getRepository(Action::class)->findOneBy(['cle'=>$route]);
+           $etat = $method === "GET" ? 1 : 0;
+           if(is_null($action)){
+                $action = new Action();
+                $action->setCle($route);
+                $action->setModule($module);
+                $action->setNom($actionName);
+                $action->setIsdefault($etat);
+                $this->em->persist($action);
+           }
+           $roles=$this->em->getRepository(Role::class)->findAll();                
+            foreach ($roles as $role) {
+                $actionrole= new ActionRole();
+                $actionrole->setRole($role);
+                $actionrole->setAction($action);
+                $actionrole->setEtat($etat);
+                $this->em->persist($actionrole);
+            } 
+           $this->em->flush();
+       }
+    }
+    
 
 
     public function returnPDFLandscapeResponseFromHTML($html, $filename)
@@ -145,7 +189,7 @@ class DefaultController extends AbstractController
      */
     public function returnPDFResponseFromHTML($html, $filename, $orientation="P")
     {
-		//private ?string $reservations = NULL;
+        //private ?string $reservations = NULL;
         // $pdfObj = $this->get("white_october.tcpdf")->create();
         $pdf = $this->tcpdf->create('vertical', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
         $pdf->SetAuthor('church');

@@ -28,7 +28,7 @@
                                     <div class="col-lg-6 col-xlg-6 col-md-8">
                                         <label class="col-sm-12 form-control-label">Fournisseur: <span class="tx-danger">*</span></label>
                                         <div class="col-sm-12 mg-t-12 mg-sm-t-0">
-                                            <select id="fournisseur" class="form-control select2" name="fournisseur" required placeholder="Sélecionner">
+                                            <select id="fournisseur" class="form-control js-select2" name="fournisseur" required placeholder="Sélecionner">
                                                 {% for fournisseur in fournisseurs %}
                                                     <option value="{{fournisseur.id}}">{{fournisseur.nom}}</option>
                                                 {% endfor %}
@@ -50,7 +50,7 @@
                                 <div class="row" style="background: #ced4da;">
                                     <div class="col-lg-4 col-xlg-4 col-md-4">
                                         <label class="col-sm-12 form-control-label">Produit: <span class="tx-danger">*</span></label>
-                                        <select id="selectproduit" class="form-control select2 js-states" name="produit">
+                                        <select id="selectproduit" class="form-controljs-select2"js-states" name="produit">
                                             {% for produit in produits %}
                                                 <option value="{{produit.id}}">{{produit.nom}}</option>
                                             {% endfor %}

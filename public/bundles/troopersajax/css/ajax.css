@@ -1,0 +1,39 @@
+#canvasloader-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    margin-top: -25px;
+    margin-left: -25px;
+    padding: 4px 0px;
+    text-align: center;
+    z-index: 2000;
+    background-color: #333;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+*[data-toggle="ajax"],
+*[data-toggle="ajax-modal"]{
+    pointer-events: none;
+    cursor: default;
+}
+/* Hinclude workaround because it does not trigger ajaxComplete event */
+[class^='include_'] *[data-toggle="ajax"],
+[class^='include_'] *[data-toggle="ajax-modal"]
+{
+    pointer-events: auto;
+    cursor: default;
+}
+
+#canvasloader-container--overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 100;
+}

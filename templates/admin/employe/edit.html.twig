@@ -111,7 +111,7 @@
                                                                 <div class="form-group mg-b-10-force">
                                                                     <label class="form-control-label">Sexe: <span class="tx-danger">*</span></label>
                                                                   
-                                                                    <select class="form-control select2" name="sexe" >
+                                                                    <select class="form-control js-select2" name="sexe" >
                                                                         <option value="{{user.sexe}}">{{user.sexe}}</option>
                                                                         {% set sexes = ["F", "M"] %}
                                                                         {% for sex in sexes %}
@@ -152,7 +152,7 @@
                                                                 <div class="form-group mg-b-10-force">
                                                                     <label class="form-control-label">Etat Civil: <span class="tx-danger">*</span></label>
                                                                     {% set civils = ['Célibataire', 'Marié', 'Autre'] %}
-                                                                    <select name="etatcivil" class="form-control select2">
+                                                                    <select name="etatcivil" class="form-control js-select2">
                                                                         <option value="{{user.etatcivil}}">{{user.etatcivil}}</option>
                                                                             {% for civil in civils %}
                                                                                 <option value="{{ civil }}">{{civil}}</option>

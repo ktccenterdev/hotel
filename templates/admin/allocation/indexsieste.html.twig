@@ -46,7 +46,7 @@
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label class="form-control-label">Type de Chambres: <span class="tx-danger">*</span></label>
-                            <select name="typebed" class="form-control typedechambre select2" data-placeholder="Choose one" style="width: 75%">
+                            <select name="typebed" class="form-control typedechambre js-select2" data-placeholder="Choose one" style="width: 75%">
                                 <option value="0">Sélectionner le type</option>
                                 {% set newArray = [] %}
                                 {% for tarif in tarifs %}
@@ -61,7 +61,7 @@
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label class="form-control-label">Durée : <span class="tx-danger">*</span></label>
-                            <select name="sejourclient" id="montant" class="form-control tarifdeschambres select2" data-placeholder="Choose one" style="width: 75%">
+                            <select name="sejourclient" id="montant" class="form-control tarifdeschambres js-select2" data-placeholder="Choose one" style="width: 75%">
                                     <option value="0">Durée du sejour</option>
                             </select>
                         </div>
@@ -86,7 +86,7 @@
                         <div class="col-lg-8">
                             <div class="form-group mg-b-10-force">
                                 <label class="form-control-label">Chambre disponible: <span class="tx-danger">*</span></label>
-                                <select name="chambre" class="form-control chambres select2" data-placeholder="Choose one" style="width: 75%">
+                                <select name="chambre" class="form-control chambres js-select2" data-placeholder="Choose one" style="width: 75%">
                                     
                                 </select>
                             </div>

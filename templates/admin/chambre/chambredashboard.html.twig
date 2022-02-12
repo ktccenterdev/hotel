@@ -86,7 +86,7 @@
                     <div class="form-group">
                         <label class="form-control-label">Antenne: <span class="tx-danger">*</span></label>
                         <div class="input-group">                            
-                            <select class="form-control select2" id="antenne" name="entene_id" style="width:100%">
+                            <select class="form-control js-select2" id="antenne" name="entene_id" style="width:100%">
                                 <option label="Choisir une antenne"></option>
                                 {% for entene in entene %}
                                     <option value="{{entene.id}}" data-typechambres ="{{entene.typeDeChambres | json_encode()}}">{{entene.nom}}</option>
@@ -102,7 +102,7 @@
                             Type de chambre: <span class="tx-danger">*</span>
                         </label>
                         <div class="input-group">
-                            <select class="form-control select2" id="type_chambre" name="type_id" style="width:80%">
+                            <select class="form-control js-select2" id="type_chambre" name="type_id" style="width:80%">
                                 <option label="selectionner un type"></option>                               
                             </select>                            
                             <img src="{{ asset('img/loader/loader2.gif') }}" id="loader1" width="32" height="32" style="float:right; display: none;">

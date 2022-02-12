@@ -26,7 +26,7 @@
 																	<label class="form-control-label">Nom du Client: <span class="tx-danger">*</span></label>
 																	<div class="mg-t-10 mg-sm-t-0">
                                                                     <input class="form-control" type="hidden" name="id" id="id" value="{{reservations.id}}" >
-																		<select name="client" class="form-control select2"  required>
+																		<select name="client" class="form-control js-select2"  required>
 																			<option value="{{reservations.client.id}}">{{reservations.client.prenom}} {{reservations.client.nom}}</option>
 																		</select>
 																	</div>
@@ -36,7 +36,7 @@
 																<div class="form-group">
 																	<label class=" form-control-label">Votre Type de Chambre Actuelle: ({{reservations.typechambre.nom}})<span class="tx-danger">*</span></label>
 																	<div class="mg-t-10 mg-sm-t-0">
-																		<select name="typech" class="form-control select2" required style="width:100%">
+																		<select name="typech" class="form-control js-select2" required style="width:100%">
 																			
 																			<option label="Sélectionner"></option>
 																			{% for type in types %}

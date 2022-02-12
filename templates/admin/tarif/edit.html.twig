@@ -39,7 +39,7 @@
                                                 <div class="row">
                                                     <label class="col-sm-4 form-control-label">Type de chambre: <span class="tx-danger">*</span></label>
                                                     <div class="wd-250 col-sm-8 mg-t-10 mg-sm-t-0">
-                                                        <select name="type" class="form-control select2" data-placeholder="Choose one" style="width:100%">
+                                                        <select name="type" class="form-control js-select2" data-placeholder="Choose one" style="width:100%">
                                                         <option label="--Choisit un type de chambre--"></option>                                                            
                                                         {% for type in tarif.antenne.typeDeChambres %}
                                                             <option value="{{type.id}}" {{type.id == tarif.typechambre.id ? "selected"}}>{{type.nom}}</option>
@@ -51,7 +51,7 @@
                                                 <div class="row">
 													<label class="col-sm-4 form-control-label">Type de tarif: <span class="tx-danger">*</span></label>
 													<div class="wd-250 col-sm-8 mg-t-10 mg-sm-t-0">
-														<select name="typetarif" class="form-control select2" required style="width:100%">
+														<select name="typetarif" class="form-control js-select2" required style="width:100%">
 															<option value="NUITEE" {{tarif.type == "NUITEE" ? "selected"}}>NUITEE</option>
 															<option value="SIESTE"{{tarif.type == "SIESTE" ? "selected"}}>SIESTE</option>
 														</select>

@@ -63,7 +63,7 @@
                                             <div class="col-lg-4">
                                                 <label for="">Type de chambre: </label>
                                                 <input class="form-control" id="id" type="hidden"  name="id"  value="{{chambre.id}}">
-                                                <select class="form-control select2 modif" id="typeId" name="typeId" style="width:100%">
+                                                <select class="form-controljs-select2"modif" id="typeId" name="typeId" style="width:100%">
                                                     {% for typechambre in chambre.entene.typechambres %}
                                                         <option value="{{typechambre.id}}" {{typechambre.id == chambre.type.id ? "selected"}}>{{typechambre.nom}}</option>
                                                     {% endfor %}

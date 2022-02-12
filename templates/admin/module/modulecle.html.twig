@@ -16,7 +16,7 @@
           <div class="row">
             <label class="col-sm-4 form-control-label">module: <span class="tx-danger">*</span></label>
             <div class="col-sm-8 mg-t-10 mg-sm-t-0">
-              <select name="module" class="form-control select2" style="width: 100%" required>
+              <select name="module" class="form-control js-select2" style="width: 100%" required>
                 <option label="Sélectionner un module"></option>
                 {% for module in modules %}
                   <option value="{{module.id}}">{{module.nom}}</option>
@@ -28,7 +28,7 @@
           <div class="row">
             <label class="col-sm-4 form-control-label">is default: <span class="tx-danger">*</span></label>
             <div class="col-sm-8 mg-t-10 mg-sm-t-0">
-              <select name="isdefault" class="form-control select2" data-placeholder="Choose one" style="width: 100%" required>
+              <select name="isdefault" class="form-control js-select2" data-placeholder="Choose one" style="width: 100%" required>
                   <option value=0>Non</option>
                   <option value=1>Oui</option>
               </select>

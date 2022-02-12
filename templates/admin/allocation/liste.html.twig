@@ -52,7 +52,7 @@
 					</div><!-- card-header -->
 					<div class="card-body">
 						<form id="form-filtre" class="form-inline" method="GET">
-								<select class="form-control select2-show-search rapport-filte mg-r-20 select2" id="typechambre" name="typechambre" onchange="filter(this.value)" style="width:100%">
+								<select class="form-control select2-show-search rapport-filte mg-r-20 js-select2" id="typechambre" name="typechambre" onchange="filter(this.value)" style="width:100%">
 									<option label="Sélectionner un type de chambre"></option>
 									{% set newArray = [] %}
 									{% for allocation in allocations %}
@@ -104,7 +104,7 @@
 						<div class="card-title">Client</div>
 					</div><!-- card-header -->
 					<div class="card-body">						
-						<select class="form-control select2-show-search rapport-filte mg-r-20 select2" id="select" name="plage" onchange="filter(this.value)" style="width:100%">
+						<select class="form-control select2-show-search rapport-filte mg-r-20 js-select2" id="select" name="plage" onchange="filter(this.value)" style="width:100%">
 							<option label="Sélectionner un client"></option>
 								{% set newArray = [] %}
 								{% for allocation in allocations %}

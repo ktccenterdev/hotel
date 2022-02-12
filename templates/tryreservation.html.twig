@@ -152,13 +152,13 @@ float: left;
                     <div class="col-lg-4">
                       <div class="form-group">
                         <label class="form-control-label" style="color: blue;" for="typebed">Type de Chambres: <span class="tx-danger">*</span></label>
-                        {# <select name="typebed" class="form-control typedechambre select2" data-placeholder="Choose one" id="typebed">
+                        {# <select name="typebed" class="form-control typedechambre js-select2" data-placeholder="Choose one" id="typebed">
                             <option value="0">Sélectionner le type</option>
                             {% for chambre in typchambres %}
                                 <option value="{{chambre.id}}">{{chambre.nom}}</option>
                             {% endfor %}
                         </select> #}{# chambre.type.nom #}
-                        <select name="typebed" class="form-control typedechambre select2" data-placeholder="Choose one" id="typebed">
+                        <select name="typebed" class="form-control typedechambre js-select2" data-placeholder="Choose one" id="typebed">
                             <option value="0">Sélectionner le type</option>
                             <option value="{{ chambreses.type.id }}">{{ chambreses.type.nom}}</option>
                          
@@ -173,7 +173,7 @@ float: left;
                     <div class="col-lg-4">
                         <div class="form-group">
                           <label class="form-control-label" style="color: blue;" for="sejourclient">Durée : <span class="tx-danger">*</span></label>
-                          <select name="sejourclient" class="form-control tarifdeschambres select2" id="sejourclient" data-placeholder="Choose one" style="width: 75%">
+                          <select name="sejourclient" class="form-control tarifdeschambres js-select2" id="sejourclient" data-placeholder="Choose one" style="width: 75%">
                                 <option value="0">Durée du sejour</option>
                           </select>
                         </div>
