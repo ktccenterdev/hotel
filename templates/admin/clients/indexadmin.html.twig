@@ -69,8 +69,8 @@
                             <td>{{client.adresse}}</td>
                             <td>{{client.phone}}</td>
                             <td>
-                              <button class="btn btn-info active {{app.user.hasAccess('show-client')}}"><a href="{{path('show-client', {id: client.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
-                              <button class="btn btn-teal active {{app.user.hasAccess('edit-client')}}"><a href="{{path('edit-client', {id: client.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
+                              <button class="btn btn-teal active {{app.user.hasAccess('show-client')}}"><a href="{{path('show-client', {id: client.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
+                              <button class="btn btn-primary active {{app.user.hasAccess('edit-client')}}"><a href="{{path('edit-client', {id: client.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
                             
                               <form style="display: contents;" class="js-form-send confirm-delete {{app.user.hasAccess('delete-client')}}" data-message="Voulez-vous supprimer ce client?" data-toggle="ajax" data-target="monContent" action="{{path('delete-client', {id: client.id})}}" method="DELETE">
                                 <button class="btn btn-pink active"><i class="fa fa-trash" aria-hidden="true"></i></button>	

@@ -145,7 +145,7 @@
 						<td>
 							<!--button class="btn btn-teal active"><i class="fa fa-eye" aria-hidden="true"></i></button-->
 							{% if "tarif-edit" in app.session.get('userdroit') %}
-								<button class="btn btn-teal active" ><a href="{{ path('tarif-edit', {'id':tarif.id}) }}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
+								<button class="btn btn-primary active" ><a href="{{ path('tarif-edit', {'id':tarif.id}) }}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
 							{% endif %}
 							{% if "tarif-delete" in app.session.get('userdroit') %}
 							<form style="display: contents;" class="confirm-waiting js-form-send confirm-delete" data-message="Voulez-vous supprimer ce Tarif?" data-toggle="ajax" data-target="monContent" action="{{ path('tarif-delete') }}" method="DELETE">
