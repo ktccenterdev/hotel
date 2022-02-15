@@ -46,9 +46,9 @@
 												<div class="col-lg-3 col-xlg-3 col-md-3">
 													<label class="col-sm-12 form-control-label">Type de sortit : <span class="tx-danger">*</span></label>
 													<select class="form-control js-select2" onchange="checkAlert(event)" name="sortistock_id" style="width: 100%;">														
-													 <option label="Sélectionner"></option>
-													 <option value="PERSONNE">PERSONNE</option>
-													 <option value="MAGASIN">MAGASIN</option>
+														<option label="Sélectionner"></option>
+														<option value="PERSONNE">PERSONNE</option>
+														<option value="MAGASIN">MAGASIN</option>
 													</select>
 													
 													
@@ -102,12 +102,14 @@
 											 	<label class="col-sm-12 form-control-label">Produit: <span class="tx-danger">*</span></label>
 												<select class="form-control js-select2" id="produit" name="produit[]" style="width: 100%;">
 													{% for produit in produits %}
-														<option value="{{produit.id}}">{{produit.nom}}</option>
+														{% if produit.stock > 0 %}
+															<option value="{{produit.id}}">{{produit.nom}}</option>
+														{% endif %}
 													{% endfor %}
 												</select><br>
 												<label class="col-sm-12 form-control-label">Quantite: <span class="tx-danger">*</span></label>
 												
-												<input type="number" class="form-control" id="quantite" name="quantite[]"><br>
+												<input type="number" class="form-control" min="0" id="quantite" name="quantite[]"><br>
 
 												<span  class="btn btn-info add_to_cart">Ajouter</span>
 												<br>

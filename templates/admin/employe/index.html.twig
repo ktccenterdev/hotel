@@ -210,9 +210,9 @@
 							{% endif %}
 							<td>
 
-								<button class="btn btn-info active {{app.user.hasAccess('showemploye')}}"><a href="{{ path('showemploye',{id: employe.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
+								<button class="btn btn-teal active {{app.user.hasAccess('showemploye')}}"><a href="{{ path('showemploye',{id: employe.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
 							
-								<button class="btn btn-teal active {{app.user.hasAccess('edit-employe')}}" ><a href="{{path('edit-employe', {id: employe.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
+								<button class="btn btn-primary active {{app.user.hasAccess('edit-employe')}}" ><a href="{{path('edit-employe', {id: employe.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
 								
 								<button class="btn btn-pink active {{app.user.hasAccess('deleteemp')}}" ><a href="{{path('deleteemp', {id: employe.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link confirm-delete" data-message="Voulez-vous supprimer cet employé?"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-trash" aria-hidden="true" ></i></a></button> 
 											
