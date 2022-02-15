@@ -193,6 +193,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $isdeleted;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isDefault = 0;
+
     public function __construct()
     {
         $this->allocations = new ArrayCollection();
@@ -871,6 +876,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsdeleted(?bool $isdeleted): self
     {
         $this->isdeleted = $isdeleted;
+
+        return $this;
+    }
+
+    public function getIsDefault(): ?bool
+    {
+        return $this->isDefault;
+    }
+
+    public function setIsDefault(?bool $isDefault): self
+    {
+        $this->isDefault = $isDefault;
 
         return $this;
     }

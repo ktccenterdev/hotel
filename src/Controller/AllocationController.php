@@ -28,74 +28,46 @@ class AllocationController extends DefaultController
     /**
      * @Route("/indexallocation", name="index-allocation", methods={"GET"})
      */
-    public function indexallocation(Request $request)
-    {
-        $link="allocation";
+    public function indexallocation(Request $request){
 
+        $now = new \DateTime(date('Y-m-d H:i:s'));
+        $link = "getallchambrelibre";
+        $type = "SIESTE";
         $user = $this->getUser();
-       
-        try {
-            if($user){
-        
-                $type = $request->get("type");
-                //dd($type);
-                
-                $chambres = $this->em->getRepository(Chambre::class)->findAll();
-                if($type == "NUITEE"){
-                    if($this->getUser()->getIsadmin()){
-                        $tarif = $this->em->getRepository(Tarif::class)->findBy([
-                            'type' =>'NUITEE'
-                        ]);
-                    }else{
-                        $tarif = $this->em->getRepository(Tarif::class)->findBy([
-                            'type' =>'NUITEE',
-                            'antenne' => $this->getUser()->getAntene()
-                        ]);
-                    } 
-                    
-                    $clients = $this->em->getRepository(User::class)->findBy(
-                        ['type' => "CLIENT"]);
-                    //dd($clients);
-                    $data = $this->renderView('admin/allocation/index.html.twig', [
-                        "chambres" => $chambres,
-                        "tarifs" => $tarif,
-                        "clients" => $clients
-                    ]);
-
-                }else{
-                    if($this->getUser()->getIsadmin()){
-                        $tarif = $this->em->getRepository(Tarif::class)->findBy([
-                            'type' =>'SIESTE'
-                        ]);
-                    }else{
-                        $tarif = $this->em->getRepository(Tarif::class)->findBy([
-                            'type' =>'SIESTE',
-                            'antenne' => $this->getUser()->getAntene()
-                        ]);
-                    } 
-                    
-                    $clients = $this->em->getRepository(User::class)->findBy(
-                        ['username' => "divers"]);
-                    //dd($clients);
-                    $data = $this->renderView('admin/allocation/indexsieste.html.twig', [
-                        "chambres" => $chambres,
-                        "tarifs" => $tarif,
-                        "clients" => $clients
-                    ]);
-
-                }
-                
-                $this->successResponse("Liste des allocations ", $link, $data);
-            }else{
-                return $this->redirectToRoute('login');
+        if($user){
+            try {
+                // if($user->getIsadmin()){
+                //     $allocations = $this->em->getRepository(Allocation::class)->getChambreLibres($now, $type);
+                //     $page = "admin/allocation/indexsieste.html.twig";
+                //     $chambres = $this->em->getRepository(Chambre::class)->findAll();
+                //     $types = $this->em->getRepository(Typechambre::class)->findAll();
+                // }else{
+                    $antenne = $user->getAntene();
+                    $allocations = $this->em->getRepository(Allocation::class)->getChambreLibres($now, null, $antenne->getId());                    
+                    $chambreIds = array();
+                    //dd($allocations);
+                    foreach ($allocations as $allocation) {
+                        array_push($chambreIds, $allocation->getChambre()->getId());
+                    }
+                    $clients = $this->em->getRepository(User::class)->findBy(['type'=>"CLIENT", 'antene'=>$antenne]);
+                    $page = "admin/allocation/indexsieste.html.twig";
+                   // $chambres = $this->em->getRepository(Chambre::class)->findBy(['entene'=>$antenne]);
+                    $types = $this->em->getRepository(Typechambre::class)->findBy(['antene'=>$antenne]);
+               // }                
+                $data = $this->renderView($page, [
+                    'allocations'=>$allocations, 'types'=>$types, 'chambreIds'=>$chambreIds, 'clients'=>$clients
+                ]);
+                $this->successResponse("Chambres libres", $link, $data);
+            } catch (\Exception $ex) {
+                $this->log($ex->getMessage(), $link);
             }
-        }catch (\Exception $ex) {
-            $this->log($ex->getMessage(), $link);
+            return $this->json($this->result);
+        }else{            
+           return $this->redirect('/login');
         }
-       // dd($this->result);
-        return $this->json($this->result);
+        
     }
-
+    
     /**
      * @Route("/allouer/{id}", name="allouer", methods={"GET"})
      */
@@ -124,7 +96,7 @@ class AllocationController extends DefaultController
                 ]);
                 $this->successResponse("Liste des allocations ", $link, $data);
             }else{
-                return $this->redirectToRoute('login');
+                return $this->redirect('/login');
             }
         }catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);
@@ -204,7 +176,7 @@ class AllocationController extends DefaultController
                 $this->log("Aucun compte d'opération configuré dans les paramètres.", $link);
             }       
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -213,379 +185,155 @@ class AllocationController extends DefaultController
      * @Route("/allocationadd", name="allocation-add", methods={"POST"})
      */
     public function allocationadd(Request $request){
+        
+        $result = array();
+        $link = "allocation";
+        $check_nouveau = $request->get('nouveau_client');
         $userg = $this->getUser();
+        $client = new User();
         if($userg){
-
-            $id = $request->get("id");
-            $link="allocation";
-            $radio=$request->get("radio");
-            $compte = current($this->em->getRepository(Parametre::class)->findAll())->getCompteHebergement();
-            if(!is_null($compte)){
+           // $id = $request->get("id");
+            $chambreID = intval($request->get("chambreID"));
+            $hebergement = $request->get("hebergement");
+            $occurence = intval($request->get("occurence"));
+            $prix = floatval($request->get('prix'));
+            $versement = floatval($request->get('versement'));
+            $accompte=$request->get("accompte");            
                 try {
+                    $compte = current($this->em->getRepository(Parametre::class)->findAll())->getCompteHebergement();
+                    if(!is_null($compte)){
+                        $chambre = $this->em->getRepository(Chambre::class)->find($chambreID);
+                        if($chambre){
+                            if($hebergement){
+                                if($occurence != 0){
+                                    if ($versement != 0) {
+                                        if ($prix != 0) {
+                                            if($check_nouveau == 'on'){                                                
+                                                $nom =  $request->get('nom');
+                                                $prenom =  $request->get('prenom');
+                                                $sexe =  $request->get('sexe');
+                                                $cni =  $request->get('cni');
+                                                if($nom){
+                                                    $client->setNom($nom);
+                                                    $client->setPrenom($prenom);
+                                                    $client->setType("CLIENT");
+                                                    $client->setSexe($sexe);
+                                                    $client->setCni($cni);
+                                                    $client->setEmail($nom."".$prenom."@hotelapp.com");
+                    
+                                                    $client->setCni($cni);
+                                                    $client->setUsername(trim($nom."".uniqid()));
+                                                    $client->setPassword($this->passwordEncoder->encodePassword($client,"12345@abc"));
+                                                    $client->setIsadmin(0);
+                                                    $client->setAntene($userg->getAntene());
+                                                    $this->em->persist($client);
+                                                }else{
+                                                    // $this->log("Le nom est obligatoire.");
+                                                    $message = "Le nom est obligatoire.";
+                                                    $result = array("success"=>false,"id"=>-1, "message"=>$message);  
+                                                    return $this->json($result);      
+                                                }
+                                            }else{
+                                                $clientId = intval($request->get("client"));
+                                                $client = $this->em->getRepository(User::class)->find($clientId);
+                                                if(is_null($client)){
+                                                    $message = "Client introuvable.";
+                                                    $result = array("success"=>false,"id"=>-1, "message"=>$message);  
+                                                    return $this->json($result);      
+                                                }
+                                            }
+                                            $datedebut = new \DateTime('now');                                 
+                                            if($hebergement === "SIESTE"){
+                                                $datefin = new \DateTime(date("Y-m-d H:i:s", strtotime("+".$occurence." hour")));
+                                            }else{
+                                                $dateJour = date('Y-m-d')." 12:00:00";
+                                                $datefin = new \DateTime(date("Y-m-d H:i:s", strtotime($dateJour." +".$occurence." day")));
+                                            }           
+                                            //dd($datedebut, $datefin);  
+                                            if($accompte){
+                                                $solde = $client->getSolde("solde");                                                 
+                                                if($solde >= $versement){                                                
+                                                    $debiter=($solde-$versement);
+                                                    $solde = $client->getSolde("solde");
+                                                    $client->setSolde($debiter);
+                                                    $this->em->persist($client);    
 
-                    $oldornew =  $request->get('noveauclientckeck');
-
-                    if($oldornew=="on"){ 
-                        
-                        $nom =  $request->get('nom');
-                        $prenom =  $request->get('prenom');
-                        $datenais=  $request->get('datenaisance');
-                        $datenaisance = new \DateTime($datenais);
-                        $sex =  $request->get('sex');
-                        $cni =  $request->get('cni');
-                        $lieunaisance =  $request->get('lieunaisance');
-                        $etatcivil =  $request->get('etatcivil');
-                        $profession =  $request->get('profession');
-                        $nationalite =  $request->get('nationalite');
-                        $phone =  $request->get('phone');
-                        $adresse =  $request->get('adresse');
-                        $photo = $request->files->get("photo");
-                        $user = new User();
-                        $user->setNom($nom);
-                        $user->setPrenom($prenom);
-                        $user->setDatenaisance($datenaisance);
-                        $user->setSexe($sex);
-                        
-                        if(empty($request->get("email"))){
-                            $user->setEmail($nom."".$prenom."@hotelapp.com");
+                                                    $transact = new Transaction();
+                                                    $transact->setMontant($versement);
+                                                    $transact->setClient($client);                                                    
+                                                    $transact->setType("DEBIT");
+                                                    $transact->setCreatedat(new \DateTime('now'));
+                                                    $transact->setCreatedby($this->getUser());
+                                                    $this->em->persist($transact);
+                                                } else{
+                                                    $this->addFlash('danger','solde insuffisant,veuiller Recharger votre compte.');
+                                                }       
+                                            }         
+                                            $allocation = new Allocation();    
+                                            $allocation->setDatedebut($datedebut);
+                                            $allocation->setDatefin($datefin);
+                                            $allocation->setMontant($versement);
+                                            $allocation->setOperateur($this->getUser());
+                                            $allocation->setAntene($this->getUser()->getAntene());
+                                            $allocation->setReduction($prix-$versement);
+                                            $allocation->setOccupant($client);
+                                            $allocation->setChambre($chambre);
+                                            $allocation->setCompte($compte);
+                                            $allocation->setType($hebergement);
+                                            $allocation->setCreateat(new \DateTime('now'));
+                                            $this->em->persist($allocation);
+                                            $this->em->flush();
+                                            $this->setlog("AJOUTER","l'utilisateur ".$this->getUser()->getUsername().
+                                                " a ajouté une allocation ".$chambre->getNumero(),"ALLOCATION",$chambre->getId());
+                                            $result = array("success"=>true,"id"=>$allocation->getId());
+                                            return new JsonResponse($result);
+                                        } else {
+                                            // $this->log("Le prix obligatoire"); 
+                                            $message = "Le prix obligatoire";
+                                            $result = array("success"=>false,"id"=>-1, "message"=>$message);        
+                            return new JsonResponse($result);
+                                            
+                                        }                                    
+                                    } else {
+                                        // $this->log("Versement obligatoire"); 
+                                        $message = "Versement obligatoire";
+                                        $result = array("success"=>false,"id"=>-1, "message"=>$message);        
+                            return new JsonResponse($result);
+                                        
+                                    }                                
+                                }else{
+                                    // $this->log("Occurence obligatoire"); 
+                                    $message = "Occurence obligatoire";
+                                    $result = array("success"=>false,"id"=>-1, "message"=>$message);        
+                            return new JsonResponse($result);
+                                }
+                            }else{
+                                // $this->log("Hébergement obligatoire"); 
+                                $message = "Hébergement obligatoire";
+                                $result = array("success"=>false,"id"=>-1, "message"=>$message);        
+                            return new JsonResponse($result);
+                                
+                            }
                         }else{
-                            $user->setEmail($request->get("email"));
+                            // $this->log("Chambre obligatoire");       
+                            $message = "Chambre obligatoire";   
+                            $result = array("success"=>false,"id"=>-1, "message"=>$message);        
+                                 
                         }
-                        
-                        $user->setCni($cni);
-                        $user->setUsername(trim($nom."".$prenom));
-                        $user->setPassword($this->passwordEncoder->encodePassword($user,"12345@abc"));
-                        $user->setLieunaisance($lieunaisance);
-                        $user->setEtatcivil($etatcivil);
-                        
-                        $user->setProfession($profession);
-                        $user->setNationalite($nationalite);
-                        $user->setPhone($phone);
-
-                        $user->setAdresse($adresse);
-                        $user->setType("CLIENT");
-                        $this->em->persist($user);
-                        $this->em->flush();
-                        $client=$user;
-                            
-
                     }else{
-                        $clientid =  $request->get('client');
-                        $client = $this->em->getRepository(User::class)->find($clientid);
-                    
-                    }
-
-                    $dateat = $request->get("arriver");
-                    $datedeb = new \DateTime($dateat);
-                    
-                    ///calcul duree du sejour
-                    $quantite=$request->get("qte");
-                    $packsejour=$request->get("sejourclient");
-                    $tarif = $this->em->getRepository(Tarif::class)->find($packsejour);
-                    $nombreheure=$tarif->getDuree()*intval($quantite);
-
-                    ///allocationn via debit
-                    $solde = $client->getSolde("solde");
-                    $montant=$tarif->getPrix()*intval($quantite);
-
-                    $radio=$request->get("radio");
-                
-                        
-                if($radio=="acompte")
-                {
-
-                        if($solde>=$montant)
-                        {
-                        
-                            $debiter=($solde-$montant);
-                            $clientid =  $request->get('client');
-                            $client = $this->em->getRepository(User::class)->find($clientid);
-                            $solde = $client->getSolde("solde");
-                            $client->setSolde($debiter);
-                            $this->em->persist($client);
-
-
-
-                            $transact = new Transaction();
-                            $transact->setMontant($montant);
-                            $transact->setClient($client);
-                            
-                            $transact->setType("DEBIT");
-                            $transact->setCreatedat(new \DateTime('now'));
-                            $transact->setCreatedby($this->getUser());
-                        //dd($transact);
-                            $this->em->persist($transact);
-                        
-
-
-                        
-                        
-                        
-                        
-                        }else
-                        {
-                        
-                            $this ->addFlash('danger','solde insuffisante,veiller Recharger votre compte svp');
-                            return $this->redirectToRoute('index-allocation',[]);
-                        
-                        
-                        }
-                    
-
-                    }/* else if($radio=="cash")
-                    {
-                        $solde = $client->getSolde("solde");
-                        $montant=$tarif->getPrix()*intval($quantite);
-                        
-
-                        $montantcash=$request->get("montantcash");
-                        $clientid =  $request->get('client');
-                        $client = $this->em->getRepository(User::class)->find($clientid);
-                        
-                        if($montantcash==$montant){
-                        
-                            $transact = new Transaction();
-                        
-                        
-                            $transact->setMontant($montantcash);
-                            $transact->setClient($client);
-                            
-                            $transact->setType("CASH");
-                            $transact->setCreatedat(new \DateTime('now'));
-                            $transact->setCreatedby($this->getUser());
-                        
-                            $this->em->persist($transact);
-                            $this->em->flush();
-                        }else {
-                        
-                            $this ->addFlash( 'danger','vous devez payer la totalité en espèce');
-                            return $this->redirectToRoute('index-allocation',[]);
-
-                        }
-                    
-                    } */
-                    
-                
-
-                    ///fin calcul durrer  du sejour 
-        
-                    $timeat = $request->get("arriver");
-                    $timefin = new \DateTime($timeat);
-                    
-                    ////cacul du temp de fin 
-                    $timefin->add(new DateInterval('PT'.$nombreheure.'H'));
-                    /////fin calcule temps de fin 
-        
-                    $cham = $request->get("chambre");
-                    $chambre = $this->em->getRepository(Chambre::class)->find($cham);
-                    //dd($chambre);
-
-
-                    ///etat  
-                    ///$id = $request->get("id");  
-                    
-                    /// $reservations = $this->em->getRepository(Reservation::class)->find($id);
-                /// $etat = $reservations->getEtat("etat");
-                    
-                    
-                
-                /// if($etat=="Non Traiter"){ 
-                    ///    $reservations->setEtat("Traiter");
-                    
-                    ///}else{
-                    ///    $reservations->setEtat("Non Traiter");
-                    
-                    ///}
-                /// $this->em->persist($reservations);
-                
-                ///etat stop
-            /*   $id = $request->get("id");
-                $alluser = $this->em->getRepository(User::class)->find($id);
-                dd($alluser);
-                $etat = $alluser->getSolde("solde"); */
-                
-
-                    //Create user if not exit
-                    $user = new User();
-                    if(is_null($client)){
-                        $nom =  $request->get('nom');
-                        $prenom =  $request->get('prenom');
-                        $sex =  $request->get('sex');
-                        $cni =  $request->get('cni');
-                        
-                        //$phone =  $request->get('phone');
-
-                        $user->setNom($nom);
-                        $user->setPrenom($prenom);
-                        $user->setSexe($sex);
-                        $user->setEmail($nom."".$prenom."@hotelapp.com");
-                        
-                        $user->setCni($cni);
-                        $user->setUsername(trim($nom."".$prenom));
-                        $user->setPassword($this->passwordEncoder->encodePassword($user,"12345@abc"));
-                        //$user->setPhone($phone);
-                        $user->setType("CLIENT");
-                        
-
-                        $this->em->persist($user);
-                        $this->em->flush();
-                        $client = $user;
-                    }
-                    $allocation = new Allocation();
-        
-                    $allocation->setDatedebut($datedeb);
-                    $allocation->setDatefin($timefin);
-        
-                    //dd($chambre[0]->getType()->getTarifs());
-        
-                    //$allocation->setMontant($debiter);
-                    $allocation->setMontant($montant);
-                    $allocation->setOperateur($this->getUser());
-                    $allocation->setAntene($this->getUser()->getAntene());
-                    $allocation->setReduction(0);
-                    $allocation->setOccupant($client);
-                    $allocation->setChambre($chambre);
-                    $allocation->setCompte($compte);
-                    $allocation->setType($tarif->getType());
-                    $allocation->setCreateat(new \DateTime('now'));
-                    $this->em->persist($allocation);
-                    $this->em->flush();
-                    $this->setlog("AJOUTER","l'utilisateur ".$this->getUser()->getUsername().
-                        " a ajouter une allocation ".$chambre->getNumero(),"ALLOCATION",$chambre->getId());
-        
-                    $result = array("success"=>true,"id"=>$allocation->getId());
-                    return new JsonResponse($result);
-                    
+                        // $this->log("Aucun compte d'opération configuré dans les paramètres.", $link);
+                        $message = "Aucun compte d'opération configuré dans les paramètres.";
+                    }     
                 }catch (\Exception $ex) {
-                    $result = array("success"=>false,"id"=>$ex->getMessage());
+                    $result = array("success"=>false,"id"=>-1, "message"=>$ex->getMessage());
                     return new JsonResponse($result);
                 } 
-            }else{
-                $this->log("Aucun compte d'opération configuré dans les paramètres.", $link);
-            }       
+              
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
+        return new JsonResponse($result);
     }
-
-    /**
-     * @Route("/validereservation", name="valide-reservation", methods={"POST"})
-     */
-    /* public function validereservation(Request $request)
-    {
-        $id = $request->get("id");
-        $link="validereservation";
-        $compte = current($this->em->getRepository(Parametre::class)->findAll())->getCompteHebergement();
-        if(!is_null($compte)){
-            try {
-
-                $clientid =  $request->get('client');
-                $client = $this->em->getRepository(User::class)->find($clientid);
-                
-                $dateat = $request->get("arriver");
-                $datedeb = new \DateTime($dateat);
-                
-                ///calcul duree du sejour
-                $quantite=$request->get("qte");
-                $packsejour=$request->get("sejourclient");
-                $tarif = $this->em->getRepository(Tarif::class)->find($packsejour);
-                $nombreheure=$tarif->getDuree()*intval($quantite);
-                $montant=$tarif->getPrix()*intval($quantite);
-                ///fin calcul durrer  du sejour 
-    
-                $timeat = $request->get("arriver");
-                $timefin = new \DateTime($timeat);
-                
-                ////cacul du temp de fin 
-                $timefin->add(new DateInterval('PT'.$nombreheure.'H'));
-                /////fin calcule temps de fin 
-    
-                $cham = $request->get("chambre");
-                $chambre = $this->em->getRepository(Chambre::class)->find($cham);
-                //dd($chambre);
-                
-                $radio=$request->get("radio");
-                dd($radio);
-
-                ///etat  
-                 $id = $request->get("id");  
-                
-                 $reservations = $this->em->getRepository(Reservation::class)->find($id);
-                 $etat = $reservations->getEtat("etat");
-                
-                 
-               
-                if($etat=="Non-traiter"){ 
-                    $reservations->setEtat("Traiter");
-                   
-                }else{
-                    $reservations->setEtat("Non-traiter");
-                  
-                }
-                $this->em->persist($reservations);
-               
-            ///etat stop
-               
-
-                //Create user if not exit
-                $user = new User();
-                if(is_null($client)){
-                    $nom =  $request->get('nom');
-                    $prenom =  $request->get('prenom');
-                    $sex =  $request->get('sex');
-                    $cni =  $request->get('cni');
-                    
-                    //$phone =  $request->get('phone');
-
-                    $user->setNom($nom);
-                    $user->setPrenom($prenom);
-                    $user->setSexe($sex);
-                    $user->setEmail($nom."".$prenom."@hotelapp.com");
-                    
-                    $user->setCni($cni);
-                    $user->setUsername(trim($nom."".$prenom));
-                    $user->setPassword($this->passwordEncoder->encodePassword($user,"12345@abc"));
-                    //$user->setPhone($phone);
-                    $user->setType("CLIENT");
-                    
-
-                    $this->em->persist($user);
-                    $this->em->flush();
-                    $client = $user;
-                }
-                $allocation = new Allocation();
-    
-                $allocation->setDatedebut($datedeb);
-                $allocation->setDatefin($timefin);
-    
-                //dd($chambre[0]->getType()->getTarifs());
-    
-                $allocation->setMontant($montant);
-                $allocation->setOperateur($this->getUser());
-                $allocation->setAntene($this->getUser()->getAntene());
-                $allocation->setReduction(0);
-                $allocation->setOccupant($client);
-                $allocation->setChambre($chambre);
-                $allocation->setCompte($compte);
-				$allocation->setType($tarif->getType());
-                $allocation->setCreateat(new \DateTime('now'));
-                $this->em->persist($allocation);
-                $this->em->flush();
-                $this->setlog("AJOUTER","l'utilisateur ".$this->getUser()->getUsername().
-                    "a ajouter une allocation ".$chambre->getNumero(),"ALLOCATION",$chambre->getId());
-    
-                $result = array("success"=>true,"id"=>$allocation->getId());
-                return new JsonResponse($result);
-                
-            }catch (\Exception $ex) {
-                $result = array("success"=>false,"id"=>-1);
-                return new JsonResponse($result);
-            } 
-        }else{
-            $this->log("Aucun compte d'opération configuré dans les paramètres.", $link);
-        }       
-        
-    } */
 
     /**
      * @Route("/validereservation", name="valide-reservation", methods={"POST"})
@@ -792,7 +540,7 @@ class AllocationController extends DefaultController
                 $this->log("Aucun compte d'opération configuré dans les paramètres.", $link);
             }
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }      
         
     }
@@ -834,7 +582,7 @@ class AllocationController extends DefaultController
             return $compatible;
 
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -857,7 +605,7 @@ class AllocationController extends DefaultController
             }
             return new JsonResponse($items);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -880,7 +628,7 @@ class AllocationController extends DefaultController
             }
             return new JsonResponse($items);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -896,13 +644,41 @@ class AllocationController extends DefaultController
             
             return new JsonResponse($solde);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 	
     /**
      * @Route("/getallchambrelibre", name="getallchambrelibre", methods={"POST"})
      */
+    public function getallchambrelibre(Request $request){
+        $now = new \DateTime(date('Y-m-d H:i:s'));
+        $link = "getallchambrelibre";
+        $type = "SIESTE";
+        $user = $this->getUser();
+        if($user){
+            try {
+                if($user->getIsadmin()){
+                    $chambres = $this->em->getRepository(Allocation::class)->getallchambrelibre($now, $type);
+                    $page = "admin/allocation/indexsieste.html";
+                }else{
+                    $chambres = $this->em->getRepository(Allocation::class)->getallchambrelibre($now, $type, $user->getAntene()->getId);                    
+                    $page = "admin/allocation/index.html";
+                }                
+                dd($chambres);
+                $data = $this->renderView($page, ['chambres'=>$chambres]);
+                $this->successResponse("Chambres libres", $link, $data);
+            } catch (\Exception $ex) {
+                $this->log($ex->getMessage(), $link);
+            }
+            return $this->json($this->result);
+        }else{
+            return $this->redirect('/login');
+        }
+        
+
+    }
+    /*
     public function getallchambrelibre(Request $request){
         $userg = $this->getUser();
         if($userg){
@@ -948,11 +724,11 @@ class AllocationController extends DefaultController
             }
             return new JsonResponse($items);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
         
         
-    }
+    }*/
 
     public function checkifroomfree($chambreid,$heuredebut,$heurefin){
         $userg = $this->getUser();
@@ -975,7 +751,7 @@ class AllocationController extends DefaultController
             } 
             return  $dispo;
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -993,7 +769,7 @@ class AllocationController extends DefaultController
             return $this->printRecu($allocation);
 
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 	
@@ -1045,7 +821,7 @@ class AllocationController extends DefaultController
             // dd($this->result);
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -1067,7 +843,7 @@ class AllocationController extends DefaultController
             // dd($this->result);
             return $this->returnPDFResponseFromHTML($template, "Liste des allocations"); 
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 	
@@ -1214,7 +990,7 @@ class AllocationController extends DefaultController
                 $this->log("Aucun compte d'opération configuré dans les paramètres.", $link);
             }
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }      
         
     } 
@@ -1276,7 +1052,7 @@ class AllocationController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -1322,7 +1098,7 @@ class AllocationController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -1374,7 +1150,7 @@ class AllocationController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
     
@@ -1415,7 +1191,7 @@ class AllocationController extends DefaultController
                 return $this->json(['success'=> false]);
             }
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -1473,7 +1249,7 @@ class AllocationController extends DefaultController
             // dd($this->result);
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -1502,7 +1278,7 @@ class AllocationController extends DefaultController
             return $this->json($this->result);
 
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 	
@@ -1538,42 +1314,36 @@ class AllocationController extends DefaultController
             // dd($this->result);
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
 
    
     /**
-     * @Route("/leaveroom", name="leave-room")
+     * @Route("/leaveroom", name="leave-room", methods={"DELETE"})
      */
     public function leaveroom(Request $request): Response
     {
-        $link="leaveroom";
+        $link="indexallocation";
         $userg = $this->getUser();
+        $id = intval($request->get('id'));
         if($userg){
             try {
-                
-                $id = $request->get("id");
-                $alocation = $this->em->getRepository(Allocation::class)->find($id);
-                if($alocation->getDatefin() < (new Datetime('now'))){
-                    $alocation->setDepartavant(true);
+                $allocation = $this->em->getRepository(Allocation::class)->find($id);
+                if($allocation->getDatefin() < (new Datetime('now'))){
+                    $allocation->setDepartavant(true);
                 }
-                //dd($alocation);
-                $alocation->setDepartreel(new Datetime('now'));
-                // $alocation->setDepartreel(new Datetime('now'));
-                $this->em->persist($alocation);
-                $this->em->flush($alocation);
-                
-                
-                $this->successResponse("chambre liberer !",$link);  
+                $allocation->setDepartreel(new Datetime('now'));
+                $this->em->persist($allocation);
+                $this->em->flush($allocation);
+                $this->successResponse("chambre libérée !",$link);  
             } catch (\Exception $ex) {
-                $this->log($ex->getMessage(), "leave-allocation");
+                $this->log($ex->getMessage(), $link);
             }
-            // dd($this->result);
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 }

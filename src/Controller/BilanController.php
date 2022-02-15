@@ -69,7 +69,7 @@ class BilanController extends DefaultController
                 }                
                 $this->successResponse("Bilan des entrées financières ", $link, $data);
             }else{
-               return $this->redirectToRoute('login');
+               return $this->redirect('/login');
             }  
         }catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);
@@ -121,7 +121,7 @@ class BilanController extends DefaultController
                 }                
                 return $this->returnPDFResponseFromHTML($template, "bilan des entrées financières",); 
             }else{
-               return $this->redirectToRoute('login');
+               return $this->redirect('/login');
             }  
         }catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);
@@ -155,7 +155,7 @@ class BilanController extends DefaultController
                     ]);        
                     $this->successResponse("Bilan des mes entrées financières ", $link, $data);
             }else{
-               return $this->redirectToRoute('login');
+               return $this->redirect('/login');
             }  
         }catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);
@@ -190,7 +190,7 @@ class BilanController extends DefaultController
                     ]);  
                     return $this->returnPDFResponseFromHTML($template, "Mon bilan journalier"); 
             }else{
-              return $this->redirectToRoute('login');
+              return $this->redirect('/login');
             }  
         }catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);
@@ -232,7 +232,7 @@ class BilanController extends DefaultController
                 }
                 
             }else{
-                return $this->redirectToRoute('login');
+                return $this->redirect('/login');
             }
         }catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);
@@ -307,7 +307,7 @@ class BilanController extends DefaultController
                 ]);
                 $this->successResponse("Journal comptable affiché", $link, $data);
             }else{
-                return $this->redirectToRoute('login');
+                return $this->redirect('/login');
             }                
         }catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);
@@ -357,7 +357,7 @@ class BilanController extends DefaultController
                 return $this->returnPDFResponseFromHTML($template, "Journal comptable"); 
 
             }else{
-                return $this->redirectToRoute('login');
+                return $this->redirect('/login');
             }  
         }catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);

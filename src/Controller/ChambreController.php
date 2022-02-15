@@ -60,7 +60,7 @@ class ChambreController extends DefaultController
                     $this->successResponse("Liste des chambres ", $link, $data);
                 }  
             }else{
-                return $this->redirectToRoute('login');
+                return $this->redirect('/login');
             }
 
                
@@ -100,7 +100,7 @@ class ChambreController extends DefaultController
                     ]);
                     $this->successResponse("Liste des chambres ", $link, $data);
                 }else{
-                    return $this->redirectToRoute('login');
+                    return $this->redirect('/login');
                 }
 
 
@@ -126,7 +126,7 @@ class ChambreController extends DefaultController
                 $this->successResponse("Liste des chambres ", $link, $data);
                 
             }else{
-                return $this->redirectToRoute('login');
+                return $this->redirect('/login');
             }
         } catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);
@@ -181,32 +181,34 @@ class ChambreController extends DefaultController
     
                 if(!empty($photo1) ){
                     $path1 = md5(uniqid()).'.'.$photo1->guessExtension();
-                    $photo1->move($this->getParameter('Chambre'), $path1);
-    
-                    $chambre->setPhoto1($path1);
-                    
+                    $photo1->move($this->getParameter('Chambre'), $path1);    
+                    $chambre->setPhoto1($path1);                    
+                }else{
+                    $chambre->setPhoto1("chambre.png");
                 }
     
                 if(!empty($photo2) ){
                     $path2 = md5(uniqid()).'.'.$photo2->guessExtension();
-                    $photo2->move($this->getParameter('Chambre'), $path2);
-    
-                    $chambre->setPhoto2($path2);
-                    
+                    $photo2->move($this->getParameter('Chambre'), $path2);    
+                    $chambre->setPhoto2($path2);                    
+                }else{
+                    $chambre->setPhoto1("chambre.png");
                 }
+
                 if(!empty($photo3)){
                     $path3 = md5(uniqid()).'.'.$photo3->guessExtension();
-                    $photo3->move($this->getParameter('Chambre'), $path3);
-    
-                    $chambre->setPhoto3($path3);
-                    
+                    $photo3->move($this->getParameter('Chambre'), $path3);    
+                    $chambre->setPhoto3($path3);                    
+                }else{
+                    $chambre->setPhoto1("chambre.png");
                 }
-            if(!empty($photo4)){
+
+                if(!empty($photo4)){
                     $path4 = md5(uniqid()).'.'.$photo4->guessExtension();
-                    $photo4->move($this->getParameter('Chambre'), $path4);
-    
-                    $chambre->setPhoto4($path4);
-                    
+                    $photo4->move($this->getParameter('Chambre'), $path4);    
+                    $chambre->setPhoto4($path4);                    
+                }else{
+                    $chambre->setPhoto1("chambre.png");
                 }
                 
                 $this->em->persist($chambre);
@@ -216,7 +218,7 @@ class ChambreController extends DefaultController
                 //dd($chambre);
                 $this->successResponse("chambre ajoutée ",$link);  
             }else {
-                return $this->redirectToRoute('login');
+                return $this->redirect('/login');
             }
    					
         			
@@ -253,7 +255,7 @@ class ChambreController extends DefaultController
                 }
                 
             }else {
-                return $this->redirectToRoute('login');
+                return $this->redirect('/login');
             }
         } 
         catch (\Exception $ex) {
@@ -292,7 +294,7 @@ class ChambreController extends DefaultController
                 $this->log("Chambre introuvable", $link);
             }
         } else {
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
         
         } catch (\Exception $ex) {
@@ -329,7 +331,7 @@ class ChambreController extends DefaultController
             ]);
             $this->successResponse("vue edit des chambres ", $link, $data);
             } else {
-                return $this->redirectToRoute('login');
+                return $this->redirect('/login');
             }
             
           
@@ -384,32 +386,24 @@ class ChambreController extends DefaultController
                 if(!empty($photo1) ){
                     $path1 = md5(uniqid()).'.'.$photo1->guessExtension();
                     $photo1->move($this->getParameter('Chambre'), $path1);
-
-                    $chambre->setPhoto1($path1);
-                    
+                    $chambre->setPhoto1($path1);                    
                 }
 
                 if(!empty($photo2) ){
                     $path2 = md5(uniqid()).'.'.$photo2->guessExtension();
                     $photo2->move($this->getParameter('Chambre'), $path2);
-
-                    $chambre->setPhoto2($path2);
-                    
+                    $chambre->setPhoto2($path2);                    
                 }
                 if(!empty($photo3)){
                     $path3 = md5(uniqid()).'.'.$photo3->guessExtension();
                     $photo3->move($this->getParameter('Chambre'), $path3);
-
-                    $chambre->setPhoto3($path3);
-                    
+                    $chambre->setPhoto3($path3);                    
                 }
             if(!empty($photo4)){
-                    $path4 = md5(uniqid()).'.'.$photo4->guessExtension();
-                    $photo4->move($this->getParameter('Chambre'), $path4);
-
-                    $chambre->setPhoto4($path4);
-                    
-                }                
+                $path4 = md5(uniqid()).'.'.$photo4->guessExtension();
+                $photo4->move($this->getParameter('Chambre'), $path4);
+                $chambre->setPhoto4($path4);                    
+            }                
 
             $this->em->persist($chambre);
             $this->em->flush($chambre);
@@ -418,7 +412,7 @@ class ChambreController extends DefaultController
 
             $this->successResponse("chambre Modifiée !", $link);  
             } else {
-                return $this->redirectToRoute('login');
+                return $this->redirect('/login');
             }
             
         } catch (\Exception $ex) {
@@ -480,7 +474,7 @@ class ChambreController extends DefaultController
                 ]);
                 $this->successResponse("Liste des chambres ", $link, $data);
             } else {
-                return $this->redirectToRoute('login');
+                return $this->redirect('/login');
             }
              
            

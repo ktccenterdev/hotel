@@ -60,7 +60,7 @@ class DashboadController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 }

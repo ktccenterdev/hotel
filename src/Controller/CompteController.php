@@ -28,7 +28,7 @@ class CompteController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -90,7 +90,7 @@ class CompteController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -121,7 +121,7 @@ class CompteController extends DefaultController
                 return new JsonResponse($this->result, 400);
             }
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -190,7 +190,7 @@ class CompteController extends DefaultController
                 return new JsonResponse($this->result, 400);
             }
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -222,7 +222,7 @@ class CompteController extends DefaultController
                 return new JsonResponse($this->result, 400);
             }
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 }

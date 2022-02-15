@@ -61,7 +61,7 @@ class ClientController extends DefaultController
                     }
                     $this->successResponse("Liste des clients ", $link, $data);
                 }else{
-                    $this->redirectToRoute('login');
+                    $this->redirect('/login');
                 }
                 
 
@@ -70,7 +70,7 @@ class ClientController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -118,7 +118,7 @@ class ClientController extends DefaultController
             // dd($this->result);
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -145,7 +145,7 @@ class ClientController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -225,7 +225,7 @@ class ClientController extends DefaultController
             } 
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -257,7 +257,7 @@ class ClientController extends DefaultController
             } 
             return new JsonResponse($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
           
     }
@@ -318,7 +318,7 @@ class ClientController extends DefaultController
             } 
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }   
 
@@ -346,7 +346,7 @@ class ClientController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
 }
 
@@ -421,7 +421,7 @@ class ClientController extends DefaultController
             }
             return new JsonResponse($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
 
     }
@@ -449,7 +449,7 @@ class ClientController extends DefaultController
             
             return $this->returnPDFResponseFromHTML($template, "Liste des clients", "L");
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -508,7 +508,7 @@ class ClientController extends DefaultController
             }
             return new JsonResponse($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -551,7 +551,7 @@ class ClientController extends DefaultController
             }
             return new JsonResponse($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
