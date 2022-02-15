@@ -78,7 +78,7 @@ class SortieFinanciereController extends DefaultController
                 }
                 $this->successResponse("Sorties financières affichées ", $link, $data);
             }else{
-                return $this->redirectToRoute('login');
+                return $this->redirect('/login');
             }
         } catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);

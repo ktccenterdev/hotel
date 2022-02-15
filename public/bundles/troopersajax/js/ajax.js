@@ -171,7 +171,7 @@ function ajaxLink(link,update, updateStrategy, effect) {
             ajaxify(jsonResponse, update, updateStrategy, effect);
             $(".js-select2").select2({
                 placeholder: "Sélectionner",
-                allowClear: true
+                allowClear: true,
             });
             $('.datatable').DataTable({
                 responsive: false,

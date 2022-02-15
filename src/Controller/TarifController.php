@@ -55,7 +55,7 @@ class TarifController extends DefaultController
         $link = "indextarif";
         try {
             $nom =  $request->get('nom');
-            $dure =  $request->get('dure');
+            // $dure =  $request->get('dure');
             $type =  $request->get('type');
             $typetarif =  $request->get('typetarif');            
             $antenneID = intval($request->get('antenne'));
@@ -69,26 +69,29 @@ class TarifController extends DefaultController
             }
             if($antenne){
                 if($nom){
-                    if($dure){
                         if($typetarif){                            
                             $typech = $this->em->getRepository(Typechambre::class)->find($type);
                             if($typech){
                                 if($prix != 0){
-                                    $tarif=new Tarif();
-                                    $tarif->setNom($nom);
-                                    $tarif->setType($typetarif);
-                                    $tarif->setDuree($dure);
-                                    $tarif->setTypechambre($typech);
-                                    $tarif->setDuree($dure);
-                                    $tarif->setPrix($prix);
-                                    $tarif->setDescription($description);
-                                    $tarif->setAntenne($antenne);
-                        
-                                    $this->em->persist($tarif);
-                                    $this->em->flush(); 
-                                    $this->setlog("AJOUTER","L'utilisateur ".$this->getUser()->getUsername().
-                                    " a ajouté un tarif  ".$tarif-> getNom(),"TARIF",$tarif->getId());           
-                                    $this->successResponse("Tarif ajouté ",$link);  
+                                    $existTarif = $this->em->getRepository(Tarif::class)->findOneBy(['typechambre'=>$typech, 'type'=>$typetarif, 'antenne'=>$antenne]);
+                                    if(is_null($existTarif)){
+                                        $tarif=new Tarif();
+                                        $tarif->setNom($nom);
+                                        $tarif->setType($typetarif);
+                                        // $tarif->setDuree($dure);
+                                        $tarif->setTypechambre($typech);
+                                        $tarif->setPrix($prix);
+                                        $tarif->setDescription($description);
+                                        $tarif->setAntenne($antenne);
+                            
+                                        $this->em->persist($tarif);
+                                        $this->em->flush(); 
+                                        $this->setlog("AJOUTER","L'utilisateur ".$this->getUser()->getUsername().
+                                        " a ajouté un tarif  ".$tarif-> getNom(),"TARIF",$tarif->getId());           
+                                        $this->successResponse("Tarif ajouté ",$link);  
+                                    }else{
+                                        $this->log("Un tarif pour la  ".$typetarif." dans la chambre de type ".$typech->getNom()." a déja été enrégistré pour l'antenne ".$antenne->getNom().". Montant : ".$existTarif->getPrix(), $link);
+                                    }
                                 }else{
                                     $this->log("Le prix  est obligatoire.", $link);
                                 }
@@ -98,9 +101,7 @@ class TarifController extends DefaultController
                         }else{
                             $this->log("Le type de tarif (NUITEE ou SIESTE) est obligatoire.", $link);
                         }
-                    }else{
-                        $this->log("La durée est obligatoire.", $link);
-                    }
+                    
                 }else{
                     $this->log("Le nom est obligatoire", $link);
                 }
@@ -166,20 +167,19 @@ class TarifController extends DefaultController
     /**
      * @Route("/edittarif/edit", name="tarif-Redit", methods={"POST"})
      */
-    public function edittarif(Request $request): Response
+    public function modifierTarif(Request $request): Response
     {
-      
         $link = "indextarif";
-        $id = $request->get("id");
+        $id = intval($request->get("id"));
+        
         try {
             $nom =  $request->get('nom');
-            $dure =  $request->get('dure');
+            // $dure =  $request->get('dure');
             $type =  $request->get('type');
             $typetarif =  $request->get('typetarif');   
             $prix =  floatval($request->get('price'));
             $description =  $request->get('description');
             if($nom){
-                if($dure){
                     if($typetarif){                            
                         $typech = $this->em->getRepository(Typechambre::class)->find($type);
                         if($typech){
@@ -188,19 +188,21 @@ class TarifController extends DefaultController
                                 if(!$tarif){
                                     $this->log("Tarif inexistant", $link);
                                 }else{
-                                $tarif->setNom($nom);
-                                    $tarif->setType($typetarif);
-                                    $tarif->setDuree($dure);
-                                    $tarif->setTypechambre($typech);
-                                    $tarif->setDuree($dure);
-                                    $tarif->setPrix($prix);
-                                    $tarif->setDescription($description);
-                        
-                                    $this->em->persist($tarif);
-                                    $this->em->flush(); 
-                                    $this->setlog("MODIFIER","L'utilisateur ".$this->getUser()->getUsername().
-                                    " a modifié un tarif  ".$tarif-> getNom(),"TARIF",$tarif->getId());           
-                                    $this->successResponse("Tarif modifié ",$link);  
+                                    $existTarif = $this->em->getRepository(Tarif::class)->findOneBy(['typechambre'=>$typech, 'type'=>$typetarif, 'antenne'=>$tarif->getAntenne()]);
+                                    if($existTarif && $existTarif->getId() != $tarif->getId()){
+                                        $this->log("Un tarif pour la  ".$typetarif." dans la chambre de type ".$typech->getNom()." a déja été enrégistré pour l'antenne ".$tarif->getAntenne()->getNom().". Montant : ".$existTarif->getPrix(), $link);
+                                    }else{
+                                        $tarif->setNom($nom);
+                                        $tarif->setType($typetarif);
+                                        $tarif->setTypechambre($typech);
+                                        $tarif->setPrix($prix);
+                                        $tarif->setDescription($description);                            
+                                        $this->em->persist($tarif);
+                                        $this->em->flush(); 
+                                        $this->setlog("MODIFIER","L'utilisateur ".$this->getUser()->getUsername().
+                                        " a modifié un tarif  ".$tarif-> getNom(),"TARIF",$tarif->getId());           
+                                        $this->successResponse("Tarif modifié ",$link);  
+                                    }
                                 }
                             }else{
                                 $this->log("Le prix  est obligatoire.", $link);
@@ -211,28 +213,16 @@ class TarifController extends DefaultController
                     }else{
                         $this->log("Le type de tarif (NUITEE ou SIESTE) est obligatoire.", $link);
                     }
-                }else{
-                    $this->log("La durée est obligatoire.", $link);
-                }
             }else{
-                $this->log("Le nom est obligatoire", $link);
+                $this->log("Le nom est obligatoire.", $link);
             }
            
         } catch (\Exception $ex) {
-            $this->log($ex->getMessage(), "$link");
+            $this->log($ex->getMessage(), $link);
         }
-        return new JsonResponse($this->result);
+        return $this->json($this->result);
         
     }
-
-
-///
-
-
-
-
-
-
 
 
     /**

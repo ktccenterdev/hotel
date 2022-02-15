@@ -1,233 +1,279 @@
 <style>
-#myshow1 {
- 
-  display:none;
-  
-}
-
-
-</style>
+    #myshow1 {
+    display:none;
+    }
+    .active {
+      font-size: 1.5em;
+        background-color: #343a40;
+    }
+    .nav-pills .nav-link.active, .nav-pills .nav-link.active:hover, .nav-pills .nav-link.active:focus{
+        background-color: #343a40;
+    }
+</style>   
     
-    
-    <div class="br-pagetitle">
-        <i class="icon ion-man"></i>
-        <div>
-          	<h4>Hebergement (SIESTE)</h4>
-          	<p style="color:blue;" class="mg-b-0">----</p>
-        </div>
-    </div><!-- d-flex -->
-           
-    <div class="br-section-wrapper">
-        <div id="divError" style="display:none" class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>Erreur:</strong>
-            <span class="messageError"></span>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        
-        <div class="container-fixed" align="center">
-            {% for message in app.flashes('danger') %}
-                <div class="alert alert-danger">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <div class="d-flex align-items-center justify-content-start">
-                        <i class="fas fa-times alert-icon tx-32 mg-t-5 mg-xs-t-0"></i>
-                        <strong class="d-block d-sm-inline-block-force">{{ message }}</strong>
-                    </div>
-                </div>
+<div class="br-pagetitle">
+    <i class="icon ion-man"></i>
+    <div class="col">
+        <h4>HEBERGEMENT</h4>
+        <p style="color:blue;" class="mg-b-0">----</p>
+    </div>
+    <div class="col">
+        <label for="" class="mg-t-10 tx-20 tx-bold">Filtre par type: </label>
+        <select class="form-control js-select2" name="type_id" style="width: 50%;" id="type">
+            <option label="Choisir un type"></option>
+            {% for type in types %}
+                <option style="width: 100%;" value="{{type.id}}">{{type.nom}} {{type.chambres | length}}</option>
+            {% endfor %}        
+            <option value="all">Toues les chambres</option>
+        </select>
+    </div>
+    <div class="col">
+        <a class="btn btn-secondary mg-l-100" href="{{path('index-allocation')}}" data-toggle="ajax" data-target="toggle"> <i style="font-size:18px" class="fa">&#xf021;</i> Actualiser les données</a>  
+    </div>
+</div>
+<hr class="mg-t-1">
+<div class="rounded shadow mb-2 border-dark">
+	<ul id="myTab1" role="tablist" class="nav nav-tabs nav-pills with-arrow flex-column flex-sm-row text-center">
+        <li class="nav-item flex-sm-fill libre">
+          <a id="non-traitees-tab" style="height:50px;" data-toggle="tab" href="#non-traitees" role="tab" aria-controls="non-traitees" aria-selected="true" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0 border active">CHAMBRES LIBRES</a>
+        </li>
+        <li class="nav-item flex-sm-fill occupee">
+          <a id="traitees-tab" style="height:50px;" data-toggle="tab" href="#traitees" role="tab" aria-controls="traitees" aria-selected="false" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0 border">CHAMBRES OCCUPEES</a>
+        </li>
+	</ul>
+	<div id="myTab1Content" class="tab-content">
+        <div id="non-traitees" role="tabpanel" aria-labelledby="non-traitees-tab" class="tab-pane fade px-4 py-4 show active">
+            {% for type in types | reverse %}   
+                    <h5 class="text-center text-uppercase filtre-titre" id="titre-{{type.id}}">__________chambres de type {{type.nom}}__________</h5>
+                    <div class="card-columns column-count-6 mg-t-20 filtre-type" id="filtre-{{type.id}}">
+                        {% for chambre in type.chambres %}
+                            {% if chambre.id not in chambreIds %}             
+                                <div class="card filtre overflow-x-auto" id="chambre-{{chambre.id}}">
+                                    <img class="card-img-top img-fluid" src="{{asset('photo/Chambre/'~ chambre.photo1)}}" alt="Image">
+                                    <div class="card-body">
+                                    <p class="card-text text-muted">
+                                        <h4 class="text-center">{{chambre.numero}}</h4>
+                                        <div  style="font-size: 0.6em;">
+                                            Type: <u>{{chambre.type.nom}}</u><br>
+                                            Sieste: <u>{{type.tarifSieste | craue_currency('XAF', 'fr-FR')}}</u><br>
+                                            Nuitée: <u>{{type.tarifNuitee| craue_currency('XAF', 'fr-FR')}}</u><br>
+                                        </div>
+                                        <div class="col-sm-11 mg-l-auto mg-t-10 z-index-100">
+                                            <div class="dropdown">
+                                                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Actions
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a href="{{ path('showchambre',{id: chambre.id}) }}" class="btn btn-link {{app.user.hasAccess('showchambre')}}"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye"></i> Détails</a>
+                                                    <hr>
+                                                    <a href="" title="Allouer lla chambre" class="btn btn-link" data-toggle="modal" data-target="#modalAllocation" onclick="loadModalData({{chambre.id}}, '{{chambre.numero}}', '{{type.nom}}', {{type.tarifSieste}}, {{type.tarifNuitee}})"><i class="fa fa-plus"></i> Allouer</a>                                       
+                                                </div>
+                                                </div>
+                                        </div>                    
+                                    </p>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}                    
+                    </div><!-- card-columns -->  
+                    <hr class="filtre-hr" id="hr-{{type.id}}">
             {% endfor %}
         </div>
-        
-        <form id="form-send" class="js-form-sendallocation {{app.user.hasAccess('sieste-add')}}" data-toggle="ajax" data-target="monContent" action="{{path('sieste-add')}}" method="POST">
-            <div class="form-layout form-layout-1">
-                <div class="row mg-b-25">
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label class="form-control-label">Type de Chambres: <span class="tx-danger">*</span></label>
-                            <select name="typebed" class="form-control typedechambre js-select2" data-placeholder="Choose one" style="width: 75%">
-                                <option value="0">Sélectionner le type</option>
-                                {% set newArray = [] %}
-                                {% for tarif in tarifs %}
-                                    {% if tarif.typechambre.id not in newArray %}
-                                        <option value="{{ tarif.typechambre.id }}">{{tarif.typechambre.nom}}</option>
-                                        {% set newArray = newArray|merge([tarif.typechambre.id ]) %}
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
+      
+        <div id="traitees" role="tabpanel" aria-labelledby="traitees-tab" class="tab-pane fade px-4 py-4">
+            <div class="card-columns column-count-6 mg-t-10">
+                {% for allocation in allocations %}
+                    <div class="card h-100 overflow-auto">
+                        <!-- <img class="card-img-top img-fluid" src="../img/img12.jpg" alt="Image"> -->
+                        <img class="card-img-top img-fluid" src="{{asset('photo/Chambre/'~ allocation.chambre.photo1)}}" alt="Image">
+                        <div class="card-body">
+                        <p class="card-text text-muted mg-t-1">
+                            <h4 class="text-center">{{allocation.chambre.numero}}</h4>
+                            {% set now = ("now" | date("Y-m-d H:i:s")) %}
+                            <div  style="font-size: 0.6em;">
+                                Client: <u class="tx-bold">{{allocation.occupant.nom}} {{allocation.occupant.nom}} {{allocation.id}}</u><br>
+                                Type: <u class="tx-bold">{{allocation.chambre.type.nom}}</u><br>
+                                In: <u><span class="tx-bold tx-12">{{allocation.datedebut | date('d-m-Y H:i:s')}}</span></u><br>
+                                Out: <u><span class="tx-12 badge badge-{{allocation.isTimeExpired ? "warning" : "danger"}}">{{allocation.datefin | date('d-m-Y H:i:s')}}<span></u><br>
+                                Héb: <u><span class="tx-12 tx-bold">{{allocation.type}} ({{allocation.duree}})<span></u><br>
+                                Prix: <u><span class="tx-12 tx-bold">{{allocation.montant | craue_currency('XAF', 'fr-FR')}}<span></u><br>
+                                {% if allocation.datefin > "now" %}
+                            </div>                    
+                            <div class="col-sm-11 mg-l-auto mg-t-10">
+                                {# <div class="dropdown">
+                                    <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Actions
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">                                        
+                                        <form class="confirm-delete {{app.user.hasAccess('leave-room')}}" method="DELETE"
+                                            action="{{path('leave-room')}}"  
+                                            data-message="Voulez-vous liberer cette chambre?"
+                                            data-toggle="ajax" data-target="monContent">
+                                            <input type="hidden" name="id" value="{{allocation.id}}">												
+                                            <button type="submit"  class="btn btn-link" > <i class="fa fa-check"></i> Libérer</button>
+                                        </form>	
+                                        <a href="" title="Continuer l'hebergement" class="btn btn-link" data-toggle="modal" data-target="#modalAllocation"><i class="fa fa-plus"></i> Prolonger</a>
+                                    </div>
+                                </div> #}
+                                <form class="confirm-delete {{app.user.hasAccess('leave-room')}}" method="DELETE"
+                                            action="{{path('leave-room')}}"  
+                                            data-message="Voulez-vous liberer cette chambre?"
+                                            data-toggle="ajax" data-target="monContent">
+                                            <input type="hidden" name="id" value="{{allocation.id}}">												
+                                            <button type="submit"  class="btn btn-teal" > <i class="fa fa-check"></i> Libérer</button>
+                                        </form>	
+                            </div>                            
+                            {% endif %}
+                        </p>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                {% endfor %}                    
+            </div><!-- card-columns -->  
+        </div>
+    </div>
+</div>
+
+<!--Modal allocation de chambre-->
+<div id="modalAllocation" class="modal fade">
+    <div class="modal-dialog modal-lg modal-dialog-centered full-width" role="document">
+        <form id="form-send" class="js-form-sendallocation {{app.user.hasAccess('allocation-add')}}" action="{{path('allocation-add')}}" method="POST">        
+        <div class="modal-content tx-size-sm">
+            <div class="modal-header pd-x-20 d-block">
+                <span class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold" id="modal-titre"></span>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+            <span class="float-right">SIESTE (FCFA): <span class="badge badge-primary mg-r-10" id="modal-sieste"></span></span>
+                <span class="float-right">NUITEE (FCFA): <span class="badge badge-warning mg-r-10" id="modal-nuitee"></span></span>
+            </div>
+            <div class="modal-body pd-20 overflow-y-visible">
+            <p class="mg-b-5">                
+                <input type="hidden" name="chambreID" id="modal-chambreID">
+                <div class="row">   
+                    <div class="col-lg-10">
                         <div class="form-group">
-                            <label class="form-control-label">Durée : <span class="tx-danger">*</span></label>
-                            <select name="sejourclient" id="montant" class="form-control tarifdeschambres js-select2" data-placeholder="Choose one" style="width: 75%">
-                                    <option value="0">Durée du sejour</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label class="form-control-label">Quantité <span class="tx-danger">*</span></label>
-                            <input value="1" id="quantiter"  class="form-control" type="number" name="qte">
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <a onclick="checkdisponibilteofroom()" style="margin-top: 30px; color:white;" class="btn btn-primary btn-with-icon">
-                            <div class="ht-40 justify-content-between">
-                                <span class="pd-x-15">Verifier</span>
-                                <span class="icon wd-40"><i id="vefificationstatic" class="fa fa-check-circle"></i> <i id="vefificationenable" class="fa fa-spinner fa-pulse"></i></span>
+                            <div class="col-sm-12 ">
+                                <select  class="form-control" style="width: 100%;" name="client" id="client">
+                                    <option selected disabled>Sélectionner un client</option>
+                                    {% for client in clients %}
+                                        <option value="{{client.id}}" {{client.isDefault ? "selected"}}>{{client.nom}} {{client.prenom}}</option>
+                                    {% endfor %}
+                                </select>
+                                {# <select style="width: 100%;" class="js-search-ajax form-control" name="client" id="client">
+                                </select> #}
                             </div>
-                        </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 justify-content-center">
+                        <label for="chbox" class="mg-t-10">
+                            <input type="checkbox" name="nouveau_client">
+                            <span>Nouveau</span>
+                        </label>
                     </div>
                 </div>
-                <div id="contentaftervalide">
-                    <div class="row mg-b-25">
-                        <div class="col-lg-8">
-                            <div class="form-group mg-b-10-force">
-                                <label class="form-control-label">Chambre disponible: <span class="tx-danger">*</span></label>
-                                <select name="chambre" class="form-control chambres js-select2" data-placeholder="Choose one" style="width: 75%">
-                                    
-                                </select>
+                <hr id="hrNouveauClient" class="mg-t-1" style="display: none;">
+                <div class="row " style="display:none; margin-bottom: 30px;" id="divNouveauClient">    
+                    <div class="col">
+                        <label class="form-control-label">
+                            Nom<span class="tx-danger">*</span>
+                        </label>
+                        <div class="col-sm-12">
+                            <input class="form-control" type="text" name="nom"  placeholder="Nom">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label class="form-control-label">
+                                Prénom
+                        </label>
+                        <div class="col-sm-12">
+                            <input class="form-control" type="text" name="prenom"  placeholder="Prénom">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label class="form-control-label">
+                            CNI
+                        </label>
+                        <div class="col-sm-12">
+                            <input class="form-control" type="text" name="cni"  placeholder="cni">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label class="form-control-label">
+                            Genre<span class="tx-danger">*</span>
+                        </label>
+                        <div class="col-sm-12">
+                            <select class="form-control" name="sexe" required>
+                                <option selected disabled>Sélectionner</option>
+                                <option value="M">M</option>    
+                                <option value="F">F</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mg-t-1">
+                <div class="row" style="margin-bottom: 20px;">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-control-label">
+                                Hébergement<span class="tx-danger">*</span>
+                            </label>
+                            <div class="col-sm-12">
+                                <select class="form-control" id="modal-hebergement" name="hebergement" style="width:100%" required>                         
+                                    <option selected disabled>Sélectionner</option> 
+                                    <option value="SIESTE">SIESTE</option>                               
+                                    <option value="NUITEE">NUITEE</option>                               
+                                </select>         
                             </div>
                         </div>
                     </div>
-                <button type="submit" id="btn-save-nouveau" class="btn btn-primary mg-r-5">Valider</button>
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-control-label">
+                                Occurence: <span class="tx-danger">*</span>
+                            </label>
+                            <div class="col-sm-12">
+                                <input type="number" class="form-control" name="occurence" id="modal-occurence" value="1" min="1" max="24" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-control-label">
+                                Montant total<span class="tx-danger">*</span>
+                            </label>
+                            <div class="col-sm-12">
+                                <input type="number" class="form-control" name="prix" id="modal-prix" value="0" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-control-label">
+                                Montant versé<span class="tx-danger">*</span>
+                            </label>
+                            <div class="col-sm-12">
+                                <input type="number" class="form-control" name="versement" id="modal-versement"  min="500" step="500">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             
+            </p>
+            </div><!-- modal-body -->
+            <div class="modal-footer">
+            <button type="submit" class="btn btn-primary tx-size-xs" id="btn-save-nouveau">Valider</button>
+            <hr>
+            <button type="button" class="btn btn-secondary tx-size-xs" data-dismiss="modal">Annuler</button>
             </div>
+        </div>
         </form>
-        {#<button type="button" class="btn btn-secondary" onclick="hide()">Annuler</button>#}
-    </div>
-    
-<script>
-    
-    $('#vefificationstatic').show();
-    $('#vefificationenable').hide();
-    $("#contentaftervalide").hide();
-    $(".formelement").hide();
-
-
-    $( ".typedechambre" ).change(function() {
-        $('.tarifdeschambres').find('option').remove();
-            $.ajax({
-                url: "/getsiestetarif?id="+$(this).children("option:selected").val(),
-                type: 'GET',
-            }).done(function(data){
-
-                i=0;
-                while(i<data.length){
-                    $('.tarifdeschambres').append('<option value="'+data[i].id+'" >'+data[i].nom+'('+data[i].prix+'FCFA - '+data[i].duree+'heure )'+'</option>');
-                    i++;
-                }  
-                    
-            }).fail(function(error){
-                console.log("no ok");
-            });
-    });
-
-   
-</script>
+    </div><!-- modal-dialog -->
+</div>
 
 <script>
-    
-    $("#canpay").hide();
-
-
-    $( ".paiement" ).change(function() {
-        tarif = $(".tarifdeschambres option:selected" ).text();
-        montant = parseFloat(tarif.match(/-?(?:\d+(?:\.\d*)?|\.\d+)/)[0]);
-
-        $.ajax({
-            url: "/getcanpay?id="+$(this).children("option:selected").val(),
-            type: 'GET',
-        }).done(function(data){
-            if(data >= montant){
-                $("#canpay").show();
-            }else{
-                $("#canpay").hide();
-            }
-            /*i=0;
-            while(i<data.length){
-                $('.tarifdeschambres').append('<option value="'+data[i].id+'" >'+data[i].nom+'('+data[i].duree+'heure - '+data[i].prix+'FCFA )'+'</option>');
-                i++;
-            }*/  
-                
-        }).fail(function(error){
-            console.log("no ok");
-        });
-    });
-
-
-</script>
-
-<script>
-    
-    function checkdisponibilteofroom() {
-        $('#vefificationstatic').hide();
-        $('#vefificationenable').show();
-        $("#contentaftervalide").hide();
-        var typechambre=$('.typedechambre').children("option:selected").val();
-        //alert($('.typedechambre').children("option:selected").val());
-        //alert($('.tarifdeschambres').children("option:selected").val());
-        $('.chambres').find('option').remove();
-        
-        //alert($('#timeat').val());
-        $.ajax({
-            url: "/getallchambrelibre",
-            type: 'POST',
-            dataType: 'json',
-            data:{"datearrivee": $('#timeat').val(),"typechambre": typechambre,"duree":$('.tarifdeschambres').children("option:selected").val(),
-            "quantite":$('#quantiter').val()}
-        }).done(function(data){ 
-                    $('#vefificationstatic').show();
-                    $('#vefificationenable').hide();
-                    if(data.length==0){
-                        
-                            Swal.fire({
-                                position: 'top-end',
-                                icon: 'error',
-                                title: "pas de chambre disponible",
-                                showConfirmButton: false,
-                                timer: 2000
-                            })
-                       
-                    }else{
-                        $("#contentaftervalide").show();
-                        i=0;
-                        while(i<data.length){
-                            $('.chambres').append('<option value="'+data[i].id+'" >'+data[i].numero+'</option>');
-                            i++;
-                        } 
-                    }
-                     
-                
-        }).fail(function(error){
-            $('#vefificationstatic').show();
-            $('#vefificationenable').hide();
-        });
-    }
-</script>
-<script> 
-function anuleraddclient() {
-    $("#checkclient").prop("checked", false);
-    $('#form-new-client').hide();
-    $('#oldclient').show();
-    $('.textnewclient').show();
-}
-$("#checkclient").prop("checked", false);
-$('#form-new-client').hide();
-$( "#btnaffformadd" ).click(function() {
- $('#form-new-client').show();
- $('#oldclient').hide();
- $("#checkclient").prop("checked", true);
- $('.textnewclient').hide();
-});
-
-$(".js-form-sendallocation").on('submit', function(e) {
-
+    $(".js-form-sendallocation").on('submit', function(e) {
     e.preventDefault();
-    //////
     var idForm = $(this).attr('id');
     var element = $("#" + idForm + " #btn-save-nouveau");
     var element2 = $("#" + idForm + " #btn-save-nouveau");
@@ -242,42 +288,48 @@ $(".js-form-sendallocation").on('submit', function(e) {
             data:dataform
         }).done(function(data){ 
             $("#contentaftervalide").hide();
-            element2.html('VALIDER');
-            element2.attr("disabled", "false");
+            element2.removeAttr("disabled");
+            element2.html('VALIDER');           
             if(data.success){
                 Swal.fire({
-                    position: 'top-end',
+                    title: 'enregistrement terminé',
+                    text: "Voulez vous imprimer le reçu ?",
                     icon: 'warning',
-                    title: "Enregistrement terminer !",
-                    showConfirmButton: false,
-                    timer: 3000
-                })
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Imprimer'
+                }).then((result) => {
+                    if (result.isConfirmed) {   
+                        window.open("/printrecuallocation?id="+data.id, '_blank');
+                    }else{
+                        sweetNotification("Enregistrement terminé.");
+                    }  
+                    $('#modalAllocation').modal('toggle');                  
+                    var url = "/indexallocation";
+                    var effect = guessEffect(this, "#monContent");
+                    ajaxLink(url, "monContent", "html", effect); 
+                });            
             }else{
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'warning',
-                    title: "Enregistrement terminer !",
-                    showConfirmButton: false,
-                    timer: 3000
-                })
+                sweetNotificationbad( data.message);
+                console.log(data);
+                element2.removeAttr("disabled");
+                element2.html('VALIDER'); 
             }        
                 
         }).fail(function(error){
-            console.log("no ok");
-        });
+            element2.removeAttr("disabled");
+            element2.html('VALIDER'); 
+        });       
 }) 
 </script>
 
-{#  hide montant#}
-
 <script>
+    $("#modal-occurence").bind('keyup mouseup', function () {
+        var hebergement = $("#modal-hebergement").val();
+        calculPrixHebergement(hebergement);             
+    });
 
-</script>
-
-{#  #}
-
-
-<script>
     $("#form-filtre").on('submit', function(e){
       e.preventDefault();
         var jour = $("#jour").val();    
@@ -288,4 +340,65 @@ $(".js-form-sendallocation").on('submit', function(e) {
         ajaxLink(url, "monContent", "html", effect);        
     })
 
+    $("#type").on('change', function(e){
+        var id = $(this).val();
+        if(id == "all"){
+            $(".filtre-type").css('display', 'block');
+            $(".filtre-titre").css('display', 'block');
+            $(".filtre-hr").css('display', 'block');
+        }else{
+            $(".filtre-type").css('display', 'none');
+            $(".filtre-titre").css('display', 'none');
+            $(".filtre-hr").css('display', 'none');
+            $("#filtre-"+id).css('display', 'block');
+            $("#titre-"+id).css('display', 'block');
+            $("#hr-"+id).css('display', 'block');
+        }
+        
+    });
+    $("#modal-hebergement").on('change', function(e){
+        var hebergement = $(this).val();
+        calculPrixHebergement(hebergement);        
+    });
+
+    $('input[type="checkbox"]').change(function(){
+      var checkbox = $(this);
+      if(checkbox.is(":checked")) {
+        $("#divNouveauClient").fadeIn();
+        $("#hrNouveauClient").fadeIn();
+        $("#client ").attr('disabled', true);         
+      }else{
+        $("#client").prop("disabled", false);
+        $("#divNouveauClient").fadeOut();
+        $("#hrNouveauClient").fadeOut();
+     }
+    });
+
+   
+
+    function loadModalData(chambreID, numero, type, sieste, nuitee){
+        $("#modal-chambreID").val(chambreID);
+        $("#modal-titre").html("Allouer la chambre <u>"+numero+"</u> de type <u>"+type+"</u>");
+        $("#modal-sieste").html(sieste);
+        $("#modal-nuitee").html(nuitee);
+    }
+
+    function calculPrixHebergement(hebergement){
+        var sieste = parseFloat($('#modal-sieste').html());
+        var nuitee = parseFloat($('#modal-nuitee').html());
+        var occurence = parseFloat($('#modal-occurence').val());
+        if(hebergement == "SIESTE"){
+            $("#modal-prix").val( occurence * sieste);
+        }else{
+            $("#modal-prix").val( occurence * nuitee);
+        }
+    }
+    
+    $("#client").select2({
+        placeholder: "Sélectionner un client",
+        allowClear: false,
+        dropdownParent: $('#modalAllocation')
+    });
+    
 </script>
+{# <script src="{{asset('js/search.js')}}"></script> #}

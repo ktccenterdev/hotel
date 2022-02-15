@@ -35,8 +35,8 @@
                                   <i class="fas fa-crown tx-16 lh-0 op-6"></i>
                               </div>
                           </div><!-- input-group-prepend -->
-                                          <select class="form-control" name="type_id">
-                                                    <option>Choisit un type de chambre</option>
+                                          <select class="form-control js-select2" name="type_id">
+                                                    <option label="Choisir un type"></option>
                                                     {% for type in types %}
                                                     <option value="{{type.id}}">{{type.nom}}</option>
                                                     {% endfor %}
@@ -191,7 +191,7 @@
         </div>
     {# <div>  #}
     {% endif %}
-      <div class="table-wrapper responsiveelement">
+      <div class="table-wrapper responsiveelement col-lg-12">
           <table class="datatable table display nowrap">
             <thead>
               <tr>	        

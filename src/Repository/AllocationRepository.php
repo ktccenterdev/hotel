@@ -22,6 +22,22 @@ class AllocationRepository extends ServiceEntityRepository
         parent::__construct($registry, Allocation::class);
     }
 
+    public function getChambreLibres($now, $type=null, $idantenne=null){
+        $query = $this->createQueryBuilder('a')
+                // ->where('a.datefin < :now')
+                // ->setParameter('now', $now)
+                ->andWhere('a.departreel IS NULL');
+        if($type){
+            $query->andWhere('a.type =:type')->setParameter('type', $type);  
+        }            
+        if($idantenne){
+            $query->leftJoin("App\Entity\Entene", "e", "WITH", "a.antene = e")
+                    ->andWhere("e.id =:idantenne")->setParameter("idantenne", $idantenne);
+        }
+        //return $query->getQuery();
+        return $query->getQuery()->getResult();
+    }
+
     public function bilanPeriodique($id, $debut, $fin, $jour)
     {
         $query = $this->createQueryBuilder('a');      

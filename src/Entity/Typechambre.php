@@ -54,6 +54,10 @@ class Typechambre
      */
     private $antene;
 
+    private $tarifSieste;
+
+    private $tarifNuitee;
+
     public function __construct()
     {
         $this->tarifs = new ArrayCollection();
@@ -202,5 +206,31 @@ class Typechambre
         $this->antene = $antene;
 
         return $this;
+    }
+
+    /**
+     * Get the value of tarifSieste
+     */ 
+    public function getTarifSieste()
+    {
+        foreach ($this->tarifs as $tarif) {
+            if($tarif->getType() === "SIESTE"){
+                return $tarif->getPrix();
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * Get the value of tarifNuitee
+     */ 
+    public function getTarifNuitee()
+    {
+        foreach ($this->tarifs as $tarif) {
+            if($tarif->getType() === "NUITEE"){
+                return $tarif->getPrix();
+            }
+        }
+        return 0;
     }
 }

@@ -92,6 +92,10 @@ class Allocation
      */
     private $departreel;
 
+    private $duree;
+
+    private $isTimeExpired;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -262,5 +266,31 @@ class Allocation
         $this->departreel = $departreel;
 
         return $this;
+    }
+
+    /**
+     * Get the value of duree
+     */ 
+    public function getDuree()
+    {
+        if ($this->type == "SIESTE") {
+            $occurence = round(abs(strtotime($this->datedebut->format('Y/m/d H:i:s')) - strtotime($this->datefin->format('Y/m/d H:i:s')))/3600)."h";
+        } else {
+            $occurence = round(abs(strtotime($this->datedebut->format('Y/m/d H:i:s')) - strtotime($this->datefin->format('Y/m/d H:i:s')))/86400)."j";
+        }
+        return $occurence;
+    }
+
+    /**
+     * Get the value of isTimeExpired
+     */ 
+    public function getIsTimeExpired()
+    {
+        $now = new \DateTime();
+        if($this->datefin > $now){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

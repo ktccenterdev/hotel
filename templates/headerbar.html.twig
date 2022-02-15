@@ -4,15 +4,15 @@
         <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><b><i class="icon ion-grid tx-dark tx-24"></i></b></a></div>
         
         <div class="barre-menu bg-primary input-group hidden-xs-down wd-230 transition d-flex justify-content-center">
-            <a href="{{path('index-allocation', {'type':'SIESTE'})}}" class="ajax-link text-center {{app.user.hasAccess('index-allocation')}}"  data-toggle="ajax" data-target="monContent">
+            <a href="{{path('index-allocation')}}" class="ajax-link text-center {{app.user.hasAccess('index-allocation')}}"  data-toggle="ajax" data-target="monContent">
                 <h4 class="tx-lato tx-inverse tx-bold mg-b-0"><i  class="fa fa-plus-circle text-white"></i></h4>
-                <span  class="tx-12 tx-danger tx-roboto text-white"><b>SIESTE</b></span>
+                <span  class="tx-12 tx-danger tx-roboto text-white"><b>HEBERGRMENT</b></span>
             </a>
         </div>      
         <div class="barre-menu bg-secondary input-group hidden-xs-down wd-230 transition d-flex justify-content-center">
-            <a href="{{path('index-allocation', {'type':'NUITEE'})}}" class="{{app.user.hasAccess('index-allocation')}} ajax-link text-center"  data-toggle="ajax" data-target="monContent">
+            <a href="{{path('index-chambre')}}" class="{{app.user.hasAccess('index-chambre')}} ajax-link text-center"  data-toggle="ajax" data-target="monContent">
                 <h4 class="tx-lato tx-inverse tx-bold mg-b-0"><i  class="fa fa-sitemap text-white"></i></h4>
-                <span  class="tx-12 tx-danger tx-roboto text-white"><b>NUITEE</b></span>
+                <span  class="tx-12 tx-danger tx-roboto text-white"><b>CHAMBRES</b></span>
             </a>
         </div>
         <div class="barre-menu bg-purple input-group hidden-xs-down wd-230 transition d-flex justify-content-center">

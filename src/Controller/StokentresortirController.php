@@ -56,7 +56,7 @@ class StokentresortirController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -84,7 +84,7 @@ class StokentresortirController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -136,7 +136,7 @@ class StokentresortirController extends DefaultController
                 return new JsonResponse($result);
             }
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
 
 
@@ -183,7 +183,7 @@ class StokentresortirController extends DefaultController
             return $this->json($this->result);
 
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
         
     }
@@ -211,7 +211,7 @@ class StokentresortirController extends DefaultController
             
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
        
     }
@@ -236,7 +236,7 @@ class StokentresortirController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
        
     }
@@ -270,7 +270,7 @@ class StokentresortirController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
        
     }
@@ -315,7 +315,7 @@ class StokentresortirController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
        
     }
@@ -353,7 +353,7 @@ class StokentresortirController extends DefaultController
             // dd($this->result);
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
    
@@ -392,7 +392,7 @@ class StokentresortirController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -456,7 +456,7 @@ class StokentresortirController extends DefaultController
             } 
             return new JsonResponse($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 

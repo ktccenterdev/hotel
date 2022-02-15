@@ -1,262 +1,247 @@
  
- 
- <div class="br-mainpanel">
 	<div class="br-pagetitle">
 		<i class="icon ion-ios-home-outline"></i>
 		<div>
 		<h4>Dashboard Allocation</h4>
 		</div>
 	</div>
-	<div class="br-pagebody">
-		<div class="row row-sm">
 		
+	<div class="col-sm-12 col-xl-12">
+		<div class="row row-sm">
 			<div class="col-sm-12 col-xl-12">
-				<div class="row row-sm">
-					<div class="col-sm-12 col-xl-12">
-						<div class="card bd-0">
-							<div  style="color:white;" class="card-header bg-primary">
-								Dashboard Allocation : 
-							</div>
-							<div class="row">
-								<div class="col-lg-3 col-md-12">
-									<div class="card widget-12 shadow-base">
-										<div class="card-header " style="background-color:skyblue;">
-											<div class="card-title">Numero de chambre</div>
-										</div><!-- card-header -->
-										{# <input class="form-control" id="id" type="hidden"  name="id"  value="{{ allocations.id }}"> #}
-										<div class="card-body">
-										<select class="form-control select2-show-search rapport-filte mg-r-20" id="type" name="type" onchange="filter(this.value)">
-											<option value="" disabled selected>Sélectionner Le numero de chambre</option>
-											<option value=""></option>
+				<div class="card bd-0">
+					<div  style="color:white;" class="card-header bg-primary">
+						Dashboard Allocation : 
+					</div>
+					<div class="row">
+						<div class="col-lg-3 col-md-12">
+							<div class="card widget-12 shadow-base">
+								<div class="card-header " style="background-color:skyblue;">
+									<div class="card-title">Numero de chambre</div>
+								</div><!-- card-header -->
+								{# <input class="form-control" id="id" type="hidden"  name="id"  value="{{ allocations.id }}"> #}
+								<div class="card-body">
+								<select class="form-control select2-show-search rapport-filte mg-r-20" id="type" name="type" onchange="filter(this.value)">
+									<option value="" disabled selected>Sélectionner Le numero de chambre</option>
+									<option value=""></option>
+									{% set newArray = [] %}
+										{% for allocation in allocations %}
+											{% if allocation.chambre.numero not in newArray %}
+												<option value="{{allocation.chambre.numero}}">{{allocation.chambre.numero}}</option>
+												{% set newArray = newArray|merge([allocation.chambre.numero,null ]) %}
+											{% endif %}
+										{% endfor %}
+									
+								</select>
+								</div><!-- card-body -->
+							</div><!-- card -->
+						</div>
+						<div class="col-lg-3 col-md-12">
+							<div class="card widget-12 shadow-base">
+								<div class="card-header" style="background-color:skyblue;">
+									<div class="card-title">Type de chambre</div>
+								</div><!-- card-header -->
+								<div class="card-body">
+									
+									<select class="form-control select2-show-search rapport-filte mg-r-20" id="type" name="type" onchange="filter(this.value)">
+										<option value="" disabled selected>Sélectionner type de chambre</option>
+										<option label=""></option>
 											{% set newArray = [] %}
-												{% for allocation in allocations %}
-													{% if allocation.chambre.numero not in newArray %}
-														<option value="{{allocation.chambre.numero}}">{{allocation.chambre.numero}}</option>
-														{% set newArray = newArray|merge([allocation.chambre.numero,null ]) %}
-													{% endif %}
-												{% endfor %}
-											
-										</select>
-										</div><!-- card-body -->
-									</div><!-- card -->
-								</div>
-								<div class="col-lg-3 col-md-12">
-									<div class="card widget-12 shadow-base">
-										<div class="card-header" style="background-color:skyblue;">
-											<div class="card-title">Type de chambre</div>
-										</div><!-- card-header -->
-										<div class="card-body">
-											
-											<select class="form-control select2-show-search rapport-filte mg-r-20" id="type" name="type" onchange="filter(this.value)">
-												<option value="" disabled selected>Sélectionner type de chambre</option>
-												<option label=""></option>
-													{% set newArray = [] %}
-													{% for allocation in allocations %}
-														{% if allocation.chambre.type.nom not in newArray %}
-															<option value="{{allocation.chambre.type.nom}}">{{allocation.chambre.type.nom}}</option>
-															{% set newArray = newArray|merge([allocation.chambre.type.nom,null ]) %}
-														{% endif %}
-														{% endfor %}
-											</select>
-											
-										</div><!-- card-body -->
-									</div><!-- card -->
-								</div>
-								
-								<div class="col-lg-3 col-md-12">
-									<div class="card widget-12 shadow-base">
-										<div class="card-header" style="background-color:skyblue;">
-											<div class="card-title">Sélectionner la date</div>
-										</div><!-- card-header -->
-										<div class="card-body">
-										<input class="form-control mg-l-20 mg-r-20" type="date" id="jour" value="" name="jour" placeholder="jj/mm/aaaa" onchange="filter(this.value)">
-										</div><!-- card-body -->
-									</div><!-- card -->
-								</div>
-								<div class="col-lg-3 col-md-12">
-									<div class="card widget-12 shadow-base">
-										<div class="card-header" style="background-color:skyblue;">
-											<div class="card-title">Sélectionner le client</div>
-										</div><!-- card-header -->
-										<div class="card-body">
-											
-											<select class="form-control select2-show-search rapport-filte mg-r-20" id="type" name="type" onchange="filter(this.value)">
-												<option value="" disabled selected>Sélectionner un client</option>
-												<option label="--Sélectionner un client--"></option>
-												{% set newArray = [] %}
-													{% for allocation in allocations %}
-														{% if allocation.occupant.nom not in newArray %}
-															<option value="{{ allocation.occupant.nom }}">{{allocation.occupant.nom}}</option>
-															{% set newArray = newArray|merge([allocation.occupant.nom,null ]) %}
-														{% endif %}
-													{% endfor %}
-												
-											</select>
-										</div><!-- card-body -->
-									</div><!-- card -->
-								</div>
-							</div>
-							<div class="table-wrapper responsiveelement">
-							<table class="datatable table display nowrap">
-								<thead class="thead-dark"> <!-- add class="thead-light" for a light header -->
-									<tr >
-										<th class="wd-15p">Chambre</th>
-										<th class="wd-15p">Type Chambre</th>
-										<th class="wd-15p">Nom/prenom du client</th>
-										<th class="filter-select filter-exact wd-15p" data-placeholder="Pick a gender">Date debut</th>
-										<th class="wd-15p">date fin</th>
-										<th class="wd-15p">etat</th>
-									{# <th class="sorter-false filter-false">Geometry</th> #}
-									</tr>
-									<tr>
-									</tr >
-								</thead>
-								<tfoot class="thead-dark">
-									<tr>
-									<th>Chambre</th>
-									<th>Type Chambre</th>
-									<th>Nom/prenom du client</th>
-									<th>Date debut</th>
-									<th>date fin</th>
-									<th>etat</th>
-									{# <th>Geometry</th> #}
-									</tr>
-									<tr>
-									<th colspan="7" class="ts-pager">
-										<div class="form-inline">
-										<div class="btn-group btn-group-sm mx-1" role="group">
-											<button type="button" class="btn btn-secondary first" title="first">⇤</button>
-											<button type="button" class="btn btn-secondary prev" title="previous">←</button>
-										</div>
-										<span class="pagedisplay"></span>
-										<div class="btn-group btn-group-sm mx-1" role="group">
-											<button type="button" class="btn btn-secondary next" title="next">→</button>
-											<button type="button" class="btn btn-secondary last" title="last">⇥</button>
-										</div>
-										<select class="form-control-sm custom-select px-1 pagesize" title="Select page size">
-											<option selected="selected" value="10">10</option>
-											<option value="20">20</option>
-											<option value="30">30</option>
-											<option value="all">All Rows</option>
-										</select>
-										<select class="form-control-sm custom-select px-4 mx-1 pagenum" title="Select page number"></select>
-										</div>
-									</th>
-									</tr>
-								</tfoot>
-								<tbody>
-								{% for allocation in allocations %}
-									<tr>
-										<td>
-											<div class="bg-info rounded overflow-hidden">
-												<div class="pd-x-20 pd-t-20 d-flex align-items-center">
-													<i class="ion ion-home tx-60 lh-0 tx-black op-7"></i>
-													<div class="mg-l-20">
-													<p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Today's Visits</p>
-													<p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">1,975,224</p>
-													<a href="" class="ajax-link"  data-toggle="ajax" data-target="monContent">
-													<span class="tx-16 tx-roboto tx-white-8">{{allocation.chambre.numero}}</span><br>
-													</a>
-													<h4 style="color:white;"></h4>
-												</div>
-											</div>
-										</td>
-										<td>
-											<div class="bg-info rounded overflow-hidden">
-												<div class="pd-x-20 pd-t-20 d-flex align-items-center">
-													<i class="ion ion-star tx-60 lh-0 tx-black op-7"></i>
-													<div class="mg-l-20">
-													<p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Today's Visits</p>
-													<p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">1,975,224</p>
-													<a href="" class="ajax-link"  data-toggle="ajax" data-target="monContent">
-													<span class="tx-16 tx-roboto tx-white-8">{{allocation.chambre.type.nom}}</span><br>
-													</a>
-													<h4 style="color:white;"></h4>
-												</div>
-											</div>
-										</td>
-										<td>
-											<div class="bg-info rounded overflow-hidden">
-												<div class="pd-x-20 pd-t-20 d-flex align-items-center">
-													<i class="icon ion-man tx-60 lh-0 tx-white op-7"></i>
-													<div class="mg-l-20">
-													<p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Today's Visits</p>
-													<p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">1,975,224</p>
-													<a href="" class="ajax-link"  data-toggle="ajax" data-target="monContent">
-													<span class="tx-16 tx-roboto tx-white-8">{{allocation.occupant.nom}}{{allocation.occupant.prenom}}</span><br>
-													</a>
-													<h4 style="color:white;"></h4>
-												</div>
-											</div>
-										</td>
-										<td>
-											<div class="bg-info rounded overflow-hidden">
-												<div class="pd-x-20 pd-t-20 d-flex align-items-center">
-													<i class="icon ion-calendar tx-60 lh-0 tx-white op-7"></i>
-													<div class="mg-l-20">
-													<p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Today's Visits</p>
-													<p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">1,975,224</p>
-													<a href="" class="ajax-link"  data-toggle="ajax" data-target="monContent">
-													<span class="tx-16 tx-roboto tx-white-8">{{allocation.datedebut|date('d/m/Y H:i:s')}}</span><br>
-													</a>
-													<h4 style="color:white;"></h4>
-												</div>
-											</div>
-										</td>
-										<td>
-											<div class="bg-info rounded overflow-hidden">
-												<div class="pd-x-20 pd-t-20 d-flex align-items-center">
-													<i class="icon ion-calendar tx-60 lh-0 tx-white op-7"></i>
-													<div class="mg-l-20">
-													<p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Today's Visits</p>
-													<p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">1,975,224</p>
-													<a href="" class="ajax-link"  data-toggle="ajax" data-target="monContent">
-													<span class="tx-16 tx-roboto tx-white-8">{{allocation.datefin|date('d/m/Y H:i:s')}}</span><br>
-													</a>
-													<h4 style="color:white;"></h4>
-												</div>
-											</div>
-										</td>
-										<td>
-											<div class="card widget-12 shadow-base">
-												<div class="card-header" style="background-color:green;">
-													<div class="card-title">occuper/Libre </div>
-												</div><!-- card-header -->
-												<div class="card-body">
-												{# <input class="form-control select2-show-search rapport-filte mg-r-20" id="type" name="type" type="text" disabled>	 #}
-												{% if allocation.departreel is not empty  %}
-												<div class="tx-teal tx-16">Liberer</div>
-												{% elseif allocation.departreel == null %}
-												<div class="tx-danger tx-16">occuper</div>
+											{% for allocation in allocations %}
+												{% if allocation.chambre.type.nom not in newArray %}
+													<option value="{{allocation.chambre.type.nom}}">{{allocation.chambre.type.nom}}</option>
+													{% set newArray = newArray|merge([allocation.chambre.type.nom,null ]) %}
 												{% endif %}
-												</div><!-- card-body -->
-											</div><!-- card -->
-										</td>
-										{# <td>80</td> #}
-									</tr>
-								{% endfor %}	
-								</tbody>
-							</table>
-							</div><!-- card-header -->
-								
-							
-						</div><!-- card --><br>
-					</div>
-					<div class="col-sm-12 col-xl-12">
-
+												{% endfor %}
+									</select>
+									
+								</div><!-- card-body -->
+							</div><!-- card -->
+						</div>
 						
+						<div class="col-lg-3 col-md-12">
+							<div class="card widget-12 shadow-base">
+								<div class="card-header" style="background-color:skyblue;">
+									<div class="card-title">Sélectionner la date</div>
+								</div><!-- card-header -->
+								<div class="card-body">
+								<input class="form-control mg-l-20 mg-r-20" type="date" id="jour" value="" name="jour" placeholder="jj/mm/aaaa" onchange="filter(this.value)">
+								</div><!-- card-body -->
+							</div><!-- card -->
+						</div>
+						<div class="col-lg-3 col-md-12">
+							<div class="card widget-12 shadow-base">
+								<div class="card-header" style="background-color:skyblue;">
+									<div class="card-title">Sélectionner le client</div>
+								</div><!-- card-header -->
+								<div class="card-body">
+									
+									<select class="form-control select2-show-search rapport-filte mg-r-20" id="type" name="type" onchange="filter(this.value)">
+										<option value="" disabled selected>Sélectionner un client</option>
+										<option label="--Sélectionner un client--"></option>
+										{% set newArray = [] %}
+											{% for allocation in allocations %}
+												{% if allocation.occupant.nom not in newArray %}
+													<option value="{{ allocation.occupant.nom }}">{{allocation.occupant.nom}}</option>
+													{% set newArray = newArray|merge([allocation.occupant.nom,null ]) %}
+												{% endif %}
+											{% endfor %}
+										
+									</select>
+								</div><!-- card-body -->
+							</div><!-- card -->
+						</div>
 					</div>
-				</div>
-				
-
+					<div class="table-wrapper responsiveelement col-lg-12">
+					<table class="datatable table display nowrap">
+						<thead class="thead-dark"> <!-- add class="thead-light" for a light header -->
+							<tr >
+								<th class="wd-15p">Chambre</th>
+								<th class="wd-15p">Type Chambre</th>
+								<th class="wd-15p">Nom/prenom du client</th>
+								<th class="filter-select filter-exact wd-15p" data-placeholder="Pick a gender">Date debut</th>
+								<th class="wd-15p">date fin</th>
+								<th class="wd-15p">etat</th>
+							{# <th class="sorter-false filter-false">Geometry</th> #}
+							</tr>
+							<tr>
+							</tr >
+						</thead>
+						<tfoot class="thead-dark">
+							<tr>
+							<th>Chambre</th>
+							<th>Type Chambre</th>
+							<th>Nom/prenom du client</th>
+							<th>Date debut</th>
+							<th>date fin</th>
+							<th>etat</th>
+							{# <th>Geometry</th> #}
+							</tr>
+							<tr>
+							<th colspan="7" class="ts-pager">
+								<div class="form-inline">
+								<div class="btn-group btn-group-sm mx-1" role="group">
+									<button type="button" class="btn btn-secondary first" title="first">⇤</button>
+									<button type="button" class="btn btn-secondary prev" title="previous">←</button>
+								</div>
+								<span class="pagedisplay"></span>
+								<div class="btn-group btn-group-sm mx-1" role="group">
+									<button type="button" class="btn btn-secondary next" title="next">→</button>
+									<button type="button" class="btn btn-secondary last" title="last">⇥</button>
+								</div>
+								<select class="form-control-sm custom-select px-1 pagesize" title="Select page size">
+									<option selected="selected" value="10">10</option>
+									<option value="20">20</option>
+									<option value="30">30</option>
+									<option value="all">All Rows</option>
+								</select>
+								<select class="form-control-sm custom-select px-4 mx-1 pagenum" title="Select page number"></select>
+								</div>
+							</th>
+							</tr>
+						</tfoot>
+						<tbody>
+						{% for allocation in allocations %}
+							<tr>
+								<td>
+									<div class="bg-info rounded overflow-hidden">
+										<div class="pd-x-20 pd-t-20 d-flex align-items-center">
+											<i class="ion ion-home tx-60 lh-0 tx-black op-7"></i>
+											<div class="mg-l-20">
+											<p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Today's Visits</p>
+											<p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">1,975,224</p>
+											<a href="" class="ajax-link"  data-toggle="ajax" data-target="monContent">
+											<span class="tx-16 tx-roboto tx-white-8">{{allocation.chambre.numero}}</span><br>
+											</a>
+											<h4 style="color:white;"></h4>
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="bg-info rounded overflow-hidden">
+										<div class="pd-x-20 pd-t-20 d-flex align-items-center">
+											<i class="ion ion-star tx-60 lh-0 tx-black op-7"></i>
+											<div class="mg-l-20">
+											<p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Today's Visits</p>
+											<p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">1,975,224</p>
+											<a href="" class="ajax-link"  data-toggle="ajax" data-target="monContent">
+											<span class="tx-16 tx-roboto tx-white-8">{{allocation.chambre.type.nom}}</span><br>
+											</a>
+											<h4 style="color:white;"></h4>
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="bg-info rounded overflow-hidden">
+										<div class="pd-x-20 pd-t-20 d-flex align-items-center">
+											<i class="icon ion-man tx-60 lh-0 tx-white op-7"></i>
+											<div class="mg-l-20">
+											<p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Today's Visits</p>
+											<p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">1,975,224</p>
+											<a href="" class="ajax-link"  data-toggle="ajax" data-target="monContent">
+											<span class="tx-16 tx-roboto tx-white-8">{{allocation.occupant.nom}}{{allocation.occupant.prenom}}</span><br>
+											</a>
+											<h4 style="color:white;"></h4>
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="bg-info rounded overflow-hidden">
+										<div class="pd-x-20 pd-t-20 d-flex align-items-center">
+											<i class="icon ion-calendar tx-60 lh-0 tx-white op-7"></i>
+											<div class="mg-l-20">
+											<p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Today's Visits</p>
+											<p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">1,975,224</p>
+											<a href="" class="ajax-link"  data-toggle="ajax" data-target="monContent">
+											<span class="tx-16 tx-roboto tx-white-8">{{allocation.datedebut|date('d/m/Y H:i:s')}}</span><br>
+											</a>
+											<h4 style="color:white;"></h4>
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="bg-info rounded overflow-hidden">
+										<div class="pd-x-20 pd-t-20 d-flex align-items-center">
+											<i class="icon ion-calendar tx-60 lh-0 tx-white op-7"></i>
+											<div class="mg-l-20">
+											<p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase tx-white-8 mg-b-10">Today's Visits</p>
+											<p class="tx-24 tx-white tx-lato tx-bold mg-b-0 lh-1">1,975,224</p>
+											<a href="" class="ajax-link"  data-toggle="ajax" data-target="monContent">
+											<span class="tx-16 tx-roboto tx-white-8">{{allocation.datefin|date('d/m/Y H:i:s')}}</span><br>
+											</a>
+											<h4 style="color:white;"></h4>
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="card widget-12 shadow-base">
+										<div class="card-header" style="background-color:green;">
+											<div class="card-title">occuper/Libre </div>
+										</div><!-- card-header -->
+										<div class="card-body">
+										{# <input class="form-control select2-show-search rapport-filte mg-r-20" id="type" name="type" type="text" disabled>	 #}
+										{% if allocation.departreel is not empty  %}
+										<div class="tx-teal tx-16">Liberer</div>
+										{% elseif allocation.departreel == null %}
+										<div class="tx-danger tx-16">occuper</div>
+										{% endif %}
+										</div><!-- card-body -->
+									</div><!-- card -->
+								</td>
+								{# <td>80</td> #}
+							</tr>
+						{% endfor %}	
+						</tbody>
+					</table>
+					</div><!-- card-header -->
+						
+					
+				</div><!-- card --><br>
 			</div>
 		</div>
-
-	
 		
-	</div>
 
- </div>
+	</div>
 
 	<script>
 		function filter(n) {
