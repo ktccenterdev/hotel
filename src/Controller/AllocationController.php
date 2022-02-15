@@ -198,6 +198,8 @@ class AllocationController extends DefaultController
             $occurence = intval($request->get("occurence"));
             $prix = floatval($request->get('prix'));
             $versement = floatval($request->get('versement'));
+            $strDate = $request->get('jour').$request->get('heure').":00";
+            $datedebut = new \Datetime($strDate);
             $accompte=$request->get("accompte");            
                 try {
                     $compte = current($this->em->getRepository(Parametre::class)->findAll())->getCompteHebergement();
@@ -208,85 +210,89 @@ class AllocationController extends DefaultController
                                 if($occurence != 0){
                                     if ($versement != 0) {
                                         if ($prix != 0) {
-                                            if($check_nouveau == 'on'){                                                
-                                                $nom =  $request->get('nom');
-                                                $prenom =  $request->get('prenom');
-                                                $sexe =  $request->get('sexe');
-                                                $cni =  $request->get('cni');
-                                                if($nom){
-                                                    $client->setNom($nom);
-                                                    $client->setPrenom($prenom);
-                                                    $client->setType("CLIENT");
-                                                    $client->setSexe($sexe);
-                                                    $client->setCni($cni);
-                                                    $client->setEmail($nom."".$prenom."@hotelapp.com");
-                    
-                                                    $client->setCni($cni);
-                                                    $client->setUsername(trim($nom."".uniqid()));
-                                                    $client->setPassword($this->passwordEncoder->encodePassword($client,"12345@abc"));
-                                                    $client->setIsadmin(0);
-                                                    $client->setAntene($userg->getAntene());
-                                                    $this->em->persist($client);
+                                            if($datedebut){                                              
+                                                if($check_nouveau == 'on'){                                                
+                                                    $nom =  $request->get('nom');
+                                                    $prenom =  $request->get('prenom');
+                                                    $sexe =  $request->get('sexe');
+                                                    $cni =  $request->get('cni');
+                                                    if($nom){
+                                                        $client->setNom($nom);
+                                                        $client->setPrenom($prenom);
+                                                        $client->setType("CLIENT");
+                                                        $client->setSexe($sexe);
+                                                        $client->setCni($cni);
+                                                        $client->setEmail($nom."".$prenom."@hotelapp.com");
+                        
+                                                        $client->setCni($cni);
+                                                        $client->setUsername(trim($nom."".uniqid()));
+                                                        $client->setPassword($this->passwordEncoder->encodePassword($client,"12345@abc"));
+                                                        $client->setIsadmin(0);
+                                                        $client->setAntene($userg->getAntene());
+                                                        $this->em->persist($client);
+                                                    }else{
+                                                        // $this->log("Le nom est obligatoire.");
+                                                        $message = "Le nom est obligatoire.";
+                                                        $result = array("success"=>false,"id"=>-1, "message"=>$message);  
+                                                        return $this->json($result);      
+                                                    }
                                                 }else{
-                                                    // $this->log("Le nom est obligatoire.");
-                                                    $message = "Le nom est obligatoire.";
-                                                    $result = array("success"=>false,"id"=>-1, "message"=>$message);  
-                                                    return $this->json($result);      
-                                                }
-                                            }else{
-                                                $clientId = intval($request->get("client"));
-                                                $client = $this->em->getRepository(User::class)->find($clientId);
-                                                if(is_null($client)){
-                                                    $message = "Client introuvable.";
-                                                    $result = array("success"=>false,"id"=>-1, "message"=>$message);  
-                                                    return $this->json($result);      
-                                                }
-                                            }
-                                            $datedebut = new \DateTime('now');                                 
-                                            if($hebergement === "SIESTE"){
-                                                $datefin = new \DateTime(date("Y-m-d H:i:s", strtotime("+".$occurence." hour")));
-                                            }else{
-                                                $dateJour = date('Y-m-d')." 12:00:00";
-                                                $datefin = new \DateTime(date("Y-m-d H:i:s", strtotime($dateJour." +".$occurence." day")));
-                                            }           
-                                            //dd($datedebut, $datefin);  
-                                            if($accompte){
-                                                $solde = $client->getSolde("solde");                                                 
-                                                if($solde >= $versement){                                                
-                                                    $debiter=($solde-$versement);
-                                                    $solde = $client->getSolde("solde");
-                                                    $client->setSolde($debiter);
-                                                    $this->em->persist($client);    
+                                                    $clientId = intval($request->get("client"));
+                                                    $client = $this->em->getRepository(User::class)->find($clientId);
+                                                    if(is_null($client)){
+                                                        $message = "Client introuvable.";
+                                                        $result = array("success"=>false,"id"=>-1, "message"=>$message);  
+                                                        return $this->json($result);      
+                                                    }
+                                                }                             
+                                                if($hebergement === "SIESTE"){
+                                                    $datefin = new \DateTime(date("Y-m-d H:i:s", strtotime($strDate." +".$occurence." hour")));
+                                                }else{
+                                                    $datefin = new \DateTime(date("Y-m-d H:i:s", strtotime($strDate." +".$occurence." day")));
+                                                }           
+                                              //  dd($datedebut, $datefin);  
+                                                if($accompte){
+                                                    $solde = $client->getSolde("solde");                                                 
+                                                    if($solde >= $versement){                                                
+                                                        $debiter=($solde-$versement);
+                                                        $solde = $client->getSolde("solde");
+                                                        $client->setSolde($debiter);
+                                                        $this->em->persist($client);    
 
-                                                    $transact = new Transaction();
-                                                    $transact->setMontant($versement);
-                                                    $transact->setClient($client);                                                    
-                                                    $transact->setType("DEBIT");
-                                                    $transact->setCreatedat(new \DateTime('now'));
-                                                    $transact->setCreatedby($this->getUser());
-                                                    $this->em->persist($transact);
-                                                } else{
-                                                    $this->addFlash('danger','solde insuffisant,veuiller Recharger votre compte.');
-                                                }       
-                                            }         
-                                            $allocation = new Allocation();    
-                                            $allocation->setDatedebut($datedebut);
-                                            $allocation->setDatefin($datefin);
-                                            $allocation->setMontant($versement);
-                                            $allocation->setOperateur($this->getUser());
-                                            $allocation->setAntene($this->getUser()->getAntene());
-                                            $allocation->setReduction($prix-$versement);
-                                            $allocation->setOccupant($client);
-                                            $allocation->setChambre($chambre);
-                                            $allocation->setCompte($compte);
-                                            $allocation->setType($hebergement);
-                                            $allocation->setCreateat(new \DateTime('now'));
-                                            $this->em->persist($allocation);
-                                            $this->em->flush();
-                                            $this->setlog("AJOUTER","l'utilisateur ".$this->getUser()->getUsername().
-                                                " a ajouté une allocation ".$chambre->getNumero(),"ALLOCATION",$chambre->getId());
-                                            $result = array("success"=>true,"id"=>$allocation->getId());
-                                            return new JsonResponse($result);
+                                                        $transact = new Transaction();
+                                                        $transact->setMontant($versement);
+                                                        $transact->setClient($client);                                                    
+                                                        $transact->setType("DEBIT");
+                                                        $transact->setCreatedat(new \DateTime('now'));
+                                                        $transact->setCreatedby($this->getUser());
+                                                        $this->em->persist($transact);
+                                                    } else{
+                                                        $this->addFlash('danger','solde insuffisant,veuiller Recharger votre compte.');
+                                                    }       
+                                                }         
+                                                $allocation = new Allocation();    
+                                                $allocation->setDatedebut($datedebut);
+                                                $allocation->setDatefin($datefin);
+                                                $allocation->setMontant($versement);
+                                                $allocation->setOperateur($this->getUser());
+                                                $allocation->setAntene($this->getUser()->getAntene());
+                                                $allocation->setReduction($prix-$versement);
+                                                $allocation->setOccupant($client);
+                                                $allocation->setChambre($chambre);
+                                                $allocation->setCompte($compte);
+                                                $allocation->setType($hebergement);
+                                                $allocation->setCreateat(new \DateTime('now'));
+                                                $this->em->persist($allocation);
+                                                $this->em->flush();
+                                                $this->setlog("AJOUTER","l'utilisateur ".$this->getUser()->getUsername().
+                                                    " a ajouté une allocation ".$chambre->getNumero(),"ALLOCATION",$chambre->getId());
+                                                $result = array("success"=>true,"id"=>$allocation->getId());
+                                                return new JsonResponse($result);
+                                            }else{
+                                                $message = "Date de debut obligatoire obligatoire";
+                                                $result = array("success"=>false,"id"=>-1, "message"=>$message);        
+                                                return new JsonResponse($result);
+                                            }
                                         } else {
                                             // $this->log("Le prix obligatoire"); 
                                             $message = "Le prix obligatoire";
