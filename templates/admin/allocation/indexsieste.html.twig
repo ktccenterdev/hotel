@@ -22,7 +22,7 @@
         <select class="form-control js-select2" name="type_id" style="width: 50%;" id="type">
             <option label="Choisir un type"></option>
             {% for type in types %}
-                <option style="width: 100%;" value="{{type.id}}">{{type.nom}} {{type.chambres | length}}</option>
+                <option style="width: 100%;" value="{{type.id}}">{{type.nom}}</option>
             {% endfor %}        
             <option value="all">Toues les chambres</option>
         </select>
