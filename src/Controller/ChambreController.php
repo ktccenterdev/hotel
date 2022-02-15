@@ -164,7 +164,11 @@ class ChambreController extends DefaultController
                 //dd($photo1);
                 $photo3 = $request->files->get("file3");
                 $photo4 = $request->files->get("file4"); 
-           
+                $existChambre = $this->em->getRepository(Chambre::class)->findOneBy(['numero'=>$numero, 'entene'=>$entene]);
+                if($existChambre){
+                    $this->log("Ce numero de chambre existe déja.", $link);
+                    return $this->json($this->response);
+                }
                 $chambre = new Chambre();
     
                 $chambre->setType($typech);
@@ -350,7 +354,7 @@ class ChambreController extends DefaultController
       * @Route("editrchambre/edit", name="edit-rchambre")
       *
       */
-      public function editrchambre(Request $request): Response
+      public function editrchambre(Request $request)
        {
           
         $link="indexchambre";
@@ -374,6 +378,11 @@ class ChambreController extends DefaultController
 
                 $chambre = $this->em->getRepository(Chambre::class)->find($id);
                 $typechambre = $this->em->getRepository(Typechambre::class)->find($typeId);
+                $existChambre = $this->em->getRepository(Chambre::class)->findOneBy(['numero'=>$numero, 'entene'=>$chambre->getEntene()]);
+                if($existChambre && $existChambre->getId() != $chambre->getId()){
+                    $this->log("Ce numero de chambre existe déja.", $link);
+                    return $this->json($this->response);
+                }
 
                 $chambre->setNumero($numero);
                 $chambre->setType($typechambre);
