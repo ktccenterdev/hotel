@@ -160,7 +160,11 @@
             "ref": "0ce7a032d344fb7b661cd25d31914cd703ad445b"
         },
         "files": [
+<<<<<<< HEAD
+            "./config/packages/dev/debug.yaml"
+=======
             "config/packages/dev/debug.yaml"
+>>>>>>> f811b73c770bf5c51288bc2d780f0cc200d76cbd
         ]
     },
     "symfony/dependency-injection": {
