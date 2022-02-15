@@ -42,7 +42,7 @@ class MagasinController extends DefaultController
                 ]);
                 $this->successResponse("Liste des magasins ", $link, $data);
             }else{
-                return $this->redirectToRoute('login');
+                return $this->redirect('/login');
             }
         } catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);
@@ -150,7 +150,7 @@ class MagasinController extends DefaultController
                 ]);
                 $this->successResponse("Liste des sorties ", $link, $data);
             }else{
-                return $this->redirectToRoute('login');
+                return $this->redirect('/login');
             }
         } catch (\Exception $ex) {
             $this->log($ex->getMessage(), $link);
@@ -232,7 +232,7 @@ class MagasinController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -272,7 +272,7 @@ class MagasinController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -315,7 +315,7 @@ class MagasinController extends DefaultController
             } 
             return new JsonResponse($this->result);            
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }*/
 

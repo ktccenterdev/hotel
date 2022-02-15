@@ -67,7 +67,7 @@
                                            <textarea type="text" id="lieunaiss" cols="10" rows="4" name="lieunaiss" class="form-control modif" value="" disabled>{{ magasins.description }}</textarea>
                                         </div>
                                          <div class="col-sm-12 col-xl-12">
-                                           <div class="table-wrapper responsiveelement">
+                                           <div class="table-wrapper responsiveelement col-lg-12">
                                             <table class="datatable table display nowrap">
                                                 <thead>
                                                 <tr>	
@@ -90,7 +90,7 @@
                                                     <td>{{entree.date|date('Y-m-d H:i:s')}}</td>
                                                     <td>
                                                         <button class="btn btn-teal active" ><a href="{{path('detailentreestock', {id: entree.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
-                                                        <button class="btn btn-teal active" ><a href="{{path('editfour', {id: entree.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
+                                                        <button class="btn btn-primary active" ><a href="{{path('editfour', {id: entree.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
                                                     </td>
                                                 </tr>
                                                 {% endfor %}

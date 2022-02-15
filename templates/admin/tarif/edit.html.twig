@@ -8,15 +8,13 @@
           <p style="color:blue;" class="mg-b-0">----</p>
         </div>
     </div><!-- d-flex --> 
-
     <div class="br-section-wrapper">
-        <div class="container">
             <div class="row">
                 <div class="col-sm">
                     <div x-data="{ ajouter : false }">
                         <div class="row d-flex justify-content-center">
                             <div class="col-lg-7 col-xlg-8 col-md-12">
-                                <div class="row mg-t-80">
+                                <div class="row">
                                     <div class="col">
                                         <form id="form-send" class="js-form-send {{app.user.hasAccess('tarif-Redit')}}" action="{{path('tarif-Redit')}}" method="POST" data-toggle="ajax" data-target="monContent">
                                             <div class="form-layout form-layout-4">
@@ -25,22 +23,14 @@
                                                     <label class="col-sm-4 form-control-label">Nom: <span class="tx-danger">*</span></label>
                                                     <div class="col-sm-8 mg-t-10 mg-sm-t-0">                                                                    
                                                         <input class="form-control" type="hidden" name="id" id="id" value="{{tarif.id}}" >
-                                                        <input type="text" class="form-control" placeholder="Nom du module" name="nom" value="{{tarif.nom}}">
-                                                    </div>
-                                                </div><!-- row -->
-                                                <br>
-                                                <div class="row">
-                                                    <label class="col-sm-4 form-control-label">durée (en Heure): <span class="tx-danger">*</span></label>
-                                                    <div class="col-sm-8 mg-t-10 mg-sm-t-0">
-                                                        <input type="number" class="form-control" placeholder="la durée" name="dure" value="{{tarif.duree}}">
+                                                        <input type="text" class="form-control" placeholder="Nom" name="nom" value="{{tarif.nom}}">
                                                     </div>
                                                 </div><!-- row -->
                                                 <br>
                                                 <div class="row">
                                                     <label class="col-sm-4 form-control-label">Type de chambre: <span class="tx-danger">*</span></label>
                                                     <div class="wd-250 col-sm-8 mg-t-10 mg-sm-t-0">
-                                                        <select name="type" class="form-control js-select2" data-placeholder="Choose one" style="width:100%">
-                                                        <option label="--Choisit un type de chambre--"></option>                                                            
+                                                        <select name="type" class="form-control js-select2" data-placeholder="Choose one" style="width:100%">                                                        
                                                         {% for type in tarif.antenne.typeDeChambres %}
                                                             <option value="{{type.id}}" {{type.id == tarif.typechambre.id ? "selected"}}>{{type.nom}}</option>
                                                         {% endfor %}
@@ -49,7 +39,7 @@
                                                 </div><!-- col-->
                                                 <br>
                                                 <div class="row">
-													<label class="col-sm-4 form-control-label">Type de tarif: <span class="tx-danger">*</span></label>
+													<label class="col-sm-4 form-control-label">Hébergement: <span class="tx-danger">*</span></label>
 													<div class="wd-250 col-sm-8 mg-t-10 mg-sm-t-0">
 														<select name="typetarif" class="form-control js-select2" required style="width:100%">
 															<option value="NUITEE" {{tarif.type == "NUITEE" ? "selected"}}>NUITEE</option>
@@ -65,13 +55,13 @@
                                                 </div><!-- row -->
                                                 <br>
                                                 <div class="row">
-                                                    <label class="col-sm-4 form-control-label">Description: <span class="tx-danger">*</span></label>
+                                                    <label class="col-sm-4 form-control-label">Description: </label>
                                                     <div class="col-sm-8 mg-t-10 mg-sm-t-0">
                                                     <textarea rows="3" class="form-control mg-t-20" name="description" placeholder="Description">{{tarif.description}}</textarea>
                                                     </div>
                                                 </div><!-- row -->
 
-                                                <div class="form-layout-footer mg-t-30">
+                                                <div class="form-layout-footer mg-t-30 col-sm-7 mg-l-auto">
                                                     <button type="submit" class="btn btn-primary">Modifier</button>	
                                                 </div><!-- form-layout-footer -->
                                             </div><!-- form-layout -->
@@ -83,7 +73,6 @@
                     </div>
                 </div>	
             </div>
-        </div>
     </div><!-- br-section-wrapper -->
        
 <!-- br-mainpanel -->

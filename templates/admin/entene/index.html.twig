@@ -86,7 +86,7 @@
         
     </div>
           
-    <div class="table-wrapper responsiveelement">
+    <div class="table-wrapper responsiveelement col-lg-12">
       <table class="datatable table display nowrap">
         <thead>
           <tr>
@@ -116,8 +116,8 @@
           <td>{{entene.site}}</td>
           <td>
           
-          <button class="btn btn-info active" {{app.user.hasAccess('show')}}><a href="{{ path('show',{id: entene.id}) }}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
-          <button class="btn btn-teal active" {{app.user.hasAccess('entene_edit')}}><a href="{{ path('entene_edit',{id: entene.id}) }}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
+          <button class="btn btn-teal active" {{app.user.hasAccess('show')}}><a href="{{ path('show',{id: entene.id}) }}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
+          <button class="btn btn-primary active" {{app.user.hasAccess('entene_edit')}}><a href="{{ path('entene_edit',{id: entene.id}) }}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
           {#   <form style="display: contents;" class="js-form-send" action="{{path('antne-delete', {id: entene.id})}}" method="DELETE">
               <button class="btn btn-pink active"><i class="fa fa-trash" aria-hidden="true"></i></button>	
             </form> #}

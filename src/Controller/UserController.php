@@ -207,7 +207,7 @@ class UserController extends DefaultController
                 ]);
                 $this->successResponse("Profil affiché ", $link, $data);
             }else{
-                return $this->redirectToRoute('login');
+                return $this->redirect('/login');
             }
         }catch(\Exception $ex){
             $this->log($ex->getMessage(), $link);

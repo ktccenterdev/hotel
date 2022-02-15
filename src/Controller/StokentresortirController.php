@@ -56,7 +56,7 @@ class StokentresortirController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -84,7 +84,7 @@ class StokentresortirController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -136,7 +136,7 @@ class StokentresortirController extends DefaultController
                 return new JsonResponse($result);
             }
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
 
 
@@ -183,7 +183,7 @@ class StokentresortirController extends DefaultController
             return $this->json($this->result);
 
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
         
     }
@@ -211,7 +211,7 @@ class StokentresortirController extends DefaultController
             
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
        
     }
@@ -236,7 +236,7 @@ class StokentresortirController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
        
     }
@@ -270,7 +270,7 @@ class StokentresortirController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
        
     }
@@ -315,7 +315,7 @@ class StokentresortirController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
        
     }
@@ -353,7 +353,7 @@ class StokentresortirController extends DefaultController
             // dd($this->result);
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
    
@@ -375,7 +375,7 @@ class StokentresortirController extends DefaultController
                 $produits = $this->em->getRepository(Produit::class)->findAll();
                 $sortirs = $this->em->getRepository(Sortiritem::class)->findAll();
                 $sortirstocks = $this->em->getRepository(Sortirstock::class)->findAll();
-                //dd($produits);
+                //dd($produits[0]->getStock());
                 $sortis = null;
                 $data = $this->renderView('admin/gestionstock/index.html.twig', [
                     "sortis" => $sortis,
@@ -392,7 +392,7 @@ class StokentresortirController extends DefaultController
             }
             return $this->json($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 
@@ -438,16 +438,31 @@ class StokentresortirController extends DefaultController
                 array_shift($quantite);
                 $items = array_combine($produit,$quantite);
 
+                $overflows=[];
                 foreach ($items as $produit => $quantite) {
                     $item = new Sortiritem();
                     //$produit = $this->em->getRepository(Produit::class)->find($value["idproduit"]);
                     $produit = $this->em->getRepository(Produit::class)->find($produit);
-                    $item->setProduit($produit);
-                    $item->setSortistock($sortirstock);
-                    $item->setQt($quantite);
-                    $this->em->persist($item);
-                    $this->em->flush();
-            
+                    if($produit->getStock() > $quantite ){
+                        $item->setProduit($produit);
+                        $item->setSortistock($sortirstock);
+                        $item->setQt($quantite);
+                        $this->em->persist($item);
+                        $this->em->flush();
+                    }else{
+                        $overflows[] = $produit->getNom();
+
+                    }
+                }
+                //dd($overflow);
+                if($overflows){
+                    $message= "Certains produis sont en rupture de stock";
+                    foreach ($overflows as $overflow ){
+                        $message = $message.$overflow;
+                    }
+                    $this ->log($message, $link );
+                }else{
+                    $this->successResponse("Sortit magasin Effectue ",$link); 
                 }
 
                 $this->successResponse("Sortit magasin Effectue ",$link);  
@@ -456,7 +471,7 @@ class StokentresortirController extends DefaultController
             } 
             return new JsonResponse($this->result);
         }else{
-            return $this->redirectToRoute('login');
+            return $this->redirect('/login');
         }
     }
 

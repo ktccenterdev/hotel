@@ -81,7 +81,7 @@
                       <td>{{ entree.nuitee | craue_currency('XAF', 'fr-FR')}}</td>
                       <td>{{ (entree.nuitee  + entree.sieste) | craue_currency('XAF', 'fr-FR')}}</td>
 					            <td>
-                        <a href="{{path('bilancurrentday-ofantene', {'today':today, 'debut':debut, 'fin':fin, 'iduser':app.user.id, 'idantenne':antenne.id, 'retour':'mon-bilanjournalier'})}}" class="btn btn-info" data-toggle="ajax" data-target="monContent">
+                        <a href="{{path('bilancurrentday-ofantene', {'today':today, 'debut':debut, 'fin':fin, 'iduser':app.user.id, 'idantenne':antenne.id, 'retour':'mon-bilanjournalier'})}}" class="btn btn-teal" data-toggle="ajax" data-target="monContent">
                           <i class="fa fa-eye"></i> Détails
                         </a>
                       </td>

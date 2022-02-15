@@ -19,27 +19,27 @@ class RecuController  extends \FPDF
             $heureImpression = date("H:i:s");
             $logo = "img/logo.jpeg"; 
             $this->Image($logo,2,9,10);
-            $this->SetFont('Times','B',6);  
-            $this->Cell(0,-10,utf8_decode("HOTEL RAPHIA"),0,0,'C');
-            $this->SetFont('Times',"B" ,6);
-            $this->Cell(-37,-3,utf8_decode($this->allocationinfo->getAntene()->getNom()),0,0,'C');
-            $this->SetFont('Arial',"",5);
+            $this->SetFont('Times','B',8);  
+            $this->Cell(0,-10,utf8_decode($this->allocationinfo->getAntene()->getNom()),0,0,'C');
+            $this->SetFont('Times',"" ,5);
+            $this->Cell(-37,-3,utf8_decode($this->allocationinfo->getAntene()->getLocalisation()),0,0,'C');
+            $this->SetFont('Arial',"",6);
             $this->Cell(44,6,"BP: ".utf8_decode($this->allocationinfo->getAntene()->getBp()).", ".utf8_decode("YAOUNDE").utf8_decode(",  Tél: ".$this->allocationinfo->getAntene()->getTel()),0,0,'C');
             $this->Cell(-53,11,"Email: ".utf8_decode($this->allocationinfo->getAntene()->getEmail()),0,0,'C');
-            $this->Cell(47.5,16,utf8_decode($this->allocationinfo->getAntene()->getSite()),0,0,'C');
+            $this->Cell(47.5,16,utf8_decode("Web: ".$this->allocationinfo->getAntene()->getSite()),0,0,'C');
             $this->Line(3,20,50,20);
             $this->Ln(8);
             $y = $this->getY();
             $this->SetFont('Times',"BU", 7);
             $dateParticipation = date_format(new \DateTime("now"), 'd-m-Y');
-            $this->Cell(0,20,utf8_decode("FACTURE"),0,0,'C');
+            $this->Cell(0,20,utf8_decode("FACTURE n° ".$this->allocationinfo->getId()),0,0,'C');
             $this->Ln(6);
             $this->SetFont('Courier',"B", 10);
             $this->setY(32);
-            ///contruction ok
-            $this->setX(5);
-            $this->Cell(45,5,utf8_decode(strtoupper("NUMERO:".$this->allocationinfo->getId())),1,0,'C');
-            $this->Ln(5);
+
+            // $this->setX(5);
+            // $this->Cell(45,5,utf8_decode(strtoupper("NUMERO:".$this->allocationinfo->getId())),1,0,'C');
+            // $this->Ln(5);
             $this->SetFont('Courier',"B", 7);
             $this->setX(5); 
             $this->MultiCell(45, 5, utf8_decode($this->allocationinfo->getOccupant()->getNom()." ".$this->allocationinfo->getOccupant()->getPrenom()), 0, 'C', 0);
@@ -51,34 +51,47 @@ class RecuController  extends \FPDF
             $this->setX(5);
             $this->SetFont('Courier', 'B', 8);
             $this->MultiCell(45, 5, utf8_decode("CHAMBRE: ".$this->allocationinfo->getChambre()->getNumero()), 1, 'C', 0);
-            
+            $this->ln(2);
             $this->setX(30);
-            $this->SetFont('Courier', 'B', 8.5);
+            $this->SetFont('Courier', '', 7);
             $this->setX(5);
-            $this->Cell(25, 5, utf8_decode('MONTANT(FCFA)'), 1, 0, 'L');
-            $this->setX(30);
-            $this->SetFont('Courier', 'B', 7);
-            $this->Cell(20, 5, utf8_decode($this->allocationinfo->getMontant()), 1, 0, 'C');
+            $this->Cell(15, 5, utf8_decode('Montant:'), 0, 0, 'L');
+            $this->setX(20);
+            $this->SetFont('Courier', 'B', 8);
+            $this->Cell(20, 5, utf8_decode($this->allocationinfo->getMontant()." FCFA"), 0, 0, 'C');
 
             
             $this->Ln(5);
-            $this->setX(30);
-            $this->SetFont('Courier', 'B', 8.5);
+            $this->setX(20);
+            $this->SetFont('Courier', '', 7);
             $this->setX(5);
-            $this->Cell(25, 5, utf8_decode('ARRIVER'), 1, 0, 'L');
-            $this->setX(30);
-            $this->SetFont('Courier', 'B', 5);
-            $this->Cell(20, 5,$this->allocationinfo->getDatedebut()->format('Y/m/d H:i:s'), 1, 0, 'C');
+            $this->Cell(15, 5, utf8_decode('Arrivée:'), 0, 0, 'L');
+            $this->setX(25);
+            $this->SetFont('Courier', 'B', 8);
+            $this->Cell(20, 5,$this->allocationinfo->getDatedebut()->format('Y/m/d H:i:s'), 0, 0, 'C');
             $this->Ln(5);
 
             $this->setX(30);
-            $this->SetFont('Courier', 'B', 8.5);
+            $this->SetFont('Courier', '', 7);
             $this->setX(5);
-            $this->Cell(25, 5, utf8_decode('DEPART'), 1, 0, 'L');
+            $this->Cell(15, 5, utf8_decode('Départ: '), 0, 0, 'L');
+            $this->setX(25);
+            $this->SetFont('Courier', 'B', 8);
+            $this->Cell(20, 5, $this->allocationinfo->getDatefin()->format('Y/m/d H:i:s'), 0, 0, 'C');
+            $this->Ln(5);
+
             $this->setX(30);
-            $this->SetFont('Courier', 'B', 5);
-            $this->Cell(20, 5, $this->allocationinfo->getDatefin()->format('Y/m/d H:i:s'), 1, 0, 'C');
-            //////////////
+            $this->SetFont('Courier', '', 7);
+            $this->setX(5);
+            $this->Cell(15, 5, utf8_decode('Type: '), 0, 0, 'L');
+            $this->setX(25);
+            $this->SetFont('Courier', 'B', 8);
+            $type = $this->allocationinfo->getType();
+            
+            $this->Cell(20, 5, utf8_decode($type." (".$this->allocationinfo->getDuree().")"), 0, 0, 'L');
+            $this->ln(5);
+            
+            $this->setX(30);            
             $this->Ln(1);
             $this->SetFont('Times', 'UI', 6);
             $this->Cell(0, $y, utf8_decode('Opérateur'), 0, 0, 'C');

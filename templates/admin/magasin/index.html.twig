@@ -80,7 +80,7 @@
                 </div>
             <div> 
          
-            <div class="table-wrapper responsiveelement">
+            <div class="table-wrapper responsiveelement col-lg-12">
                   <table class="datatable table display responsive nowrap">
                     <thead>
                       <tr>	        
@@ -101,10 +101,10 @@
                         <td>{{ magasin.type }}</td>
                         <td>{{ magasin.description |slice(0, 50) ~ '...' }}</td>
                         <td>
-                            <button title="Afficher les détails" class="btn btn-info {{app.user.hasAccess('detail-magasin')}}" ><a data-toggle="ajax" data-target="monContent" href="{{path('detail-magasin', {id: magasin.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
+                            <button title="Afficher les détails" class="btn btn-teal active {{app.user.hasAccess('detail-magasin')}}" ><a data-toggle="ajax" data-target="monContent" href="{{path('detail-magasin', {id: magasin.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-eye" aria-hidden="true"></i></a></button>
                             
 
-                                <button title="Editer ce magasin" class="btn btn-success active {{app.user.hasAccess('edit-magasin')}}" ><a data-toggle="ajax" data-target="monContent" href="{{path('edit-magasin', {id: magasin.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
+                                <button title="Editer ce magasin" class="btn btn-primary active {{app.user.hasAccess('edit-magasin')}}" ><a data-toggle="ajax" data-target="monContent" href="{{path('edit-magasin', {id: magasin.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
                                 <!-- <button class="btn btn-warning " ><a data-toggle="ajax" data-target="monContent" href="{{path('rupturedestock', {idmag: magasin.id,departforsortie: magasin.id,magdepart: 1,magdest: magasin.id})}}" style="padding: 0px !important; color:white;" class="nav-link ajax-link" ><i class="fa fa-battery-half" aria-hidden="true"></i></a></button> -->
                             {% if magasin.defaut == false %}
                                     <!-- <form style="display: contents;"
