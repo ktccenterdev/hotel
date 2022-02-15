@@ -49,7 +49,7 @@
                         {% for chambre in type.chambres %}
                             {% if chambre.id not in chambreIds %}             
                                 <div class="card filtre overflow-x-auto" id="chambre-{{chambre.id}}">
-                                    <img class="card-img-top img-fluid" src="{{asset('photo/Chambre/'~ chambre.photo1)}}" alt="Image">
+                                    <img class="card-img-top img-fluid" src="{{asset('photo/Chambre/'~ chambre.photo1)}}" alt="Image" width="auto" height="100px">
                                     <div class="card-body">
                                     <p class="card-text text-muted">
                                         <h4 class="text-center">{{chambre.numero}}</h4>
@@ -148,123 +148,145 @@
                 <span class="float-right">NUITEE (FCFA): <span class="badge badge-warning mg-r-10" id="modal-nuitee"></span></span>
             </div>
             <div class="modal-body pd-20 overflow-y-visible">
-            <p class="mg-b-5">                
-                <input type="hidden" name="chambreID" id="modal-chambreID">
-                <div class="row">   
-                    <div class="col-lg-10">
-                        <div class="form-group">
-                            <div class="col-sm-12 ">
-                                <select  class="form-control" style="width: 100%;" name="client" id="client">
-                                    <option selected disabled>Sélectionner un client</option>
-                                    {% for client in clients %}
-                                        <option value="{{client.id}}" {{client.isDefault ? "selected"}}>{{client.nom}} {{client.prenom}}</option>
-                                    {% endfor %}
+                <p class="mg-b-5">                
+                    <input type="hidden" name="chambreID" id="modal-chambreID">
+                    <div class="row">   
+                        <div class="col-lg-10">
+                            <div class="form-group">
+                                <div class="col-sm-12 ">
+                                    <select  class="form-control" style="width: 100%;" name="client" id="client">
+                                        <option selected disabled>Sélectionner un client</option>
+                                        {% for client in clients %}
+                                            <option value="{{client.id}}" {{client.isDefault ? "selected"}}>{{client.nom}} {{client.prenom}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    {# <select style="width: 100%;" class="js-search-ajax form-control" name="client" id="client">
+                                    </select> #}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 justify-content-center">
+                            <label for="chbox" class="mg-t-10">
+                                <input type="checkbox" name="nouveau_client">
+                                <span>Nouveau</span>
+                            </label>
+                        </div>
+                    </div>
+                    <hr id="hrNouveauClient" class="mg-t-1" style="display: none;">
+                    <div class="row " style="display:none; margin-bottom: 30px;" id="divNouveauClient">    
+                        <div class="col">
+                            <label class="form-control-label">
+                                Nom<span class="tx-danger">*</span>
+                            </label>
+                            <div class="col-sm-12">
+                                <input class="form-control" type="text" name="nom"  placeholder="Nom">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label class="form-control-label">
+                                    Prénom
+                            </label>
+                            <div class="col-sm-12">
+                                <input class="form-control" type="text" name="prenom"  placeholder="Prénom">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label class="form-control-label">
+                                CNI
+                            </label>
+                            <div class="col-sm-12">
+                                <input class="form-control" type="text" name="cni"  placeholder="cni">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label class="form-control-label">
+                                Genre<span class="tx-danger">*</span>
+                            </label>
+                            <div class="col-sm-12">
+                                <select class="form-control" name="sexe" required>
+                                    <option selected disabled>Sélectionner</option>
+                                    <option value="M">M</option>    
+                                    <option value="F">F</option>
                                 </select>
-                                {# <select style="width: 100%;" class="js-search-ajax form-control" name="client" id="client">
-                                </select> #}
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2 justify-content-center">
-                        <label for="chbox" class="mg-t-10">
-                            <input type="checkbox" name="nouveau_client">
-                            <span>Nouveau</span>
-                        </label>
-                    </div>
-                </div>
-                <hr id="hrNouveauClient" class="mg-t-1" style="display: none;">
-                <div class="row " style="display:none; margin-bottom: 30px;" id="divNouveauClient">    
-                    <div class="col">
-                        <label class="form-control-label">
-                            Nom<span class="tx-danger">*</span>
-                        </label>
-                        <div class="col-sm-12">
-                            <input class="form-control" type="text" name="nom"  placeholder="Nom">
+                    <hr class="mg-t-1">
+                    <div class="row" style="margin-bottom: 20px;">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-control-label">
+                                    Hébergement<span class="tx-danger">*</span>
+                                </label>
+                                <div class="col-sm-12">
+                                    <select class="form-control" id="modal-hebergement" name="hebergement" style="width:100%" required>                         
+                                        <option selected disabled>Sélectionner</option> 
+                                        <option value="SIESTE">SIESTE</option>                               
+                                        <option value="NUITEE">NUITEE</option>                               
+                                    </select>         
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <label class="form-control-label">
-                                Prénom
-                        </label>
-                        <div class="col-sm-12">
-                            <input class="form-control" type="text" name="prenom"  placeholder="Prénom">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-control-label">
+                                    Occurence: <span class="tx-danger">*</span>
+                                </label>
+                                <div class="col-sm-12">
+                                    <input type="number" class="form-control" name="occurence" id="modal-occurence" value="1" min="1" max="24" required>
+                                </div>
+                            </div>
                         </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-control-label">
+                                    Montant total<span class="tx-danger">*</span>
+                                </label>
+                                <div class="col-sm-12">
+                                    <input type="number" class="form-control" name="prix" id="modal-prix" value="0" readonly required>
+                                </div>
+                            </div>
+                        </div>                        
                     </div>
-                    <div class="col">
-                        <label class="form-control-label">
-                            CNI
-                        </label>
-                        <div class="col-sm-12">
-                            <input class="form-control" type="text" name="cni"  placeholder="cni">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-control-label">
+                                    Jour<span class="tx-danger">*</span>
+                                </label>
+                                <div class="col-sm-12">
+                                    <input name="jour" id="jour" type="date" min="{{'now' | date('Y-m-d')}}" value="{{'now' | date('Y-m-d')}}" class="form-control" required>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <label class="form-control-label">
-                            Genre<span class="tx-danger">*</span>
-                        </label>
-                        <div class="col-sm-12">
-                            <select class="form-control" name="sexe" required>
-                                <option selected disabled>Sélectionner</option>
-                                <option value="M">M</option>    
-                                <option value="F">F</option>
-                            </select>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-control-label">
+                                    Heure<span class="tx-danger">*</span>
+                                </label>
+                                <div class="col-sm-12">
+                                    <input name="heure" id="heure" type="time" min="{{'now' | date('H:i')}}" value="{{'now' | date('H:i')}}" class="form-control" required>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <hr class="mg-t-1">
-                <div class="row" style="margin-bottom: 20px;">
-                    <div class="col">
-                        <div class="form-group">
-                            <label class="form-control-label">
-                                Hébergement<span class="tx-danger">*</span>
-                            </label>
-                            <div class="col-sm-12">
-                                <select class="form-control" id="modal-hebergement" name="hebergement" style="width:100%" required>                         
-                                    <option selected disabled>Sélectionner</option> 
-                                    <option value="SIESTE">SIESTE</option>                               
-                                    <option value="NUITEE">NUITEE</option>                               
-                                </select>         
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-control-label">
+                                    Montant versé<span class="tx-danger">*</span>
+                                </label>
+                                <div class="col-sm-12">
+                                    <input type="number" class="form-control" name="versement" id="modal-versement"  min="500" step="500" required>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label class="form-control-label">
-                                Occurence: <span class="tx-danger">*</span>
-                            </label>
-                            <div class="col-sm-12">
-                                <input type="number" class="form-control" name="occurence" id="modal-occurence" value="1" min="1" max="24" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label class="form-control-label">
-                                Montant total<span class="tx-danger">*</span>
-                            </label>
-                            <div class="col-sm-12">
-                                <input type="number" class="form-control" name="prix" id="modal-prix" value="0" readonly>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label class="form-control-label">
-                                Montant versé<span class="tx-danger">*</span>
-                            </label>
-                            <div class="col-sm-12">
-                                <input type="number" class="form-control" name="versement" id="modal-versement"  min="500" step="500">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            
-            </p>
+                
+                </p>
             </div><!-- modal-body -->
             <div class="modal-footer">
-            <button type="submit" class="btn btn-primary tx-size-xs" id="btn-save-nouveau">Valider</button>
-            <hr>
-            <button type="button" class="btn btn-secondary tx-size-xs" data-dismiss="modal">Annuler</button>
+                <button type="submit" class="btn btn-primary tx-size-xs" id="btn-save-nouveau">Valider</button>
+                <hr>
+                <button type="button" class="btn btn-secondary tx-size-xs" data-dismiss="modal">Annuler</button>
             </div>
         </div>
         </form>
@@ -399,6 +421,7 @@
         allowClear: false,
         dropdownParent: $('#modalAllocation')
     });
+
     
 </script>
 {# <script src="{{asset('js/search.js')}}"></script> #}
