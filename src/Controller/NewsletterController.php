@@ -10,6 +10,7 @@ use App\Entity\Allocation;
 use App\Entity\Tarif;
 use App\Entity\Typechambre;
 use App\Controller\DefaultController;
+use App\Entity\ContactExterneSite;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -252,6 +253,109 @@ class NewsletterController extends DefaultController
        
             }
 
+
+            /**
+             * @Route("contactesite", name="contacte-site")
+             */
+            public function contactesite(Request $request)
+            {
+              // dd("fine");
+              $name = $request->get("name");
+              $phone = $request->get("phone");
+              $email = $request->get("email");
+
+              $externe = new ContactExterneSite();
+              $externe->setName($name);
+              $externe->setNumero($phone);
+              $externe->setEmail($email);
+
+              $this->em->persist($externe);
+              $this->em->flush();
+              $this ->addFlash( 'success', 'Salut ' .$name. ' Ton Newsletter a été envoyés avec succès' );
+              return $this->redirectToRoute('indexfront',[]);
+
+
+            }
+
+            /**
+             * @Route("ViewContact", name="ViewContact-Site" , methods={"GET"})
+             */
+            public function ViewContact()
+            { 
+                $link="ViewContact";
+                try {
+                    $viewexternes =$this->em->getRepository(ContactExterneSite::class)->findAll();
+                    $data = $this->renderView('admin/newsletter/ViewExterne.html.twig', [
+                       "viewexternes" => $viewexternes
+                    ]);   
+                    $this->successResponse("Liste des vue eexterne ", $link, $data);
+
+                } catch (\Exception $ex) {
+                    $this->log($ex->getMessage(), $link);
+                }
+                return $this->json($this->result);  
+            }
+
+
+
+            /**
+            * @Route("/mailexterne", name="mail-externe")
+            */
+            public function mailexterne(MailerInterface $mailer, Request $request): Response
+            {
+                
+                $user = $this->getUser();
+                $radio = $request->get("radio");
+                //dd($radio);
+                if(!empty($radio))
+                {
+                    $objet = $request->get("objet");
+                    $message = $request->get("message");
+                    $destinateurs = $request->get("groupes");
+                    //dd($destinateurs);
+                    
+                        if($radio=="sms")
+                        {
+                            foreach($destinateurs as $destinateur)
+                            {
+                                $scinder = explode(",",$destinateur);
+                                $numero = $scinder[0];
+                                $sendername = $user->getNom();
+                                    $sms = new Sms();
+                                    $sendsms= $sms->init("title","subject");
+                                    //$sendsms= $sms->sendSms($sms,$receiver,$sender);
+                                    $sendsms= $sms->sendSms($message,$numero,$sendername);
+                                    //dd($sendsms);
+                            } 
+                            $this ->addFlash('sms', "SMS envoyés avec succes"
+                            );              
+                            
+                        }else
+                        { 
+                            foreach($destinateurs as $destinateur)
+                            {
+                                $scinder = explode(",",$destinateur);
+                                $mail = $scinder[1];
+                                
+
+                                $email = (new Email())
+                                ->from('KTC@GMAIL.com')
+                                ->to( $mail)
+                                ->subject($objet)
+                                ->text($message);
+
+                                $mailer->send($email);
+
+                            }
+                            $this ->addFlash( 'success', 'Email envoyés avec succes a  ' );
+                            return $this->redirectToRoute('ViewContact-Site',[]);
+
+
+                        
+                        }
+
+                }
+            }
 
 
 
