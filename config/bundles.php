@@ -11,4 +11,5 @@ return [
     Qipsius\TCPDFBundle\QipsiusTCPDFBundle::class => ['all' => true],
     Troopers\AjaxBundle\TroopersAjaxBundle::class => ['all' => true],
     Craue\TwigExtensionsBundle\CraueTwigExtensionsBundle::class => ['all' => true],
+    Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true],
 ];
