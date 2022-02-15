@@ -28,9 +28,11 @@ $(document).ready(function() {
     $('*[data-toggle="ajax"]').each(function() {
         $(this).css({
             'pointer-events' : 'auto',
-            'cursor' : 'auto'
+            'cursor' : 'pointer'
         });
     });
+
+    return false;
 });
 
 /**
@@ -44,20 +46,26 @@ $(document).ajaxSuccess(function() {
     if (typeof scrollTop != 'undefined') {
         $(document).scrollTop(scrollTop);
     }
+    return false;
 });
 
 $(document).ajaxComplete(function() {
     $('*[data-toggle="ajax"]').each(function() {
         $(this).css({
             'pointer-events' : 'auto',
-            'cursor' : 'auto'
+            'cursor' : 'pointer'
         });
     });
+    return false;
 });
 $(document).on('submit', 'form[data-toggle="ajax"]', function(event) {
-    if($(this).hasClass('confirm') || $(this).hasClass('confirm-waiting')){
-        return false;
+    var confirm_message = $(this).attr('data-message');    
+    if($(this).hasClass('confirm-delete') || $(this).hasClass('confirm-action')){
+        if(!confirm(confirm_message)){
+            return false;
+        }       
     }
+
     $wrapper.fadeIn();
     event.preventDefault();
     $(this).trigger('ajax.form.initialize');
@@ -72,11 +80,14 @@ $(document).on('submit', 'form[data-toggle="ajax"]', function(event) {
     var form = $(this);
     var effect = guessEffect(this, "#" + update);
     ajaxFormSubmit(form, $(form).attr('action'), update, updateStrategy, effect);
-
     return false;
+
 }).on('click', 'a[data-toggle="ajax"]', function(event) {
-    if($(this).hasClass('confirm') || $(this).hasClass('confirm-waiting')){
-        return false;
+    var confirm_message = $(this).attr('data-message');    
+    if($(this).hasClass('confirm-delete') || $(this).hasClass('confirm-action')){
+        if(!confirm(confirm_message)){
+            return false;
+        }       
     }
     $wrapper.fadeIn();
     event.preventDefault();
@@ -129,36 +140,51 @@ function ajaxFormSubmit(form, action, update, updateStrategy, effect) {
         url         : action,
         context     : document.body,
         data        : formData,
+        dataType    : 'json',
         type        : $(form).attr('method'),
         contentType : contentType,
         processData : false,
         async       : true,
         cache       : formCache,
-        success     : function(jsonResponse) {
-            ajaxify(jsonResponse, update, updateStrategy, effect);
-        }
+        success     : function(jsonResponse) {            
+            ajaxify(jsonResponse, update, updateStrategy, effect);  
+        },
+        error      : function(jsonResponse) {
+            $("#divError").fadeIn();
+            $(".messageError").html(jsonResponse.responseJSON);
+            sweetNotificationbad(jsonResponse.responseJSON);
+            $wrapper.fadeOut();
+            return false;
+         }
     });
-
-    $(form).trigger('ajax.ajaxFormSubmit.after');
+    $(form).trigger('ajax.ajaxFormSubmit.after');  
 }
 
 function ajaxLink(link,update, updateStrategy, effect) {
+    $(".messageError").html();
+    $("#divError").fadeOut();            
     $.ajax({
         url     : link,
         context : document.body,
         type    : "GET",
         success : function(jsonResponse) {
             ajaxify(jsonResponse, update, updateStrategy, effect);
-        },
-        error: function(jsonResponse) {
-            if (typeof toastr === 'undefined') {
-                alert("Il semble s'être produit une erreur");
-            } else {
-                toastr.options = {
-                    "positionClass": "toast-bottom-left",
+            $(".js-select2").select2({
+                placeholder: "Sélectionner",
+                allowClear: true
+            });
+            $('.datatable').DataTable({
+                responsive: false,
+                language: {
+                  searchPlaceholder: 'Rechercher...',
+                  bLengthChange: false,
+                  sSearch: '',
+                  lengthMenu: '_MENU_ items/page',
                 }
-                toastr.error("Il semble s'être produit une erreur");
-            }
+              });
+        },
+        error: function(jsonResponse) {          
+           sweetNotificationbad("Erreur interne, veuillez contacter l'administrateur.", jsonResponse.responseJSON)
             $wrapper.fadeOut();
         }
     });
@@ -166,7 +192,6 @@ function ajaxLink(link,update, updateStrategy, effect) {
 
 function ajaxify(jsonResponse, update, updateStrategy, effect) {
     $(document).trigger('ajax.success.before', jsonResponse);
-
     if (typeof jsonResponse === 'object') {
         handleJson(jsonResponse, update, updateStrategy);
     } else {
@@ -186,15 +211,13 @@ function ajaxify(jsonResponse, update, updateStrategy, effect) {
     $('*[data-toggle="ajax"]').each(function() {
         $(this).css({
             'pointer-events' : 'auto',
-            'cursor' : 'auto'
+            'cursor' : 'pointer'
         });
     });
-
     $(document).trigger('ajax.success.after', jsonResponse);
 }
 
 function handleJson(json, update, updateStrategy, effect) {
-
     if (json.hasOwnProperty("update")) {
         update = json.update;
     }
@@ -204,14 +227,24 @@ function handleJson(json, update, updateStrategy, effect) {
     }
 
     // check if an ajax callback is given in the response, execute it
-    if (json.hasOwnProperty("ajax-callback")) {
-        $.post(json.callback,
-            {
-                params : json.data
-            },
-            function(data){
-                eval('$("#" + update).' + updateStrategy + '(data)');
-            });
+    if (json.hasOwnProperty("link")) {
+        ajaxLink(json.link, update, updateStrategy);
+        sweetNotification("Opération effectuée avec succès.");
+        // $.get(json.link,
+        // {
+        //     params : json.parameters
+        // },
+        // function(data){
+        //     // eval('$("#" + update).' + updateStrategy + '(data)');
+        //     ajaxify(json, update, updateStrategy, effect);
+        //     sweetNotification("Opération effectuée avec succès.");  
+        // })
+        // .fail(function(jsonResponse){
+        //     $("#divError").fadeIn();
+        //     $(".messageError").html(jsonResponse.responseJSON);
+        //     sweetNotificationbad(jsonResponse.responseJSON);
+        //     $wrapper.fadeOut()
+        // });
     }
     // a callback is javascript code
     if (json.hasOwnProperty("callback")) {
@@ -220,7 +253,6 @@ function handleJson(json, update, updateStrategy, effect) {
     // html is the html part to be inserted in the "update"
     if (json.hasOwnProperty("html")) {
         eval('$("#" + update).' + updateStrategy + '(json.html)');
-
         if (effect != undefined && effect != null){
             eval('$("#" + update).'+effect+'()');
         }
@@ -260,3 +292,4 @@ function guessEffect(link, targetId) {
 
     return effect;
 }
+
