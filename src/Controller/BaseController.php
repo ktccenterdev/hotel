@@ -81,7 +81,7 @@ class BaseController extends DefaultController
         if(!$this->checklogin()){
             return $this->redirect("/login");
         }else{
-            $this->setlog("the user login in system","authantification",1);
+            $this->setlog("the user login in system","authentification",1);
             $droituser=array();   
             foreach ($this->getUser()->getRole()->getActionRoles() as $value) {
                 if($value->getEtat()){

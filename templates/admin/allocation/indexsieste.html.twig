@@ -50,7 +50,7 @@
                         {% for chambre in type.chambres %}
                             {% if chambre.id not in chambreIds %}             
                                 <div class="card filtre overflow-x-auto" id="chambre-{{chambre.id}}">
-                                    <img class="card-img-top img-fluid" src="{{asset('photo/Chambre/'~ chambre.photo1)}}" alt="Image" width="auto" height="100px">
+                                    <img class="card-img-top img-fluid" src="{{asset('photo/Chambre/'~ chambre.photo1)}}" alt="Image" style="height: 120px;">
                                     <div class="card-body">
                                     <p class="card-text text-muted">
                                         <h4 class="text-center">{{chambre.numero}}</h4>
@@ -86,7 +86,7 @@
                 {% for allocation in allocations %}
                     <div class="card h-100 overflow-auto " > 
                         <!-- <img class="card-img-top img-fluid" src="../img/img12.jpg" alt="Image"> -->
-                        <img class="card-img-top img-fluid" src="{{asset('photo/Chambre/'~ allocation.chambre.photo1)}}" alt="Image" style="height: 200px; width: 250;">
+                        <img class="card-img-top img-fluid" src="{{asset('photo/Chambre/'~ allocation.chambre.photo1)}}" alt="Image" style="height: 120px;">
                         <div class="card-body">
                         <p class="card-text text-muted mg-t-1">
                             <h4 class="text-center">{{allocation.chambre.numero}}</h4>
