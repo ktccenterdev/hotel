@@ -96,9 +96,9 @@
                         <li class="sub-item">
                         </li>
                         <li class="sub-item {{app.user.hasAccess('index-magasin')}}"><a href="{{path('index-magasin')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Magasins </a></li>
-                        <li class="sub-item {{app.user.hasAccess('index-entree')}}"><a href="{{path('index-entree')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Entrées en stock </a></li>
+                        {#<li class="sub-item {{app.user.hasAccess('index-entree')}}"><a href="{{path('index-entree')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Entrées en stock </a></li>#}
                         <li class="sub-item {{app.user.hasAccess('index-sortis')}}"><a href="{{path('index-sortis')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Sorties en stock </a></li>
-                        <li class="sub-item {{app.user.hasAccess('listeentrestockgenerale')}}"><a href="{{path('listeentrestockgenerale')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Liste des entrées</a></li>
+                        <li class="sub-item {{app.user.hasAccess('listeentrestockgenerale')}}"><a href="{{path('listeentrestockgenerale')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Entrées en stock</a></li>
                         <li class="sub-item {{app.user.hasAccess('index-fournisseur')}}"><a href="{{path('index-fournisseur')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Fournisseurs </a></li>
                         <li class="sub-item {{app.user.hasAccess('index-produit')}}"><a href="{{path('index-produit')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Produits </a></li>
                         <li class="sub-item {{app.user.hasAccess('listapprovisionement')}}"><a href="{{path('listapprovisionement')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Approvisionements </a></li>
