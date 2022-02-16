@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 
-class EnteneController extends DefaultController
+class AntenneController extends DefaultController
 {
     
     /**

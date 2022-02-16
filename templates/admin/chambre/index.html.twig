@@ -9,7 +9,7 @@
 
 <div class="br-section-wrapper">
   <h6 class="br-section-label">Liste des Chambres</h6>
-      {% if "chambre-add" in app.session.get('userdroit') %}
+      {# {% if "chambre-add" in app.session.get('userdroit') %} #}
       <div    x-data="{ ajouter : false }">
         <div class="d-flex justify-content-end" style="padding:10px;">
 
@@ -190,7 +190,7 @@
             </div>
         </div>
     {# <div>  #}
-    {% endif %}
+    {# {% endif %} #}
       <div class="table-wrapper responsiveelement col-lg-12">
           <table class="datatable table display nowrap">
             <thead>

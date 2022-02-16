@@ -10,21 +10,21 @@
                     <span class="menu-item-label">Dashboard</span>
                 </a><!-- br-menu-link -->
                 </li><!-- br-menu-item -->
-            {% if "client-index" in app.session.get('userdroit') %}
+            {# {% if "client-index" in app.session.get('userdroit') %} #}
                 {# <li class="br-menu-item">
                     <a href="#" class="br-menu-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">
                         <i class="tx-24 fa fa-user"></i>
                         <span class="menu-item-label">Gestion des clients</span>
                     </a><!-- br-menu-link -->
                 </li><!-- br-menu-item --> #}
-                {% endif %}
+                {# {% endif %} #}
                 <li class="br-menu-item {{app.user.hasAccess('index-employe')}}">
                     <a href="#"  class="br-menu-link with-sub nav-link">
                         <i class="menu-item-icon ionicons ion-ios-bookmarks-outline tx-24"></i>
                         <span class="menu-item-label">Administration</span>
                     </a><!-- br-menu-link -->
                     <ul class="br-menu-sub">
-                        <li class="sub-item {{app.user.hasAccess('index-module')}}"><a href="{{path('index-module')}}"   class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Modules</a></li>
+                        {# <li class="sub-item  {{app.user.hasAccess('index-module')}}"><a href="{{path('index-module')}}"   class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Modules</a></li> #}
                         <li class="sub-item {{app.user.hasAccess('index-role')}}"><a href="{{path('index-role')}}"    class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Roles</a></li>
                         <li class="sub-item {{app.user.hasAccess('entene')}}"><a href="{{path('entene')}}"  class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Antennes</a></li>
                         <li class="sub-item {{app.user.hasAccess('utilisateur-index')}}"><a href="{{path('utilisateur-index')}}"    class="sub-link ajax-link"  data-toggle="ajax" data-target="monContent">Utilisateurs</a></li>
@@ -96,13 +96,13 @@
                         <li class="sub-item">
                         </li>
                         <li class="sub-item {{app.user.hasAccess('index-magasin')}}"><a href="{{path('index-magasin')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Magasins </a></li>
-                        <li class="sub-item {{app.user.hasAccess('index-entree')}}"><a href="{{path('index-entree')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Entrées en stock </a></li>
+                        {#<li class="sub-item {{app.user.hasAccess('index-entree')}}"><a href="{{path('index-entree')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Entrées en stock </a></li>#}
                         <li class="sub-item {{app.user.hasAccess('index-sortis')}}"><a href="{{path('index-sortis')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Sorties en stock </a></li>
-                        <li class="sub-item {{app.user.hasAccess('listeentrestockgenerale')}}"><a href="{{path('listeentrestockgenerale')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Liste des entrées</a></li>
+                        <li class="sub-item {{app.user.hasAccess('listeentrestockgenerale')}}"><a href="{{path('listeentrestockgenerale')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Entrées en stock</a></li>
                         <li class="sub-item {{app.user.hasAccess('index-fournisseur')}}"><a href="{{path('index-fournisseur')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Fournisseurs </a></li>
                         <li class="sub-item {{app.user.hasAccess('index-produit')}}"><a href="{{path('index-produit')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Produits </a></li>
                         <li class="sub-item {{app.user.hasAccess('listapprovisionement')}}"><a href="{{path('listapprovisionement')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Approvisionements </a></li>
-                        <li class="sub-item {{app.user.hasAccess('mesapprovisionement')}}"><a href="{{path('mesapprovisionement')}}" class="sub-link nav-link ajax-link" data-toggle="ajax" data-target="monContent">Mes approvisionements </a></li>
+                        <li class="sub-item {{app.user.hasAccess('mesapprovisionement')}}" ><a href="{{path('mesapprovisionement')}}" class="sub-link nav-link ajax-link" data-toggle="ajax" data-target="monContent">Mes approvisionements </a></li>
                     </ul>
                 </li>
                 <!-- Gestion des finances-->
@@ -120,20 +120,20 @@
                     </ul>
                 </li>
                 <!-- Fin gestion des finances -->
-                {% if "index-parametre" in app.session.get('userdroit') %}
+                {# {% if "index-parametre" in app.session.get('userdroit') %} #}
                     <li class="br-menu-item">
                         <a href="{{path('param-vue')}}" class="sub-link nav-link ajax-link br-menu-link {{app.user.hasAccess('param-vue')}}" data-toggle="ajax" data-target="monContent">
                             <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>                
                             <span class="menu-item-label">Paramètres</span>
                         </a><!-- br-menu-link -->
                     </li><!-- br-menu-item -->
-                {% endif %}
-                <li class="br-menu-item">
+               {#  {% endif %} #}
+                {# <li class="br-menu-item" style="display:none;">
                     <a href="{{path('modulecle-add')}}" class="sub-link nav-link ajax-link br-menu-link {{app.user.hasAccess('modulecle-add')}}" data-toggle="ajax" data-target="monContent">
                     <i class="menu-item-icon icon ionicons ion-code tx-24"></i>                
                         <span class="menu-item-label">FOR DEVELLOPER</span>
                     </a><!-- br-menu-link -->
-                </li><!-- br-menu-item -->
+                </li><!-- br-menu-item --> #}
             </ul><!-- br-sideleft-menu -->
             <br>
         </div>

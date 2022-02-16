@@ -11,7 +11,7 @@
     <a href="{{path('index-chambre')}}" id="btn-nouveau"  data-toggle="ajax" data-target="monContent"><i class="fa fa-arrow-left float-left {{app.user.hasAccess('index-chambre')}}">Liste</i></a>
 <br>
     <h6 class="br-section-label">Liste des Chambres</h6>
-        {% if "chambre-add" in app.session.get('userdroit') %}
+       {#  {% if "chambre-add" in app.session.get('userdroit') %} #}
         <div    x-data="{ ajouter : false }">
         <div class="d-flex justify-content-end" style="padding:10px;">
           <button onclick="show()"  class="btn btn-primary" style="width: 12%;"><i class="fas fa-plus"></i> Ajouter</button> 
@@ -146,7 +146,7 @@
           </div>
         </div>
       <div>
-      {% endif %}
+      {# {% endif %} #}
       <div class="table-wrapper">
       <table class="datatable table display responsive nowrap">
         <thead>
@@ -187,19 +187,19 @@
             <a href="{{path('deletecha', {id: chambre.id})}}"><i class="fa fa-trash" aria-hidden="true" style="color: rgb(216, 10, 37)"></i></a>  #}
 
             <td>
-                      {% if "showchambre" in app.session.get('userdroit') %}
+                      {# {% if "showchambre" in app.session.get('userdroit') %} #}
                       <a href="{{ path('showchambre',{id: chambre.id}) }}"><button class="btn btn-primary active {{app.user.hasAccess('showchambre')}}" ><i class="far fa-eye"></i></button></a> 
-                      {% endif %}
-                      {% if "edit-chambre" in app.session.get('userdroit') %}
+                      {# {% endif %}
+                      {% if "edit-chambre" in app.session.get('userdroit') %} #}
                       <a href="{{ path('entene_edit',{id: chambre.id}) }}"><button class="btn btn-pink active {{app.user.hasAccess('entene_edit')}}"><i class="fa fa-edit" aria-hidden="true"></i></button></a> 
-                      {% endif %}
-                    {% if "deletecha" in app.session.get('userdroit') %}
+                      {# {% endif %}
+                    {% if "deletecha" in app.session.get('userdroit') %} #}
                     <form action="{{path('deletecha', {id: chambre.id})}}"  method="DELETE" class="js-form-send {{app.user.hasAccess('deletecha')}}">
                       <button type="submit" class="btn btn-danger">
                         <i class="fa fa-trash"></i>
                       </button>
                     </form>
-                    {% endif %}                       
+                    {# {% endif %}  #}                      
             
           
             </td>
