@@ -14,7 +14,9 @@
 
 <div class="br-mainpanel">
     <div class="br-pagetitle">
-        <i class="ionicons ion-android-arrow-back"></i>
+		<a href="{{path('index-sortis')}}" class=" text-white float-left" data-toggle="ajax" data-target="monContent">
+			<i class="ionicons ion-android-arrow-back tx-28" title="Retour à la liste des sorties" style="color:blue"></i>
+		</a>
         <div>
             <h4>GESTION DES SORTIES EN STOCK</h4>
             <p style="color: blue;" class="mg-b-0">----</p>
@@ -23,7 +25,6 @@
     <!-- d-flex -->
     <div class="br-pagebody">
         <div class="br-section-wrapper">
-            <h6 class="br-section-label">Liste des sorties en stock</h6>
 
             <div x-data="{ ajouter : false }">
                 <div id="divError" style="display: none;" class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -34,7 +35,7 @@
 
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-12 col-xlg-12 col-md-12">
-                        <div class="row mg-t-80">
+                        <div class="row mg-t-5">
                             <div class="col">
                                 <form id="form-send" class="js-form-send {{app.user.hasAccess('add-sortitstock')}}"
 								 data-toggle="ajax" data-target="monContent"

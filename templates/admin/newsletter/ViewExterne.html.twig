@@ -1,0 +1,323 @@
+<style>
+	.btn-group .btn:hover
+	{
+		cursor: pointer;
+	}
+
+	.tabContainer
+	{
+		width: 50%;
+		height: 350px;
+	}
+
+	.tabContainer .buttonContainer
+	{
+		height: 15%;
+	}
+
+	.tabContainer .buttonContainer button
+	{
+		width: 25%;
+		height: 50%;
+		float: left;
+		border: none;
+		outline:none;
+		cursor: pointer;
+		padding: 10px;
+		font-family: sans-serif;
+		font-size: 18px;
+		background-color: #5b93d3;
+		   margin-left:10px;
+	   margin-right:10px;
+	   border-radius: 10px 10px 10px 10px;
+	   text-align:center;
+	}
+
+	.tabContainer .buttonContainer button:hover
+	{
+		background-color: blue;
+	}
+
+	.tabContainer .tabPanel
+	{
+		height: 35%;
+		background-color: white;
+		color: white;
+		text-align: center;
+		padding-top: 105px;
+		box-sizing: border-box;
+		font-family: sans-serif;
+		font-size: 22px;
+		display: none;
+	}
+	.contact-form{
+		width:300px;
+		height:370px;
+		margin-top:70px;
+		border-right:2px solid;
+		border-left:2px solid;
+		border-top:2px solid;
+		border-bottom:2px solid;
+		border-radius: 5px;
+		float:left;
+	}
+	.contact-form .form-field{
+		position: relative;
+		margin: 15px 0;
+	}
+	.contact-form .input-text{
+		display: block;
+		width:260px;
+		height: 26px;
+		border-width: 0 0 2px 0;
+		border-color:#5543ca;
+		line-height: 26px;
+		font-size: 18px;
+		font-weight:400;
+		margin-top:20px;
+	}
+	.contact-form .input-text:focus{
+		outline: none;
+	}
+	.contact-form .form-control{
+		display: block;
+		width:260px;
+		height: 96px;
+		border-width: 0 0 2px 0;
+		border-color:#5543ca;
+		line-height: 26px;
+		font-size: 18px;
+		font-weight:400;
+	}
+	.contact-form .form-control:focus{
+		outline: none;
+	}
+	.contact-form .label{
+		left: 20px;
+		bottom: 11px;
+		font-size: 18px;
+		margin-top:20px;
+		line-height: 20px;
+		font-weight:400;
+		color:#5543ca;
+		cursor: text;
+		text-transform:capitalize;
+		transition: transform 0.2s ease-in-out;
+	}
+	.btn{
+		margin-top:30px;
+		margin-left:90px;
+	}
+	.back{
+		float:right;
+		width:660px;
+	}
+	.grand{
+		width:1000px;
+		height:900px;
+	}
+	footer{
+		width:100px;
+		height: 40px;
+		position:absolute;
+		bottom: 0px;
+		left: 0px;
+			}
+	
+
+#clientemail{
+     size:4px;
+    
+ }   
+</style>
+<br>
+    <div class="br-mainpanel">
+    
+        {# <div class="br-pagetitle">
+            <i class="icon ion-man"></i>
+            <div>
+            <h4>Newsletters</h4>
+            <p style="color:blue;" class="mg-b-0">----</p>
+            </div>
+        </div><!-- d-flex --> #}
+         
+            <div class="br-pagebody">
+                <div class="br-section-wrapper" style="padding-top: 1px;">
+                    <h6 class="br-section-label" style="margin-top: 10px;" align="center">
+                    Envoyer des Newsletters au Externe
+                    </h6>
+                    <div class="row row-sm">
+                        <div class="col-sm-12 col-xl-12">
+                            <div class="col-md mg-t-20 mg-md-t-0">
+                                <div class="card bd-0">
+                                
+                                <div class="page-wrapper">
+                                    <div class="container-fluid">
+                                        <div class="row justify-content-center">
+                                            <div class="col-lg-12 col-md-12">
+                                                <div class="row mg-10">	
+                                                    
+                                                    <div class="col">
+                                                        <div class="grand"> 
+                                                            <div class="tab">
+                                                                <div class="container">
+                                                                        <form id="form-send" style="" class="ajax-link {{app.user.hasAccess('index-newsletter')}}" data-toggle="ajax" data-target="monContent" method="POST" action="{{path("mail-externe")}}">
+                                                                        <div>							
+                                                                            <h3>Message</h3>
+                                                                            <div class="form-check form-check-inline">
+                                                                                <input class="form-check-input" type="radio" name="radio" id="inlineRadio1" value="sms">
+                                                                                <label  for="inlineRadio1">SMS  .</label>
+                                                                            </div>
+                                                                            <div class="form-check form-check-inline">
+                                                                                <input class="form-check-input" type="radio" name="radio" id="inlineRadio2" value="email" checked>
+                                                                                <label  for="inlineRadio2">E-MAIL</label>
+                                                                            </div>
+																			
+                                                                        </div>	
+                                                                        <div class="container-fixed" id="clientemail" align="center">
+                                                                            {% for message in app.flashes('success') %}
+                                                                            <div class="alert alert-success">
+                                                                                {{ message }}
+                                                                            </div>
+                                                                            {% endfor %}
+																			{% for message in app.flashes('fail') %}
+                                                                            <div class="alert alert-danger">
+                                                                                {{ message }}
+                                                                            </div>
+                                                                            {% endfor %}
+                                                                        </div>
+                                                                        <div class="contact-form row">							
+                                                                            <div class="form-fiel col-lg-6">								
+                                                                                <div>
+                                                                                    <label for="objet" class="label">objet</label>
+                                                                                    <input id="objet" class="input-text" type="text" name="objet">
+                                                                                </div>
+                                                                                <div>
+                                                                                    <label for="exampleFormControlTextarea1" class="label">message</label>
+                                                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="message"></textarea>
+                                                                                    <div class="row row-xs mg-t-30">
+                                                                                        <div class="col-sm-12 mg-l-auto">
+                                                                                                <button type="submit" id="btn-save-nouveau" class="btn btn-success mg-r-5 ajax-link" data-toggle="ajax" data-target="monContent">ENVOYER</button>
+                                                                                            <!-- form-layout-footer -->
+                                                                                        </div>
+                                                                                        <!-- col-8 -->
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col">							
+                                                                                <div class="back">								
+                                                                                    <div class="card bd-primary mg-t-70 mg-r-5">
+                                                                                        <div class="card-header bg-primary tx-white">Liste des Contactes ViewExterne</div>
+                                                                                            <div class="card-body pd-sm-30">
+                                                                                            
+                                                                                            <div>
+                                                                                            <li><input type="checkbox" id="select_all" /> Select all</li>
+                                                                                            </div>
+
+                                                                                                                                                                                      
+                                                                                        
+                                                                                                <br>
+                                                                                                <div class="table-wrapper responsiveelement col-lg-12">
+                                                                                                    <table class="datatable table display nowrap">                                                                
+                                                                                                        <thead>
+                                                                                                            <tr>
+                                                                                                                
+                                                                                                                <th class="wd-15p">ID</th>
+                                                                                                                <th class="wd-15p">Nom</th>
+                                                                                                                <th class="wd-15p">Numero</th>
+                                                                                                                <th class="wd-25p">Email</th>
+                                                                                                                <th class="wd-25p">ACTION</th>
+                                                                                                            </tr>
+                                                                                                        </thead>
+                                                                                                        <tbody>
+                                                                                                        {% for viewexterne in viewexternes %}
+                                                                                                            <tr>
+                                                                                                               
+                                                                                                                <td>{{loop.index}}</td>
+                                                                                                                <td>{{viewexterne.Name}}</td>
+                                                                                                                <td>{{viewexterne.Numero}}</td>
+                                                                                                                <td>{{viewexterne.Email}}</td>
+                                                                                                                <td>
+                                                                                                                    <input type="checkbox" name="groupes[]" value="{{viewexterne.Numero}},{{viewexterne.email}}" class="form-check-input checkbox">
+                                                                                                                </td>
+                                                                                                            </tr>
+                                                                                                        {% endfor %}
+                                                                                                        </tbody>
+                                                                                                    </table>
+                                                                                                </div>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                </div>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>					
+                                                    </div>
+                                        
+                                                </div>
+                                            </div>
+                                                
+                                        </div>
+                                                            
+                                    </div>
+                                </div>
+                               
+                                </div><!-- card -->
+                            </div><!-- col -->
+                        </div>
+		            </div>
+
+                </div><!-- tab-content -->
+            </div><!-- card-body -->
+    </div><!-- card -->
+       
+                                                                                
+<script>					                               
+function filter(n) {
+    
+    searchText = n.toLowerCase();
+    console.log(searchText);
+
+    $.each($(".datatable tbody tr"), function() {
+        if($(this).text().toLowerCase().indexOf(searchText) === -1)
+            $(this).hide();
+            
+        else
+            $(this).show();                
+    });
+    
+}
+</script>                                   
+                                
+                    
+
+<script src="{{asset('js/getpage.js')}}"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#select_all').on('click',function(){
+            if(this.checked){
+                $('.checkbox').each(function(){
+                    this.checked = true;
+                });
+            }else{
+                 $('.checkbox').each(function(){
+                    this.checked = false;
+                });
+            }
+        });
+        
+        $('.checkbox').on('click',function(){
+            if($('.checkbox:checked').length == $('.checkbox').length){
+                $('#select_all').prop('checked',true);
+            }else{
+                $('#select_all').prop('checked',false);
+            }
+        });
+    });
+</script>   
+
+
+
