@@ -17,7 +17,7 @@
             Détails sur le type de chambre <u>{{chambre.nom}}</u>
           </h6>
 
-          {% if "createtype" in app.session.get('userdroit') %}
+          {# {% if "createtype" in app.session.get('userdroit') %} #}
             <button onclick="makeEditable()" id="btn-makeEditable" class="btn btn-success float-right mg-t--7"><i class="fa fa-edit"></i>  Modifier</button>
             <!--Formulaire d'edition-->
             <div class="formelement" id="nouveau" x-show="ajouter" style="padding:10px;">
@@ -100,7 +100,7 @@
 	</div><!-- table-wrapper -->
 
 
-          {% endif %}
+         {#  {% endif %} #}
           
         </div>
       </div>

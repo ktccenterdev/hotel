@@ -10,14 +10,14 @@
                     <span class="menu-item-label">Dashboard</span>
                 </a><!-- br-menu-link -->
                 </li><!-- br-menu-item -->
-            {% if "client-index" in app.session.get('userdroit') %}
+            {# {% if "client-index" in app.session.get('userdroit') %} #}
                 {# <li class="br-menu-item">
                     <a href="#" class="br-menu-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">
                         <i class="tx-24 fa fa-user"></i>
                         <span class="menu-item-label">Gestion des clients</span>
                     </a><!-- br-menu-link -->
                 </li><!-- br-menu-item --> #}
-                {% endif %}
+                {# {% endif %} #}
                 <li class="br-menu-item {{app.user.hasAccess('index-employe')}}">
                     <a href="#"  class="br-menu-link with-sub nav-link">
                         <i class="menu-item-icon ionicons ion-ios-bookmarks-outline tx-24"></i>
@@ -120,14 +120,14 @@
                     </ul>
                 </li>
                 <!-- Fin gestion des finances -->
-                {% if "index-parametre" in app.session.get('userdroit') %}
+                {# {% if "index-parametre" in app.session.get('userdroit') %} #}
                     <li class="br-menu-item">
                         <a href="{{path('param-vue')}}" class="sub-link nav-link ajax-link br-menu-link {{app.user.hasAccess('param-vue')}}" data-toggle="ajax" data-target="monContent">
                             <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>                
                             <span class="menu-item-label">Paramètres</span>
                         </a><!-- br-menu-link -->
                     </li><!-- br-menu-item -->
-                {% endif %}
+               {#  {% endif %} #}
                 {# <li class="br-menu-item" style="display:none;">
                     <a href="{{path('modulecle-add')}}" class="sub-link nav-link ajax-link br-menu-link {{app.user.hasAccess('modulecle-add')}}" data-toggle="ajax" data-target="monContent">
                     <i class="menu-item-icon icon ionicons ion-code tx-24"></i>                

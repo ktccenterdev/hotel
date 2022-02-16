@@ -10,7 +10,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm"><h6 class="br-section-label">Liste des Tarifs </h6>
-			{% if "tarif-add" in app.session.get('userdroit') %}
+			{# {% if "tarif-add" in app.session.get('userdroit') %} #}
 				<div    x-data="{ ajouter : false }">
 					<div class="d-flex justify-content-end" style="padding: 0px !important; color:white;">
 						<button onclick="showNouveau()" id="btn-nouveau" class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter</button>
@@ -95,7 +95,7 @@
 					</div>
 				</div>
 				</div>
-			{% endif %}
+			{# {% endif %} #}
 			</div>	
 		</div>
 	</div>
@@ -137,9 +137,9 @@
 						<td>{{tarif.prix | craue_currency('XAF', 'fr-FR')}}</td>
 						<td>
 							<!--button class="btn btn-teal active"><i class="fa fa-eye" aria-hidden="true"></i></button-->
-							{% if "tarif-edit" in app.session.get('userdroit') %}
+							{# {% if "tarif-edit" in app.session.get('userdroit') %} #}
 								<button class="btn btn-primary active" ><a href="{{ path('tarif-edit', {'id':tarif.id}) }}" style="padding: 0px !important; color:white;" class="nav-link ajax-link"  data-toggle="ajax" data-target="monContent" ><i class="fa fa-edit" aria-hidden="true"></i></a></button>
-							{% endif %}
+							{# {% endif %} #}
 							{# {% if "tarif-delete" in app.session.get('userdroit') %}
 							<form style="display: contents;" class="confirm-waiting js-form-send confirm-delete" data-message="Voulez-vous supprimer ce Tarif?" data-toggle="ajax" data-target="monContent" action="{{ path('tarif-delete') }}" method="DELETE">
 								<input type="hidden" name="id" value="{{tarif.id}}">
