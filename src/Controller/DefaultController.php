@@ -83,7 +83,7 @@ class DefaultController extends AbstractController
     public function checklogin(){
 
         $session = $this->requestStack->getCurrentRequest()->getSession();
-        if (null !== $session && ! empty($this->getUser()) ) {
+        if (null !== $session && ! empty($this->getUser())){
             return true;
         } else {
             return false;
@@ -103,13 +103,17 @@ class DefaultController extends AbstractController
         if (null === $this->session) {
             $this->redirect("/login");
         }else{
-            $attributes = $this->requestStack->getCurrentRequest()->attributes;
+            $request = $this->requestStack->getCurrentRequest();
+            $attributes = $request->attributes;
             $route = $attributes->get('_route');   
+          //  $this->addAction($request);
             if(!in_array($route, $this->routes)){
-                $droits=$this->session->get('userdroit'); 
-                if ($droits && !in_array($route, $droits) && $route != "dashboard"){
-                    $html = $this->template_error("403.html");
-                    die($html);          
+                $droits= $this->session->get('userdroit') ? $this->session->get('userdroit') : [] ; 
+               // dd($droits);
+                if (!in_array($route, $droits) && $route != "dashboard"){
+                    // $html = $this->template_error("403.html");
+                    // die($html);  
+                    $this->addAction($request);        
                 }
             }
             
@@ -124,7 +128,7 @@ class DefaultController extends AbstractController
         $item = explode("::", explode("\\", $attributes->get('_controller'))[2]);
         $moduleName = strtoupper(current(explode("Controller", current($item))));
         $actionName = $this->verbes[$method]." => ".end($item);
-       if($moduleName != "VUEFRONT"){
+       if($moduleName != "HOME" && $moduleName != "SECURITY"){
            $module = $this->em->getRepository(Module::class)->findOneBy(['nom'=>$moduleName]);
            if(is_null($module)){
             $module = new Module();
@@ -132,13 +136,13 @@ class DefaultController extends AbstractController
             $this->em->persist($module);
            }
            $action = $this->em->getRepository(Action::class)->findOneBy(['cle'=>$route]);
-           $etat = $method === "GET" ? 1 : 0;
+          // $etat = $method === "GET" ? 1 : 0;
            if(is_null($action)){
                 $action = new Action();
                 $action->setCle($route);
                 $action->setModule($module);
                 $action->setNom($actionName);
-                $action->setIsdefault($etat);
+                $action->setIsdefault(0);
                 $this->em->persist($action);
            }
            $roles=$this->em->getRepository(Role::class)->findAll();                
@@ -146,10 +150,18 @@ class DefaultController extends AbstractController
                 $actionrole= new ActionRole();
                 $actionrole->setRole($role);
                 $actionrole->setAction($action);
-                $actionrole->setEtat($etat);
+                if($role->getNom() == "SUPER"){
+                    $actionrole->setEtat(1);
+                }else{
+                    $actionrole->setEtat(0);
+                }
                 $this->em->persist($actionrole);
-            } 
+            }             
            $this->em->flush();
+           $droits=$this->session->get('userdroit');
+          // dd($droits);
+           array_push($droits, $action->getCle());
+           $this->session->set('userdroit', $droits);
        }
     }
     

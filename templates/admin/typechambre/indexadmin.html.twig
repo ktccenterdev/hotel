@@ -10,7 +10,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm"><h6 class="br-section-label">Types de chambres enrégistrés</h6>
-				{% if "createtype" in app.session.get('userdroit') %}
+			
 				<div x-data="{ ajouter : false }">
 					<div class="d-flex justify-content-end mg-b-20" style="padding:10px;">
 						<button onclick="showNouveau()" id="btn-nouveau" class="btn btn-primary"><i class="icon ion-plus-circled"></i>  Ajouter</button>
@@ -71,12 +71,11 @@
 											</div><!-- form-layout -->
 										<form>
 									</div><!-- col-6 -->
-								</div><!-- row -->
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				{% endif %}
 			</div>
 		</div>
 	</div>

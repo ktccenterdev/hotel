@@ -24,7 +24,7 @@
                         <span class="menu-item-label">Administration</span>
                     </a><!-- br-menu-link -->
                     <ul class="br-menu-sub">
-                        <li class="sub-item {{app.user.hasAccess('index-module')}}"><a href="{{path('index-module')}}"   class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Modules</a></li>
+                        {# <li class="sub-item  {{app.user.hasAccess('index-module')}}"><a href="{{path('index-module')}}"   class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Modules</a></li> #}
                         <li class="sub-item {{app.user.hasAccess('index-role')}}"><a href="{{path('index-role')}}"    class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Roles</a></li>
                         <li class="sub-item {{app.user.hasAccess('entene')}}"><a href="{{path('entene')}}"  class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Antennes</a></li>
                         <li class="sub-item {{app.user.hasAccess('utilisateur-index')}}"><a href="{{path('utilisateur-index')}}"    class="sub-link ajax-link"  data-toggle="ajax" data-target="monContent">Utilisateurs</a></li>
@@ -128,12 +128,12 @@
                         </a><!-- br-menu-link -->
                     </li><!-- br-menu-item -->
                 {% endif %}
-                <li class="br-menu-item" style="display:none;">
+                {# <li class="br-menu-item" style="display:none;">
                     <a href="{{path('modulecle-add')}}" class="sub-link nav-link ajax-link br-menu-link {{app.user.hasAccess('modulecle-add')}}" data-toggle="ajax" data-target="monContent">
                     <i class="menu-item-icon icon ionicons ion-code tx-24"></i>                
                         <span class="menu-item-label">FOR DEVELLOPER</span>
                     </a><!-- br-menu-link -->
-                </li><!-- br-menu-item -->
+                </li><!-- br-menu-item --> #}
             </ul><!-- br-sideleft-menu -->
             <br>
         </div>
