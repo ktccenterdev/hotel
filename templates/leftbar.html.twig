@@ -102,7 +102,7 @@
                         <li class="sub-item {{app.user.hasAccess('index-fournisseur')}}"><a href="{{path('index-fournisseur')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Fournisseurs </a></li>
                         <li class="sub-item {{app.user.hasAccess('index-produit')}}"><a href="{{path('index-produit')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Produits </a></li>
                         <li class="sub-item {{app.user.hasAccess('listapprovisionement')}}"><a href="{{path('listapprovisionement')}}" class="sub-link nav-link ajax-link"  data-toggle="ajax" data-target="monContent">Approvisionements </a></li>
-                        <li class="sub-item {{app.user.hasAccess('mesapprovisionement')}}"><a href="{{path('mesapprovisionement')}}" class="sub-link nav-link ajax-link" data-toggle="ajax" data-target="monContent">Mes approvisionements </a></li>
+                        <li class="sub-item {{app.user.hasAccess('mesapprovisionement')}}" ><a href="{{path('mesapprovisionement')}}" class="sub-link nav-link ajax-link" data-toggle="ajax" data-target="monContent">Mes approvisionements </a></li>
                     </ul>
                 </li>
                 <!-- Gestion des finances-->
@@ -128,7 +128,7 @@
                         </a><!-- br-menu-link -->
                     </li><!-- br-menu-item -->
                 {% endif %}
-                <li class="br-menu-item">
+                <li class="br-menu-item" style="display:none;">
                     <a href="{{path('modulecle-add')}}" class="sub-link nav-link ajax-link br-menu-link {{app.user.hasAccess('modulecle-add')}}" data-toggle="ajax" data-target="monContent">
                     <i class="menu-item-icon icon ionicons ion-code tx-24"></i>                
                         <span class="menu-item-label">FOR DEVELLOPER</span>

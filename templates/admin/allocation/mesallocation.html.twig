@@ -47,7 +47,7 @@
 						<div class="card-title">Chambre</div>
 					</div><!-- card-header -->
 					<div class="card-body">
-						<select class="form-controljs-select2"rapport-filte mg-r-20" name="chambre" onchange="filter(this.value)" style="width:100%">
+						<select class="form-control  rapport-filte mg-r-20 js-select2"rapport-filte mg-r-20" name="chambre" onchange="filter(this.value)" style="width:100%">
 								<option label="Filtrer via chambre"></option>
 								{% set newArray = [] %}
 								{% for allocation in allocations %}
@@ -66,7 +66,7 @@
 						<div class="card-title">Client</div>
 					</div><!-- card-header -->
 					<div class="card-body">						
-						<select class="form-controljs-select2"rapport-filte mg-r-20"  name="plage" onchange="filter(this.value)" style="width:100%">
+						<select class="form-control  rapport-filte mg-r-20 js-select2"rapport-filte mg-r-20"  name="plage" onchange="filter(this.value)" style="width:100%">
 							<option label="Filtrer via client"></option>
 								{% set newArray = [] %}
 								{% for allocation in allocations %}
@@ -85,7 +85,7 @@
 						<div class="card-title">Type de Chambre</div>
 					</div><!-- card-header -->
 					<div class="card-body">
-						<select class="form-controljs-select2"rapport-filte mg-r-20" iname="chambre" onchange="filter(this.value)" style="width:100%">
+						<select class="form-control  rapport-filte mg-r-20 js-select2"rapport-filte mg-r-20" iname="chambre" onchange="filter(this.value)" style="width:100%">
 							<option label="Filtrer via Type Chambre"></option>
 							{% set newArray = [] %}
 							{% for allocation in allocations %}
@@ -104,7 +104,7 @@
 						<div class="card-title">Date</div>
 					</div><!-- card-header -->
 					<div class="card-body">
-						<select class="form-controljs-select2"rapport-filte mg-r-20"  name="plage" onchange="filter(this.value)" style="width:100%">
+						<select class="form-control  rapport-filte mg-r-20 js-select2"rapport-filte mg-r-20"  name="plage" onchange="filter(this.value)" style="width:100%">
 							<option label="Filtrer via Date"></option>
 							{% set newArray = [] %}
 							{% for allocation in allocations %}
