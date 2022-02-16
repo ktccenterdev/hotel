@@ -19,9 +19,9 @@
 								<div class="card-header " style="background-color:skyblue;">
 									<div class="card-title">Numero de chambre</div>
 								</div><!-- card-header -->
-								{# <input class="form-control" id="id" type="hidden"  name="id"  value="{{ allocations.id }}"> #}
 								<div class="card-body">
-								<select class="form-control select2-show-search rapport-filte mg-r-20" id="type" name="type" onchange="filter(this.value)">
+								
+								<select class="form-control  rapport-filte mg-r-20 js-select2" id="type" name="type" onchange="filter(this.value)">
 									<option value="" disabled selected>Sélectionner Le numero de chambre</option>
 									<option value=""></option>
 									{% set newArray = [] %}
@@ -43,7 +43,7 @@
 								</div><!-- card-header -->
 								<div class="card-body">
 									
-									<select class="form-control select2-show-search rapport-filte mg-r-20" id="type" name="type" onchange="filter(this.value)">
+									<select class="form-control  rapport-filte mg-r-20 js-select2" id="type" name="type" onchange="filter(this.value)">
 										<option value="" disabled selected>Sélectionner type de chambre</option>
 										<option label=""></option>
 											{% set newArray = [] %}
@@ -76,7 +76,7 @@
 								</div><!-- card-header -->
 								<div class="card-body">
 									
-									<select class="form-control select2-show-search rapport-filte mg-r-20" id="type" name="type" onchange="filter(this.value)">
+									<select class="form-control  rapport-filte mg-r-20 js-select2" id="type" name="type" onchange="filter(this.value)">
 										<option value="" disabled selected>Sélectionner un client</option>
 										<option label="--Sélectionner un client--"></option>
 										{% set newArray = [] %}

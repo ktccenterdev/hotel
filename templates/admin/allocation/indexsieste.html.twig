@@ -9,7 +9,8 @@
     .nav-pills .nav-link.active, .nav-pills .nav-link.active:hover, .nav-pills .nav-link.active:focus{
         background-color: #343a40;
     }
-</style>   
+</style> 
+ 
     
 <div class="br-pagetitle">
     <i class="icon ion-man"></i>
@@ -83,9 +84,9 @@
         <div id="traitees" role="tabpanel" aria-labelledby="traitees-tab" class="tab-pane fade px-4 py-4">
             <div class="card-columns column-count-6 mg-t-10">
                 {% for allocation in allocations %}
-                    <div class="card h-100 overflow-auto">
+                    <div class="card h-100 overflow-auto " > 
                         <!-- <img class="card-img-top img-fluid" src="../img/img12.jpg" alt="Image"> -->
-                        <img class="card-img-top img-fluid" src="{{asset('photo/Chambre/'~ allocation.chambre.photo1)}}" alt="Image">
+                        <img class="card-img-top img-fluid" src="{{asset('photo/Chambre/'~ allocation.chambre.photo1)}}" alt="Image" style="height: 200px; width: 250;">
                         <div class="card-body">
                         <p class="card-text text-muted mg-t-1">
                             <h4 class="text-center">{{allocation.chambre.numero}}</h4>
